@@ -1,0 +1,239 @@
+:root {
+  --card-radius: 0.5vw; /* Скругление углов */
+  /* --card-overlap: 3vw; Перекрытие карт в tableau */
+  --card-overlap: calc(var(--card-height) * 0.3);
+  --gap: 0.1vw; /* Отступы между элементами */
+  --border-c: 0.02vw;
+  --padding-c: 0.07em;
+  /* --card-width: 14vw; Базовая ширина карты */
+  --card-width: calc((100vw - (var(--padding-c) * 2)) / 7 - (var(--gap) * 6));
+  --card-height: calc(var(--card-width) * 1.4); /* Высота (1.4 от ширины) */
+  --gap-row1: calc(var(--card-width) + var(--gap) * 2);
+  --margin-card-value: 0.2em;
+  --font-size-tbcard-v: calc(var(--card-width) / 5);
+  --font-size-ccard-v: calc(var(--card-width) / 1.7);
+}
+
+/* Контейнер игры */
+.game-container {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  /* padding: var(--padding-c); */
+  box-sizing: border-box;
+  justify-content: center;
+}
+
+.card,
+.card-front,
+.card-back {
+  padding: var(--padding-c);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: var(--card-width);
+  height: var(--card-height);
+  border-radius: var(--card-radius);
+  position: absolute;
+  border: var(--border-c) solid rgb(7, 7, 7);
+  top: 0;
+  left: 0;
+  cursor: pointer;
+  transform: translate(0, 0);
+  transition: transform 2000ms linear;
+}
+
+/* .card-front,
+.card-back {
+  width: var(--card-width);
+  height: var(--card-height);
+  transform: rotateY(0deg);
+  position: absolute;
+} */
+
+.card .top {
+  font-size: var(--font-size-tbcard-v);
+  padding: var(--padding-c);
+  margin-top: 0;
+  /* height: max-content; */
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: center;
+}
+
+.card .center {
+  font-size: var(--font-size-ccard-v); /* Размер шрифта */
+  line-height: 1; /* Убираем лишний межстрочный интервал */
+  padding: 0; /* Убираем внутренние отступы */
+  margin: 0; /* Убираем внешние отступы */
+  /* display: inline-block; Или просто block, если не нужно inline-поведение */
+  width: 100%; /* Если нужно растянуть на всю ширину */
+  text-align: center; /* Центрируем текст по горизонтали */
+}
+
+.card .bottom {
+  font-size: var(--font-size-tbcard-v);
+  /* height: max-content; */
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  /* align-items: center; */
+  align-items: flex-end; /* Текст прижимается к низу */
+  padding: var(--padding-c); /* Добавляет отступы */
+  margin-bottom: 0;
+  transform: rotate(180deg);
+}
+
+.stock {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: var(--card-width);
+  height: var(--card-height);
+  text-align: center;
+  /* color: transparent !important; */
+  border-radius: var(--card-radius);
+}
+
+.stock-span {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  font-size: var(--card-width);
+}
+
+.foundation-span,
+.tableau-span {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  font-size: var(--card-width);
+}
+
+/* Общий стиль для всех контейнеров */
+.pile-foundation,
+.pile-waste,
+.pile-tableau {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: var(--card-width);
+  height: var(--card-height);
+  text-align: center;
+  background-color: rgba(192, 192, 192, 0.411);
+  border-radius: var(--card-radius);
+  /* Убираем border из контейнера! */
+}
+
+.red {
+  color: red;
+}
+
+.black {
+  color: black;
+}
+
+/* Переносим border на псевдоэлемент (не влияет на позиционирование карт) */
+.stock::before,
+.pile-foundation::before,
+.pile-waste::before,
+.pile-tableau::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: var(--border-c) dashed #ccc; /* Граница теперь здесь */
+  border-radius: var(--card-radius);
+  pointer-events: none; /* Чтобы не перехватывал клики */
+}
+
+/* Стопки для сбора карт (фонды) */
+.row-a,
+.row-b {
+  display: flex;
+}
+
+.row-a,
+.row-b {
+  gap: var(--gap);
+}
+
+/* Игровые стопки (табло) */
+.row-2 {
+  width: 100%;
+  display: flex;
+  gap: var(--gap);
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.row-1 {
+  display: flex;
+  gap: var(--gap-row1);
+  margin-bottom: 3vh;
+  justify-content: center;
+}
+
+/* Стиль для карт в стопках */
+
+/* .card-placeholder .card:nth-child(n + 2) {
+  top: var(--card-overlap);
+} */
+
+/* Добавьте в ваш CSS файл (например, cardsContainers.css) */
+/* .points-popup {
+  position: absolute;
+  font-size: var(--font-size-ccard-v);
+  font-weight: bold;
+  color: gold;
+  text-shadow: 1px 1px 2px black;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1000;
+  animation: pointsFloatUp 1.5s ease-out forwards;
+  will-change: transform, opacity;
+  -webkit-font-smoothing: antialiased;
+} */
+
+/* @keyframes pointsFloatUp {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+} */
+
+.points-popup {
+  position: fixed;
+  font-size: var(--font-size-ccard-v);
+  font-weight: bold;
+  color: gold;
+  text-shadow: 1px 1px 2px black;
+  pointer-events: none;
+  z-index: 100;
+  will-change: transform, opacity;
+  -webkit-font-smoothing: antialiased;
+}
+
+.card.moving {
+  /* position: fixed; */
+  position: absolute;
+  z-index: 1000;
+  transition: all 2s ease;
+}

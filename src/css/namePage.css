@@ -1,0 +1,29 @@
+:root {
+  --gap-name-page-content: 0.5em;
+}
+
+.name-page {
+  display: flex;
+  background-color: brown;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.name-h2 {
+    color: black;
+}
+
+.page-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--gap-name-page-content);
+}
+
+@media (min-width: 350px) {
+  .name-page {
+    font-size: 1.5em;
+  }
+}

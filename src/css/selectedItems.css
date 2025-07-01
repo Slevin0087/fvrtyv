@@ -1,0 +1,269 @@
+/* СТИЛИ ДЛЯ КАРТ И background ВЫБРАННЫХ ИГРОКОМ В shop*/
+:root {
+  --font-sizeeeeee: 2em;
+}
+
+/* СТИЛИ ЛИЦЕВОЙ СТОРОНЫ КАРТ */
+.classic-faces {
+  background: rgb(204, 195, 195);
+}
+
+.cosmo-faces {
+  background: radial-gradient(circle at center, #000428, #004e92),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='30' cy='30' r='1' fill='white'/%3E%3Ccircle cx='80' cy='120' r='1' fill='white'/%3E%3C/svg%3E");
+}
+
+.leather-faces {
+  background: radial-gradient(circle at 70% 30%, #f5e7d0 0%, #e6d5b8 100%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'><path fill='rgba(139,69,19,0.1)' d='M0 0h100v100H0z'/></svg>");
+  border: 1px solid #8b4513;
+  box-shadow: inset 0 0 20px rgba(139, 69, 19, 0.3);
+}
+
+.liquid-metal-faces {
+  background: linear-gradient(
+    135deg,
+    rgba(200, 200, 200) 0%,
+    rgba(150, 150, 150) 50%,
+    rgba(200, 200, 200) 100%
+  );
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
+    inset 0 0 10px rgba(0, 0, 0, 0.2);
+  border: none;
+  overflow: hidden;
+}
+
+.vintage-faces {
+  background: #f5f0e1;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3),
+    inset 1px 1px 0 rgba(255, 255, 255, 0.3),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.1);
+  background-image: linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+  clip-path: polygon(
+    0 3%,
+    3% 0,
+    97% 0,
+    100% 3%,
+    100% 97%,
+    97% 100%,
+    3% 100%,
+    0% 97%
+  );
+  filter: sepia(30%) brightness(95%);
+}
+
+/* СТИЛИ РУБАШКИ КАРТ */
+.classic-back {
+  background: repeating-linear-gradient(
+    45deg,
+    #1a5a1a,
+    #1a5a1a 10px,
+    #165016 10px,
+    #165016 20px
+  );
+  color: transparent !important;
+}
+
+.dice-back {
+  background-color: #fff;
+  background-image: radial-gradient(#000 20%, transparent 20%),
+    radial-gradient(#000 20%, transparent 20%);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+}
+
+.goldV-back {
+  background-color: #d4af37;
+  background-image: radial-gradient(
+      circle at 10% 20%,
+      rgba(255, 255, 255, 0.3) 0%,
+      transparent 20%
+    ),
+    radial-gradient(
+      circle at 90% 80%,
+      rgba(255, 255, 255, 0.3) 0%,
+      transparent 20%
+    );
+}
+
+.treeB-back {
+  background-color: #8b4513;
+  background-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.1) 0px,
+      rgba(0, 0, 0, 0.1) 1px,
+      transparent 1px,
+      transparent 100%
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.1) 0px,
+      rgba(0, 0, 0, 0.1) 1px,
+      transparent 1px,
+      transparent 100%
+    );
+  background-size: 10px 10px;
+}
+
+.elegantRed-back {
+  background: repeating-linear-gradient(
+    45deg,
+    #8b0000,
+    #8b0000 10px,
+    #6b0000 10px,
+    #6b0000 20px
+  );
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.elegantBlue-back {
+  background: repeating-linear-gradient(
+    45deg,
+    #00008b,
+    #00008b 10px,
+    #00006b 10px,
+    #00006b 20px
+  );
+  box-shadow: inset 0 0 10px rgba(58, 8, 236, 0.5);
+}
+
+/* СТИЛИ background UIGamePage, ИГРОВОЙ СТРАНИЦЫ */
+
+.classic-fon {
+  background-color: green;
+}
+
+.light-green-fon {
+  background-color: rgb(104, 189, 104);
+}
+
+.classic-fon-2 {
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+}
+
+.classic-fon-3 {
+  background: linear-gradient(#2b2b44 2px, transparent 2px),
+    linear-gradient(90deg, #2b2b44 2px, transparent 2px),
+    linear-gradient(#3b3b5a 1px, transparent 1px),
+    linear-gradient(90deg, #3b3b5a 1px, #1a1a2e 1px);
+  background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px;
+  background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
+}
+
+.classic-fon-4 {
+  background: radial-gradient(
+      circle,
+      transparent 20%,
+      #1a1a1a 20%,
+      #1a1a1a 80%,
+      transparent 80%,
+      transparent
+    ),
+    radial-gradient(
+        circle,
+        transparent 20%,
+        #1a1a1a 20%,
+        #1a1a1a 80%,
+        transparent 80%,
+        transparent
+      )
+      50px 50px,
+    linear-gradient(#2d2d2d 2px, transparent 2px) 0 -1px,
+    linear-gradient(90deg, #2d2d2d 2px, #1a1a1a 2px) -1px 0;
+  background-size: 100px 100px, 100px 100px, 50px 50px, 50px 50px;
+  background-color: #1a1a1a;
+}
+
+.classic-fon-5 {
+  background: linear-gradient(
+      135deg,
+      rgba(100, 149, 237, 0.1) 0%,
+      rgba(100, 149, 237, 0) 50%,
+      rgba(100, 149, 237, 0.1) 100%
+    ),
+    linear-gradient(45deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(-45deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 100% 100%, 30px 30px, 30px 30px;
+  background-color: #0a1a2f;
+}
+
+.classic-fon-6 {
+  background-color: #52411b;
+  /* background-color: #f3e9d2; */
+  background-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.589) 0%,
+      transparent 80%
+    ),
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path fill="none" stroke="rgba(0,0,0,0.05)" stroke-width="2.5" d="M0,0 L100,0 L100,100 L0,100 Z M10,10 C40,10 60,40 90,40 M10,60 C40,60 60,30 90,30"/></svg>');
+  background-size: 100% 100%, 100px 100px;
+}
+
+.classic-fon-7 {
+  background: conic-gradient(
+    from 90deg at 1px 1px,
+    transparent 25%,
+    #8a2be2 0%,
+    #8a2be2 50%,
+    transparent 0%,
+    transparent 75%,
+    #4b0082 0%
+  );
+  background-size: 40px 40px;
+  background-color: #1e0036;
+}
+
+@keyframes gradientBG {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.green-path-fon {
+  background: url("../assets/shop/fons/fon_1.jpg") no-repeat center center fixed;
+}
+
+.green-field-fon {
+  background: url("../assets/shop/fons/fon_2.jpg") no-repeat center center fixed;
+}
+
+.green-field2-fon {
+  background: url("../assets/shop/fons/fon_3.jpg") no-repeat center center fixed;
+}
+
+.green-field3-fon {
+  background: url("../assets/shop/fons/fon_4.jpg") no-repeat center center fixed;
+}
+
+@media (min-width: 350px) {
+  .green-path-fon {
+    background: url("../assets/shop/fons/fon_1_350.jpg") no-repeat center center
+      fixed;
+  }
+
+  .green-field-fon {
+    background: url("../assets/shop/fons/fon_2_350.jpg") no-repeat center center
+      fixed;
+  }
+
+  .green-field2-fon {
+    background: url("../assets/shop/fons/fon_3_350.jpg") no-repeat center center
+      fixed;
+  }
+
+  .green-field3-fon {
+    background: url("../assets/shop/fons/fon_4_350.jpg") no-repeat center center
+      fixed;
+  }
+}

@@ -1,0 +1,71 @@
+:root {
+  --gap-for-pstate: 1em;
+  --padding-top-p-state: 1em;
+  --gap-for-pstate-head: 1em;
+  --padding-psate-head: 0.5em;
+  --btn-pstate-left-bottom: 1em;
+  --font-size-ps-350px: 1.3em;
+  --padding-table: 1em;
+}
+
+.player-state {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+  gap: var(--gap-for-pstate);
+  background-color: rgb(73, 73, 189);
+  width: 100%;
+  height: 100%;
+  /* padding-top: var(--padding-top-p-state); */
+}
+
+.player-state button {
+  position: absolute;
+  bottom: var(--btn-pstate-left-bottom);
+  left: var(--btn-pstate-left-bottom);
+}
+
+.player-state-head {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--gap-for-pstate-head);
+  width: 100%;
+  color: black;
+  background-color: rgb(155, 60, 112);
+  padding: var(--padding-psate-head);
+}
+
+.player-state-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.p-state-table {
+  /* padding: 0 calc(var(--padding-table) - var(--gap-for-pstate)); */
+  /* align-items: center; */
+  font-size: var(--font-size-s-350px);
+  border-collapse: separate; /*Важно! Должно быть 'separate' (по умолчанию)*/
+  border-spacing: calc(var(--gap-for-pstate) * 4) 0; /* Горизонтальное, затем вертикальное */
+  background-color: brown;
+}
+
+.right-td {
+  color: yellow;
+}
+
+.left-td {
+  color: black;
+}
+
+@media (min-width: 350px) {
+  .player-state button {
+    font-size: var(--font-size-ps-350px);
+  }
+}

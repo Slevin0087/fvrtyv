@@ -1,0 +1,77 @@
+:root {
+  --gap-for-flex: 1em;
+  --padding-sb: 0.5em;
+}
+
+.game-interface {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap-for-flex);
+  width: 100%;
+  height: 100%;
+}
+
+.status-bar {
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background-color: rgba(155, 60, 112, 0.692);
+  padding: calc(var(--padding-sb) / 2) var(--padding-sb);
+}
+
+.status-bar span {
+  color: white;
+}
+
+.blinking-text {
+  position: absolute;
+  bottom: 6em;
+  width: fit-content;
+  color: black;
+  padding: 0.5em;
+  background-color: rgb(255, 115, 0);
+  border: 0.1em solid black;
+  cursor: pointer;
+}
+
+.controls-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap-for-flex);
+}
+
+.controls-btn-container {
+  position: absolute;
+  display: flex;
+  gap: var(--gap-for-flex);
+  justify-content: center;
+  text-align: center;
+  bottom: 0;
+  left: 0;
+  padding: calc(var(--padding-sb) / 2);
+}
+
+.controls-btn-container button {
+  color: yellow !important;
+  -webkit-text-fill-color: yellow;
+  
+}
+
+@media (min-width: 350px) {
+  .status-bar {
+    font-size: 1.4em;
+  }
+  .controls-btn-container {
+    font-size: 2.6em;
+  }
+  .controls-btn-container button {
+    background-color: rgba(255, 255, 255, 0);
+    border: 0.1em solid rgba(128, 98, 0, 0);
+    padding: 0;
+  }
+}

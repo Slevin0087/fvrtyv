@@ -1,0 +1,52 @@
+:root {
+  --font-size-menu-btn-350px: 1.7em;
+  --font-size-menu-h1-350px: 3.5em;
+}
+
+.menu {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #076324, #0a8a2f);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  color: white;
+}
+
+.menu h1 {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+}
+
+.menu button {
+  margin: 0.5rem;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  min-width: 200px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+#ingame-menu {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+}
+
+@media (min-width: 350px) {
+  .menu button {
+    font-size: var(--font-size-menu-btn-350px);
+    padding: 0.7em;
+  }
+
+  .menu h1 {
+    font-size: var(--font-size-menu-h1-350px);
+  }
+}

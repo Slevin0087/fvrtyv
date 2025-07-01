@@ -1,0 +1,324 @@
+:root {
+  --card-width-350px: 100%;
+  --card-width-390px: 50%;
+  --card-width-600px: 70px;
+  --card-width-1200px: 100px;
+  --card-width-1600px: 150px;
+  --card-height-350px: 100%;
+  --card-height-390px: 70px;
+  --card-height-600px: 90px;
+  --card-height-1200px: 150px;
+  --card-height-1600px: 200px;
+  --card-gap-350px: 1%;
+  --card-gap-390px: 5px;
+  --card-gap-450px: 10px;
+  --card-gap-600px: 10px;
+  --card-gap-1200px: 15px;
+  --stock-borderRadius-350px: 0.25em;
+  --stock-borderRadius-900px: 10px;
+  --stock-borderRadius-1600px: 10px;
+  --minHeight-messageContainer-350px: 80px;
+  --minHeight-messageContainer-700px: 25px;
+  --minHeight-messageContainer-1600px: 20px;
+  --modal-content-width: 15.62em;
+  --modal-content-height: 9.37em;
+  --game-container-height: 40%;
+  --info-container-height: 10%;
+  --blinking-text-br: 0.7em;
+  --points-game-br: 0.7em;
+  --border-radius-btn-input: 0.3em;
+  --full-screen-button-top-left: 1em;
+  --full-screen-button-width: 2.5em;
+}
+
+/**
+  Нормализация блочной модели
+ */
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+/**
+  Убираем внутренние отступы слева тегам списков,
+  у которых есть атрибут class
+ */
+:where(ul, ol):where([class]) {
+  padding-left: 0;
+}
+
+/**
+  Убираем внешние отступы body и двум другим тегам,
+  у которых есть атрибут class
+ */
+body,
+:where(blockquote, figure):where([class]) {
+  margin: 0;
+}
+
+/**
+  Убираем внешние отступы вертикали нужным тегам,
+  у которых есть атрибут class
+ */
+:where(h1, h2, h3, h4, h5, h6, p, ul, ol, dl):where([class]) {
+  margin-block: 0;
+}
+
+:where(dd[class]) {
+  margin-left: 0;
+}
+
+:where(fieldset[class]) {
+  margin-left: 0;
+  padding: 0;
+  border: none;
+}
+
+/**
+  Убираем стандартный маркер маркированному списку,
+  у которого есть атрибут class
+ */
+:where(ul[class]) {
+  list-style: none;
+}
+
+:where(address[class]) {
+  font-style: normal;
+}
+
+/**
+  Обнуляем вертикальные внешние отступы параграфа,
+  объявляем локальную переменную для внешнего отступа вниз,
+  чтобы избежать взаимодействие с более сложным селектором
+ */
+p {
+  --paragraphMarginBottom: 24px;
+
+  margin-block: 0;
+}
+
+/**
+  Внешний отступ вниз для параграфа без атрибута class,
+  который расположен не последним среди своих соседних элементов
+ */
+p:where(:not([class]):not(:last-child)) {
+  margin-bottom: var(--paragraphMarginBottom);
+}
+
+/**
+  Упрощаем работу с изображениями и видео
+ */
+img,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/**
+  Наследуем свойства шрифт для полей ввода
+ */
+input,
+textarea,
+select,
+button {
+  font: inherit;
+}
+
+input {
+  border-radius: var(--border-radius-btn-input);
+}
+
+html {
+  /**
+    Пригодится в большинстве ситуаций
+    (когда, например, нужно будет "прижать" футер к низу сайта)
+   */
+  width: 100vw;
+  height: 100vh;
+  /**
+    Убираем скачок интерфейса по горизонтали
+    при появлении / исчезновении скроллбара
+   */
+  scrollbar-gutter: stable;
+}
+
+/**
+  Плавный скролл
+ */
+html,
+:has(:target) {
+  scroll-behavior: smooth;
+}
+
+body {
+  /**
+    Пригодится в большинстве ситуаций
+    (когда, например, нужно будет "прижать" футер к низу сайта)
+   */
+  width: 100%;
+  height: 100%;
+  /**
+    Унифицированный интерлиньяж
+   */
+  /* line-height: 1.5; */
+}
+
+/**
+  Нормализация высоты элемента ссылки при его инспектировании в DevTools
+ */
+a:where([class]) {
+  display: inline-flex;
+}
+
+/**
+  Курсор-рука при наведении на элемент
+ */
+button,
+label {
+  cursor: pointer;
+  border: 0.1em solid black;
+  border-radius: var(--border-radius-btn-input);
+  background-color: yellow;
+  padding: 0.5em;
+}
+
+button {
+  color: black !important; /* Приоритет над системными стилями */
+  -webkit-tap-highlight-color: transparent; /* Убирает синюю подсветку */
+  text-emphasis-color: black; /* Для Safari */
+  -webkit-text-fill-color: black; /* Для старых версий */
+  appearance: none; /* Отключает системные стили */
+}
+
+/* Для состояний: наведение, фокус, активность */
+button:hover,
+button:focus,
+button:active {
+  color: black !important;
+  -webkit-text-fill-color: black;
+}
+
+/**
+  Приводим к единому цвету svg-элементы
+  (за исключением тех, у которых уже указан
+  атрибут fill со значением 'none' или начинается с 'url')
+ */
+:where([fill]:not([fill="none"], [fill^="url"])) {
+  fill: currentColor;
+}
+
+/**
+  Приводим к единому цвету svg-элементы
+  (за исключением тех, у которых уже указан
+  атрибут stroke со значением 'none')
+ */
+:where([stroke]:not([stroke="none"], [stroke^="url"])) {
+  stroke: currentColor;
+}
+
+/**
+  Чиним баг задержки смены цвета при взаимодействии с svg-элементами
+ */
+svg * {
+  transition-property: fill, stroke;
+}
+
+/**
+  Приведение рамок таблиц в классический 'collapse' вид
+ */
+:where(table) {
+  border-collapse: collapse;
+  border-color: currentColor;
+}
+
+/**
+  Удаляем все анимации и переходы для людей,
+  которые предпочитают их не использовать
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* html {
+  user-select: none;
+  min-height: 100vh;
+} */
+
+body {
+  user-select: none;
+  /* font-size: 14px; */
+  /* box-sizing: border-box; */
+  touch-action: manipulation;
+  /* background-color: #3b0763; */
+  color: white;
+
+  /*/////////////////////////////////*/
+  /* overflow: hidden; */
+  /*/////////////////////////////////*/
+  
+  /* justify-content: center; */
+  /* align-items: center; */
+  /* background: url("../assets/shop/fons/fon_4.jpg") no-repeat center center
+      fixed; */
+  /* background-color: #333; */
+  /*background-image: repeating-linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 0.05),
+    rgba(255, 255, 255, 0.05) 1px,
+    transparent 1px,
+    transparent 5px
+  ); */
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.full-screen-button {
+  position: fixed;
+  right: var(--full-screen-button-top-left);
+  bottom: var(--full-screen-button-top-left);
+  width: var(--full-screen-button-width);
+  z-index: 1;
+}
+
+:-webkit-full-screen {
+  width: 100% !important;
+  height: 100% !important;
+  background: white;
+}
+
+.app-container {
+  width: 100%;
+  height: 100%;
+  background-color: rgb(147, 120, 173);
+}
+
+.toast {
+  width: 200px;
+  height: 200px;
+  color: blue;
+  background-color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}

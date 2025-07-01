@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,
+    maximum-scale=1.0, user-scalable=no, viewport-fit=cover"" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <title>Хусынка</title>
+    <link rel="stylesheet" href="./src/css/style.css" />
+    <link rel="stylesheet" href="./src/css/hidden.css" />
+    <link rel="stylesheet" href="./src/css/namePage.css" />
+    <link rel="stylesheet" href="./src/css/menu.css" />
+    <link rel="stylesheet" href="./src/css/gamePage.css" />
+    <link rel="stylesheet" href="./src/css/settings.css" />
+    <link rel="stylesheet" href="./src/css/shop.css" />
+    <link rel="stylesheet" href="./src/css/playerStatePage.css" />
+    <link rel="stylesheet" href="./src/css/cardsContainers.css" />
+    <link rel="stylesheet" href="./src/css/selectedItems.css" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/gsap.min.js"></script>
+  </head>
+  <body>
+    <div
+      id="loader"
+      style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+      "
+    >
+      <div class="spinner"></div>
+    </div>
+    <div id="app" class="app-container">
+      <div id="notification-toast" class="toast hidden"></div>
+
+      <button class="full-screen-button" id="full-screen-btn">[ ]</button>
+      <div id="player-page" class="name-page hidden">
+        <form id="player-form" class="player-form">
+          <div class="page-content">
+            <h2 class="name-h2">Введите ваше имя</h2>
+            <input
+              type="text"
+              id="player-name"
+              name="player_name"
+              placeholder="Игрок"
+              maxlength="12"
+              required
+            />
+            <div class="page-buttons">
+              <button type="submit">Начать игру</button>
+              <button type="button" id="skip-name">Пропустить</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- Главное меню -->
+      <!-- Меню игры -->
+      <div id="game-menu" class="menu hidden">
+        <h1>Хусынка</h1>
+        <button id="new-game-btn">Новая игра</button>
+        <button id="continue-btn">Продолжить</button>
+        <button id="settings-btn">Настройки</button>
+        <button id="state-player">Статистика</button>
+        <button id="shop-btn">Магазин</button>
+        <button id="exit-btn">Выход</button>
+      </div>
+      <!-- Настройки -->
+      <div id="settings" class="settings hidden">
+        <div class="setting-head">
+          <h2 class="setting-title">Настройки</h2>
+        </div>
+        <div class="setting-item">
+          <!-- <label for="music-volume">Громкость:</label>
+          <input type="text" id="music-volume" name="name" /> -->
+          <div class="volume-control container-setting-item">
+            <label for="music-volume">Громкость:</label>
+            <input
+              type="range"
+              id="music-volume"
+              min="0"
+              max="100"
+              step="20"
+              value="50"
+            />
+          </div>
+          <div class="setting-off-in-vol container-setting-item">
+            <!-- <label class="setting-label"
+              >Звуки: <input type="checkbox" id="sound-toggle" checked
+            /></label> -->
+            <label class="span-sound-off-in">Звуки:</label>
+            <label class="setting-label">
+              <input type="checkbox" id="sound-toggle" />
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="c-setting-item">
+            <label>Сложность: </label>
+            <select id="difficulty">
+              <option value="easy">Лёгкая</option>
+              <option value="normal" selected>Обычная</option>
+              <option value="hard">Сложная</option>
+            </select>
+          </div>
+        </div>
+        <!-- <div class="setting-item"> -->
+        <!-- </div> -->
+        <button class="settings-back-btn" id="back-to-menu">
+          Назад в меню
+        </button>
+      </div>
+
+      <!-- Магазин -->
+      <div id="shop" class="shop hidden">
+        <div class="shop-head">
+          <button class="shop-back-btn" id="shop-back">Назад в меню</button>
+          <h2>Магазин</h2>
+          <div class="balance">Баланс: <span id="coins">0</span> хусынок</div>
+        </div>
+        <div class="choose-container">
+          <button class="btn-card-face btn" id="face-btn">Лицо</button>
+          <button class="btn-card-shirt btn" id="shirt-btn">Рубашка</button>
+          <button class="btn-card-fon btn" id="fon-btn">Фон</button>
+        </div>
+        <!-- <div class="all-items-container" id="face-container"> -->
+        <div class="all-items-container" id="all-items-container">
+          тут будут стили лицо карт
+
+          <div class="all-items-container" id="face-container"></div>
+
+          <div class="all-items-container" id="shirt-container"></div>
+
+          <div class="all-items-container" id="fon-container"></div>
+        </div>
+      </div>
+
+      <!-- Статистика игрока -->
+      <div class="player-state hidden" id="player-state">
+        <div class="player-state-head">
+          <h2 class="player-state-title">Статистика игрока</h2>
+        </div>
+        <div class="player-state-content" id="player-state-content">
+          <!-- Контент статистики здесь -->
+        </div>
+        <button class="btn" id="btn-back-st-player">Назад в меню</button>
+      </div>
+
+      <!-- Game интерфейс -->
+      <div id="game-interface" class="game-interface hidden">
+        <div class="status-bar info-container" id="info-top">
+          <div>
+            <div class="points points-game">
+              <span id="points-in-game">0</span>
+            </div>
+            <div class="timer">🕰️ <span id="time-display">00:00</span></div>
+          </div>
+          <div id="name-error"></div>
+          <div class="achievements-container" id="achievements_container">
+            <span class="achievements-span" id="achievements_span"></span>
+          </div>
+        </div>
+        <div class="game-container" id="game-container">
+          <div class="row-1" id="row">
+            <div class="row-a" id="stockDiv"></div>
+            <div class="row-b" id="foundationsDiv"></div>
+          </div>
+          <div class="row-2" id="tableausDiv"></div>
+        </div>
+        <div class="controls-container" id="controls">
+          <span class="blinking-text hidden" id="collect-cards"
+            >Собрать карты</span
+          >
+          <div class="controls-btn-container">
+            <button
+              id="undo-btn"
+              class="controls-btn"
+              aria-label="Отменить ход"
+              title="Отменить ход"
+            >
+              ↩
+            </button>
+            <button
+              class="controls-btn"
+              id="new-game-ctr-btn"
+              title="Новая игра"
+            >
+              ↻
+            </button>
+            <button class="controls-btn" id="hint" title="Подсказка">💡</button>
+            <button class="controls-btn" id="menu-btn" title="Меню игры">
+              ☰
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
