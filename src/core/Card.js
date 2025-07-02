@@ -12,6 +12,7 @@ export class Card {
     this.positionData = {
       parent: null, // 'stock', 'waste', 'tableau-#', 'foundation-#'
       position: null,
+      elementPosition: -1,
       index: -1, // индекс в родительском массиве
       offset: 0, // смещение в столбце (для tableau)
       zIndex: 0,

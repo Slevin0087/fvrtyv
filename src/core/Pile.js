@@ -30,10 +30,17 @@ export class Pile {
     return {
       parent: `${this.type}-${this.index}`,
       position: position,
+      elementPosition: this.getElementPosition(),
       index: this.index,
       offset: position * this.overlap,
       zIndex: this.getZIndex(),
     };
+  }
+
+  getElementPosition() {
+    return this.element.childNodes.length
+        ? this.element.childNodes.length - 1
+        : 0
   }
 
   getZIndex() {

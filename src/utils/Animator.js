@@ -234,56 +234,56 @@ export class Animator {
     duration = 300
   ) {
     return new Promise((resolve, reject) => {
-      const cardElement = card.domElement;
-
-      // 1. First - сохраняем начальное положение ДО любых изменений
-      // Получаем начальные координаты карты
-      const initialRect = cardElement.getBoundingClientRect();
-      elementTo.element.append(cardElement);
-      const oldOffset = card.positionData.offset;
       const removedCards = movementSystem.removeCardFromSource(
         card,
         source,
         elementFrom
       );
+      removedCards.forEach((card) => {
+        const cardElement = card.domElement;
 
-      removedCards.length > 1
-        ? elementTo.addCards(removedCards)
-        : elementTo.addCard(card);
+        // 1. First - сохраняем начальное положение ДО любых изменений
+        // Получаем начальные координаты карты
+        const initialRect = cardElement.getBoundingClientRect();
+        elementTo.element.append(cardElement);
+        const oldOffset = card.positionData.offset;
 
-      const newOffset = card.positionData.offset;
+        elementTo.addCard(card);
 
-      void cardElement.offsetHeight; // Это заставляет браузер применить стили
+        const newOffset = card.positionData.offset;
 
-      // Получаем конечную позицию
-      const lastRect = cardElement.getBoundingClientRect();
-      cardElement.style.zIndex = "100";
-      
-      // 5. Invert - теперь дельты будут корректны
-      const deltaX = initialRect.left - lastRect.left;
-      const deltaY = initialRect.top - lastRect.top + oldOffset;
+        void cardElement.offsetHeight; // Это заставляет браузер применить стили
 
-      // 9. Запускаем анимацию
-      const animation = cardElement.animate(
-        [
-          { transform: `translate(${deltaX}px, ${deltaY}px)` },
-          { transform: `translate(0, ${newOffset}px)` },
-        ],
-        {
-          duration,
-          easing: "linear",
-        }
-      );
+        // Получаем конечную позицию
+        const lastRect = cardElement.getBoundingClientRect();
+        cardElement.style.zIndex = "100";
 
-      // 10. По завершении фиксируем результат
-      animation.onfinish = () => {
-        cardElement.style.transform = `translate(0, ${newOffset}px)`;
-        cardElement.style.zIndex = `${card.positionData.zIndex}`;
-        resolve();
-      };
-      animation.oncancel = () => {
-        reject(new Error("Animation was cancelled"));
-      };
+        // 5. Invert - теперь дельты будут корректны
+        const deltaX = initialRect.left - lastRect.left;
+        const deltaY = initialRect.top - lastRect.top + oldOffset;
+
+        // 9. Запускаем анимацию
+        const animation = cardElement.animate(
+          [
+            { transform: `translate(${deltaX}px, ${deltaY}px)` },
+            { transform: `translate(0, ${newOffset}px)` },
+          ],
+          {
+            duration,
+            easing: "linear",
+          }
+        );
+
+        // 10. По завершении фиксируем результат
+        animation.onfinish = () => {
+          cardElement.style.transform = `translate(0, ${newOffset}px)`;
+          cardElement.style.zIndex = `${card.positionData.zIndex}`;
+          resolve();
+        };
+        animation.oncancel = () => {
+          reject(new Error("Animation was cancelled"));
+        };
+      });
     });
   }
 
