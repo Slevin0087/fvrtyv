@@ -41,6 +41,7 @@ export class CardsSystem {
       foundations: this.foundations,
       tableaus: this.tableaus,
       stock: this.stock,
+      waste: this.stock.waste
     });
   }
 

@@ -257,8 +257,8 @@ export class Animator {
 
       // Получаем конечную позицию
       const lastRect = cardElement.getBoundingClientRect();
-      cardElement.style.zIndex = "100"
-      void cardElement.offsetHeight; // Это заставляет браузер применить стили
+      cardElement.style.zIndex = "100";
+      
       // 5. Invert - теперь дельты будут корректны
       const deltaX = initialRect.left - lastRect.left;
       const deltaY = initialRect.top - lastRect.top + oldOffset;
@@ -268,7 +268,6 @@ export class Animator {
         [
           { transform: `translate(${deltaX}px, ${deltaY}px)` },
           { transform: `translate(0, ${newOffset}px)` },
-          // { zIndex: "1000" }
         ],
         {
           duration,

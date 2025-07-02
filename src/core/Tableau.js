@@ -18,6 +18,7 @@ export class Tableau extends Pile {
   }
 
   canAccept(card) {
+    if (card.value === "A") false;
     if (!card.faceUp) return false;
     if (this.isEmpty()) return card.value === "K";
 

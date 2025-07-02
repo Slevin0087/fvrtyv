@@ -76,6 +76,8 @@ export class GameLogicSystem {
   }
 
   handleCardClick(card) {
+    console.log('card.positionData:', card.positionData);
+    
     this.audioManager.play(AudioName.CLICK);
     if (this.winSystem.check()) return;
     this.movementSystem.handleCardClick(card);

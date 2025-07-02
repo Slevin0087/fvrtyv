@@ -11,7 +11,8 @@ export class CardMovementSystem {
     if (!card.faceUp || this.stateManager.state.game.isPaused) return;
 
     const gameComponents = this.stateManager.state.cardsComponents;
-
+    console.log('gameComponents.foundations:', gameComponents.foundations);
+    
     // Проверка foundation
     for (let i = 0; i < gameComponents.foundations.length; i++) {
       if (gameComponents.foundations[i].canAccept(card)) {
@@ -67,8 +68,7 @@ export class CardMovementSystem {
     } else if (source.startsWith("foundation")) {
       return elementFrom.removeTopCard();
     } else if (source === "waste") {
-      elementFrom.removeCurrentCard(card);
-      return card;
+      return elementFrom.removeTopCard(card);
     }
   }
 

@@ -30,8 +30,8 @@ export class Card {
   }
 
   getSymbol() {
-    console.log('getSymbol this.faceUp:', this.faceUp);
-    
+    console.log("getSymbol this.faceUp:", this.faceUp);
+
     return this.faceUp ? `${this.value}${this.suit}` : "";
   }
 
@@ -41,6 +41,10 @@ export class Card {
 
   isNextInSequence(otherCard) {
     return this.getRank() === otherCard.getRank() - 1;
+  }
+
+  isPreviousInSequence(otherCard) {
+    return this.getRank() === otherCard.getRank() + 1;
   }
 
   isSameSuit(otherCard) {
