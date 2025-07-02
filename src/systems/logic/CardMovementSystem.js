@@ -72,9 +72,9 @@ export class CardMovementSystem {
     if (source.startsWith("tableau")) {
       return elementFrom.removeCardsFrom(card);
     } else if (source.startsWith("foundation")) {
-      return elementFrom.removeTopCard();
+      return [elementFrom.removeTopCard()];
     } else if (source === "waste") {
-      return elementFrom.removeTopCard(card);
+      return [elementFrom.removeTopCard(card)];
     }
   }
 
