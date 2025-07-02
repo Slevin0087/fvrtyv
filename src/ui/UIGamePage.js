@@ -96,8 +96,6 @@ export class UIGamePage extends UIPage {
       this.stateManager.state.player.selectedItems.backgrounds.styleClass;
     const achievementsIconElText =
       this.stateManager.state.player.achievements.active.icon;
-    console.log("");
-
     this.page.classList.add("game-interface", styleClass);
     this.elements.achievementsIconEl.textContent = achievementsIconElText;
     // this.page.classList.remove("hidden");

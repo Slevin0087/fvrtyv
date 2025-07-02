@@ -19,7 +19,10 @@ export class Foundation extends Pile {
   canAccept(card) {
     if (!card.faceUp) return false;
     if (this.isEmpty()) return card.value === "A";
-
+    const cardParent = card.positionData.parent;
+    const cardParentChild = card.parentElement.childNodes.length;
+    if (cardParent.startsWith("tableau") && cardParentChild > card.position + 1)
+      return false;
     const topCard = this.getTopCard();
     return card.suit === topCard.suit && card.isNextInSequence(topCard);
   }

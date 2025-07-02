@@ -18,12 +18,12 @@ export class AnimationSystem {
     this.init();
   }
 
-  async init() {
+  init() {
     // this.registerComponents();
-    await this.setupEventListeners();
+    this.setupEventListeners();
   }
 
-  async setupEventListeners() {
+  setupEventListeners() {
     this.eventManager.on(
       GameEvents.UI_ANIMATION_POINTS_EARNED,
       (card, score) => {
@@ -52,17 +52,21 @@ export class AnimationSystem {
 
     this.eventManager.on(
       GameEvents.ANIMATE_CARD_MOVE,
-      (card, elementFrom, foundationTo) => {
+      (card, source, elementFrom, elementTo, movementSystem) => {
         Animator.animateCardMove(
           card,
+          source,
           elementFrom,
-          foundationTo,
+          elementTo,
+          movementSystem,
           this.cardMoveDuration
         );
       }
     );
 
     this.eventManager.on(GameEvents.ANIMATE_STOCK_CARD_MOVE, async (params) => {
+      console.log("ddddddddd");
+
       await Animator.animateStockCardMove(params, this.startMoveSpeed);
     });
 

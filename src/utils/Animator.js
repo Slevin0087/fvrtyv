@@ -118,6 +118,7 @@ export class Animator {
     return new Promise(() => {
       try {
         const { card, fromEl, toEl, position, onComplete, onError } = params;
+        console.log("в animateStockCardMove", card);
 
         const cardElement = card.domElement;
         const offset = position * 20;
@@ -224,81 +225,67 @@ export class Animator {
   //   });
   // }
 
-  static animateCardMove(card, elementFrom, foundationTo, duration = 300) {
-    console.log(
-      "AAAAAAAAAAA elementFrom, foundationTo:",
-      elementFrom,
-      foundationTo
-    );
+  static animateCardMove(
+    card,
+    source,
+    elementFrom,
+    elementTo,
+    movementSystem,
+    duration = 300
+  ) {
+    return new Promise((resolve, reject) => {
+      const cardElement = card.domElement;
 
-    let currentAnimation = null;
-    const cardElement = card.domElement;
+      // 1. First - сохраняем начальное положение ДО любых изменений
+      // Получаем начальные координаты карты
+      const initialRect = cardElement.getBoundingClientRect();
+      elementTo.element.append(cardElement);
+      const oldOffset = card.positionData.offset;
+      const removedCards = movementSystem.removeCardFromSource(
+        card,
+        source,
+        elementFrom
+      );
 
-    const oldOffset = card.positionData.offset;
-    const newOffset = 0;
+      removedCards.length > 1
+        ? elementTo.addCards(removedCards)
+        : elementTo.addCard(card);
 
-    // 1. First - сохраняем начальное положение ДО любых изменений
-    // Получаем начальные координаты карты
-    const initialRect = cardElement.getBoundingClientRect();
+      const newOffset = card.positionData.offset;
 
-    // 2. Принудительно синхронизируем изменения
-    cardElement.style.position = "fixed";
-    cardElement.style.transform = `translate(0, 0)`;
-    cardElement.style.top = `${initialRect.top}px`;
-    cardElement.style.left = `${initialRect.left}px`;
-    cardElement.style.width = `${initialRect.width}px`;
-    cardElement.style.height = `${initialRect.height}px`;
+      void cardElement.offsetHeight; // Это заставляет браузер применить стили
 
-    // Критически важный момент - форсируем перерасчёт
+      // Получаем конечную позицию
+      const lastRect = cardElement.getBoundingClientRect();
+      cardElement.style.zIndex = "100"
+      void cardElement.offsetHeight; // Это заставляет браузер применить стили
+      // 5. Invert - теперь дельты будут корректны
+      const deltaX = initialRect.left - lastRect.left;
+      const deltaY = initialRect.top - lastRect.top + oldOffset;
 
-    void cardElement.offsetHeight; // Это заставляет браузер применить стили
-    // 3. Last - перемещаем элемент в новый контейнер
-    const targetContainer =
-      cardElement.parentNode === elementFrom.element
-        ? foundationTo.element
-        : elementFrom.element;
+      // 9. Запускаем анимацию
+      const animation = cardElement.animate(
+        [
+          { transform: `translate(${deltaX}px, ${deltaY}px)` },
+          { transform: `translate(0, ${newOffset}px)` },
+          // { zIndex: "1000" }
+        ],
+        {
+          duration,
+          easing: "linear",
+        }
+      );
 
-    targetContainer.append(cardElement);
-
-    // Устанавливаем конечное положение
-    const targetTop =
-      targetContainer === foundationTo.element ? newOffset : oldOffset;
-    cardElement.style.position = "absolute";
-    cardElement.style.top = `${targetTop}px`;
-    cardElement.style.left = "0";
-
-    // Снова синхронизируем
-    void cardElement.offsetHeight;
-
-    // 4. Получаем конечную позицию
-    const lastRect = cardElement.getBoundingClientRect();
-
-    // 5. Invert - теперь дельты будут корректны
-    const deltaX = initialRect.left - lastRect.left;
-    const deltaY = initialRect.top - lastRect.top;
-
-    // 9. Запускаем анимацию
-    currentAnimation = cardElement.animate(
-      [
-        { transform: `translate(${deltaX}px, ${deltaY}px)` },
-        { transform: `translate(0, 0)` },
-        { zIndex: "100" },
-      ],
-      {
-        duration,
-        easing: "linear",
-        // fill: "forwards",
-      }
-    );
-    // 10. По завершении фиксируем результат
-    currentAnimation.onfinish = () => {
-      cardElement.style.position = "absolute";
-      cardElement.style.top = targetTop;
-      cardElement.style.left = "0";
-      cardElement.style.transform = "none";
-      cardElement.style.width = "";
-      cardElement.style.height = "";
-    };
+      // 10. По завершении фиксируем результат
+      animation.onfinish = () => {
+        cardElement.style.transform = `translate(0, ${newOffset}px)`;
+        cardElement.style.zIndex = `${card.positionData.zIndex}`;
+        resolve();
+      };
+      animation.oncancel = () => {
+        reject(new Error("Animation was cancelled"));
+      };
+    });
   }
 
   // static animateCardMove(card, target, duration = 2000) {
@@ -436,14 +423,14 @@ export class Animator {
       // cardElement.style.zIndex = `10000`;
       // Снова синхронизируем
       // void cardElement.offsetHeight;
-      
+
       // 4. Получаем конечную позицию
       const lastRect = cardElement.getBoundingClientRect();
-      
+
       // 5. Invert - теперь дельты будут корректны
       const deltaX = initialRect.left - lastRect.left;
       const deltaY = initialRect.top - lastRect.top;
-      
+
       // 9. Запускаем анимацию
       const animation = cardElement.animate(
         [

@@ -1,22 +1,14 @@
+import { Deck } from "../core/Deck.js";
+import { Foundation } from "../core/Foundation.js";
+import { Tableau } from "../core/Tableau.js";
+import { Stock } from "../core/Stock.js";
 import { GameEvents } from "../utils/Constants.js";
 import { Animator } from "../utils/Animator.js";
 
 export class CardsSystem {
-  constructor(
-    eventManager,
-    stateManager,
-    deck,
-    foundations,
-    tableaus,
-    stock
-    // waste
-  ) {
+  constructor(eventManager, stateManager) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
-    this.deck = deck;
-    this.foundations = foundations;
-    this.tableaus = tableaus;
-    this.stock = stock;
     // this.waste = waste;
     this.dragState = null;
     this.selectedCard = null;
@@ -26,6 +18,7 @@ export class CardsSystem {
 
   init() {
     this.setupEventListeners();
+    this.setCardsContainers();
   }
 
   setupEventListeners() {
@@ -36,6 +29,19 @@ export class CardsSystem {
     // this.eventManager.on(GameEvents.CARD_DRAG_END, () => this.handleDragEnd());
     // this.eventManager.on(GameEvents.CARD_DROP, (target) => this.handleDrop(target));
     // this.eventManager.on(GameEvents.UNDO_MOVE, () => this.handleUndo());
+  }
+
+  setCardsContainers() {
+    this.deck = new Deck();
+    this.foundations = Array.from({ length: 4 }, (_, i) => new Foundation(i));
+    this.tableaus = Array.from({ length: 7 }, (_, i) => new Tableau(i));
+    this.stock = new Stock();
+    this.eventManager.emit(GameEvents.SET_CARDS_COMPONENTS, {
+      deck: this.deck,
+      foundations: this.foundations,
+      tableaus: this.tableaus,
+      stock: this.stock,
+    });
   }
 
   setCards() {
@@ -94,7 +100,7 @@ export class CardsSystem {
         await this.flipCard(card);
       }
       this.removeHandleCard(card);
-      this.handleCard(card)
+      this.handleCard(card);
     } catch (error) {
       throw new Error(error);
     }

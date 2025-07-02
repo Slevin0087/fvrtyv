@@ -1,8 +1,8 @@
-import { UIConfig } from "../configs/UIConfig.js";
-import { Stock } from "../core/Stock.js";
-import { GameEvents } from "../utils/Constants.js";
+import { UIConfig } from "../../configs/UIConfig.js";
+import { Stock } from "../../core/Stock.js";
+import { GameEvents } from "../../utils/Constants.js";
 import { RenderStaticElements } from "./RenderStaticElements.js";
-import { RenderStockElements } from "./RenderStockElement.js";
+import { RenderStockElement } from "./RenderStockElement.js";
 
 export class RenderingSystem {
   constructor(eventManager, stateManager, cardsSystem) {
@@ -26,17 +26,16 @@ export class RenderingSystem {
   init() {
     this.setupEventListeners();
     this.registerComponents();
-    // this.setupGameArea();
   }
 
   registerComponents() {
     this.components = {
       renderStaticElements: new RenderStaticElements(this.domElements),
-      renderStockElements: new RenderStockElements(
+      renderStockElement: new RenderStockElement(
         this.eventManager,
         this.stateManager,
         this.domElements,
-        this.cardsSystem,
+        this.cardsSystem
       ),
     };
   }
@@ -109,30 +108,16 @@ export class RenderingSystem {
   //   // 3. Рендеринг эелементы карт
   // }
 
-  renderGame(components) {
-    console.log("в renderGame RENDERINGSYSTEM");
+  renderStaticElements(foundations, tableaus) {
+    this.components.renderStaticElements.render(foundations, tableaus);
+  }
 
-    if (!components) {
-      console.error("Invalid game components");
+  renderStockElement(stock) {
+    if (!stock) {
+      console.error("Invalid stock");
       return;
     }
-
-    const { foundations, tableaus, stock } = components;
-    this.clearContainers();
-    this.components.renderStaticElements.render(components);
-    this.components.renderStockElements.render(stock);
-    // this.renderStaticElements(components);
-    // this.renderInitialCards(components);
-  }
-
-  renderStaticElements({ foundations, tableaus, stock }) {
-    this.addElementsInDom(foundations, tableaus, stock);
-    this.renderStockElement(stock);
-    this.addStockEventListeners(stock);
-  }
-
-  async renderInitialCards({ stock, tableaus }) {
-    await this.dealTableauCards(stock, tableaus);
+    this.components.renderStockElement.render(stock);
   }
 
   renderCards() {
@@ -151,41 +136,6 @@ export class RenderingSystem {
     // Рендерим карту в waste
     this.renderCardsForWaste(stock);
     this.addStockEventListeners(stock);
-  }
-
-  clearContainers() {
-    this.domElements.gameContainer.innerHTML = "";
-    this.domElements.rowElement.innerHTML = "";
-    this.domElements.tableausEl.innerHTML = "";
-    this.domElements.foundationsDiv.innerHTML = "";
-    // this.domElements.stockDivEl.innerHTML = "";
-  }
-
-  addElementsInDom(foundations, tableaus, stock) {
-    this.domElements.gameContainer.append(
-      this.domElements.rowElement,
-      this.domElements.tableausEl
-    );
-    this.domElements.rowElement.append(
-      this.domElements.stockDivEl,
-      this.domElements.foundationsDiv
-    );
-
-    foundations.forEach((foundation) => {
-      this.domElements.foundationsDiv.append(foundation.element);
-    });
-
-    tableaus.forEach((tableau) => {
-      this.domElements.tableausEl.append(tableau.element);
-    });
-  }
-
-  renderStockCards(stock) {
-    stock.cards.forEach((card) => {
-      this.renderStockCard(card, stock.element);
-      this.updateStockCardPosition(card);
-      this.addCardEventListeners(card);
-    });
   }
 
   renderCardsForFoundation(foundations) {
@@ -212,11 +162,11 @@ export class RenderingSystem {
     }
   }
 
-  renderStockElement(stock) {
-    this.domElements.stockDivEl.innerHTML = "";
-    stock.element = this.createStockElement();
-    this.domElements.stockDivEl.append(stock.element, stock.waste.element);
-  }
+  // renderStockElement(stock) {
+  //   this.domElements.stockDivEl.innerHTML = "";
+  //   stock.element = this.createStockElement();
+  //   this.domElements.stockDivEl.append(stock.element, stock.waste.element);
+  // }
 
   ////////////////////////////////////////////////////////
 

@@ -2,17 +2,15 @@ import { GameLogicSystem } from "../systems/GameLogicSystem.js";
 import { RenderingSystem } from "../systems/RenderingSystem.js";
 import { GameEvents, AudioName } from "../utils/Constants.js";
 import { AnimationSystem } from "../systems/AnimationSystem.js";
-import { CardsSystem } from "../systems/CardsSystem.js";
 import { ShopSystem } from "../systems/ShopSystem.js";
 import { AchievementSystem } from "../systems/AchievementSystem.js";
 
 export class Game {
-  constructor(eventManager, stateManager, audioManager, cardsSystem) {
+  constructor(eventManager, stateManager, audioManager) {
     this.systems = {};
     this.eventManager = eventManager;
     this.stateManager = stateManager;
     this.audioManager = audioManager;
-    this.cardsSystem = cardsSystem;
     this.fullScreenBtn = document.getElementById("full-screen-btn");
 
     this.init();
@@ -60,10 +58,8 @@ export class Game {
       render: new RenderingSystem(
         this.eventManager,
         this.stateManager,
-        this.cardsSystem
       ),
       animation: new AnimationSystem(this.eventManager, this.stateManager),
-      cardsSystem: new CardsSystem(this.eventManager, this.stateManager),
       shopSystem: new ShopSystem(this.eventManager, this.stateManager),
       achievementSystem: new AchievementSystem(
         this.eventManager,

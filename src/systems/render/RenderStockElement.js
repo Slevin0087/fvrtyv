@@ -1,6 +1,6 @@
-import { GameEvents } from "../utils/Constants.js";
+import { GameEvents } from "../../utils/Constants.js";
 
-export class RenderStockElements {
+export class RenderStockElement {
   constructor(eventManager, stateManager, domElements, cardsSystem) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
@@ -49,8 +49,6 @@ export class RenderStockElements {
 
   handleStockElement(stock) {
     console.log("КЛИК ПО STOCK ЭЛЕМЕНТУ");
-    console.log("stock.index:", stock.index);
-
     if (stock.index < 0 && stock.waste.isEmpty()) return;
     else if (stock.index < 0) {
       console.log("INDEX < 0");

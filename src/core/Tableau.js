@@ -33,4 +33,14 @@ export class Tableau extends Pile {
     }
     return false;
   }
+
+  removeCardsFrom(card) {
+    const index = this.cards.indexOf(card);
+    if (index >= 0) {
+      const removedCards = this.cards.splice(index);
+      this.updatePositions();
+      return removedCards;
+    }
+    return [];
+  }
 }
