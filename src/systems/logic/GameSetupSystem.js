@@ -35,14 +35,13 @@ export class GameSetupSystem {
       const card = stock.deal();
       if (!card) throw new Error("No cards left in stock");
       card.faceUp = shouldFaceUp;
+      tableau.addCard(card);
       await this.animateCardMove(
         card,
         stock.element,
         tableau.element,
         position
       );
-
-      tableau.addCard(card);
 
       if (shouldFaceUp) {
         await this.flipCard(card);

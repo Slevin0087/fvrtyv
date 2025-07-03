@@ -11,8 +11,6 @@ export class CardMovementSystem {
     if (!card.faceUp || this.stateManager.state.game.isPaused) return;
 
     const gameComponents = this.stateManager.state.cardsComponents;
-    console.log("gameComponents.foundations:", gameComponents.foundations);
-
     // Проверка foundation
     for (let i = 0; i < gameComponents.foundations.length; i++) {
       if (gameComponents.foundations[i].canAccept(card)) {
@@ -27,12 +25,6 @@ export class CardMovementSystem {
     // Проверка tableau
     for (let i = 0; i < gameComponents.tableaus.length; i++) {
       if (gameComponents.tableaus[i].canAccept(card)) {
-        console.log(
-          "card.parentElement...",
-          card.parentElement.childNodes.length - 1 ===
-            card.positionData.elementPosition
-        );
-
         this.eventManager.emit(GameEvents.CARD_TO_TABLEAU, {
           card,
           tableauIndex: i,
@@ -80,7 +72,7 @@ export class CardMovementSystem {
 
   openNextCardIfNeeded(source, backStyle, faceStyle) {
     // ... реализация аналогична оригиналу
-    if (!source.startsWith("tableau")) return;
+    if (!source.startsWith("tableau")) return null;
 
     const index = parseInt(source.split("-")[1]);
 

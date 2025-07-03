@@ -18,21 +18,25 @@ export class Foundation extends Pile {
 
   canAccept(card) {
     if (!card.faceUp) return false;
-    else if (super.isEmpty()) return card.value === "A";
-    else if (
-      card.positionData.parent.startsWith("tableau") &&
-      card.parentElement.childNodes.length > card.position + 2
-    )
-      return false;
     else {
+      if (super.isEmpty() && !this.isCards(card)) return card.value === "A";
+      else if (this.isCards(card)) return false;
       const topCard = super.getTopCard();
-      console.log('topCard:', topCard);
-      
+      console.log("topCard:", topCard);
+
       return card.suit === topCard.suit && card.isPreviousInSequence(topCard);
     }
   }
 
   isComplete() {
     return this.cards.length === 13; // Все карты от A до K
+  }
+
+  isCards(card) {
+    return (
+      card.positionData.parent.startsWith("tableau") &&
+      card.parentElement.childNodes.length - 1 >
+        card.positionData.elementPosition
+    );
   }
 }

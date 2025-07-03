@@ -39,7 +39,7 @@ export class Pile {
 
   getElementPosition() {
     return this.element.childNodes.length
-        ? this.element.childNodes.length - 1
+        ? this.element.childNodes.length
         : 0
   }
 

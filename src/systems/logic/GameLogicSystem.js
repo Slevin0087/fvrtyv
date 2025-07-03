@@ -76,8 +76,8 @@ export class GameLogicSystem {
   }
 
   handleCardClick(card) {
-    console.log('card.positionData:', card.positionData);
-    
+    console.log("card.positionData:", card.positionData);
+
     this.audioManager.play(AudioName.CLICK);
     if (this.winSystem.check()) return;
     this.movementSystem.handleCardClick(card);
@@ -89,7 +89,7 @@ export class GameLogicSystem {
       this.stateManager.state.cardsComponents.foundations[foundationIndex];
     const source = this.movementSystem.getCardSource(card);
 
-    this.stateManager.updateLastMove({
+    this.undoSystem.updateLastMove({
       card,
       from: source,
       to: `foundation-${foundationIndex}`,
@@ -124,7 +124,12 @@ export class GameLogicSystem {
       this.winSystem.handleWin();
     }
 
-    this.movementSystem.openNextCardIfNeeded(source, backStyle, faceStyle);
+    const openCard = this.movementSystem.openNextCardIfNeeded(
+      source,
+      backStyle,
+      faceStyle
+    );
+    card.openCard = openCard;
   }
 
   handleTableauMove(data) {
@@ -134,7 +139,7 @@ export class GameLogicSystem {
       this.stateManager.state.cardsComponents.tableaus[tableauIndex];
     const source = this.movementSystem.getCardSource(card);
 
-    this.stateManager.updateLastMove({
+    this.undoSystem.updateLastMove({
       card,
       from: source,
       to: `tableau-${tableauIndex}`,
@@ -168,7 +173,12 @@ export class GameLogicSystem {
     const faceStyle =
       this.stateManager.state.player.selectedItems.faces.styleClass;
 
-    this.movementSystem.openNextCardIfNeeded(source, backStyle, faceStyle);
+    const openCard = this.movementSystem.openNextCardIfNeeded(
+      source,
+      backStyle,
+      faceStyle
+    );
+    card.openCard = openCard;
   }
 }
 

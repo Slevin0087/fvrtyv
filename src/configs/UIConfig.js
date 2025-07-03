@@ -50,6 +50,11 @@ export const UIConfig = {
     wide: 1200,
   },
 
+  degs: {
+    cardFlip: 90,
+    backCardFlip: -90,
+  },
+
   animations: {
     wasteCardFlip: 0.2,
     startMoveSpeed: 50,

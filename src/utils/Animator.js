@@ -245,10 +245,9 @@ export class Animator {
         // 1. First - сохраняем начальное положение ДО любых изменений
         // Получаем начальные координаты карты
         const initialRect = cardElement.getBoundingClientRect();
-        elementTo.element.append(cardElement);
         const oldOffset = card.positionData.offset;
-
         elementTo.addCard(card);
+        elementTo.element.append(cardElement);
 
         const newOffset = card.positionData.offset;
 
@@ -454,20 +453,20 @@ export class Animator {
     });
   }
 
-  static flipCard(card, onHalfFlip, duration = 1) {
-    console.log("card.flipped:", card.flipped);
-
+  static flipCard(card, onHalfFlip, deg, duration = 1) {
     return new Promise((resolve) => {
       const tl = gsap.timeline({
         onComplete: () => {
           card.flipped = !card.flipped;
+          console.log('card.flipped:', card.flipped);
+          
           resolve();
         },
       });
 
       // Первая половина анимации - поворот на 90 градусов
       tl.to(card.domElement, {
-        rotationY: 90,
+        rotationY: deg,
         duration: duration / 2,
         ease: "power1.out",
         onComplete: () => {

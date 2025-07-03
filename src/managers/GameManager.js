@@ -28,7 +28,8 @@ export class GameManager {
     this.cardsSystem = new CardsSystem(this.eventManager, this.stateManager);
     this.animationSystem = new AnimationSystem(
       this.eventManager,
-      this.stateManager
+      this.stateManager,
+      this.cardsSystem
     );
     this.gameLogicSystem = new GameLogicSystem(
       this.eventManager,

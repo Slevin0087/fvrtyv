@@ -8,7 +8,9 @@ export class Card {
     this.color = this.getColor();
     this.faceUp = false;
     this.flipped = false;
+    this.isUndo = false;
     this.parentElement = null;
+    this.openCard = null;
     this.positionData = {
       parent: null, // 'stock', 'waste', 'tableau-#', 'foundation-#'
       position: null,
@@ -28,6 +30,7 @@ export class Card {
   flip() {
     this.faceUp = !this.faceUp;
     this.flipped = !this.flipped;
+    console.log("this.flipped:", this.flipped);
   }
 
   getSymbol() {

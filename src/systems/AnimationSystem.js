@@ -3,10 +3,11 @@ import { Animator } from "../utils/Animator.js";
 import { UIConfig } from "../configs/UIConfig.js";
 
 export class AnimationSystem {
-  constructor(eventManager, stateManager) {
+  constructor(eventManager, stateManager, cardsSystem) {
     // this.components = {};
     this.eventManager = eventManager;
     this.stateManager = stateManager;
+    this.cardsSystem = cardsSystem;
     this.animationsQueue = [];
     this.isAnimating = false;
     this.cardMoveDuration = UIConfig.animations.cardMoveDuration;
@@ -14,6 +15,8 @@ export class AnimationSystem {
     this.cardFlipDuration = UIConfig.animations.cardFlipDuration;
     this.cardStockFlipDuration = UIConfig.animations.cardStockFlipDuration;
     this.wasteCardFlip = UIConfig.animations.wasteCardFlip;
+    this.degsCardFlip = UIConfig.degs.cardFlip;
+    this.degsBackCardFlip = UIConfig.degs.backCardFlip;
 
     this.init();
   }
@@ -46,9 +49,31 @@ export class AnimationSystem {
     this.eventManager.on(GameEvents.CARD_FLIP, async (params) => {
       console.log("в AnimationSystems CARD_FLIP");
 
-      await this.animateCardFlip(params, this.cardFlipDuration);
+      await this.animateCardFlip(
+        params,
+        this.degsCardFlip,
+        this.cardFlipDuration
+      );
       this.eventManager.emit(GameEvents.AUDIO_CARD_FLIP);
     });
+
+    this.eventManager.on(
+      GameEvents.BACK_CARD_FLIP,
+      async ({ openCard, backStyle, faceStyle }) => {
+        console.log("в AnimationSystems BACK_CARD_FLIP");
+        const params = {
+          card: openCard,
+          backStyle,
+          faceStyle,
+        };
+        await this.animateBackCardFlip(
+          params,
+          this.degsBackCardFlip,
+          this.cardFlipDuration
+        );
+        this.eventManager.emit(GameEvents.AUDIO_CARD_FLIP);
+      }
+    );
 
     this.eventManager.on(
       GameEvents.ANIMATE_CARD_MOVE,
@@ -198,7 +223,7 @@ export class AnimationSystem {
     );
   }
 
-  async animateCardFlip(params, duration) {
+  async animateCardFlip(params, deg, duration) {
     const { card, backStyle, faceStyle } = params;
     console.log("ddddddddddddddddddddddddddddd");
 
@@ -226,6 +251,35 @@ export class AnimationSystem {
           card.domElement.classList.add(faceStyle);
           card.domElement.append(topSymbol, centerSymbol, bottomSymbol);
         },
+        deg,
+        duration
+      );
+      card.isAnimating = false;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
+
+  async animateBackCardFlip(params, deg, duration) {
+    const { card, backStyle, faceStyle } = params;
+    console.log("ddddddddddddddddddddddddddddd");
+
+    if (!card.domElement || card.isAnimating) return;
+
+    card.isAnimating = true;
+    try {
+      await Animator.flipCard(
+        card,
+        () => {
+          // Колбэк на середине анимации (90 градусов)
+          this.cardsSystem.removeHandleCard(card);
+
+          card.domElement.innerHTML = "";
+          card.domElement.classList.remove(faceStyle);
+          faceStyle;
+          card.domElement.classList.add(backStyle);
+        },
+        deg,
         duration
       );
       card.isAnimating = false;

@@ -231,11 +231,13 @@ export class StateManager {
   }
 
   updateLastMove(moveData) {
-    this.state.game.lastMove = moveData;
+    this.state.game.lastMove.push(moveData);
+    console.log('в updateLastMove', this.state.game.lastMove);
+    
   }
 
   resetLastMove() {
-    this.state.game.lastMove = null;
+    this.state.game.lastMove = [];
   }
 
   updateScore(points) {

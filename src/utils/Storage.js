@@ -10,6 +10,7 @@ export class Storage {
       wins: 0,
       losses: 0,
       totalMoves: 0,
+      lastMoveQuantity: 3,
       cardsToFoundation: 0,
       highestScore: 0,
       highestTime: "",
@@ -65,7 +66,7 @@ export class Storage {
       score: 0,
       moves: 0,
       playTime: 0,
-      lastMove: null,
+      lastMove: [],
       minPossibleMoves: 52, // Теоретический минимум для пасьянса
       difficulty: "normal",
       faceDownCards: 28,

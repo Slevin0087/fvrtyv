@@ -28,7 +28,6 @@ export class CardsSystem {
     // );
     // this.eventManager.on(GameEvents.CARD_DRAG_END, () => this.handleDragEnd());
     // this.eventManager.on(GameEvents.CARD_DROP, (target) => this.handleDrop(target));
-    // this.eventManager.on(GameEvents.UNDO_MOVE, () => this.handleUndo());
   }
 
   setCardsContainers() {
@@ -41,7 +40,7 @@ export class CardsSystem {
       foundations: this.foundations,
       tableaus: this.tableaus,
       stock: this.stock,
-      waste: this.stock.waste
+      waste: this.stock.waste,
     });
   }
 
@@ -292,37 +291,5 @@ export class CardsSystem {
     return targets;
   }
 
-  parseTargetId(targetId) {
-    const [type, index] = targetId.split("-");
-    return [type, parseInt(index)];
-  }
 
-  handleUndo() {
-    console.log("в handleUndo:", this.stateManager.state.game.lastMove);
-
-    if (!this.stateManager.state.game.lastMove) return;
-
-    const { card, from, to } = this.stateManager.state.game.lastMove;
-    // this.eventManager.emit("ui:animate:undo", { card, from, to }, () => {
-    this.reverseMove(card, from, to);
-    // });
-  }
-
-  reverseMove(card, from, to) {
-    const [fromType, fromIndex] = this.parseTargetId(from);
-
-    if (fromType === "tableau") {
-      this.eventManager.emit(GameEvents.CARD_TO_TABLEAU, {
-        card,
-        tableauIndex: fromIndex,
-      });
-    } else if (fromType === "foundation") {
-      this.eventManager.emit(GameEvents.CARD_TO_FOUNDATION, {
-        card,
-        foundationIndex: fromIndex,
-      });
-    } else if (fromType === "waste") {
-      this.eventManager.emit("card:to:waste", { card });
-    }
-  }
 }
