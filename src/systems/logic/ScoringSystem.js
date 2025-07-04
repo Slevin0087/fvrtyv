@@ -1,6 +1,15 @@
+import { GameEvents } from "../../utils/Constants.js";
+
 export class ScoringSystem {
-  constructor(stateManager) {
+  constructor(eventManager, stateManager) {
+    this.eventManager = eventManager
     this.stateManager = stateManager;
+
+    this.setupEventListeners();
+  }
+
+  setupEventListeners() {
+    this.eventManager.on(GameEvents.ADD_POINTS, (points) => this.addPoints(points));
   }
 
   calculatePoints(score) {

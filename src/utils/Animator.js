@@ -234,6 +234,14 @@ export class Animator {
     duration = 300
   ) {
     return new Promise((resolve, reject) => {
+      console.log(
+        "card, source, elementFrom, elementTo:",
+        card,
+        source,
+        elementFrom,
+        elementTo
+      );
+
       const removedCards = movementSystem.removeCardFromSource(
         card,
         source,
@@ -400,7 +408,7 @@ export class Animator {
   //   });
   // }
 
-  static animateCardToWaste(card, stock, duration = 50) {
+  static animateCardToWaste(card, toElement, duration = 50) {
     return new Promise((resolve, reject) => {
       const cardElement = card.domElement;
 
@@ -408,7 +416,7 @@ export class Animator {
       // Получаем начальные координаты карты
       const initialRect = cardElement.getBoundingClientRect();
 
-      stock.waste.element.append(cardElement);
+      toElement.append(cardElement);
       const offset = card.positionData.offset;
       console.log("offset в animateCardToWaste:", offset);
 
@@ -458,8 +466,6 @@ export class Animator {
       const tl = gsap.timeline({
         onComplete: () => {
           card.flipped = !card.flipped;
-          console.log('card.flipped:', card.flipped);
-          
           resolve();
         },
       });
@@ -560,11 +566,6 @@ export class Animator {
     document.body.appendChild(pointsElement);
     // void pointsElement.offsetWidth; // Триггер перерасчёта стилей
 
-    // // 3. Удаление с задержкой
-    // setTimeout(() => {
-    //   pointsElement.style.opacity = "0"; // Плавное исчезновение
-    //   setTimeout(() => pointsElement.remove(), 300);
-    // }, 1200);
     // Анимация через GSAP
     gsap.fromTo(
       pointsElement,

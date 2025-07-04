@@ -1,10 +1,13 @@
 import { GameEvents, AudioName } from "../../utils/Constants.js";
+import { UIConfig } from "../../configs/UIConfig.js";
+import { GameConfig } from "../../configs/GameConfig.js";
 
 export class UndoSystem {
   constructor(eventManager, stateManager, audioManager) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
     this.audioManager = audioManager;
+    this.cardContainers = GameConfig.cardContainers;
 
     this.init();
   }
@@ -25,40 +28,72 @@ export class UndoSystem {
       return;
     }
     // const lastMoveLength = this.stateManager.state.game.lastMove.length
-    const { card, from, to } = this.stateManager.state.game.lastMove.pop();
+    const { card, from, to, elementFrom, movementSystem } =
+      this.stateManager.state.game.lastMove.pop();
+    const backStyle =
+      this.stateManager.state.player.selectedItems.backs.styleClass;
+    const faceStyle =
+      this.stateManager.state.player.selectedItems.faces.styleClass;
     if (card.openCard) {
       const openCard = card.openCard;
-      const backStyle =
-        this.stateManager.state.player.selectedItems.backs.styleClass;
-      const faceStyle =
-        this.stateManager.state.player.selectedItems.faces.styleClass;
-      this.eventManager.emit(GameEvents.BACK_CARD_FLIP, {
+      const score = GameConfig.rules.scoreForCardFlip;
+      this.eventManager.emit(
+        GameEvents.BACK_CARD_FLIP,
         openCard,
         backStyle,
-        faceStyle,
+        faceStyle
+      );
+      new Promise((resolve) => {
+        setTimeout(() => {
+          this.eventManager.emit(
+            GameEvents.UI_ANIMATION_POINTS_EARNED,
+            openCard,
+            score
+          );
+          this.eventManager.emit(GameEvents.ADD_POINTS, -score);
+          card.openCard = null;
+        }, UIConfig.animations.cardFlipDuration * 1000);
+        resolve();
       });
-      card.openCard.faceUp = false;
-      card.openCard = null;
-      
     }
-    this.reverseMove(card, from, to);
+    this.reverseMove({
+      card,
+      from,
+      to,
+      backStyle,
+      faceStyle,
+    });
   }
 
-  reverseMove(card, from, to) {
+  reverseMove({ card, from, to, backStyle, faceStyle }) {
     const [fromType, fromIndex] = this.parseTargetId(from);
+    const gameComponents = this.stateManager.state.cardsComponents;
 
-    if (fromType === "tableau") {
-      this.eventManager.emit(GameEvents.CARD_TO_TABLEAU, {
+    if (fromType === this.cardContainers.tableau) {
+      const toContainer = gameComponents.tableaus[fromIndex];
+      this.eventManager.emit(GameEvents.CARD_MOVE, {
         card,
-        tableauIndex: fromIndex,
+        i: fromIndex,
+        toContainer,
+        nameToContainer: fromType,
       });
-    } else if (fromType === "foundation") {
-      this.eventManager.emit(GameEvents.CARD_TO_FOUNDATION, {
+    } else if (fromType === this.cardContainers.foundation) {
+      const toContainer = gameComponents.foundations[fromIndex];
+      this.eventManager.emit(GameEvents.CARD_MOVE, {
         card,
-        foundationIndex: fromIndex,
+        i: fromIndex,
+        toContainer,
+        nameToContainer: fromType,
       });
     } else if (fromType === "waste") {
-      this.eventManager.emit("card:to:waste", { card });
+      const toElement = this.stateManager.state.cardsComponents.waste;
+      this.eventManager.emit(
+        GameEvents.ANIMATE_CARD_WASTE_STOCK,
+        card,
+        toElement.element,
+        backStyle,
+        faceStyle
+      );
     }
     card.isUndo = !card.isUndo;
   }
@@ -69,6 +104,8 @@ export class UndoSystem {
     if (this.isLastMove()) {
       console.log("в if (this.isLastMove())");
       card.isUndo = !card.isUndo;
+      console.log("card.isUndo:", card.isUndo);
+
       this.stateManager.updateLastMove(params);
       return;
     }

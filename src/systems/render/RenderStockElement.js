@@ -70,12 +70,13 @@ export class RenderStockElement {
         this.stateManager.state.player.selectedItems.backs.styleClass;
       const faceStyle =
         this.stateManager.state.player.selectedItems.faces.styleClass;
-      this.eventManager.emit(GameEvents.ANIMATE_CARD_TO_WASTE, {
+      this.eventManager.emit(
+        GameEvents.ANIMATE_CARD_TO_WASTE,
         card,
-        stock,
+        stock.waste.element,
         backStyle,
-        faceStyle,
-      });
+        faceStyle
+      );
       this.eventManager.emit(GameEvents.AUDIO_CARD_FLIP);
       this.cardsSystem.removeHandleCard(card);
       this.cardsSystem.handleCard(card);

@@ -101,7 +101,7 @@ export class MoveCardToFoundation {
     }
   }
 
-  openNextCardIfNeeded(source, backStyle, faceStyle) {
+  openNextCardIfNeeded(source, cb, backStyle, faceStyle) {
     if (!source.startsWith("tableau")) return;
 
     const index = parseInt(source.split("-")[1]);
@@ -115,9 +115,9 @@ export class MoveCardToFoundation {
         backStyle,
         faceStyle,
       });
-      // const score = GameConfig.rules.scoreForCardFlip;
+      const score = GameConfig.rules.scoreForCardFlip;
       this.stateManager.incrementStat("cardsFlipped");
-      // this.stateManager.updateScore(this.calculatePoints(score));
+      cb(score);
       this.eventManager.emit(GameEvents.AUDIO_CARD_FLIP);
       // this.eventManager.emit(
       //   GameEvents.UI_ANIMATION_POINTS_EARNED,

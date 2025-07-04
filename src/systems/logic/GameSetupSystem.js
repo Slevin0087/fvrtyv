@@ -77,11 +77,12 @@ export class GameSetupSystem {
       const { backStyle, faceStyle } = this.getCardStyles();
       return new Promise((resolve) => {
         setTimeout(() => {
-          this.eventManager.emit(GameEvents.CARD_FLIP, {
+          this.eventManager.emit(
+            GameEvents.CARD_FLIP,
             card,
             backStyle,
-            faceStyle,
-          });
+            faceStyle
+          );
         }, 500);
         resolve();
       });

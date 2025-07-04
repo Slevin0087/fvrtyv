@@ -7,6 +7,7 @@ import { WinConditionSystem } from "./WinConditionSystem.js";
 import { HintSystem } from "./HintSystem.js";
 import { UndoSystem } from "./UndoSystem.js";
 import { AudioName } from "../../utils/Constants.js";
+import { UIConfig } from "../../configs/UIConfig.js";
 
 export class GameLogicSystem {
   constructor(eventManager, stateManager, audioManager) {
@@ -28,7 +29,10 @@ export class GameLogicSystem {
       this.stateManager,
       this.audioManager
     );
-    this.scoringSystem = new ScoringSystem(this.stateManager);
+    this.scoringSystem = new ScoringSystem(
+      this.eventManager,
+      this.stateManager
+    );
     this.winSystem = new WinConditionSystem(
       this.eventManager,
       this.stateManager,
@@ -55,13 +59,13 @@ export class GameLogicSystem {
       this.handleCardClick(card);
     });
 
-    this.eventManager.on(GameEvents.CARD_TO_FOUNDATION, (data) => {
-      this.handleFoundationMove(data);
+    this.eventManager.on(GameEvents.CARD_MOVE, (data) => {
+      this.handleCardMove(data);
     });
 
-    this.eventManager.on(GameEvents.CARD_TO_TABLEAU, (data) =>
-      this.handleTableauMove(data)
-    );
+    // this.eventManager.on(GameEvents.CARD_TO_TABLEAU, (data) =>
+    //   this.handleCardMove(data)
+    // );
 
     this.eventManager.on("hint:request", () => this.hintSystem.provide());
     this.eventManager.on("game:undo", () => this.undoSystem.execute());
@@ -76,46 +80,45 @@ export class GameLogicSystem {
   }
 
   handleCardClick(card) {
-    console.log("card.positionData:", card.positionData);
-
     this.audioManager.play(AudioName.CLICK);
     if (this.winSystem.check()) return;
     this.movementSystem.handleCardClick(card);
   }
 
-  handleFoundationMove(data) {
-    const { card, foundationIndex } = data;
-    const foundationTo =
-      this.stateManager.state.cardsComponents.foundations[foundationIndex];
+  handleCardMove({ card, toContainerIndex, toContainer, nameToContainer }) {
     const source = this.movementSystem.getCardSource(card);
 
+    const elementFrom = this.movementSystem.getElementFrom(source);
     this.undoSystem.updateLastMove({
       card,
       from: source,
-      to: `foundation-${foundationIndex}`,
+      to: `${nameToContainer}-${toContainerIndex}`,
     });
-
-    const elementFrom = this.movementSystem.getElementFrom(source);
 
     this.eventManager.emit(
       GameEvents.ANIMATE_CARD_MOVE,
       card,
       source,
       elementFrom,
-      foundationTo,
+      toContainer,
       this.movementSystem
     );
 
-    // const removedCards = this.movementSystem.removeCardFromSource(
-    //   card,
-    //   source,
-    //   elementFrom
-    // );
+    if (nameToContainer === GameConfig.cardContainers.foundation) {
+      new Promise((resolve) => {
+        setTimeout(() => {
+          const score = GameConfig.rules.scoreForFoundation;
 
-    // foundationTo.addCard(removedCards);
-    // ... остальная логика перемещения
-
-    this.scoringSystem.addPoints(GameConfig.rules.scoreForFoundation);
+          this.eventManager.emit(
+            GameEvents.UI_ANIMATION_POINTS_EARNED,
+            card,
+            score
+          );
+          this.scoringSystem.addPoints(score);
+        }, UIConfig.animations.cardMoveDuration);
+        resolve();
+      });
+    }
     const backStyle =
       this.stateManager.state.player.selectedItems.backs.styleClass;
     const faceStyle =
@@ -129,57 +132,60 @@ export class GameLogicSystem {
       backStyle,
       faceStyle
     );
+    console.log("openCard:", openCard);
+
     card.openCard = openCard;
+    if (openCard) {
+      console.log("openCard:", openCard);
+
+      const score = GameConfig.rules.scoreForCardFlip;
+      new Promise((resolve) => {
+        setTimeout(() => {
+          this.eventManager.emit(
+            GameEvents.UI_ANIMATION_POINTS_EARNED,
+            openCard,
+            score
+          );
+          this.scoringSystem.addPoints(score);
+        }, UIConfig.animations.cardFlipDuration * 1000);
+        resolve();
+      });
+    }
   }
 
-  handleTableauMove(data) {
-    // ... аналогично handleFoundationMove
-    const { card, tableauIndex } = data;
-    const tableauTo =
-      this.stateManager.state.cardsComponents.tableaus[tableauIndex];
-    const source = this.movementSystem.getCardSource(card);
+  // handleTableauMove({ card, toContainerIndex, toContainer, nameToContainer }) {
+  //   const source = this.movementSystem.getCardSource(card);
 
-    this.undoSystem.updateLastMove({
-      card,
-      from: source,
-      to: `tableau-${tableauIndex}`,
-    });
+  //   this.undoSystem.updateLastMove({
+  //     card,
+  //     from: source,
+  //     to: `${nameToContainer}-${toContainerIndex}`,
+  //   });
 
-    const elementFrom = this.movementSystem.getElementFrom(source);
+  //   const elementFrom = this.movementSystem.getElementFrom(source);
 
-    this.eventManager.emit(
-      GameEvents.ANIMATE_CARD_MOVE,
-      card,
-      source,
-      elementFrom,
-      tableauTo,
-      this.movementSystem
-    );
+  //   this.eventManager.emit(
+  //     GameEvents.ANIMATE_CARD_MOVE,
+  //     card,
+  //     source,
+  //     elementFrom,
+  //     toContainer,
+  //     this.movementSystem
+  //   );
 
-    // const removedCards = this.movementSystem.removeCardFromSource(
-    //   card,
-    //   source,
-    //   elementFrom
-    // );
+  //   this.scoringSystem.addPoints(GameConfig.rules.scoreForTableauMove);
+  //   const backStyle =
+  //     this.stateManager.state.player.selectedItems.backs.styleClass;
+  //   const faceStyle =
+  //     this.stateManager.state.player.selectedItems.faces.styleClass;
 
-    // removedCards.length > 1
-    //   ? tableauTo.addCards(removedCards)
-    //   : tableauTo.addCard(card);
-    // ... остальная логика перемещения
-
-    this.scoringSystem.addPoints(GameConfig.rules.scoreForFoundation);
-    const backStyle =
-      this.stateManager.state.player.selectedItems.backs.styleClass;
-    const faceStyle =
-      this.stateManager.state.player.selectedItems.faces.styleClass;
-
-    const openCard = this.movementSystem.openNextCardIfNeeded(
-      source,
-      backStyle,
-      faceStyle
-    );
-    card.openCard = openCard;
-  }
+  //   const openCard = this.movementSystem.openNextCardIfNeeded(
+  //     source,
+  //     backStyle,
+  //     faceStyle
+  //   );
+  //   card.openCard = openCard;
+  // }
 }
 
 // import { GameEvents, AudioName } from "../utils/Constants.js";

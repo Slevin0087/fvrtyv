@@ -37,4 +37,11 @@ export const GameConfig = {
     cardBackStyle: "blue",
     backgroundStyle: "default",
   },
+
+  cardContainers: {
+    tableau: "tableau",
+    foundation: "foundation",
+    waste: "waste",
+    stock: "stock",
+  },
 };

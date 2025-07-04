@@ -1,10 +1,12 @@
 import { GameEvents } from "../../utils/Constants.js";
+import { GameConfig } from "../../configs/GameConfig.js";
 
 export class CardMovementSystem {
   constructor(eventManager, stateManager, audioManager) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
     this.audioManager = audioManager;
+    this.cardContainers = GameConfig.cardContainers;
   }
 
   handleCardClick(card) {
@@ -14,9 +16,13 @@ export class CardMovementSystem {
     // Проверка foundation
     for (let i = 0; i < gameComponents.foundations.length; i++) {
       if (gameComponents.foundations[i].canAccept(card)) {
-        this.eventManager.emit(GameEvents.CARD_TO_FOUNDATION, {
+        const toContainer = gameComponents.foundations[i];
+        const nameToContainer = this.cardContainers.foundation;
+        this.eventManager.emit(GameEvents.CARD_MOVE, {
           card,
-          foundationIndex: i,
+          i,
+          toContainer,
+          nameToContainer,
         });
         return;
       }
@@ -25,9 +31,13 @@ export class CardMovementSystem {
     // Проверка tableau
     for (let i = 0; i < gameComponents.tableaus.length; i++) {
       if (gameComponents.tableaus[i].canAccept(card)) {
-        this.eventManager.emit(GameEvents.CARD_TO_TABLEAU, {
+        const toContainer = gameComponents.tableaus[i];
+        const nameToContainer = this.cardContainers.tableau;
+        this.eventManager.emit(GameEvents.CARD_MOVE, {
           card,
-          tableauIndex: i,
+          i,
+          toContainer,
+          nameToContainer,
         });
         return;
       }
@@ -37,22 +47,24 @@ export class CardMovementSystem {
   }
 
   getCardSource(card) {
-    if (card.positionData.parent.includes("tableau")) {
-      return `tableau-${card.positionData.index}`;
-    } else if (card.positionData.parent.includes("foundation")) {
-      return `foundation-${card.positionData.index}`;
+    if (card.positionData.parent.includes(this.cardContainers.tableau)) {
+      return `${this.cardContainers.tableau}-${card.positionData.index}`;
+    } else if (
+      card.positionData.parent.includes(this.cardContainers.foundation)
+    ) {
+      return `${this.cardContainers.foundation}-${card.positionData.index}`;
     }
-    return "waste";
+    return this.cardContainers.waste;
   }
 
   getElementFrom(source) {
-    if (source.startsWith("tableau")) {
+    if (source.startsWith(this.cardContainers.tableau)) {
       const index = parseInt(source.split("-")[1]);
       return this.stateManager.state.cardsComponents.tableaus[index];
-    } else if (source.startsWith("foundation")) {
+    } else if (source.startsWith(this.cardContainers.foundation)) {
       const index = parseInt(source.split("-")[1]);
       return this.stateManager.state.cardsComponents.foundations[index];
-    } else if (source === "waste") {
+    } else if (source === this.cardContainers.waste) {
       // this.stateManager.state.cardsComponents.waste.removeCurrentCard(card);
       // this.stateManager.state.cardsComponents.stock.removeCurrentCard(card);
       return this.stateManager.state.cardsComponents.waste;
@@ -61,18 +73,17 @@ export class CardMovementSystem {
 
   removeCardFromSource(card, source, elementFrom) {
     // ... реализация аналогична оригиналу
-    if (source.startsWith("tableau")) {
+    if (source.startsWith(this.cardContainers.tableau)) {
       return elementFrom.removeCardsFrom(card);
-    } else if (source.startsWith("foundation")) {
+    } else if (source.startsWith(this.cardContainers.foundation)) {
       return [elementFrom.removeTopCard()];
-    } else if (source === "waste") {
+    } else if (source === this.cardContainers.waste) {
       return [elementFrom.removeTopCard(card)];
     }
   }
 
   openNextCardIfNeeded(source, backStyle, faceStyle) {
-    // ... реализация аналогична оригиналу
-    if (!source.startsWith("tableau")) return null;
+    if (!source.startsWith(this.cardContainers.tableau)) return null;
 
     const index = parseInt(source.split("-")[1]);
 
@@ -80,20 +91,10 @@ export class CardMovementSystem {
     const card = tableau.getTopCard();
     if (card && !card.faceUp) {
       card.flip();
-      this.eventManager.emit(GameEvents.CARD_FLIP, {
-        card,
-        backStyle,
-        faceStyle,
-      });
-      // const score = GameConfig.rules.scoreForCardFlip;
+      this.eventManager.emit(GameEvents.CARD_FLIP, card, backStyle, faceStyle);
       this.stateManager.incrementStat("cardsFlipped");
-      // this.stateManager.updateScore(this.calculatePoints(score));
       this.eventManager.emit(GameEvents.AUDIO_CARD_FLIP);
-      // this.eventManager.emit(
-      //   GameEvents.UI_ANIMATION_POINTS_EARNED,
-      //   card,
-      //   score
-      // );
+
       return card;
     }
   }
