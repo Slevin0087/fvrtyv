@@ -13,6 +13,7 @@ export class CardsSystem {
     // this.waste = waste;
     this.dragState = null;
     this.selectedCard = null;
+    this.faceDownCards = [];
 
     this.init();
   }
@@ -23,6 +24,13 @@ export class CardsSystem {
   }
 
   setupEventListeners() {
+    this.eventManager.on(GameEvents.IS_FACE_DOWN_CARD, (card) =>
+      this.isFaceDownCard(card)
+    );
+
+    this.eventManager.on(GameEvents.UP_FACE_DOWN_CARD, (card) =>
+      this.updateFaceDownCard(card)
+    );
     // this.eventManager.on(GameEvents.CARD_CLICK, (card) => this.handleCardClick(card));
     // this.eventManager.on(GameEvents.CARD_DRAG_START, (card, element) =>
     //   this.handleDragStart(card, element)
@@ -96,11 +104,11 @@ export class CardsSystem {
         tableau.element,
         position
       );
-      tableau.addCard(card);
+      // tableau.addCard(card);
 
       if (shouldFaceUp) {
         await this.flipCard(card);
-      }
+      } else if (!shouldFaceUp) this.updateFaceDownCard(card);
       this.removeHandleCard(card);
       this.handleCard(card);
     } catch (error) {
@@ -288,5 +296,22 @@ export class CardsSystem {
     });
 
     return targets;
+  }
+
+  isFaceDownCard(card) {
+    if (this.faceDownCards.length > 0) {
+      const newC = this.faceDownCards.filter(
+        (cardFaceDoun) => cardFaceDoun !== card
+      );
+      this.faceDownCards = newC;
+    } else if (this.faceDownCards.length <= 0) {
+      // alert('Все карты открылись');
+      this.eventManager.emit(GameEvents.COLLECT_BTN_SHOW);
+      // document.getElementById('blinking-text').classList.remove('hidden');
+    }
+  }
+
+  updateFaceDownCard(card) {
+    this.faceDownCards.push(card);
   }
 }

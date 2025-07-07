@@ -48,6 +48,10 @@ export class UIGamePage extends UIPage {
       this.updateScore(score)
     );
 
+    this.eventManager.on(GameEvents.COLLECT_BTN_SHOW, () =>
+      this.elements.collectBtn.classList.remove('hidden')
+    );
+
     this.eventManager.on(GameEvents.TIME_UPDATE, (time) => {
       this.updateTime(time);
     });
@@ -80,8 +84,8 @@ export class UIGamePage extends UIPage {
   }
 
   updateMoves(n) {
-    console.log('в updateMoves:', n);
-    
+    console.log("в updateMoves:", n);
+
     this.elements.movesEl.textContent = `👣: ${n}`;
   }
 

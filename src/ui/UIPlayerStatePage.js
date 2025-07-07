@@ -39,6 +39,10 @@ export class UIPlayerStatePage extends UIPage {
         <td class="right-td"></td>
       </tr>
       <tr>
+        <td class="left-td">Ходы:</td>
+        <td class="right-td"></td>
+      </tr>
+      <tr>
         <td class="left-td">Достижение:</td>
         <td class="right-td">${statePlayer.achievements.active.icon}</td>
       </tr>`;

@@ -159,6 +159,7 @@ export class GameLogicSystem {
             this.addition
           );
           this.scoringSystem.addPoints(score);
+          this.eventManager.emit(GameEvents.IS_FACE_DOWN_CARD, openCard);
         }, UIConfig.animations.cardFlipDuration * 1000);
         resolve();
       });

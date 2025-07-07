@@ -89,6 +89,9 @@ export const GameEvents = {
   UI_NOTIFICATION: "ui:notification",
   SHOP_ITEM_PURCHASE: "shop:item:purchase",
   GET_CARD_STYLES: "get:card:styles",
+  COLLECT_BTN_SHOW: "collect:btn:show",
+  IS_FACE_DOWN_CARD: "is:face:down:card",
+  UP_FACE_DOWN_CARD: "up:face:down:card",
 };
 
 export const AnimationDurations = {
@@ -110,7 +113,7 @@ export const AnimationDegs = {
 export const AnimationOperators = {
   ADDITION: "+",
   SUBTRACTION: "-",
-}
+};
 
 export const AudioName = {
   BACKGROUND: "background",

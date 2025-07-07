@@ -30,7 +30,6 @@ export class UIManager {
   registerPages() {
     // Автоматическая регистрация всех страниц
     this.registerPage(UIConfig.pages.UINamePage, UINamePage);
-
     this.registerPage(UIConfig.pages.UIMenuPage, UIMenuPage);
     this.registerPage(UIConfig.pages.UIGamePage, UIGamePage);
     this.registerPage(UIConfig.pages.UISettingsPage, UISettingsPage);
@@ -69,10 +68,6 @@ export class UIManager {
 
     this.eventManager.on(GameEvents.UI_NAME_HIDE, () => {
       this.pageShow(UIConfig.pages.UIMenuPage);
-      // this.eventManager.emit(
-      //   GameEvents.SET_ACTIV_PAGE,
-      //   this.components.uiMenuPage
-      // );
     });
 
     this.eventManager.on(GameEvents.UIMENUPAGE_SHOW, () => {
@@ -85,26 +80,14 @@ export class UIManager {
 
     this.eventManager.on(GameEvents.UI_SHOP_SHOW, () => {
       this.pageShow(UIConfig.pages.UIShopPage);
-      // this.eventManager.emit(
-      //   GameEvents.SET_ACTIV_PAGE,
-      //   this.components.uiShopPage
-      // );
     });
 
     this.eventManager.on(GameEvents.UI_STATEPLAYER_SHOW, () => {
       this.pageShow(UIConfig.pages.UIPlayerStatePage);
-      // this.eventManager.emit(
-      //   GameEvents.SET_ACTIV_PAGE,
-      //   this.components.uiPlayerStatePage
-      // );
     });
 
     this.eventManager.on(GameEvents.UI_SETTINGS_SHOW, () => {
       this.pageShow(UIConfig.pages.UISettingsPage);
-      // this.eventManager.emit(
-      //   GameEvents.SET_ACTIV_PAGE,
-      //   this.components.uiSettingsPage
-      // );
     });
 
     this.eventManager.on(GameEvents.SET_NEW_GAME, () => {

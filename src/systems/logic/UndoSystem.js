@@ -48,6 +48,7 @@ export class UndoSystem {
             this.subtraction
           );
           this.eventManager.emit(GameEvents.ADD_POINTS, -score);
+          this.eventManager.emit(GameEvents.UP_FACE_DOWN_CARD, openCard);
           card.openCard = null;
         }, UIConfig.animations.cardFlipDuration * 1000);
         resolve();
