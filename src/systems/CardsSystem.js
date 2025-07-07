@@ -2,6 +2,7 @@ import { Deck } from "../core/Deck.js";
 import { Foundation } from "../core/Foundation.js";
 import { Tableau } from "../core/Tableau.js";
 import { Stock } from "../core/Stock.js";
+import { Waste } from "../core/Waste.js";
 import { GameEvents } from "../utils/Constants.js";
 import { Animator } from "../utils/Animator.js";
 
@@ -35,12 +36,13 @@ export class CardsSystem {
     this.foundations = Array.from({ length: 4 }, (_, i) => new Foundation(i));
     this.tableaus = Array.from({ length: 7 }, (_, i) => new Tableau(i));
     this.stock = new Stock();
+    this.waste = new Waste();
     this.eventManager.emit(GameEvents.SET_CARDS_COMPONENTS, {
       deck: this.deck,
       foundations: this.foundations,
       tableaus: this.tableaus,
       stock: this.stock,
-      waste: this.stock.waste,
+      waste: this.waste,
     });
   }
 
@@ -126,13 +128,10 @@ export class CardsSystem {
 
   async flipCard(card) {
     try {
-      const { backStyle, faceStyle } = this.getCardStyles();
       return new Promise((resolve) => {
         setTimeout(() => {
           this.eventManager.emit(GameEvents.CARD_FLIP, {
             card,
-            backStyle,
-            faceStyle,
           });
         }, 500);
         resolve();
@@ -290,6 +289,4 @@ export class CardsSystem {
 
     return targets;
   }
-
-
 }

@@ -112,12 +112,12 @@ export class RenderingSystem {
     this.components.renderStaticElements.render(foundations, tableaus);
   }
 
-  renderStockElement(stock) {
-    if (!stock) {
-      console.error("Invalid stock");
+  renderStockElement(stock, waste) {
+    if (!stock || !waste) {
+      console.error("Invalid stock || waste");
       return;
     }
-    this.components.renderStockElement.render(stock);
+    this.components.renderStockElement.render(stock, waste);
   }
 
   renderCards() {
@@ -204,18 +204,11 @@ export class RenderingSystem {
       console.log("WWWWWWWWWWWWWWWWWWWWWWW wasteCard:", wasteCard);
 
       if (wasteCard) {
-        const backClass =
-          this.stateManager.state.player.selectedItems.backs.styleClass;
-        const faceClass =
-          this.stateManager.state.player.selectedItems.faces.styleClass;
         this.eventManager.emit(
           GameEvents.ANIMATE_CARD_TO_WASTE,
           wasteCard,
-          stock,
-          backClass,
-          faceClass
+          stock
         );
-        this.eventManager.emit(GameEvents.AUDIO_CARD_FLIP);
       }
     });
   }
@@ -372,10 +365,12 @@ export class RenderingSystem {
   }
 
   updateStockCardPosition(card) {
-    const offset = card.positionData.offset;
+    const offsetX = card.positionData.offsetX;
+    const offsetY = card.positionData.offsetY;
+
     const zIndex = card.positionData.zIndex;
     card.domElement.style.transition = `transform 300ms linear`;
-    card.domElement.style.transform = `translateX(${-offset}px) translateY(${-offset}px)`;
+    card.domElement.style.transform = `translateX(${-offsetX}px) translateY(${-offsetY}px)`;
     card.domElement.style.zIndex = zIndex;
   }
 

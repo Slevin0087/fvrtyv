@@ -1,4 +1,4 @@
-import { GameEvents } from "../../utils/Constants.js";
+import { GameEvents, AudioName } from "../../utils/Constants.js";
 import { GameConfig } from "../../configs/GameConfig.js";
 
 export class CardMovementSystem {
@@ -16,13 +16,14 @@ export class CardMovementSystem {
     // Проверка foundation
     for (let i = 0; i < gameComponents.foundations.length; i++) {
       if (gameComponents.foundations[i].canAccept(card)) {
-        const toContainer = gameComponents.foundations[i];
-        const nameToContainer = this.cardContainers.foundation;
+        this.audioManager.play(AudioName.CLICK);
+        const containerTo = gameComponents.foundations[i];
+        const containerToName = this.cardContainers.foundation;
         this.eventManager.emit(GameEvents.CARD_MOVE, {
           card,
-          i,
-          toContainer,
-          nameToContainer,
+          containerToIndex: i,
+          containerTo,
+          containerToName,
         });
         return;
       }
@@ -31,13 +32,14 @@ export class CardMovementSystem {
     // Проверка tableau
     for (let i = 0; i < gameComponents.tableaus.length; i++) {
       if (gameComponents.tableaus[i].canAccept(card)) {
-        const toContainer = gameComponents.tableaus[i];
-        const nameToContainer = this.cardContainers.tableau;
+        this.audioManager.play(AudioName.CLICK);
+        const containerTo = gameComponents.tableaus[i];
+        const containerToName = this.cardContainers.tableau;
         this.eventManager.emit(GameEvents.CARD_MOVE, {
           card,
-          i,
-          toContainer,
-          nameToContainer,
+          containerToIndex: i,
+          containerTo,
+          containerToName,
         });
         return;
       }
@@ -53,6 +55,8 @@ export class CardMovementSystem {
       card.positionData.parent.includes(this.cardContainers.foundation)
     ) {
       return `${this.cardContainers.foundation}-${card.positionData.index}`;
+    } else if (card.positionData.parent.includes(this.cardContainers.stock)) {
+      return `${this.cardContainers.stock}-${card.positionData.index}`;
     }
     return this.cardContainers.waste;
   }
@@ -64,7 +68,9 @@ export class CardMovementSystem {
     } else if (source.startsWith(this.cardContainers.foundation)) {
       const index = parseInt(source.split("-")[1]);
       return this.stateManager.state.cardsComponents.foundations[index];
-    } else if (source === this.cardContainers.waste) {
+    } else if (source.startsWith(this.cardContainers.stock)) {
+      return this.stateManager.state.cardsComponents.stock;
+    } else if (source.startsWith(this.cardContainers.waste)) {
       // this.stateManager.state.cardsComponents.waste.removeCurrentCard(card);
       // this.stateManager.state.cardsComponents.stock.removeCurrentCard(card);
       return this.stateManager.state.cardsComponents.waste;
@@ -77,12 +83,14 @@ export class CardMovementSystem {
       return elementFrom.removeCardsFrom(card);
     } else if (source.startsWith(this.cardContainers.foundation)) {
       return [elementFrom.removeTopCard()];
-    } else if (source === this.cardContainers.waste) {
+    } else if (source.startsWith(this.cardContainers.stock)) {
+      return [elementFrom.removeTopCard(card)];
+    } else if (source.startsWith(this.cardContainers.waste)) {
       return [elementFrom.removeTopCard(card)];
     }
   }
 
-  openNextCardIfNeeded(source, backStyle, faceStyle) {
+  openNextCardIfNeeded(source) {
     if (!source.startsWith(this.cardContainers.tableau)) return null;
 
     const index = parseInt(source.split("-")[1]);
@@ -91,10 +99,8 @@ export class CardMovementSystem {
     const card = tableau.getTopCard();
     if (card && !card.faceUp) {
       card.flip();
-      this.eventManager.emit(GameEvents.CARD_FLIP, card, backStyle, faceStyle);
+      this.eventManager.emit(GameEvents.CARD_FLIP, card);
       this.stateManager.incrementStat("cardsFlipped");
-      this.eventManager.emit(GameEvents.AUDIO_CARD_FLIP);
-
       return card;
     }
   }

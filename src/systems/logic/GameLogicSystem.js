@@ -1,4 +1,4 @@
-import { GameEvents } from "../../utils/Constants.js";
+import { GameEvents, AnimationOperators } from "../../utils/Constants.js";
 import { GameConfig } from "../../configs/GameConfig.js";
 import { GameSetupSystem } from "./GameSetupSystem.js";
 import { CardMovementSystem } from "./CardMovementSystem.js";
@@ -14,7 +14,9 @@ export class GameLogicSystem {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
     this.audioManager = audioManager;
-
+    this.addition = AnimationOperators.ADDITION;
+    this.subtraction = AnimationOperators.SUBTRACTION;
+    this.numberMoves = GameConfig.rules.initialMove;
     this.setupSystems();
     this.setupEventListeners();
   }
@@ -59,8 +61,8 @@ export class GameLogicSystem {
       this.handleCardClick(card);
     });
 
-    this.eventManager.on(GameEvents.CARD_MOVE, (data) => {
-      this.handleCardMove(data);
+    this.eventManager.on(GameEvents.CARD_MOVE, async (data) => {
+      await this.handleCardMove(data);
     });
 
     // this.eventManager.on(GameEvents.CARD_TO_TABLEAU, (data) =>
@@ -80,19 +82,22 @@ export class GameLogicSystem {
   }
 
   handleCardClick(card) {
-    this.audioManager.play(AudioName.CLICK);
     if (this.winSystem.check()) return;
     this.movementSystem.handleCardClick(card);
   }
 
-  handleCardMove({ card, toContainerIndex, toContainer, nameToContainer }) {
+  async handleCardMove({
+    card,
+    containerToIndex,
+    containerTo,
+    containerToName,
+  }) {
     const source = this.movementSystem.getCardSource(card);
-
     const elementFrom = this.movementSystem.getElementFrom(source);
     this.undoSystem.updateLastMove({
       card,
       from: source,
-      to: `${nameToContainer}-${toContainerIndex}`,
+      to: `${containerToName}-${containerToIndex}`,
     });
 
     this.eventManager.emit(
@@ -100,51 +105,58 @@ export class GameLogicSystem {
       card,
       source,
       elementFrom,
-      toContainer,
+      containerTo,
       this.movementSystem
     );
 
-    if (nameToContainer === GameConfig.cardContainers.foundation) {
-      new Promise((resolve) => {
+    setTimeout(() => {
+      this.stateManager.updateMoves(this.numberMoves);
+      this.eventManager.emit(GameEvents.UP_MOVES);
+    }, UIConfig.animations.cardMoveDuration);
+    if (
+      containerToName === GameConfig.cardContainers.foundation ||
+      source.startsWith(GameConfig.cardContainers.foundation)
+    ) {
+      await new Promise((resolve) => {
         setTimeout(() => {
           const score = GameConfig.rules.scoreForFoundation;
+          let operator = "";
+          if (containerToName === GameConfig.cardContainers.foundation)
+            operator = this.addition;
+          else if (source.startsWith(GameConfig.cardContainers.foundation))
+            operator = this.subtraction;
 
           this.eventManager.emit(
             GameEvents.UI_ANIMATION_POINTS_EARNED,
             card,
-            score
+            score,
+            operator
           );
-          this.scoringSystem.addPoints(score);
+          if (containerToName === GameConfig.cardContainers.foundation)
+            this.scoringSystem.addPoints(score);
+          else if (source.startsWith(GameConfig.cardContainers.foundation))
+            this.scoringSystem.addPoints(-score);
         }, UIConfig.animations.cardMoveDuration);
         resolve();
       });
     }
-    const backStyle =
-      this.stateManager.state.player.selectedItems.backs.styleClass;
-    const faceStyle =
-      this.stateManager.state.player.selectedItems.faces.styleClass;
+
     if (this.winSystem.check()) {
       this.winSystem.handleWin();
     }
 
-    const openCard = this.movementSystem.openNextCardIfNeeded(
-      source,
-      backStyle,
-      faceStyle
-    );
-    console.log("openCard:", openCard);
+    const openCard = this.movementSystem.openNextCardIfNeeded(source);
 
     card.openCard = openCard;
     if (openCard) {
-      console.log("openCard:", openCard);
-
       const score = GameConfig.rules.scoreForCardFlip;
-      new Promise((resolve) => {
+      await new Promise((resolve) => {
         setTimeout(() => {
           this.eventManager.emit(
             GameEvents.UI_ANIMATION_POINTS_EARNED,
             openCard,
-            score
+            score,
+            this.addition
           );
           this.scoringSystem.addPoints(score);
         }, UIConfig.animations.cardFlipDuration * 1000);

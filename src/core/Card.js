@@ -16,7 +16,8 @@ export class Card {
       position: null,
       elementPosition: -1,
       index: -1, // индекс в родительском массиве
-      offset: 0, // смещение в столбце (для tableau)
+      offsetX: 0,
+      offsetY: 0, // смещение в столбце (для tableau)
       zIndex: 0,
     };
   }

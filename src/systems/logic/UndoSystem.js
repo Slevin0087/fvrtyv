@@ -1,4 +1,8 @@
-import { GameEvents, AudioName } from "../../utils/Constants.js";
+import {
+  GameEvents,
+  AudioName,
+  AnimationOperators,
+} from "../../utils/Constants.js";
 import { UIConfig } from "../../configs/UIConfig.js";
 import { GameConfig } from "../../configs/GameConfig.js";
 
@@ -8,6 +12,7 @@ export class UndoSystem {
     this.stateManager = stateManager;
     this.audioManager = audioManager;
     this.cardContainers = GameConfig.cardContainers;
+    this.subtraction = AnimationOperators.SUBTRACTION;
 
     this.init();
   }
@@ -30,25 +35,17 @@ export class UndoSystem {
     // const lastMoveLength = this.stateManager.state.game.lastMove.length
     const { card, from, to, elementFrom, movementSystem } =
       this.stateManager.state.game.lastMove.pop();
-    const backStyle =
-      this.stateManager.state.player.selectedItems.backs.styleClass;
-    const faceStyle =
-      this.stateManager.state.player.selectedItems.faces.styleClass;
     if (card.openCard) {
       const openCard = card.openCard;
       const score = GameConfig.rules.scoreForCardFlip;
-      this.eventManager.emit(
-        GameEvents.BACK_CARD_FLIP,
-        openCard,
-        backStyle,
-        faceStyle
-      );
+      this.eventManager.emit(GameEvents.BACK_CARD_FLIP, openCard);
       new Promise((resolve) => {
         setTimeout(() => {
           this.eventManager.emit(
             GameEvents.UI_ANIMATION_POINTS_EARNED,
             openCard,
-            score
+            score,
+            this.subtraction
           );
           this.eventManager.emit(GameEvents.ADD_POINTS, -score);
           card.openCard = null;
@@ -59,41 +56,47 @@ export class UndoSystem {
     this.reverseMove({
       card,
       from,
-      to,
-      backStyle,
-      faceStyle,
     });
   }
 
-  reverseMove({ card, from, to, backStyle, faceStyle }) {
+  reverseMove({ card, from }) {
     const [fromType, fromIndex] = this.parseTargetId(from);
     const gameComponents = this.stateManager.state.cardsComponents;
 
     if (fromType === this.cardContainers.tableau) {
-      const toContainer = gameComponents.tableaus[fromIndex];
+      const containerTo = gameComponents.tableaus[fromIndex];
       this.eventManager.emit(GameEvents.CARD_MOVE, {
         card,
-        i: fromIndex,
-        toContainer,
-        nameToContainer: fromType,
+        containerToIndex: fromIndex,
+        containerTo,
+        containerToName: fromType,
       });
     } else if (fromType === this.cardContainers.foundation) {
-      const toContainer = gameComponents.foundations[fromIndex];
+      const containerTo = gameComponents.foundations[fromIndex];
       this.eventManager.emit(GameEvents.CARD_MOVE, {
         card,
-        i: fromIndex,
-        toContainer,
-        nameToContainer: fromType,
+        containerToIndex: fromIndex,
+        containerTo,
+        containerToName: fromType,
       });
-    } else if (fromType === "waste") {
-      const toElement = this.stateManager.state.cardsComponents.waste;
-      this.eventManager.emit(
-        GameEvents.ANIMATE_CARD_WASTE_STOCK,
+    } else if (fromType === this.cardContainers.waste) {
+      const containerTo = gameComponents.waste;
+      this.eventManager.emit(GameEvents.CARD_MOVE, {
         card,
-        toElement.element,
-        backStyle,
-        faceStyle
-      );
+        containerToIndex: 0,
+        containerTo,
+        containerToName: fromType,
+      });
+      // this.eventManager.emit(
+      //   GameEvents.ANIMATE_UNDO_TO_WASTE,
+      //   card,
+      //   containerTo.element
+      // );
+      // this.eventManager.emit(
+      //   GameEvents.ANIMATE_CARD_WASTE_STOCK,
+      //   card,
+      //   toElement.element,
+      // );
     }
     card.isUndo = !card.isUndo;
   }

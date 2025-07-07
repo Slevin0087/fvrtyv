@@ -64,11 +64,17 @@ export class GameManager {
         this.cardsSystem.tableaus
       );
 
-      this.renderingSystem.renderStockElement(this.cardsSystem.stock);
+      this.renderingSystem.renderStockElement(
+        this.cardsSystem.stock,
+        this.cardsSystem.waste
+      );
+      console.log("ДО await this.gameLogicSystem.dealTableauCards");
+
       await this.gameLogicSystem.dealTableauCards(
         this.cardsSystem.stock,
         this.cardsSystem.tableaus
       );
+      console.log("ПОСЛЕ await this.gameLogicSystem.dealTableauCards");
     });
     this.eventManager.on(GameEvents.GAME_RESTART, () => this.game.restart());
   }

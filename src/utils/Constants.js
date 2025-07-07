@@ -33,6 +33,7 @@ export const GameEvents = {
   UI_STATEPLAYER_SHOW: "ui:stateplayer:show",
   UI_SHOP_SHOW: "ui:shop:show",
   UI_NAME_HIDE: "ui:name:hide",
+  UP_MOVES: "up:moves",
   SET_ACTIV_PAGE: "set:activ:page",
   PLAYER_NAME_SET: "player:name:set",
   SET_SHOP_STATS: "set:shop:stats",
@@ -60,6 +61,7 @@ export const GameEvents = {
   BACK_CARD_FLIP: "back:card:flip",
   AUDIO_CARD_FLIP: "audio:card:flip",
   AUDIO_CARD_MOVE: "audio:card:move",
+  AUDIO_CARD_CLICK: "audio:card:click",
   UI_ANIMATION_POINTS_EARNED: "ui:animation:points:earned",
   UI_ANIMATE_WIN: "ui:animate:win",
   UI_ANIMATE_DEAL_CARDS: "ui:animate:deal:cards",
@@ -68,6 +70,7 @@ export const GameEvents = {
   CARD_MOVED: "card:moved",
   CARD_MOVE: "card:move",
   UNDO_MOVE: "undo:move",
+  ANIMATE_UNDO_TO_WASTE: "animate:undo:to:waste",
   CARD_MOVE_COMPLETED: "card:move:completed",
   STOCK_CLICK: "stock:click",
   SCORE_UPDATE: "game:score:update",
@@ -85,14 +88,29 @@ export const GameEvents = {
   SHOP_RENDER: "shop:render",
   UI_NOTIFICATION: "ui:notification",
   SHOP_ITEM_PURCHASE: "shop:item:purchase",
+  GET_CARD_STYLES: "get:card:styles",
 };
 
 export const AnimationDurations = {
+  WASTE_CARD_FLIP: 0.2,
+  START_MOVE_SPEED: 50,
+  CARD_STOCK_FLIP: 300,
+  NOTIFICATION: 3000,
   CARD_MOVE: 300,
   CARD_FLIP: 200,
   FADE_IN: 250,
   FADE_OUT: 250,
 };
+
+export const AnimationDegs = {
+  CARD_FLIP: 90,
+  BACK_CARD_FLIP: -90,
+};
+
+export const AnimationOperators = {
+  ADDITION: "+",
+  SUBTRACTION: "-",
+}
 
 export const AudioName = {
   BACKGROUND: "background",

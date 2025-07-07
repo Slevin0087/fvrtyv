@@ -11,6 +11,7 @@ export const GameConfig = {
     penaltyForFoundationToTableau: 5,
     winScoreBonus: 100,
     hintCost: 5,
+    initialMove: 1,
   },
 
   difficulties: {

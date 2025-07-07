@@ -55,6 +55,10 @@ export class AudioManager {
       this.toggleAllSounds(enabled)
     );
 
+    this.eventManager.on(GameEvents.AUDIO_CARD_CLICK, () =>
+      this.play(AudioName.CLICK)
+    );
+
     this.eventManager.on(GameEvents.AUDIO_CARD_FLIP, () =>
       this.play(AudioName.CARD_FLIP)
     );

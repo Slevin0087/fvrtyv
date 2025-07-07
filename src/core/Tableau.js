@@ -4,7 +4,7 @@ import { UIConfig } from "../configs/UIConfig.js";
 export class Tableau extends Pile {
   constructor(index) {
     super("tableau", index);
-    this.overlap = UIConfig.layout.card.tableauOverlap; // Каскадное смещение карт
+    this.overlapY = UIConfig.layout.card.tableauOverlapY; // Каскадное смещение карт
     this.element = this.createPileElement();
   }
 

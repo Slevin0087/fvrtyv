@@ -1,9 +1,11 @@
-import { GameEvents } from "../../utils/Constants.js";
+import { GameEvents, AnimationDurations } from "../../utils/Constants.js";
+import { UIConfig } from "../../configs/UIConfig.js";
 
 export class GameSetupSystem {
   constructor(eventManager, stateManager) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
+    this.cardMoveDuration = UIConfig.animations.cardMoveDuration;
   }
 
   setCards(deck, stock) {
@@ -21,8 +23,7 @@ export class GameSetupSystem {
     try {
       for (let i = 0; i < 7; i++) {
         for (let j = 0; j <= i; j++) {
-          console.log("j:", j);
-          await this.dealSingleCard(stock, tableaus[i], j, j === i);
+          await this.dealSingleCard(stock, tableaus[i], j === i);
         }
       }
     } catch (error) {
@@ -30,19 +31,14 @@ export class GameSetupSystem {
     }
   }
 
-  async dealSingleCard(stock, tableau, position, shouldFaceUp) {
+  async dealSingleCard(stock, tableau, shouldFaceUp) {
     try {
       const card = stock.deal();
       if (!card) throw new Error("No cards left in stock");
       card.faceUp = shouldFaceUp;
-      tableau.addCard(card);
-      await this.animateCardMove(
-        card,
-        stock.element,
-        tableau.element,
-        position
-      );
-
+      // tableau.addCard(card);
+      // void card.domElement.offsetHeight
+      await this.animateCardMove(card, tableau);
       if (shouldFaceUp) {
         await this.flipCard(card);
       }
@@ -53,20 +49,18 @@ export class GameSetupSystem {
     }
   }
 
-  async animateCardMove(card, fromEl, toEl, position) {
+  async animateCardMove(card, tableau) {
     try {
-      return new Promise((resolve, reject) => {
+      await new Promise((resolve, reject) => {
         console.log("в animateCardMove");
         this.eventManager.emit(GameEvents.ANIMATE_STOCK_CARD_MOVE, {
           card,
-          fromEl,
-          toEl,
-          position,
+          tableau,
           onComplete: resolve,
           onError: reject,
         });
-        this.eventManager.emit(GameEvents.AUDIO_CARD_MOVE);
       });
+      this.eventManager.emit(GameEvents.AUDIO_CARD_MOVE);
     } catch (error) {
       console.log(error);
     }
@@ -74,28 +68,13 @@ export class GameSetupSystem {
 
   async flipCard(card) {
     try {
-      const { backStyle, faceStyle } = this.getCardStyles();
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          this.eventManager.emit(
-            GameEvents.CARD_FLIP,
-            card,
-            backStyle,
-            faceStyle
-          );
-        }, 500);
-        resolve();
-      });
+      // return new Promise(() => {
+      this.eventManager.emit(GameEvents.CARD_FLIP, card);
+      // });
     } catch (error) {
       console.log(error);
+      throw error;
     }
-  }
-
-  getCardStyles() {
-    return {
-      backStyle: this.stateManager.state.player.selectedItems.backs.styleClass,
-      faceStyle: this.stateManager.state.player.selectedItems.faces.styleClass,
-    };
   }
 
   handleCard(card) {

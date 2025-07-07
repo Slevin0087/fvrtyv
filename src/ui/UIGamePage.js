@@ -9,6 +9,7 @@ export class UIGamePage extends UIPage {
       messageEl: document.getElementById("message"),
       scoreEl: document.getElementById("points-in-game"),
       timeEl: document.getElementById("time-display"),
+      movesEl: document.getElementById("moves_span"),
       achievementsIconEl: document.getElementById("achievements_span"),
       restartGameBtn: document.getElementById("new-game-ctr-btn"),
       hintBtn: document.getElementById("hint"),
@@ -27,6 +28,7 @@ export class UIGamePage extends UIPage {
     this.elements.restartGameBtn.addEventListener("click", () => {
       this.eventManager.emit(GameEvents.GAME_RESTART);
       this.updateScore(this.stateManager.state.game.score);
+
       // setTimeout(() => this.eventManager.emit(GameEvents.UI_ANIMATE_DEAL_CARDS), 1000);
     });
 
@@ -50,6 +52,10 @@ export class UIGamePage extends UIPage {
       this.updateTime(time);
     });
 
+    this.eventManager.on(GameEvents.UP_MOVES, () => {
+      this.updateMoves(this.state.game.moves);
+    });
+
     this.eventManager.on("game:message", (message, type) => {
       this.showMessage(message, type);
     });
@@ -62,6 +68,7 @@ export class UIGamePage extends UIPage {
   updateUI() {
     this.updateScore(this.state.game.score);
     this.updateTime(this.state.game.playTime);
+    this.updateMoves(this.state.game.moves);
   }
 
   resetTime(minutes, seconds) {
@@ -70,6 +77,12 @@ export class UIGamePage extends UIPage {
 
   updateScore(score) {
     this.elements.scoreEl.textContent = `🌟 ${score}`;
+  }
+
+  updateMoves(n) {
+    console.log('в updateMoves:', n);
+    
+    this.elements.movesEl.textContent = `Ходы: ${n}`;
   }
 
   updateTime(time) {

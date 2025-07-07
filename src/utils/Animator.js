@@ -1,153 +1,45 @@
+import { GameEvents } from "./Constants.js";
+
 export class Animator {
-  /**
-   * Анимация раздачи карт из стока в tableau
-   * @param {HTMLElement} stockElement - DOM элемент стока
-   * @param {HTMLElement[]} tableauElements - Массив DOM элементов tableau
-   * @param {number} duration - Продолжительность анимации
-   * @param {number} delayBetweenCards - Задержка между картами
-   */
-  static dealCardsAnimation(
-    stockElement,
-    tableauElements,
-    duration = 500,
-    delayBetweenCards = 100
-  ) {
-    return new Promise((resolve) => {
-      // Создаем временную карту для анимации
-      const tempCard = document.createElement("div");
-      tempCard.className = "card face-down";
-      tempCard.style.position = "absolute";
-      tempCard.style.zIndex = "1000";
-      tempCard.style.background =
-        "repeating-linear-gradient(45deg,#1a5a1a,#1a5a1a 10px,#165016 20px)";
-
-      // Позиционируем временную карту поверх стока
-      const stockRect = stockElement.getBoundingClientRect();
-      tempCard.style.width = `${stockRect.width}px`;
-      tempCard.style.height = `${stockRect.height}px`;
-      tempCard.style.left = `${stockRect.left}px`;
-      tempCard.style.top = `${stockRect.top}px`;
-
-      document.body.appendChild(tempCard);
-
-      let completedAnimations = 0;
-      const totalAnimations =
-        (tableauElements.length * (tableauElements.length + 1)) / 2; // Формула треугольного числа
-
-      // Функция для анимации перемещения карты
-      const animateCardToTableau = (tableauIndex, cardIndex, delay) => {
-        setTimeout(() => {
-          const tableau = tableauElements[tableauIndex];
-          const tableauRect = tableau.getBoundingClientRect();
-
-          // Рассчитываем конечную позицию с учетом смещения в tableau
-          // const offsetY = cardIndex * UIConfig.layout.card.overlap;
-          const offsetY = cardIndex * 20;
-          // Клонируем временную карту для каждой анимации
-          const cardClone = tempCard.cloneNode();
-          document.body.appendChild(cardClone);
-
-          // Анимация перемещения
-          cardClone.style.transition = `transform ${duration}ms ease-out`;
-          cardClone.style.transform = `translate(${
-            tableauRect.left - stockRect.left
-          }px, ${tableauRect.top - stockRect.top + offsetY}px)`;
-
-          // По завершении анимации
-          setTimeout(() => {
-            cardClone.remove();
-            completedAnimations++;
-
-            if (completedAnimations === totalAnimations) {
-              tempCard.remove();
-              resolve();
-            }
-          }, duration);
-        }, delay);
-      };
-
-      // Запускаем анимации для каждой карты по схеме игры
-      let delay = 0;
-      for (let i = 0; i < tableauElements.length; i++) {
-        for (let j = 0; j <= i; j++) {
-          animateCardToTableau(i, j, delay);
-          delay += delayBetweenCards;
-        }
-      }
-    });
-  }
-
-  // static animateStockCardMove(
-  //   card,
-  //   startElement,
-  //   targetElement,
-  //   offset,
-  //   duration = 200
-  // ) {
-  //   return new Promise((resolve) => {
-  //     const cardElement = card.domElement;
-  //     const startRect = startElement.getBoundingClientRect();
-  //     const targetRect = targetElement.getBoundingClientRect();
-  //     console.log("startRect, targetRect:", startRect, targetRect);
-
-  //     const offsetAll = offset * 20;
-
-  //     const deltaX = targetRect.left - startRect.left;
-  //     const deltaY = targetRect.top + offsetAll - startRect.top;
-
-  //     // Анимация к цели
-  //     cardElement.style.transition = `transform ${duration}ms linear`;
-  //     cardElement.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
-  //     const zIndex = offset > 1 ? offset + 1 : 2;
-
-  //     cardElement.style.zIndex = "0";
-
-  //     cardElement.style.zIndex = `${zIndex}`;
-  //     card.positionData.zIndex = zIndex;
-  //     setTimeout(() => {
-  //       console.log("в setTimeout");
-
-  //       targetElement.appendChild(cardElement);
-  //       cardElement.style.transform = `translate(0, ${offsetAll}px)`;
-  //       resolve();
-  //     }, duration * 1.1);
-  //   });
-  // }
-
   static animateStockCardMove(params, duration = 500) {
-    return new Promise(() => {
+    return new Promise((resolve, reject) => {
       try {
-        const { card, fromEl, toEl, position, onComplete, onError } = params;
+        const { card, tableau, onComplete, onError } = params;
         console.log("в animateStockCardMove", card);
 
         const cardElement = card.domElement;
-        const offset = position * 20;
+        const oldOffsetX = card.positionData.offsetX;
+        const oldOffsetY = card.positionData.offsetY;
 
         // FLIP: First - запоминаем начальное положение
-        const firstRect = cardElement.getBoundingClientRect();
+        const initialRect = cardElement.getBoundingClientRect();
 
+        tableau.addCard(card);
+        // void cardElement.offsetHeight; // Это заставляет браузер применить стили
+
+        const newOffsetX = card.positionData.offsetX;
+        const newOffsetY = card.positionData.offsetY;
         // FLIP: Last - меняем родителя и устанавливаем конечное состояние
-        toEl.append(cardElement);
+        tableau.element.append(cardElement);
         void cardElement.offsetHeight; // Это заставляет браузер применить стили
-        cardElement.style.transform = `translate(0, ${offset}px)`;
+
+        // cardElement.style.transform = `translate(0, ${offset}px)`;
+        const lastRect = cardElement.getBoundingClientRect();
         cardElement.style.zIndex = `10000`;
 
-        void cardElement.offsetHeight; // Это заставляет браузер применить стили
-
         // FLIP: Invert - получаем конечное положение и вычисляем разницу
-        const lastRect = cardElement.getBoundingClientRect();
-        const deltaX = firstRect.left - lastRect.left;
-        const deltaY = firstRect.top - lastRect.top;
+        const deltaX = initialRect.left - lastRect.left + oldOffsetX;
+        const deltaY = initialRect.top - lastRect.top + oldOffsetY;
 
         // FLIP: Play - запускаем анимацию
         // Временно возвращаем элемент в начальную позицию с помощью transform
-        cardElement.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+        cardElement.style.transform = `translate(${oldOffsetX}px, ${oldOffsetY}px)`;
 
         // Запускаем анимацию к конечному состоянию
         const animation = cardElement.animate(
           [
             { transform: `translate(${deltaX}px, ${deltaY}px)` },
-            { transform: `translate(0, ${offset}px)` },
+            { transform: `translate(${newOffsetX}px, ${newOffsetY}px)` },
           ],
           {
             duration,
@@ -158,15 +50,15 @@ export class Animator {
 
         animation.onfinish = () => {
           // Убедимся, что конечное состояние зафиксировано
-          cardElement.style.transform = `translate(0, ${offset}px)`;
-          cardElement.style.zIndex = `${position}`;
-          card.positionData.zIndex = position;
-          card.positionData.offset = offset;
+          cardElement.style.transform = `translate(${newOffsetX}px, ${newOffsetY}px)`;
+          cardElement.style.zIndex = `${card.positionData.zIndex}`;
           onComplete();
+          resolve();
         };
 
         animation.oncancel = () => {
           onError(new Error("Animation was cancelled"));
+          reject();
         };
       } catch (error) {
         console.log(error);
@@ -229,18 +121,12 @@ export class Animator {
     card,
     source,
     elementFrom,
-    elementTo,
+    containerTo,
     movementSystem,
     duration = 300
   ) {
     return new Promise((resolve, reject) => {
-      console.log(
-        "card, source, elementFrom, elementTo:",
-        card,
-        source,
-        elementFrom,
-        elementTo
-      );
+      console.log("card, source, elementFrom:", card, source, elementFrom);
 
       const removedCards = movementSystem.removeCardFromSource(
         card,
@@ -253,11 +139,16 @@ export class Animator {
         // 1. First - сохраняем начальное положение ДО любых изменений
         // Получаем начальные координаты карты
         const initialRect = cardElement.getBoundingClientRect();
-        const oldOffset = card.positionData.offset;
-        elementTo.addCard(card);
-        elementTo.element.append(cardElement);
 
-        const newOffset = card.positionData.offset;
+        const oldOffsetX = card.positionData.offsetX;
+        const oldOffsetY = card.positionData.offsetY;
+        console.log("containerTo:", containerTo);
+
+        containerTo.addCard(card);
+        containerTo.element.append(cardElement);
+
+        const newOffsetX = card.positionData.offsetX;
+        const newOffsetY = card.positionData.offsetY;
 
         void cardElement.offsetHeight; // Это заставляет браузер применить стили
 
@@ -266,14 +157,14 @@ export class Animator {
         cardElement.style.zIndex = "100";
 
         // 5. Invert - теперь дельты будут корректны
-        const deltaX = initialRect.left - lastRect.left;
-        const deltaY = initialRect.top - lastRect.top + oldOffset;
+        const deltaX = initialRect.left - lastRect.left + oldOffsetX;
+        const deltaY = initialRect.top - lastRect.top + oldOffsetY;
 
         // 9. Запускаем анимацию
         const animation = cardElement.animate(
           [
             { transform: `translate(${deltaX}px, ${deltaY}px)` },
-            { transform: `translate(0, ${newOffset}px)` },
+            { transform: `translate(${newOffsetX}px, ${newOffsetY}px)` },
           ],
           {
             duration,
@@ -283,7 +174,7 @@ export class Animator {
 
         // 10. По завершении фиксируем результат
         animation.onfinish = () => {
-          cardElement.style.transform = `translate(0, ${newOffset}px)`;
+          cardElement.style.transform = `translate(${newOffsetX}px, ${newOffsetY}px)`;
           cardElement.style.zIndex = `${card.positionData.zIndex}`;
           resolve();
         };
@@ -417,8 +308,10 @@ export class Animator {
       const initialRect = cardElement.getBoundingClientRect();
 
       toElement.append(cardElement);
-      const offset = card.positionData.offset;
-      console.log("offset в animateCardToWaste:", offset);
+      const offsetX = card.positionData.offsetX;
+
+      const offsetY = card.positionData.offsetY;
+      console.log("offsetX в animateCardToWaste:", offsetX);
 
       void cardElement.offsetHeight; // Это заставляет браузер применить стили
       // Устанавливаем конечное положение
@@ -450,7 +343,7 @@ export class Animator {
       );
       // 10. По завершении фиксируем результат
       animation.onfinish = () => {
-        cardElement.style.transform = `translateX(${offset}px) translateY(${-offset}px)`;
+        cardElement.style.transform = `translateX(${offsetX}px) translateY(${offsetY}px)`;
         // console.log("offset в animateCardToWaste:", offset);
         cardElement.style.zIndex = `${card.positionData.zIndex}`;
         resolve();
@@ -461,12 +354,16 @@ export class Animator {
     });
   }
 
-  static flipCard(card, onHalfFlip, deg, duration = 1) {
-    return new Promise((resolve) => {
+  static flipCard(card, onHalfFlip, deg, eventManager, duration = 1) {
+    return new Promise((resolve, reject) => {
       const tl = gsap.timeline({
         onComplete: () => {
           card.flipped = !card.flipped;
+          eventManager.emit(GameEvents.AUDIO_CARD_FLIP);
           resolve();
+        },
+        onError: () => {
+          reject(new Error("Card flip animation failed"));
         },
       });
 
@@ -549,13 +446,13 @@ export class Animator {
   //   }, 1500);
   // }
 
-  static showPointsAnimation(card, points) {
+  static showPointsAnimation(card, points, operator) {
     const cardElement = card.domElement;
     if (!cardElement) return;
 
     const pointsElement = document.createElement("div");
     pointsElement.className = "points-popup";
-    pointsElement.textContent = `+${points}`;
+    pointsElement.textContent = `${operator}${points}`;
 
     // 1. Позиционирование через transform + left/top (для iOS)
     const cardRect = cardElement.getBoundingClientRect();

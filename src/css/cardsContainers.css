@@ -41,7 +41,7 @@
   left: 0;
   cursor: pointer;
   transform: translate(0, 0);
-  transition: transform 2000ms linear;
+  /* transition: transform 2000ms linear; */
 }
 
 /* .card-front,
@@ -87,7 +87,7 @@
   transform: rotate(180deg);
 }
 
-.stock {
+.pile-stock {
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -142,7 +142,7 @@
 }
 
 /* Переносим border на псевдоэлемент (не влияет на позиционирование карт) */
-.stock::before,
+.pile-stock::before,
 .pile-foundation::before,
 .pile-waste::before,
 .pile-tableau::before {
@@ -229,11 +229,4 @@
   z-index: 100;
   will-change: transform, opacity;
   -webkit-font-smoothing: antialiased;
-}
-
-.card.moving {
-  /* position: fixed; */
-  position: absolute;
-  z-index: 1000;
-  transition: all 2s ease;
 }

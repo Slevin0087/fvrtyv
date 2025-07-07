@@ -7,7 +7,8 @@ export class Pile {
     this.index = index; // индекс для идентификации
     this.cards = [];
     this.element = this.createPileElement();
-    this.overlap = 0; // переопределяется в дочерних классах
+    this.overlapX = 0;
+    this.overlapY = 0; // переопределяется в дочерних классах
   }
 
   // Базовые методы, которые можно переопределять в дочерних классах
@@ -32,7 +33,8 @@ export class Pile {
       position: position,
       elementPosition: this.getElementPosition(),
       index: this.index,
-      offset: position * this.overlap,
+      offsetX: position * this.overlapX,
+      offsetY: position * this.overlapY,
       zIndex: this.getZIndex(),
     };
   }

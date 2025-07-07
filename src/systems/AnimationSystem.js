@@ -1,4 +1,8 @@
-import { GameEvents } from "../utils/Constants.js";
+import {
+  GameEvents,
+  AnimationDurations,
+  AnimationDegs,
+} from "../utils/Constants.js";
 import { Animator } from "../utils/Animator.js";
 import { UIConfig } from "../configs/UIConfig.js";
 
@@ -14,9 +18,9 @@ export class AnimationSystem {
     this.startMoveSpeed = UIConfig.animations.startMoveSpeed;
     this.cardFlipDuration = UIConfig.animations.cardFlipDuration;
     this.cardStockFlipDuration = UIConfig.animations.cardStockFlipDuration;
-    this.wasteCardFlip = UIConfig.animations.wasteCardFlip;
-    this.degsCardFlip = UIConfig.degs.cardFlip;
-    this.degsBackCardFlip = UIConfig.degs.backCardFlip;
+    this.wasteCardFlip = AnimationDurations.WASTE_CARD_FLIP;
+    this.degsCardFlip = AnimationDegs.CARD_FLIP;
+    this.degsBackCardFlip = AnimationDegs.BACK_CARD_FLIP;
 
     this.init();
   }
@@ -29,10 +33,8 @@ export class AnimationSystem {
   setupEventListeners() {
     this.eventManager.on(
       GameEvents.UI_ANIMATION_POINTS_EARNED,
-      (card, score) => {
-        setTimeout(() => {
-          Animator.showPointsAnimation(card, score);
-        }, 200);
+      (card, score, operator) => {
+        Animator.showPointsAnimation(card, score, operator);
       }
     );
 
@@ -46,42 +48,30 @@ export class AnimationSystem {
     //   this.animateCardMove(card, from, to, callback)
     // );
 
-    this.eventManager.on(
-      GameEvents.CARD_FLIP,
-      async (card, backStyle, faceStyle) => {
-        await this.animateCardFlip(
-          card,
-          backStyle,
-          faceStyle,
-          this.degsCardFlip,
-          this.cardFlipDuration
-        );
-        this.eventManager.emit(GameEvents.AUDIO_CARD_FLIP);
-      }
-    );
+    this.eventManager.on(GameEvents.CARD_FLIP, async (card) => {
+      await this.animateCardFlip(
+        card,
+        this.degsCardFlip,
+        this.cardFlipDuration
+      );
+    });
 
-    this.eventManager.on(
-      GameEvents.BACK_CARD_FLIP,
-      async (openCard, backStyle, faceStyle) => {
-        await this.animateBackCardFlip(
-          openCard,
-          backStyle,
-          faceStyle,
-          this.degsBackCardFlip,
-          this.cardFlipDuration
-        );
-        this.eventManager.emit(GameEvents.AUDIO_CARD_FLIP);
-      }
-    );
+    this.eventManager.on(GameEvents.BACK_CARD_FLIP, (card) => {
+      this.animateBackCardFlip(
+        card,
+        this.degsBackCardFlip,
+        this.cardFlipDuration
+      );
+    });
 
     this.eventManager.on(
       GameEvents.ANIMATE_CARD_MOVE,
-      async (card, source, elementFrom, elementTo, movementSystem) => {
-        await Animator.animateCardMove(
+      (card, source, elementFrom, containetTo, movementSystem) => {
+        Animator.animateCardMove(
           card,
           source,
           elementFrom,
-          elementTo,
+          containetTo,
           movementSystem,
           this.cardMoveDuration
         );
@@ -92,19 +82,35 @@ export class AnimationSystem {
       console.log("ddddddddd");
 
       await Animator.animateStockCardMove(params, this.startMoveSpeed);
+      // await Animator.animateStockCardMove(params, 3000);
     });
 
     this.eventManager.on(
+      GameEvents.ANIMATE_UNDO_TO_WASTE,
+      (card, toElement) => {
+        console.log("ddddddddd");
+
+        this.animateCardToWaste(card, toElement);
+      }
+    );
+
+    this.eventManager.on(
       GameEvents.ANIMATE_CARD_TO_WASTE,
-      async (card, toElement, backStyle, faceStyle) => {
-        await this.animateCardToWaste(card, toElement, backStyle, faceStyle);
+      async (card, toElement) => {
+        await this.animateCardToWaste(card, toElement);
+
+        await new Promise((resolve) =>
+          setTimeout(resolve, this.wasteCardFlip * 1000)
+        );
+
+        await this.animateCardFlip(card, this.degsCardFlip, this.wasteCardFlip);
       }
     );
 
     this.eventManager.on(
       GameEvents.ANIMATE_CARD_WASTE_STOCK,
-      (card, toElement, backStyle, faceStyle) => {
-        this.animateCardFromWaste(card, toElement, backStyle, faceStyle);
+      (card, toElement) => {
+        this.animateCardFromWaste(card, toElement);
       }
     );
 
@@ -218,43 +224,25 @@ export class AnimationSystem {
   //   }, this.cardStockFlipDuration);
   // }
 
-  async animateCardToWaste(card, toElement, backStyle, faceStyle) {
+  async animateCardToWaste(card, toElement) {
+    await Animator.animateCardToWaste(card, toElement);
+  }
+
+  async animateCardFromWaste(card, toElement) {
     await Animator.animateCardToWaste(card, toElement);
 
     await new Promise((resolve) =>
       setTimeout(resolve, this.wasteCardFlip * 1000)
     );
 
-    await this.animateCardFlip(
-      card,
-      backStyle,
-      faceStyle,
-      this.degsCardFlip,
-      this.wasteCardFlip
-    );
+    await this.animateBackCardFlip(card, this.degsCardFlip, this.wasteCardFlip);
   }
 
-  async animateCardFromWaste(card, toElement, backStyle, faceStyle) {
-    await Animator.animateCardToWaste(card, toElement);
-
-    await new Promise((resolve) =>
-      setTimeout(resolve, this.wasteCardFlip * 1000)
-    );
-
-    await this.animateBackCardFlip(
-      card,
-      backStyle,
-      faceStyle,
-      this.degsCardFlip,
-      this.wasteCardFlip
-    );
-  }
-
-  async animateCardFlip(card, backStyle, faceStyle, deg, duration) {
+  async animateCardFlip(card, deg, duration) {
     if (!card.domElement || card.isAnimating) return;
-
-    card.isAnimating = true;
     try {
+      const { backStyle, faceStyle } = this.cardsSystem.getCardStyles();
+      card.isAnimating = true;
       await Animator.flipCard(
         card,
         () => {
@@ -276,19 +264,23 @@ export class AnimationSystem {
           card.domElement.append(topSymbol, centerSymbol, bottomSymbol);
         },
         deg,
+        this.eventManager,
         duration
       );
-      card.isAnimating = false;
     } catch (error) {
-      throw new Error(error);
+      console.error("Card flip failed:", error);
+      throw error;
+    } finally {
+      card.isAnimating = false;
     }
   }
 
-  async animateBackCardFlip(card, backStyle, faceStyle, deg, duration) {
+  async animateBackCardFlip(card, deg, duration) {
     if (!card.domElement || card.isAnimating) return;
 
-    card.isAnimating = true;
     try {
+      const { backStyle, faceStyle } = this.cardsSystem.getCardStyles();
+      card.isAnimating = true;
       await Animator.flipCard(
         card,
         () => {
@@ -301,8 +293,10 @@ export class AnimationSystem {
           card.domElement.classList.add(backStyle);
         },
         deg,
+        this.eventManager,
         duration
       );
+      card.faceUp = false;
       card.isAnimating = false;
     } catch (error) {
       throw new Error(error);

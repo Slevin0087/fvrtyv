@@ -4,7 +4,8 @@ import { UIConfig } from "../configs/UIConfig.js";
 export class Waste extends Pile {
   constructor() {
     super("waste");
-    this.overlap = UIConfig.layout.card.stockOverlap; // Смещение для отображения веера карт
+    this.overlapX = UIConfig.layout.card.wasteOverlapX;
+    this.overlapY = UIConfig.layout.card.wasteOverlapY; // Смещение для отображения веера карт
     this.element = super.createPileElement();
   }
 
@@ -12,9 +13,9 @@ export class Waste extends Pile {
     return card.faceUp;
   }
 
-  // addCard(card) {
-  //   const position = this.card.length - 1;
-  //   card.position = super.getPositionData(position);
-  //   // this.cards.push(card);
-  // }
+  addCard(card) {
+    super.addCard(card);
+    card.positionData.offsetX = (this.cards.length -1) * this.overlapX;
+    // this.cards.push(card);
+  }
 }

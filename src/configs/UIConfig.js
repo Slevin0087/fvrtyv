@@ -63,6 +63,7 @@ export const UIConfig = {
     cardStockFlipDuration: 300,
     uiFadeDuration: 200,
     notificationDuration: 3000,
+    clickLimitTime: 500,
   },
 
   layout: {
@@ -70,8 +71,11 @@ export const UIConfig = {
       width: 80,
       height: 120,
       borderRadius: 8,
-      tableauOverlap: 20,
-      stockOverlap: 0.2,
+      tableauOverlapY: 20,
+      wasteOverlapX: 0.2,
+      wasteOverlapY: -0.2,
+      stockOverlapX: 0.2,
+      stockOverlapY: 0.2,
     },
     game: {
       padding: 20,

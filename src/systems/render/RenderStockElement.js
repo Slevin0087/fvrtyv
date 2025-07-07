@@ -1,4 +1,10 @@
-import { GameEvents } from "../../utils/Constants.js";
+import {
+  GameEvents,
+  AnimationDurations,
+  AnimationDegs,
+} from "../../utils/Constants.js";
+import { GameConfig } from "../../configs/GameConfig.js";
+import { UIConfig } from "../../configs/UIConfig.js";
 
 export class RenderStockElement {
   constructor(eventManager, stateManager, domElements, cardsSystem) {
@@ -6,85 +12,74 @@ export class RenderStockElement {
     this.stateManager = stateManager;
     this.domElements = domElements;
     this.cardsSystem = cardsSystem;
+    this.wasteCardFlip = AnimationDurations.WASTE_CARD_FLIP;
+    this.degsCardFlip = AnimationDegs.CARD_FLIP;
+    this.cardContainers = GameConfig.cardContainers;
+    this.isClickAllowed = true;
+    this.clickLimitTime =
+      UIConfig.animations.cardMoveDuration +
+      UIConfig.animations.cardFlipDuration * 1000;
   }
 
-  render(stock) {
+  render(stock, waste) {
     this.domElements.stockDivEl.innerHTML = "";
-    stock.element = this.createStockElement();
-    this.addStockEventListeners(stock);
-    this.addWasteEventListeners(stock.waste);
-    this.domElements.stockDivEl.append(stock.element, stock.waste.element);
+    this.domElements.stockDivEl.append(stock.element, waste.element);
     this.renderStockCards(stock);
+    this.addStockEventListeners(stock, waste);
   }
 
-  createStockElement() {
-    const element = document.createElement("div");
-    const span = document.createElement("span");
-    element.className = "stock";
-    element.id = "stock";
-    // span.innerHTML = '<svg viewBox="0 0 24 24" width="90"><path d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>';
-    span.textContent = "↺";
-    span.classList.add("stock-span");
-    element.append(span);
-    return element;
-  }
-
-  addStockEventListeners(stock) {
+  addStockEventListeners(stock, waste) {
     stock.element.removeEventListener("click", () =>
-      this.handleStockElement(stock)
+      this.handleStockElement(stock, waste)
     );
     stock.element.addEventListener("click", () =>
-      this.handleStockElement(stock)
+      this.handleStockElement(stock, waste)
     );
   }
 
-  addWasteEventListeners(waste) {
-    waste.element.removeEventListener("click", () =>
-      this.handleWasteElement(waste)
-    );
-    waste.element.addEventListener("click", () =>
-      this.handleWasteElement(waste)
-    );
-  }
-
-  handleStockElement(stock) {
+  async handleStockElement(stock, waste) {
+    if (!this.isClickAllowed) {
+      return; // Если клики запрещены, ничего не делаем
+    }
     console.log("КЛИК ПО STOCK ЭЛЕМЕНТУ");
-    if (stock.index < 0 && stock.waste.isEmpty()) return;
+    if (stock.index < 0 && waste.isEmpty()) return;
     else if (stock.index < 0) {
+      this.isClickAllowed = false;
       console.log("INDEX < 0");
-
-      stock.recycleWaste();
+      stock.recycleWaste(waste);
       this.renderStockCards(stock);
-      stock.waste.element.querySelectorAll(".card").forEach((el) => {
+      waste.element.querySelectorAll(".card").forEach((el) => {
         el.remove();
       });
+      setTimeout(() => {
+        this.isClickAllowed = true; // Разрешаем клики после задержки
+      }, this.clickLimitTime);
 
       return;
     }
+    this.isClickAllowed = false;
     console.log("INDEX >= 0");
     const card = stock.getWasteCard();
-    console.log("card:", card);
-
     if (card) {
-      const backStyle =
-        this.stateManager.state.player.selectedItems.backs.styleClass;
-      const faceStyle =
-        this.stateManager.state.player.selectedItems.faces.styleClass;
-      this.eventManager.emit(
-        GameEvents.ANIMATE_CARD_TO_WASTE,
+      this.eventManager.emit(GameEvents.AUDIO_CARD_CLICK);
+      this.eventManager.emit(GameEvents.CARD_MOVE, {
         card,
-        stock.waste.element,
-        backStyle,
-        faceStyle
-      );
-      this.eventManager.emit(GameEvents.AUDIO_CARD_FLIP);
+        containerToIndex: 0,
+        containerTo: waste,
+        containerToName: this.cardContainers.waste,
+      });
+      await new Promise((resolve) => {
+        setTimeout(() => {
+          this.eventManager.emit(GameEvents.CARD_FLIP, card);
+        }, UIConfig.animations.cardMoveDuration);
+        resolve();
+      });
+    }
+    setTimeout(() => {
+      this.isClickAllowed = true; // Разрешаем клики после задержки
       this.cardsSystem.removeHandleCard(card);
       this.cardsSystem.handleCard(card);
-    }
-  }
-
-  handleWasteElement() {
-    console.log("КЛИК ПО WASTE ЭЛЕМЕНТУ");
+    }, this.clickLimitTime);
   }
 
   renderStockCards(stock) {
@@ -112,10 +107,12 @@ export class RenderStockElement {
   }
 
   updateStockCardPosition(card) {
-    const offset = card.positionData.offset;
+    const offsetX = card.positionData.offsetX;
+    const offsetY = card.positionData.offsetY;
+
     const zIndex = card.positionData.zIndex;
     card.domElement.style.transition = `transform 300ms linear`;
-    card.domElement.style.transform = `translateX(${-offset}px) translateY(${-offset}px)`;
+    card.domElement.style.transform = `translateX(${-offsetX}px) translateY(${-offsetY}px)`;
     card.domElement.style.zIndex = zIndex;
   }
 }
