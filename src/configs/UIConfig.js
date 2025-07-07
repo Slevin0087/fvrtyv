@@ -58,8 +58,8 @@ export const UIConfig = {
   animations: {
     wasteCardFlip: 0.2,
     startMoveSpeed: 50,
-    cardMoveDuration: 300,
-    cardFlipDuration: 0.5,
+    cardMoveDuration: 200,
+    cardFlipDuration: 0.2,
     cardStockFlipDuration: 300,
     uiFadeDuration: 200,
     notificationDuration: 3000,

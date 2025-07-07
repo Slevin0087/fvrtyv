@@ -12,7 +12,6 @@ import { AnimationSystem } from "../systems/AnimationSystem.js";
 export class GameManager {
   constructor() {
     this.lastTime = 0;
-    this.game = null;
     // this.init();
   }
 
@@ -54,29 +53,12 @@ export class GameManager {
 
   setupEventListeners() {
     this.eventManager.on(GameEvents.SET_NEW_GAME, async () => {
-      this.gameLogicSystem.setCards(
-        this.cardsSystem.deck,
-        this.cardsSystem.stock
-      );
-
-      this.renderingSystem.renderStaticElements(
-        this.cardsSystem.foundations,
-        this.cardsSystem.tableaus
-      );
-
-      this.renderingSystem.renderStockElement(
-        this.cardsSystem.stock,
-        this.cardsSystem.waste
-      );
-      console.log("ДО await this.gameLogicSystem.dealTableauCards");
-
-      await this.gameLogicSystem.dealTableauCards(
-        this.cardsSystem.stock,
-        this.cardsSystem.tableaus
-      );
-      console.log("ПОСЛЕ await this.gameLogicSystem.dealTableauCards");
+      await this.setGame();
     });
-    this.eventManager.on(GameEvents.GAME_RESTART, () => this.game.restart());
+    this.eventManager.on(
+      GameEvents.GAME_RESTART,
+      async () => await this.gameRestart()
+    );
   }
 
   gameLoop(timestamp) {
@@ -97,6 +79,35 @@ export class GameManager {
     requestAnimationFrame((t) => {
       this.gameLoop(t);
     });
+  }
+  async gameRestart() {
+    await this.setGame();
+  }
+
+  async setGame() {
+    this.cardsSystem.setCardsContainers();
+    this.gameLogicSystem.setCards(
+      this.cardsSystem.deck,
+      this.cardsSystem.stock
+    );
+
+    this.renderingSystem.renderStaticElements(
+      this.cardsSystem.foundations,
+      this.cardsSystem.tableaus
+    );
+
+    this.renderingSystem.renderStockElement(
+      this.cardsSystem.stock,
+      this.cardsSystem.waste
+    );
+    console.log("ДО await this.gameLogicSystem.dealTableauCards");
+
+    await this.gameLogicSystem.dealTableauCards(
+      this.cardsSystem.stock,
+      this.cardsSystem.tableaus
+    );
+    this.stateManager.state.game.isRunning = true;
+    console.log("ПОСЛЕ await this.gameLogicSystem.dealTableauCards");
   }
 
   update(deltaTime) {

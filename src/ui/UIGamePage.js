@@ -27,7 +27,7 @@ export class UIGamePage extends UIPage {
   setupEventListeners() {
     this.elements.restartGameBtn.addEventListener("click", () => {
       this.eventManager.emit(GameEvents.GAME_RESTART);
-      this.updateScore(this.stateManager.state.game.score);
+      this.updateUI();
 
       // setTimeout(() => this.eventManager.emit(GameEvents.UI_ANIMATE_DEAL_CARDS), 1000);
     });
@@ -76,13 +76,13 @@ export class UIGamePage extends UIPage {
   }
 
   updateScore(score) {
-    this.elements.scoreEl.textContent = `🌟 ${score}`;
+    this.elements.scoreEl.textContent = `🌟: ${score}`;
   }
 
   updateMoves(n) {
     console.log('в updateMoves:', n);
     
-    this.elements.movesEl.textContent = `Ходы: ${n}`;
+    this.elements.movesEl.textContent = `👣: ${n}`;
   }
 
   updateTime(time) {
@@ -110,7 +110,7 @@ export class UIGamePage extends UIPage {
     const achievementsIconElText =
       this.stateManager.state.player.achievements.active.icon;
     this.page.classList.add("game-interface", styleClass);
-    this.elements.achievementsIconEl.textContent = achievementsIconElText;
+    this.elements.achievementsIconEl.textContent = `🏆: ${achievementsIconElText}`;
     // this.page.classList.remove("hidden");
     this.updateUI();
   }

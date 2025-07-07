@@ -73,6 +73,14 @@ export class StateManager {
       this.resetScore(0);
       this.resetTime(0);
       this.resetLastMove();
+      this.resetMoves(0);
+    });
+
+    this.eventManager.on(GameEvents.SET_NEW_GAME, () => {
+      this.resetScore(0);
+      this.resetTime(0);
+      this.resetLastMove();
+      this.resetMoves(0);
     });
 
     this.eventManager.on(GameEvents.SET_DIFFICUTY_CHANGE, (value) => {
@@ -190,6 +198,10 @@ export class StateManager {
 
   resetTime(time) {
     this.state.game.playTime = time;
+  }
+
+  resetMoves(n) {
+    this.state.game.moves = n;
   }
 
   addCoins(amount) {
