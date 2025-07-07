@@ -12,6 +12,7 @@ import { AnimationSystem } from "../systems/AnimationSystem.js";
 export class GameManager {
   constructor() {
     this.lastTime = 0;
+    this.fullScreenBtn = document.getElementById("full-screen-btn");
     // this.init();
   }
 
@@ -52,6 +53,9 @@ export class GameManager {
   }
 
   setupEventListeners() {
+    this.fullScreenBtn.addEventListener("click", (e) =>
+      this.eventManager.emit(GameEvents.FULL_SCREEN_BTN, e)
+    );
     this.eventManager.on(GameEvents.SET_NEW_GAME, async () => {
       await this.setGame();
     });
