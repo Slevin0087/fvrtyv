@@ -13,10 +13,7 @@ export class GameManager {
   constructor() {
     this.lastTime = 0;
     this.fullScreenBtn = document.getElementById("full-screen-btn");
-    // this.init();
   }
-
-  init() {}
 
   startApp() {
     // 1. Инициализация менеджеров
@@ -43,13 +40,6 @@ export class GameManager {
     );
     this.setupEventListeners();
     this.gameLoop(0);
-    // 2. Загрузка необходимых данных
-    // await this.loadAssets();
-
-    // 3. Создание экземпляра игры
-
-    // 4. Старт игрового процесса
-    // await this.game.start();
   }
 
   setupEventListeners() {
@@ -58,8 +48,6 @@ export class GameManager {
     );
     this.eventManager.on(GameEvents.SET_NEW_GAME, async () => {
       await this.setGame();
-      console.log('this.cardsSystem.faceDownCards:', this.cardsSystem.faceDownCards);
-      
     });
     this.eventManager.on(
       GameEvents.GAME_RESTART,
@@ -106,14 +94,11 @@ export class GameManager {
       this.cardsSystem.stock,
       this.cardsSystem.waste
     );
-    console.log("ДО await this.gameLogicSystem.dealTableauCards");
-
     await this.gameLogicSystem.dealTableauCards(
       this.cardsSystem.stock,
       this.cardsSystem.tableaus
     );
     this.stateManager.state.game.isRunning = true;
-    console.log("ПОСЛЕ await this.gameLogicSystem.dealTableauCards");
   }
 
   update(deltaTime) {

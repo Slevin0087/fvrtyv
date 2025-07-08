@@ -10,6 +10,7 @@ export class GameSetupSystem {
 
     this.setupEventListeners();
   }
+
   setupEventListeners() {
     this.eventManager.on(GameEvents.IS_FACE_DOWN_CARD, (card) =>
       this.isFaceDownCard(card)
@@ -23,6 +24,7 @@ export class GameSetupSystem {
   setCards(deck, stock) {
     deck.reset();
     const stockCards = [];
+    this.faceDownCards = [];
 
     while (!deck.isEmpty()) {
       const card = deck.deal();
@@ -107,14 +109,15 @@ export class GameSetupSystem {
         (cardFaceDoun) => cardFaceDoun !== card
       );
       this.faceDownCards = newC;
+      console.log("isFaceDownCard:", this.faceDownCards);
     } else if (this.faceDownCards.length <= 0) {
-      // alert('Все карты открылись');
+      alert("Все карты открылись");
       this.eventManager.emit(GameEvents.COLLECT_BTN_SHOW);
-      // document.getElementById('blinking-text').classList.remove('hidden');
     }
   }
 
   updateFaceDownCard(card) {
     this.faceDownCards.push(card);
+    console.log("updateFaceDownCard:", this.faceDownCards);
   }
 }

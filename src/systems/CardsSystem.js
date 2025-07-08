@@ -28,9 +28,9 @@ export class CardsSystem {
     //   this.isFaceDownCard(card)
     // );
 
-    this.eventManager.on(GameEvents.UP_FACE_DOWN_CARD, (card) =>
-      this.updateFaceDownCard(card)
-    );
+    // this.eventManager.on(GameEvents.UP_FACE_DOWN_CARD, (card) =>
+    //   this.updateFaceDownCard(card)
+    // );
     // this.eventManager.on(GameEvents.CARD_CLICK, (card) => this.handleCardClick(card));
     // this.eventManager.on(GameEvents.CARD_DRAG_START, (card, element) =>
     //   this.handleDragStart(card, element)
