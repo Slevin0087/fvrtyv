@@ -92,6 +92,7 @@ export const GameEvents = {
   COLLECT_BTN_SHOW: "collect:btn:show",
   IS_FACE_DOWN_CARD: "is:face:down:card",
   UP_FACE_DOWN_CARD: "up:face:down:card",
+  PULSE_COLLECT_BTN: "pulse:collect:btn",
 };
 
 export const AnimationDurations = {

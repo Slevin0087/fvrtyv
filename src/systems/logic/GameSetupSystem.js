@@ -105,11 +105,7 @@ export class GameSetupSystem {
 
   isFaceDownCard(card) {
     if (this.faceDownCards.length > 0) {
-      const newC = this.faceDownCards.filter(
-        (cardFaceDoun) => cardFaceDoun !== card
-      );
-      this.faceDownCards = newC;
-      console.log("isFaceDownCard:", this.faceDownCards);
+      this.filterFaceDownCards(card);
       if (this.faceDownCards.length <= 0) {
         alert("Все карты открылись");
         this.eventManager.emit(GameEvents.COLLECT_BTN_SHOW);
@@ -117,11 +113,17 @@ export class GameSetupSystem {
       }
       return;
     }
-    throw new Error('error in isFaceDownCard')
+    throw new Error("error in isFaceDownCard");
+  }
+
+  filterFaceDownCards(card) {
+    const newC = this.faceDownCards.filter(
+      (cardFaceDoun) => cardFaceDoun !== card
+    );
+    this.faceDownCards = newC;
   }
 
   updateFaceDownCard(card) {
     this.faceDownCards.push(card);
-    console.log("updateFaceDownCard:", this.faceDownCards);
   }
 }

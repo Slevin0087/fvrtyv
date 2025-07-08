@@ -48,9 +48,9 @@ export class UIGamePage extends UIPage {
       this.updateScore(score)
     );
 
-    this.eventManager.on(GameEvents.COLLECT_BTN_SHOW, () =>
-      this.elements.collectBtn.classList.remove('hidden')
-    );
+    this.eventManager.on(GameEvents.COLLECT_BTN_SHOW, () => {
+      this.elements.collectBtn.classList.remove("hidden");
+    });
 
     this.eventManager.on(GameEvents.TIME_UPDATE, (time) => {
       this.updateTime(time);
