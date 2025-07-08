@@ -110,10 +110,14 @@ export class GameSetupSystem {
       );
       this.faceDownCards = newC;
       console.log("isFaceDownCard:", this.faceDownCards);
-    } else if (this.faceDownCards.length <= 0) {
-      alert("Все карты открылись");
-      this.eventManager.emit(GameEvents.COLLECT_BTN_SHOW);
+      if (this.faceDownCards.length <= 0) {
+        alert("Все карты открылись");
+        this.eventManager.emit(GameEvents.COLLECT_BTN_SHOW);
+        return;
+      }
+      return;
     }
+    throw new Error('error in isFaceDownCard')
   }
 
   updateFaceDownCard(card) {
