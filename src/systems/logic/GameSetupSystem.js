@@ -6,6 +6,18 @@ export class GameSetupSystem {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
     this.cardMoveDuration = UIConfig.animations.cardMoveDuration;
+    this.faceDownCards = [];
+
+    this.setupEventListeners();
+  }
+  setupEventListeners() {
+    this.eventManager.on(GameEvents.IS_FACE_DOWN_CARD, (card) =>
+      this.isFaceDownCard(card)
+    );
+
+    this.eventManager.on(GameEvents.UP_FACE_DOWN_CARD, (card) =>
+      this.updateFaceDownCard(card)
+    );
   }
 
   setCards(deck, stock) {
@@ -41,7 +53,7 @@ export class GameSetupSystem {
       await this.animateCardMove(card, tableau);
       if (shouldFaceUp) {
         await this.flipCard(card);
-      }
+      } else if (!shouldFaceUp) this.updateFaceDownCard(card);
       this.removeHandleCard(card);
       this.handleCard(card);
     } catch (error) {
@@ -87,5 +99,22 @@ export class GameSetupSystem {
     card.domElement.removeEventListener("click", () => {
       this.eventManager.emit(GameEvents.CARD_CLICK, card);
     });
+  }
+
+  isFaceDownCard(card) {
+    if (this.faceDownCards.length > 0) {
+      const newC = this.faceDownCards.filter(
+        (cardFaceDoun) => cardFaceDoun !== card
+      );
+      this.faceDownCards = newC;
+    } else if (this.faceDownCards.length <= 0) {
+      // alert('Все карты открылись');
+      this.eventManager.emit(GameEvents.COLLECT_BTN_SHOW);
+      // document.getElementById('blinking-text').classList.remove('hidden');
+    }
+  }
+
+  updateFaceDownCard(card) {
+    this.faceDownCards.push(card);
   }
 }

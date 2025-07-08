@@ -24,9 +24,9 @@ export class CardsSystem {
   }
 
   setupEventListeners() {
-    this.eventManager.on(GameEvents.IS_FACE_DOWN_CARD, (card) =>
-      this.isFaceDownCard(card)
-    );
+    // this.eventManager.on(GameEvents.IS_FACE_DOWN_CARD, (card) =>
+    //   this.isFaceDownCard(card)
+    // );
 
     this.eventManager.on(GameEvents.UP_FACE_DOWN_CARD, (card) =>
       this.updateFaceDownCard(card)
@@ -54,100 +54,101 @@ export class CardsSystem {
     });
   }
 
-  setCards() {
-    this.deck.reset();
+  // setCards() {
+  //   this.deck.reset();
 
-    // // Раздача карт в tableau
-    // for (let i = 0; i < 7; i++) {
-    //   for (let j = 0; j <= i; j++) {
-    //     const card = deck.deal();
-    //     card.faceUp = j === i;
-    //     tableaus[i].addCard(card);
-    //   }
-    // }
+  //   // // Раздача карт в tableau
+  //   // for (let i = 0; i < 7; i++) {
+  //   //   for (let j = 0; j <= i; j++) {
+  //   //     const card = deck.deal();
+  //   //     card.faceUp = j === i;
+  //   //     tableaus[i].addCard(card);
+  //   //   }
+  //   // }
 
-    // Оставшиеся карты в сток
-    const stockCards = [];
+  //   // Оставшиеся карты в сток
+  //   const stockCards = [];
 
-    while (!this.deck.isEmpty()) {
-      const card = this.deck.deal();
-      stockCards.push(card);
-      console.log("stockCards:", stockCards);
-    }
-    this.stock.addCards(stockCards);
+  //   while (!this.deck.isEmpty()) {
+  //     const card = this.deck.deal();
+  //     stockCards.push(card);
+  //     console.log("stockCards:", stockCards);
+  //   }
+  //   this.stock.addCards(stockCards);
 
-    // Сброс состояния игры
-    // this.eventManager.emit(GameEvents.END_SET_NEW_GAME);
-  }
+  //   // Сброс состояния игры
+  //   // this.eventManager.emit(GameEvents.END_SET_NEW_GAME);
+  // }
 
-  async dealTableauCards() {
-    try {
-      for (let i = 0; i < 7; i++) {
-        for (let j = 0; j <= i; j++) {
-          console.log("j:", j);
-          await this.dealSingleCard(this.stock, this.tableaus[i], j, j === i);
-        }
-      }
-    } catch (error) {
-      throw new Error(error);
-    }
-  }
+  // async dealTableauCards() {
+  //   try {
+  //     for (let i = 0; i < 7; i++) {
+  //       for (let j = 0; j <= i; j++) {
+  //         console.log("j:", j);
+  //         await this.dealSingleCard(this.stock, this.tableaus[i], j, j === i);
+  //       }
+  //     }
+  //   } catch (error) {
+  //     throw new Error(error);
+  //   }
+  // }
 
-  async dealSingleCard(stock, tableau, position, shouldFaceUp) {
-    try {
-      const card = stock.deal();
-      if (!card) throw new Error("No cards left in stock");
-      card.faceUp = shouldFaceUp;
-      await this.animateCardMove(
-        card,
-        stock.element,
-        tableau.element,
-        position
-      );
-      // tableau.addCard(card);
+  // async dealSingleCard(stock, tableau, position, shouldFaceUp) {
+  //   try {
+  //     const card = stock.deal();
+  //     if (!card) throw new Error("No cards left in stock");
+  //     card.faceUp = shouldFaceUp;
+  //     await this.animateCardMove(
+  //       card,
+  //       stock.element,
+  //       tableau.element,
+  //       position
+  //     );
+  //     // tableau.addCard(card);
 
-      if (shouldFaceUp) {
-        await this.flipCard(card);
-      } else if (!shouldFaceUp) this.updateFaceDownCard(card);
-      this.removeHandleCard(card);
-      this.handleCard(card);
-    } catch (error) {
-      throw new Error(error);
-    }
-  }
+  //     if (shouldFaceUp) {
+  //       await this.flipCard(card);
+  //     } else if (!shouldFaceUp) this.updateFaceDownCard(card);
+      
+  //     this.removeHandleCard(card);
+  //     this.handleCard(card);
+  //   } catch (error) {
+  //     throw new Error(error);
+  //   }
+  // }
 
-  async animateCardMove(card, fromEl, toEl, position) {
-    try {
-      return new Promise((resolve, reject) => {
-        this.eventManager.emit(GameEvents.ANIMATE_STOCK_CARD_MOVE, {
-          card,
-          fromEl,
-          toEl,
-          position,
-          onComplete: resolve,
-          onError: reject,
-        });
-        this.eventManager.emit(GameEvents.AUDIO_CARD_MOVE);
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  // async animateCardMove(card, fromEl, toEl, position) {
+  //   try {
+  //     return new Promise((resolve, reject) => {
+  //       this.eventManager.emit(GameEvents.ANIMATE_STOCK_CARD_MOVE, {
+  //         card,
+  //         fromEl,
+  //         toEl,
+  //         position,
+  //         onComplete: resolve,
+  //         onError: reject,
+  //       });
+  //       this.eventManager.emit(GameEvents.AUDIO_CARD_MOVE);
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
-  async flipCard(card) {
-    try {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          this.eventManager.emit(GameEvents.CARD_FLIP, {
-            card,
-          });
-        }, 500);
-        resolve();
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  // async flipCard(card) {
+  //   try {
+  //     return new Promise((resolve) => {
+  //       setTimeout(() => {
+  //         this.eventManager.emit(GameEvents.CARD_FLIP, {
+  //           card,
+  //         });
+  //       }, 500);
+  //       resolve();
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
 
   getCardStyles() {
     return {

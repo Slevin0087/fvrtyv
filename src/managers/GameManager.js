@@ -58,6 +58,8 @@ export class GameManager {
     );
     this.eventManager.on(GameEvents.SET_NEW_GAME, async () => {
       await this.setGame();
+      console.log('this.cardsSystem.faceDownCards:', this.cardsSystem.faceDownCards);
+      
     });
     this.eventManager.on(
       GameEvents.GAME_RESTART,
