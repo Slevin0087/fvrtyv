@@ -123,7 +123,7 @@ export class RenderingSystem {
   renderCards() {
     console.log("В РЕНДЕРЕ КАРТ");
 
-    const gameComponents = this.getGameComponents();
+    const gameComponents = this.getCardsComponents();
     const { foundations, tableaus, stock } = gameComponents;
     // Очищаем старые карты
     this.clearAllCards();
@@ -217,8 +217,8 @@ export class RenderingSystem {
     document.querySelectorAll(".card").forEach((card) => card.remove());
   }
 
-  getGameComponents() {
-    return this.stateManager.state.currentGame?.components || null;
+  getCardsComponents() {
+    return this.stateManager.state.cardsComponents || null;
   }
 
   // после

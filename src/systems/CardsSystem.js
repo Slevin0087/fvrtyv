@@ -24,6 +24,9 @@ export class CardsSystem {
   }
 
   setupEventListeners() {
+    this.eventManager.on(GameEvents.CHANGE_CARDS_STYLES, () =>
+      this.setCardsStyles()
+    );
     // this.eventManager.on(GameEvents.IS_FACE_DOWN_CARD, (card) =>
     //   this.isFaceDownCard(card)
     // );
@@ -109,7 +112,7 @@ export class CardsSystem {
   //     if (shouldFaceUp) {
   //       await this.flipCard(card);
   //     } else if (!shouldFaceUp) this.updateFaceDownCard(card);
-      
+
   //     this.removeHandleCard(card);
   //     this.handleCard(card);
   //   } catch (error) {
@@ -314,5 +317,35 @@ export class CardsSystem {
 
   updateFaceDownCard(card) {
     this.faceDownCards.push(card);
+  }
+
+  setCardsStyles() {
+    const { foundations, tableaus, stock, waste } =
+      this.stateManager.state.cardsComponents;
+    foundations?.forEach((foundation) =>
+      this.circleCardsComponents(foundation)
+    );
+    tableaus?.forEach((tableau) => this.circleCardsComponents(tableau));
+    this.circleCardsComponents(stock);
+    this.circleCardsComponents(waste);
+  }
+
+  circleCardsComponents(cardsComponent) {
+    console.log("cardsComponent:", cardsComponent);
+
+    const { backStyle, faceStyle } = this.getCardStyles();
+    cardsComponent.cards?.forEach((card) => {
+      if (card.faceUp) {
+        console.log("card.faceUp:", card.faceUp);
+
+        card.domElement.className = "";
+        card.domElement.classList.add("card", card.color, faceStyle);
+      } else if (!card.faceUp) {
+        console.log("!card.faceUp:", !card.faceUp);
+        card.domElement.className = "";
+
+        card.domElement.classList.add("card", card.color, backStyle);
+      }
+    });
   }
 }

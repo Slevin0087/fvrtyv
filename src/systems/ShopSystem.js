@@ -87,6 +87,8 @@ export class ShopSystem {
   }
 
   setSelectedItems(item) {
+    console.log('OOOOOOOOOOOOOOOOOO:', item);
+    
     this.stateManager.state.player.selectedItems[item.type].id = item.id;
     this.stateManager.state.player.selectedItems[item.type].styleClass =
       item.styleClass;

@@ -8,6 +8,7 @@ import { CardsSystem } from "../systems/CardsSystem.js";
 import { GameLogicSystem } from "../systems/logic/GameLogicSystem.js";
 import { RenderingSystem } from "../systems/render/RenderingSystem.js";
 import { AnimationSystem } from "../systems/AnimationSystem.js";
+import { ShopSystem } from "../systems/ShopSystem.js";
 
 export class GameManager {
   constructor() {
@@ -38,6 +39,7 @@ export class GameManager {
       this.stateManager,
       this.cardsSystem
     );
+    this.shopSystem = new ShopSystem(this.eventManager, this.stateManager);
     this.setupEventListeners();
     this.gameLoop(0);
   }
