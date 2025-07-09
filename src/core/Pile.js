@@ -22,6 +22,11 @@ export class Pile {
   addCard(card) {
     const position = this.cards.length;
     card.positionData = this.getPositionData(position);
+    console.log(
+      "card.positionData.elementPosition:",
+      card.positionData.elementPosition
+    );
+
     this.cards.push(card);
     card.parentElement = this.element;
     this.updateCardElement(card, position);
@@ -40,9 +45,7 @@ export class Pile {
   }
 
   getElementPosition() {
-    return this.element.childNodes.length
-        ? this.element.childNodes.length
-        : 0
+    return this.element.childNodes.length ? this.element.childNodes.length : 0;
   }
 
   getZIndex() {

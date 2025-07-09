@@ -15,7 +15,7 @@ export class CardMovementSystem {
     const gameComponents = this.stateManager.state.cardsComponents;
     // Проверка foundation
     for (let i = 0; i < gameComponents.foundations.length; i++) {
-      if (gameComponents.foundations[i].canAccept(card)) {
+      if (gameComponents.foundations[i].canAccept(card, gameComponents)) {
         this.audioManager.play(AudioName.CLICK);
         const containerTo = gameComponents.foundations[i];
         const containerToName = this.cardContainers.foundation;

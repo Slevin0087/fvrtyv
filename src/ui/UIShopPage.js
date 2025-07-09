@@ -45,8 +45,8 @@ export class UIShopPage extends UIPage {
   }
 
   render(shopState, shopConfig) {
-    console.log('render(shopState, shopConfig):', shopState, shopConfig);
-    
+    console.log("render(shopState, shopConfig):", shopState, shopConfig);
+
     // Очищаем контейнер
     this.elements.itemsContainer.innerHTML = "";
 
@@ -192,16 +192,11 @@ export class UIShopPage extends UIPage {
   }
 
   handleBtnClick(item, isOwned, isItemBuy) {
-    console.log("КЛИК ПО КНОПКЕ:", item.owned);
     if (isItemBuy && !isOwned) {
-      console.log("isItemBuy && !isOwned:", isItemBuy && !isOwned);
-
       this.eventManager.emit(GameEvents.SET_SELECTED_ITEMS, item);
       this.eventManager.emit(GameEvents.CHANGE_CARDS_STYLES);
       this.render(this.stateManager.state.shop, ShopConfig);
     } else if (!isItemBuy && !isOwned) {
-      console.log("!isItemBuy && !isOwned:", !isItemBuy && !isOwned);
-
       this.eventManager.emit(GameEvents.SHOP_ITEM_PURCHASE, item);
       this.render(this.stateManager.state.shop, ShopConfig);
     }

@@ -16,11 +16,17 @@ export class Foundation extends Pile {
     return element;
   }
 
-  canAccept(card) {
+  canAccept(card, gameComponents) {
+    console.log(
+      "this.isCards(card, gameComponents):",
+      this.isCards(card, gameComponents)
+    );
+
     if (!card.faceUp) return false;
     else {
-      if (super.isEmpty() && !this.isCards(card)) return card.value === "A";
-      else if (this.isCards(card)) return false;
+      if (super.isEmpty() && !this.isCards(card, gameComponents))
+        return card.value === "A";
+      else if (this.isCards(card, gameComponents)) return false;
       const topCard = super.getTopCard();
       console.log("topCard:", topCard);
 
@@ -32,11 +38,10 @@ export class Foundation extends Pile {
     return this.cards.length === 13; // Все карты от A до K
   }
 
-  isCards(card) {
-    return (
-      card.positionData.parent.startsWith("tableau") &&
-      card.parentElement.childNodes.length - 1 >
-        card.positionData.elementPosition
-    );
+  isCards(card, gameComponents) {
+    console.log("gameComponents:", gameComponents);
+    const tableau = gameComponents.tableaus[card.positionData.index];
+    const lastСard = tableau.cards[tableau.cards.length - 1];
+    return card.positionData.parent.startsWith("tableau") && lastСard !== card;
   }
 }
