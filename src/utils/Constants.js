@@ -27,6 +27,7 @@ export const GameEvents = {
   BACK_BTN_CLICKED: "back:btn:clicked",
   STORAGE_SET: "storage:set",
   START_PLAY_TIME: "start:play:time",
+  STOP_PLAY_TIME: "stop:play:time",
   UIMANAGER_INIT: "uiManager:init",
   UINAMEPAGE_SHOW: "uiNamePage:show",
   UIMENUPAGE_SHOW: "uiMenuPage:show",

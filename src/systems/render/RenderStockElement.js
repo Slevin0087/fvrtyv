@@ -75,6 +75,8 @@ export class RenderStockElement {
         containerTo: waste,
         containerToName: this.cardContainers.waste,
       });
+      console.log('this.state.game.lastMove:', this.stateManager.state.game.lastMove);
+      
       // this.eventManager.emit(GameEvents.CARD_MOVE, {
       //   card,
       //   containerToIndex: 0,

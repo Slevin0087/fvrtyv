@@ -66,6 +66,7 @@ export class Storage {
       score: 0,
       moves: 0,
       playTime: 0,
+      hintsUsed: 0,
       lastMove: [],
       minPossibleMoves: 52, // Теоретический минимум для пасьянса
       difficulty: "normal",

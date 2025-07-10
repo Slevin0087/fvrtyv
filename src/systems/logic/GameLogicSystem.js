@@ -6,13 +6,13 @@ import { ScoringSystem } from "./ScoringSystem.js";
 import { WinConditionSystem } from "./WinConditionSystem.js";
 import { HintSystem } from "./HintSystem.js";
 import { UndoSystem } from "./UndoSystem.js";
-import { AudioName } from "../../utils/Constants.js";
 import { UIConfig } from "../../configs/UIConfig.js";
 
 export class GameLogicSystem {
-  constructor(eventManager, stateManager, animator, audioManager) {
+  constructor(eventManager, stateManager, cardsSystem, animator, audioManager) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
+    this.cardsSystem = cardsSystem;
     this.animator = animator;
     this.audioManager = audioManager;
     this.addition = AnimationOperators.ADDITION;
@@ -52,7 +52,10 @@ export class GameLogicSystem {
     this.undoSystem = new UndoSystem(
       this.eventManager,
       this.stateManager,
-      this.audioManager
+      this.cardsSystem,
+      this.animator,
+      this.audioManager,
+      this.handleCardClick,
     );
   }
 

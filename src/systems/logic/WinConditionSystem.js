@@ -1,4 +1,6 @@
 import { GameEvents } from "../../utils/Constants.js";
+import { GameConfig } from "../../configs/GameConfig.js";
+import { AudioName } from "../../utils/Constants.js";
 
 export class WinConditionSystem {
   constructor(eventManager, stateManager, audioManager) {
@@ -15,11 +17,12 @@ export class WinConditionSystem {
 
   handleWin() {
     console.log('В HANDLEWIIIIIIIIIIIIIIIIN');
-    
+    this.eventManager.emit(GameEvents.STOP_PLAY_TIME);
     this.stateManager.incrementStat("wins");
-    this.stateManager.updateScore(
-      this.calculatePoints(GameConfig.rules.winScoreBonus)
-    );
+    this.eventManager.emit(GameEvents.ADD_POINTS, GameConfig.rules.winScoreBonus);
+    // this.stateManager.updateScore(
+    //   this.calculatePoints(GameConfig.rules.winScoreBonus)
+    // );
 
     // Проверяем победу без подсказок
     if (this.stateManager.state.game.hintsUsed === 0) {
@@ -28,15 +31,14 @@ export class WinConditionSystem {
 
     // Проверяем быструю победу
     if (
-      this.stateManager.state.game.time <
+      this.stateManager.state.game.playTime <
       this.stateManager.state.player.fastestWin
     ) {
       this.stateManager.state.player.fastestWin =
-        this.stateManager.state.game.time;
+        this.stateManager.state.game.playTime;
     }
 
     this.audioManager.play(AudioName.WIN);
-    // this.eventManager.emit(GameEvents.CARD_MOVED);
     this.eventManager.emit(GameEvents.UI_ANIMATE_WIN);
     this.eventManager.emit(
       GameEvents.INCREMENT_COINS,

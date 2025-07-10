@@ -36,6 +36,7 @@ export class GameManager {
     this.gameLogicSystem = new GameLogicSystem(
       this.eventManager,
       this.stateManager,
+      this.cardsSystem,
       Animator,
       this.audioManager
     );
@@ -61,9 +62,10 @@ export class GameManager {
       GameEvents.GAME_RESTART,
       async () => await this.gameRestart()
     );
-    this.eventManager.on(GameEvents.START_PLAY_TIME, (startTime) =>
+    this.eventManager.on(GameEvents.START_PLAY_TIME, () =>
       this.startTimeInterval()
     );
+    this.eventManager.on(GameEvents.STOP_PLAY_TIME, () => this.stopTimeInterval());
   }
 
   startTimeInterval() {
@@ -107,6 +109,7 @@ export class GameManager {
   // }
 
   async gameRestart() {
+    this.stopTimeInterval();
     await this.setGame();
   }
 

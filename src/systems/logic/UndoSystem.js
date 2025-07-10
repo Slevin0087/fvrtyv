@@ -7,9 +7,10 @@ import { UIConfig } from "../../configs/UIConfig.js";
 import { GameConfig } from "../../configs/GameConfig.js";
 
 export class UndoSystem {
-  constructor(eventManager, stateManager, audioManager) {
+  constructor(eventManager, stateManager, animator, audioManager) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
+    this.animator = animator;
     this.audioManager = audioManager;
     this.cardContainers = GameConfig.cardContainers;
     this.subtraction = AnimationOperators.SUBTRACTION;
@@ -88,6 +89,15 @@ export class UndoSystem {
         containerTo,
         containerToName: fromType,
       });
+    } else if (fromType === this.cardContainers.stock) {
+      const containerTo = gameComponents.stock;
+      this.eventManager.emit(GameEvents.BACK_CARD_FLIP, card);
+      setTimeout(() => {this.eventManager.emit(GameEvents.CARD_MOVE, {
+        card,
+        containerToIndex: 0,
+        containerTo,
+        containerToName: fromType,
+      });}, UIConfig.animations.cardFlipDuration * 2000)
       // this.eventManager.emit(
       //   GameEvents.ANIMATE_UNDO_TO_WASTE,
       //   card,

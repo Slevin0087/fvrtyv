@@ -198,6 +198,7 @@ export class StateManager {
   }
 
   resetTime(time) {
+    this.state.firstCardClick = false;
     this.state.game.playTime = time;
   }
 
