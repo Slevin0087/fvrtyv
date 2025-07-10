@@ -41,7 +41,7 @@ export class UIGamePage extends UIPage {
     });
 
     this.elements.collectBtn.addEventListener("click", () => {
-      this.eventManager.emit("cards:collect");
+      this.eventManager.emit(GameEvents.CARDS_COLLECT);
     });
 
     this.eventManager.on(GameEvents.SCORE_UPDATE, (score) =>

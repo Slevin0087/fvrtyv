@@ -96,6 +96,7 @@ export const GameEvents = {
   UP_FACE_DOWN_CARD: "up:face:down:card",
   PULSE_COLLECT_BTN: "pulse:collect:btn",
   CHANGE_CARDS_STYLES: "change:cards:styles",
+  CARDS_COLLECT: "cards:collect",
 };
 
 export const AnimationDurations = {

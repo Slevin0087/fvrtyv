@@ -10,7 +10,7 @@ export class CardMovementSystem {
   }
 
   handleCardClick(card) {
-    if (!card.faceUp || this.stateManager.state.game.isPaused) return;
+    if (!card.faceUp || this.stateManager.state.game.isPaused) return false;
 
     const gameComponents = this.stateManager.state.cardsComponents;
     // Проверка foundation
@@ -46,6 +46,7 @@ export class CardMovementSystem {
     }
 
     this.audioManager.play(AudioName.INFO);
+    return false;
   }
 
   getCardSource(card) {

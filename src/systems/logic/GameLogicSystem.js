@@ -7,6 +7,7 @@ import { WinConditionSystem } from "./WinConditionSystem.js";
 import { HintSystem } from "./HintSystem.js";
 import { UndoSystem } from "./UndoSystem.js";
 import { UIConfig } from "../../configs/UIConfig.js";
+import { autoCollectCards } from "../../utils/autoCollectCards.js";
 
 export class GameLogicSystem {
   constructor(eventManager, stateManager, cardsSystem, animator, audioManager) {
@@ -55,7 +56,7 @@ export class GameLogicSystem {
       this.cardsSystem,
       this.animator,
       this.audioManager,
-      this.handleCardClick,
+      this.handleCardClick
     );
   }
 
@@ -75,7 +76,7 @@ export class GameLogicSystem {
     // this.eventManager.on(GameEvents.CARD_TO_TABLEAU, (data) =>
     //   this.handleCardMove(data)
     // );
-
+    this.eventManager.on(GameEvents.CARDS_COLLECT, () => this.cardsCollect());
     this.eventManager.on("hint:request", () => this.hintSystem.provide());
     this.eventManager.on("game:undo", () => this.undoSystem.execute());
   }
@@ -185,6 +186,14 @@ export class GameLogicSystem {
         resolve();
       });
     }
+  }
+
+  cardsCollect() {
+    autoCollectCards(
+      this.stateManager.state.cardsComponents,
+      this.movementSystem.handleCardClick,
+      this.winSystem.check
+    );
   }
 
   // handleTableauMove({ card, toContainerIndex, toContainer, nameToContainer }) {
