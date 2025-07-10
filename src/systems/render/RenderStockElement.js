@@ -7,9 +7,16 @@ import { GameConfig } from "../../configs/GameConfig.js";
 import { UIConfig } from "../../configs/UIConfig.js";
 
 export class RenderStockElement {
-  constructor(eventManager, stateManager, domElements, cardsSystem) {
+  constructor(
+    eventManager,
+    stateManager,
+    gameLogicSystem,
+    domElements,
+    cardsSystem
+  ) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
+    this.gameLogicSystem = gameLogicSystem;
     this.domElements = domElements;
     this.cardsSystem = cardsSystem;
     this.wasteCardFlip = AnimationDurations.WASTE_CARD_FLIP;
@@ -62,18 +69,19 @@ export class RenderStockElement {
     const card = stock.getWasteCard();
     if (card) {
       this.eventManager.emit(GameEvents.AUDIO_CARD_CLICK);
-      this.eventManager.emit(GameEvents.CARD_MOVE, {
+      await this.gameLogicSystem.handleCardMove({
         card,
         containerToIndex: 0,
         containerTo: waste,
         containerToName: this.cardContainers.waste,
       });
-      await new Promise((resolve) => {
-        setTimeout(() => {
-          this.eventManager.emit(GameEvents.CARD_FLIP, card);
-        }, UIConfig.animations.cardMoveDuration);
-        resolve();
-      });
+      // this.eventManager.emit(GameEvents.CARD_MOVE, {
+      //   card,
+      //   containerToIndex: 0,
+      //   containerTo: waste,
+      //   containerToName: this.cardContainers.waste,
+      // });
+      await this.flipCard(card);
     }
     setTimeout(() => {
       this.isClickAllowed = true; // Разрешаем клики после задержки
@@ -114,5 +122,16 @@ export class RenderStockElement {
     // card.domElement.style.transition = `transform 300ms linear`;
     card.domElement.style.transform = `translateX(${-offsetX}px) translateY(${-offsetY}px)`;
     card.domElement.style.zIndex = zIndex;
+  }
+
+  async flipCard(card) {
+    try {
+      // return new Promise(() => {
+      this.eventManager.emit(GameEvents.CARD_FLIP, card);
+      // });
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
   }
 }

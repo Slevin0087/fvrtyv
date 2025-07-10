@@ -5,9 +5,10 @@ import { RenderStaticElements } from "./RenderStaticElements.js";
 import { RenderStockElement } from "./RenderStockElement.js";
 
 export class RenderingSystem {
-  constructor(eventManager, stateManager, cardsSystem) {
+  constructor(eventManager, stateManager, gameLogicSystem, cardsSystem) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
+    this.gameLogicSystem = gameLogicSystem;
     this.cardsSystem = cardsSystem;
     this.components = {};
     this.domElements = {
@@ -34,6 +35,7 @@ export class RenderingSystem {
       renderStockElement: new RenderStockElement(
         this.eventManager,
         this.stateManager,
+        this.gameLogicSystem,
         this.domElements,
         this.cardsSystem
       ),

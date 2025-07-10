@@ -9,6 +9,7 @@ import { GameLogicSystem } from "../systems/logic/GameLogicSystem.js";
 import { RenderingSystem } from "../systems/render/RenderingSystem.js";
 import { AnimationSystem } from "../systems/AnimationSystem.js";
 import { ShopSystem } from "../systems/ShopSystem.js";
+import { Animator } from "../utils/Animator.js";
 
 export class GameManager {
   constructor() {
@@ -31,14 +32,17 @@ export class GameManager {
       this.stateManager,
       this.cardsSystem
     );
+    // this.animator = new Animator();
     this.gameLogicSystem = new GameLogicSystem(
       this.eventManager,
       this.stateManager,
+      Animator,
       this.audioManager
     );
     this.renderingSystem = new RenderingSystem(
       this.eventManager,
       this.stateManager,
+      this.gameLogicSystem,
       this.cardsSystem
     );
     this.shopSystem = new ShopSystem(this.eventManager, this.stateManager);

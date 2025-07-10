@@ -10,13 +10,16 @@ import { AudioName } from "../../utils/Constants.js";
 import { UIConfig } from "../../configs/UIConfig.js";
 
 export class GameLogicSystem {
-  constructor(eventManager, stateManager, audioManager) {
+  constructor(eventManager, stateManager, animator, audioManager) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
+    this.animator = animator;
     this.audioManager = audioManager;
     this.addition = AnimationOperators.ADDITION;
     this.subtraction = AnimationOperators.SUBTRACTION;
     this.numberMoves = GameConfig.rules.initialMove;
+    this.cardMoveDuration = UIConfig.animations.cardMoveDuration;
+
     this.firstCardClick = false;
     this.setupSystems();
     this.setupEventListeners();
@@ -86,7 +89,7 @@ export class GameLogicSystem {
     if (this.winSystem.check()) return;
     if (!this.stateManager.state.firstCardClick) {
       this.stateManager.state.firstCardClick = true;
-      this.eventManager.emit(GameEvents.START_PLAY_TIME, 0)
+      this.eventManager.emit(GameEvents.START_PLAY_TIME, 0);
     }
     this.movementSystem.handleCardClick(card);
   }
@@ -105,45 +108,55 @@ export class GameLogicSystem {
       to: `${containerToName}-${containerToIndex}`,
     });
 
-    this.eventManager.emit(
-      GameEvents.ANIMATE_CARD_MOVE,
+    await this.animator.animateCardMove(
       card,
       source,
       elementFrom,
       containerTo,
-      this.movementSystem
+      this.movementSystem,
+      this.cardMoveDuration
     );
 
-    setTimeout(() => {
-      this.stateManager.updateMoves(this.numberMoves);
-      this.eventManager.emit(GameEvents.UP_MOVES);
-    }, UIConfig.animations.cardMoveDuration);
+    // this.eventManager.emit(
+    //   GameEvents.ANIMATE_CARD_MOVE,
+    //   card,
+    //   source,
+    //   elementFrom,
+    //   containerTo,
+    //   this.movementSystem
+    // );
+
+    // setTimeout(() => {
+    this.stateManager.updateMoves(this.numberMoves);
+    this.eventManager.emit(GameEvents.UP_MOVES);
+    // }, UIConfig.animations.cardMoveDuration);
     if (
       containerToName === GameConfig.cardContainers.foundation ||
       source.startsWith(GameConfig.cardContainers.foundation)
     ) {
-      await new Promise((resolve) => {
-        setTimeout(() => {
-          const score = GameConfig.rules.scoreForFoundation;
-          let operator = "";
-          if (containerToName === GameConfig.cardContainers.foundation)
-            operator = this.addition;
-          else if (source.startsWith(GameConfig.cardContainers.foundation))
-            operator = this.subtraction;
+      // await new Promise((resolve) => {
+      //   setTimeout(() => {
+      const score = GameConfig.rules.scoreForFoundation;
+      let operator = "";
+      if (containerToName === GameConfig.cardContainers.foundation)
+        operator = this.addition;
+      else if (source.startsWith(GameConfig.cardContainers.foundation))
+        operator = this.subtraction;
 
-          this.eventManager.emit(
-            GameEvents.UI_ANIMATION_POINTS_EARNED,
-            card,
-            score,
-            operator
-          );
-          if (containerToName === GameConfig.cardContainers.foundation)
-            this.scoringSystem.addPoints(score);
-          else if (source.startsWith(GameConfig.cardContainers.foundation))
-            this.scoringSystem.addPoints(-score);
-        }, UIConfig.animations.cardMoveDuration);
-        resolve();
-      });
+      this.animator.showPointsAnimation(card, score, operator);
+      // this.eventManager.emit(
+      //   GameEvents.UI_ANIMATION_POINTS_EARNED,
+      //   card,
+      //   score,
+      //   operator
+      // );
+      if (containerToName === GameConfig.cardContainers.foundation)
+        this.scoringSystem.addPoints(score);
+      else if (source.startsWith(GameConfig.cardContainers.foundation))
+        this.scoringSystem.addPoints(-score);
+      // }, UIConfig.animations.cardMoveDuration);
+      // resolve();
+      // });
     }
 
     if (this.winSystem.check()) {
