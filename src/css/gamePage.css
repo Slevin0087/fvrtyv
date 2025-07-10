@@ -80,21 +80,21 @@
 }
 
 @keyframes blink {
-  0% {
-    opacity: 1;
+  0%, 100% {
+    visibility: visible;
   }
-  100% {
-    opacity: 0.3; /* Минимальная видимость вместо полного исчезновения */
+  50% {
+    visibility: hidden;
   }
 }
 
 /* Обязательно дублируем для Safari */
 @-webkit-keyframes blink {
-  0% {
-    opacity: 1;
+  0%, 100% {
+    visibility: visible;
   }
-  100% {
-    opacity: 0.3;
+  50% {
+    visibility: hidden;
   }
 }
 
