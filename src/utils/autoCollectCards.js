@@ -30,7 +30,7 @@ export function autoCollectCards(cardsComponents, handleCardClick, check) {
   const { foundations, tableaus, stock, waste } = cardsComponents;
 
   // Проверяем условие выхода
-  if (check()) return true;
+  if (check) return true;
 
   let movedAnyCard = false;
 
