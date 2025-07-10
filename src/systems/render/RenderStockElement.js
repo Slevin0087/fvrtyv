@@ -111,7 +111,7 @@ export class RenderStockElement {
     const offsetY = card.positionData.offsetY;
 
     const zIndex = card.positionData.zIndex;
-    card.domElement.style.transition = `transform 300ms linear`;
+    // card.domElement.style.transition = `transform 300ms linear`;
     card.domElement.style.transform = `translateX(${-offsetX}px) translateY(${-offsetY}px)`;
     card.domElement.style.zIndex = zIndex;
   }

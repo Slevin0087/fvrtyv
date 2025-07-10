@@ -12,6 +12,8 @@ import { ShopSystem } from "../systems/ShopSystem.js";
 
 export class GameManager {
   constructor() {
+    this.timeInterval = null;
+    this.startTime = 0;
     this.lastTime = 0;
     this.fullScreenBtn = document.getElementById("full-screen-btn");
   }
@@ -41,7 +43,7 @@ export class GameManager {
     );
     this.shopSystem = new ShopSystem(this.eventManager, this.stateManager);
     this.setupEventListeners();
-    this.gameLoop(0);
+    // this.gameLoop(0);
   }
 
   setupEventListeners() {
@@ -55,27 +57,51 @@ export class GameManager {
       GameEvents.GAME_RESTART,
       async () => await this.gameRestart()
     );
+    this.eventManager.on(GameEvents.START_PLAY_TIME, (startTime) =>
+      this.startTimeInterval()
+    );
   }
 
-  gameLoop(timestamp) {
-    const deltaTime = timestamp - this.lastTime;
-    this.lastTime = timestamp;
+  startTimeInterval() {
+    if (this.timeInterval) return; // Уже запущен
 
-    // if (this.state.currentGame && this.state.currentGame.update) {
-    //   this.state.currentGame.update(deltaTime / 1000);
-    //   // console.log('в gameLoop timestamp:', this.state.currentGame.update);
-    // }
+    this.startTime = Date.now();
+    this.timeInterval = setInterval(() => {
+      const elapsed = (Date.now() - this.startTime) / 1000;
+      this.stateManager.state.game.playTime = elapsed;
+      this.eventManager.emit(GameEvents.TIME_UPDATE, elapsed);
+    }, 100); // Обновление каждые 100мс (10 FPS)
+  }
 
-    if (this.update) {
-      this.update(deltaTime / 1000);
+  stopTimeInterval() {
+    if (this.timeInterval) {
+      clearInterval(this.timeInterval);
+      this.timeInterval = null;
     }
-
-    // console.log('/////////////////////////////////////////////////////////////////////////////////////////');
-
-    requestAnimationFrame((t) => {
-      this.gameLoop(t);
-    });
   }
+
+  // gameLoop(timestamp) {
+  //   if (!this.stateManager.state.firstCardClick) return;
+
+  //   // Первый кадр: игнорируем deltaTime, начинаем с 0
+  //   if (this.lastTime === 0) {
+  //     this.lastTime = timestamp;
+  //     requestAnimationFrame((t) => this.gameLoop(t));
+  //     return;
+  //   }
+
+  //   const deltaTime = timestamp - this.lastTime;
+  //   this.lastTime = timestamp;
+
+  //   if (this.update) {
+  //     this.update(deltaTime / 1000);
+  //   }
+
+  //   requestAnimationFrame((t) => {
+  //     this.gameLoop(t);
+  //   });
+  // }
+
   async gameRestart() {
     await this.setGame();
   }
@@ -106,12 +132,15 @@ export class GameManager {
   update(deltaTime) {
     console.log("///////////////////////////////////////////////////////");
 
-    if (this.stateManager.state.game.isRunning) {
+    if (
+      this.stateManager.state.game.isRunning &&
+      this.stateManager.state.firstCardClick
+    ) {
       this.stateManager.state.game.playTime += deltaTime;
-      // this.eventManager.emit(
-      //   GameEvents.TIME_UPDATE,
-      //   this.stateManager.state.game.playTime
-      // );
+      this.eventManager.emit(
+        GameEvents.TIME_UPDATE,
+        this.stateManager.state.game.playTime
+      );
     }
   }
 }

@@ -66,7 +66,7 @@ export class GameSetupSystem {
   async animateCardMove(card, tableau) {
     try {
       await new Promise((resolve, reject) => {
-        console.log("в animateCardMove");
+        // console.log("в animateCardMove");
         this.eventManager.emit(GameEvents.ANIMATE_STOCK_CARD_MOVE, {
           card,
           tableau,
@@ -107,7 +107,7 @@ export class GameSetupSystem {
     if (this.faceDownCards.length > 0) {
       this.filterFaceDownCards(card);
       if (this.faceDownCards.length <= 0) {
-        alert("Все карты открылись");
+        // alert("Все карты открылись");
         this.eventManager.emit(GameEvents.COLLECT_BTN_SHOW);
         return;
       }

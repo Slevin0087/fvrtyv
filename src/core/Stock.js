@@ -36,7 +36,7 @@ export class Stock extends Pile {
 
   addCard(card) {
     super.addCard(card);
-    card.positionData.offsetX = this.cards.length * this.overlapX;
+    // card.positionData.offsetX = this.cards.length * this.overlapX;
     card.faceUp = false;
   }
 

@@ -14,6 +14,8 @@ export class WinConditionSystem {
   }
 
   handleWin() {
+    console.log('В HANDLEWIIIIIIIIIIIIIIIIN');
+    
     this.stateManager.incrementStat("wins");
     this.stateManager.updateScore(
       this.calculatePoints(GameConfig.rules.winScoreBonus)

@@ -309,7 +309,7 @@ export class CardsSystem {
       );
       this.faceDownCards = newC;
     } else if (this.faceDownCards.length <= 0) {
-      // alert('Все карты открылись');
+      alert('Все карты открылись');
       this.eventManager.emit(GameEvents.COLLECT_BTN_SHOW);
       // document.getElementById('blinking-text').classList.remove('hidden');
     }
@@ -331,19 +331,13 @@ export class CardsSystem {
   }
 
   circleCardsComponents(cardsComponent) {
-    console.log("cardsComponent:", cardsComponent);
-
     const { backStyle, faceStyle } = this.getCardStyles();
     cardsComponent.cards?.forEach((card) => {
       if (card.faceUp) {
-        console.log("card.faceUp:", card.faceUp);
-
         card.domElement.className = "";
         card.domElement.classList.add("card", card.color, faceStyle);
       } else if (!card.faceUp) {
-        console.log("!card.faceUp:", !card.faceUp);
         card.domElement.className = "";
-
         card.domElement.classList.add("card", card.color, backStyle);
       }
     });

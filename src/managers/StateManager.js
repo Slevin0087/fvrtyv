@@ -16,6 +16,7 @@ export class StateManager {
 
   getInitialState() {
     return {
+      firstCardClick: false,
       currentGame: null,
       cardsComponents: null,
       ui: this.storage.getUIStats(),

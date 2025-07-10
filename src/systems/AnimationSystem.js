@@ -79,7 +79,7 @@ export class AnimationSystem {
     );
 
     this.eventManager.on(GameEvents.ANIMATE_STOCK_CARD_MOVE, async (params) => {
-      console.log("ddddddddd");
+      // console.log("ddddddddd");
 
       await Animator.animateStockCardMove(params, this.startMoveSpeed);
       // await Animator.animateStockCardMove(params, 3000);
@@ -124,7 +124,7 @@ export class AnimationSystem {
 
     // this.eventManager.on(GameEvents.UI_ANIMATE_DEAL_CARDS, () => this.dealCardsAnimation());
 
-    this.eventManager.on("ui:animate:win", () => this.playWinAnimation());
+    this.eventManager.on(GameEvents.UI_ANIMATE_WIN, () => this.playWinAnimation());
 
     this.eventManager.on("card:select", (card) => this.highlightCard(card));
 

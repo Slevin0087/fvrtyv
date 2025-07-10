@@ -5,11 +5,11 @@ export class Animator {
     return new Promise((resolve, reject) => {
       try {
         const { card, tableau, onComplete, onError } = params;
-        console.log("в animateStockCardMove", card);
-
+        
         const cardElement = card.domElement;
         const oldOffsetX = card.positionData.offsetX;
         const oldOffsetY = card.positionData.offsetY;
+        console.log("в animateStockCardMove oldOffsetX, oldOffsetY", oldOffsetX, oldOffsetY);
 
         // FLIP: First - запоминаем начальное положение
         const initialRect = cardElement.getBoundingClientRect();
