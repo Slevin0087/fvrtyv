@@ -5,11 +5,15 @@ export class Animator {
     return new Promise((resolve, reject) => {
       try {
         const { card, tableau, onComplete, onError } = params;
-        
+
         const cardElement = card.domElement;
         const oldOffsetX = card.positionData.offsetX;
         const oldOffsetY = card.positionData.offsetY;
-        console.log("в animateStockCardMove oldOffsetX, oldOffsetY", oldOffsetX, oldOffsetY);
+        console.log(
+          "в animateStockCardMove oldOffsetX, oldOffsetY",
+          oldOffsetX,
+          oldOffsetY
+        );
 
         // FLIP: First - запоминаем начальное положение
         const initialRect = cardElement.getBoundingClientRect();
@@ -229,7 +233,29 @@ export class Animator {
   //   });
   // }
 
-  static animate({
+  // static animate({
+  //   element,
+  //   from,
+  //   to,
+  //   duration,
+  //   delay = 0,
+  //   easing = "linear",
+  // }) {
+  //   return new Promise((resolve) => {
+  //     element.style.transition = `all ${duration}ms ${easing}`;
+  //     element.style.transform = `rotate(${from.rotate}deg) scale(${from.scale})`;
+
+  //     setTimeout(() => {
+  //       element.style.transform = `rotate(${to.rotate}deg) scale(${to.scale})`;
+
+  //       setTimeout(() => {
+  //         resolve();
+  //       }, duration);
+  //     }, delay);
+  //   });
+  // }
+
+  static async animate({
     element,
     from,
     to,
@@ -237,18 +263,38 @@ export class Animator {
     delay = 0,
     easing = "linear",
   }) {
-    return new Promise((resolve) => {
-      element.style.transition = `all ${duration}ms ${easing}`;
-      element.style.transform = `rotate(${from.rotate}deg) scale(${from.scale})`;
+    const phase1 = element.animate(
+      [
+        { transform: `rotate(${from.rotate}deg) scale(${from.scale})` },
+        { transform: `rotate(${to.rotate}deg) scale(${to.scale})` },
+      ],
+      {
+        duration,
+        delay,
+        easing,
+        // fill: "forwards",
+      }
+    );
 
-      setTimeout(() => {
-        element.style.transform = `rotate(${to.rotate}deg) scale(${to.scale})`;
+    return await phase1.finished;
 
-        setTimeout(() => {
-          resolve();
-        }, duration);
-      }, delay);
-    });
+    // // Вторая фаза анимации (продолжение вращения + возврат к исходному размеру)
+    // const phase2 = element.animate(
+    //   [
+    //     { transform: `rotate(360deg) scale(1.2)` },
+    //     { transform: `rotate(720deg) scale(1)` },
+    //   ],
+    //   {
+    //     duration: 1000,
+    //     easing: "ease-in-out",
+    //     fill: "forwards",
+    //   }
+    // );
+
+    // await phase2.finished;
+
+    // Сбрасываем стили после завершения
+    element.style.transform = "";
   }
 
   // static flipCard(card, backClass, faceClass, duration = 0.5) {
