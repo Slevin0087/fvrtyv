@@ -34,7 +34,7 @@
   align-items: center;
 }
 
-.blinking-text {
+/* .blinking-text {
   position: absolute;
   bottom: 6em;
   width: fit-content;
@@ -53,6 +53,48 @@
   }
   50% {
     opacity: 0;
+  }
+} */
+
+.blinking-text {
+  position: absolute;
+  bottom: 6em;
+  /* Заменяем fit-content на явные размеры или flex */
+  width: auto; 
+  min-width: max-content;
+  
+  color: black;
+  padding: 0.5em;
+  background-color: rgb(255, 115, 0);
+  border: 0.1em solid black;
+  cursor: pointer;
+  
+  /* Включаем GPU-ускорение */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  
+  /* Альтернативная анимация для Safari */
+  animation: blink 1s infinite alternate;
+  -webkit-animation: blink 1s infinite alternate;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.3; /* Минимальная видимость вместо полного исчезновения */
+  }
+}
+
+/* Обязательно дублируем для Safari */
+@-webkit-keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.3;
   }
 }
 
