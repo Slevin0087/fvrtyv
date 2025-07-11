@@ -196,29 +196,34 @@ export class GameLogicSystem {
   autoCollectCards(tableaus, stock, waste) {
     // Проверяем условие выхода
     if (this.winSystem.check()) return;
-      else {
-    if (stock.cards.length > 0) {
-      stock.cards.forEach((card) => (card.faceUp = true));
-    }
-
-    if (waste.cards.length > 0) {
-      for (let i = 0; i < waste.cards.length; i++) {
-        const topCard = waste.cards[waste.cards.length - 1];
-        const isMove = this.movementSystem.handleCardClick(topCard);
-        if (!isMove) return;
+    else {
+      if (stock.cards.length > 0) {
+        stock.cards.forEach((card) => (card.faceUp = true));
       }
-    }
 
-    tableaus.forEach((tableau) => {
-      if (tableau.cards.length > 0) {
-        const topCard = tableau.cards[tableau.cards.length - 1];
-        const isMove = this.movementSystem.handleCardClick(topCard);
-        if (!isMove) return;
+      if (waste.cards.length > 0) {
+        for (let i = 0; i < waste.cards.length; i++) {
+          const topCard = waste.cards[waste.cards.length - 1];
+          setTimeout(() => {
+            const isMove = this.movementSystem.handleCardClick(topCard);
+            if (!isMove) return;
+          }, this.cardMoveDuration);
+        }
       }
-    });
 
-    this.autoCollectCards(tableaus, stock, waste);
-  }
+      tableaus.forEach((tableau) => {
+        if (tableau.cards.length > 0) {
+          const topCard = tableau.cards[tableau.cards.length - 1];
+          setTimeout(() => {
+            const isMove = this.movementSystem.handleCardClick(topCard);
+            if (!isMove) return;
+          }, this.cardMoveDuration);
+        }
+      });
+      setTimeout(() => {
+        this.autoCollectCards(tableaus, stock, waste);
+      }, this.cardMoveDuration + 100);
+    }
 
     // let movedAnyCard = false;
 
