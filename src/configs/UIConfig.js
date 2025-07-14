@@ -64,6 +64,8 @@ export const UIConfig = {
     uiFadeDuration: 200,
     notificationDuration: 3000,
     clickLimitTime: 500,
+    animationCoinsEarned: 3,
+    animationWinPointsEarned: 2,
   },
 
   layout: {

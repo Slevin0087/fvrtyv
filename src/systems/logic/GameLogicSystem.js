@@ -164,7 +164,7 @@ export class GameLogicSystem {
     }
 
     if (this.winSystem.check()) {
-      this.winSystem.handleWin();
+      await this.winSystem.handleWin();
     }
 
     const openCard = this.movementSystem.openNextCardIfNeeded(source);

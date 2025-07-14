@@ -614,7 +614,7 @@ export class Animator {
     return new Promise((resolve) => {
       // Параметры по умолчанию
       const {
-        duration = 2, // Продолжительность в секундах (GSAP использует секунды)
+        duration = 3, // Продолжительность в секундах (GSAP использует секунды)
         fontSize = "24px",
         targetFontSize = "32px",
         color = "#ffeb3b",
