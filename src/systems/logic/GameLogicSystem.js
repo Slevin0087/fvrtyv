@@ -53,10 +53,10 @@ export class GameLogicSystem {
     this.undoSystem = new UndoSystem(
       this.eventManager,
       this.stateManager,
-      this.cardsSystem,
+      // this.cardsSystem,
       this.animator,
       this.audioManager,
-      this.handleCardClick
+      // this.handleCardClick
     );
   }
 

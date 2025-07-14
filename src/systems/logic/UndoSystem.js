@@ -23,10 +23,13 @@ export class UndoSystem {
   }
 
   setupEventListeners() {
-    this.eventManager.on(GameEvents.UNDO_MOVE, () => this.handleUndo());
+    this.eventManager.on(
+      GameEvents.UNDO_MOVE,
+      async () => await this.handleUndo()
+    );
   }
 
-  handleUndo() {
+  async handleUndo() {
     console.log("в handleUndo:", this.stateManager.state.game.lastMove);
 
     if (this.stateManager.state.game.lastMove.length === 0) {
@@ -34,13 +37,12 @@ export class UndoSystem {
       return;
     }
     // const lastMoveLength = this.stateManager.state.game.lastMove.length
-    const { card, from, to, elementFrom, movementSystem } =
-      this.stateManager.state.game.lastMove.pop();
+    const { card, from } = this.stateManager.state.game.lastMove.pop();
     if (card.openCard) {
       const openCard = card.openCard;
       const score = GameConfig.rules.scoreForCardFlip;
       this.eventManager.emit(GameEvents.BACK_CARD_FLIP, openCard);
-      new Promise((resolve) => {
+      await new Promise((resolve) => {
         setTimeout(() => {
           this.eventManager.emit(
             GameEvents.UI_ANIMATION_POINTS_EARNED,
@@ -62,7 +64,11 @@ export class UndoSystem {
   }
 
   reverseMove({ card, from }) {
+    console.log("card, from:", card, from);
+
     const [fromType, fromIndex] = this.parseTargetId(from);
+    console.log("fromType, fromIndex:", fromType, fromIndex);
+
     const gameComponents = this.stateManager.state.cardsComponents;
 
     if (fromType === this.cardContainers.tableau) {
@@ -92,12 +98,14 @@ export class UndoSystem {
     } else if (fromType === this.cardContainers.stock) {
       const containerTo = gameComponents.stock;
       this.eventManager.emit(GameEvents.BACK_CARD_FLIP, card);
-      setTimeout(() => {this.eventManager.emit(GameEvents.CARD_MOVE, {
-        card,
-        containerToIndex: 0,
-        containerTo,
-        containerToName: fromType,
-      });}, UIConfig.animations.cardFlipDuration * 2000)
+      setTimeout(() => {
+        this.eventManager.emit(GameEvents.CARD_MOVE, {
+          card,
+          containerToIndex: 0,
+          containerTo,
+          containerToName: fromType,
+        });
+      }, UIConfig.animations.cardFlipDuration * 2000);
       // this.eventManager.emit(
       //   GameEvents.ANIMATE_UNDO_TO_WASTE,
       //   card,

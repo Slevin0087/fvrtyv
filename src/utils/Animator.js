@@ -29,7 +29,7 @@ export class Animator {
 
         // cardElement.style.transform = `translate(0, ${offset}px)`;
         const lastRect = cardElement.getBoundingClientRect();
-        cardElement.style.zIndex = `10000`;
+        cardElement.style.zIndex = `100`;
 
         // FLIP: Invert - получаем конечное положение и вычисляем разницу
         const deltaX = initialRect.left - lastRect.left + oldOffsetX;

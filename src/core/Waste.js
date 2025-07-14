@@ -15,7 +15,6 @@ export class Waste extends Pile {
 
   addCard(card) {
     super.addCard(card);
-    card.positionData.offsetX = (this.cards.length -1) * this.overlapX;
-    // this.cards.push(card);
+    card.positionData.offsetX = (this.cards.length - 1) * this.overlapX;
   }
 }

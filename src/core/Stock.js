@@ -7,8 +7,8 @@ export class Stock extends Pile {
     super("stock");
     this.overlapX = UIConfig.layout.card.stockOverlapX;
     this.overlapY = UIConfig.layout.card.stockOverlapY; // Небольшое смещение для стока
-    // this.waste = new Waste();
     this.element = this.createPileElement();
+    this.stockCardPosition = 0;
   }
 
   createPileElement() {
@@ -25,30 +25,28 @@ export class Stock extends Pile {
     if (this.isEmpty()) return null;
     const card = this.cards.pop();
     card.faceUp = true;
-    this.index--;
+    this.stockCardPosition--;
     return card;
   }
 
   addCards(cards) {
     super.addCards(cards);
-    this.index = this.cards.length - 1;
+    this.stockCardPosition = this.cards.length - 1;
   }
 
   addCard(card) {
-    super.addCard(card);
-    // card.positionData.offsetX = this.cards.length * this.overlapX;
+    const position = this.cards.length - 1;
+    card.positionData = this.getPositionData(position);
+    this.cards.push(card);
+    card.parentElement = this.element;
     card.faceUp = false;
   }
 
   getWasteCard() {
-    const card = this.cards[this.index];
+    const card = this.cards[this.stockCardPosition];
     if (card) {
       card.faceUp = true; // Карты в стоке рубашкой вверх
-      this.index--;
-      // this.waste.addCard(card);
-      // card.positionData.parent = "waste";
-      // card.positionData.zIndex = this.waste.length ? this.waste.length - 1 : 0;
-      // this.waste.cards.push(card);
+      this.stockCardPosition--;
       return card;
     }
     return null;
@@ -57,7 +55,7 @@ export class Stock extends Pile {
   recycleWaste(waste) {
     this.cards = [];
     this.addCards(waste.cards.reverse());
-    this.index = this.cards.length - 1;
+    this.stockCardPosition = this.cards.length - 1;
     waste.cards = [];
   }
 }

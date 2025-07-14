@@ -74,9 +74,9 @@ export class CardMovementSystem {
     ) {
       return `${this.cardContainers.foundation}-${card.positionData.index}`;
     } else if (card.positionData.parent.includes(this.cardContainers.stock)) {
-      return `${this.cardContainers.stock}-${card.positionData.index}`;
+      return `${this.cardContainers.stock}-0`;
     }
-    return this.cardContainers.waste;
+    return `${this.cardContainers.waste}-0`;
   }
 
   getElementFrom(source) {

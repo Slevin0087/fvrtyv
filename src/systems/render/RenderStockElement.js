@@ -31,8 +31,9 @@ export class RenderStockElement {
   }
 
   setupEventListeners() {
-    this.eventManager.on(GameEvents.ADD_STOCK_EVENTS, async (stock, waste) =>
-      await this.handleStockElement(stock, waste)
+    this.eventManager.on(
+      GameEvents.ADD_STOCK_EVENTS,
+      async (stock, waste) => await this.handleStockElement(stock, waste)
     );
   }
 
@@ -55,14 +56,18 @@ export class RenderStockElement {
   }
 
   async handleStockElement(stock, waste) {
+    console.log("КЛИК ПО STOCK ЭЛЕМЕНТУ");
     if (!this.isClickAllowed) {
       return; // Если клики запрещены, ничего не делаем
     }
-    console.log("КЛИК ПО STOCK ЭЛЕМЕНТУ");
-    if (stock.index < 0 && waste.isEmpty()) return;
-    else if (stock.index < 0) {
+    if (!this.stateManager.state.firstCardClick) {
+      this.stateManager.state.firstCardClick = true;
+      this.eventManager.emit(GameEvents.START_PLAY_TIME, 0);
+    }
+    if (stock.stockCardPosition < 0 && waste.isEmpty()) return;
+    else if (stock.stockCardPosition < 0) {
       this.isClickAllowed = false;
-      console.log("INDEX < 0");
+      console.log("stockCardPosition < 0");
       stock.recycleWaste(waste);
       this.renderStockCards(stock);
       waste.element.querySelectorAll(".card").forEach((el) => {
@@ -75,7 +80,7 @@ export class RenderStockElement {
       return;
     }
     this.isClickAllowed = false;
-    console.log("INDEX >= 0");
+    console.log("stockCardPosition >= 0");
     const card = stock.getWasteCard();
     if (card) {
       this.eventManager.emit(GameEvents.AUDIO_CARD_CLICK);
@@ -85,17 +90,6 @@ export class RenderStockElement {
         containerTo: waste,
         containerToName: this.cardContainers.waste,
       });
-      console.log(
-        "this.state.game.lastMove:",
-        this.stateManager.state.game.lastMove
-      );
-
-      // this.eventManager.emit(GameEvents.CARD_MOVE, {
-      //   card,
-      //   containerToIndex: 0,
-      //   containerTo: waste,
-      //   containerToName: this.cardContainers.waste,
-      // });
       await this.flipCard(card);
     }
     setTimeout(() => {
@@ -134,16 +128,13 @@ export class RenderStockElement {
     const offsetY = card.positionData.offsetY;
 
     const zIndex = card.positionData.zIndex;
-    // card.domElement.style.transition = `transform 300ms linear`;
-    card.domElement.style.transform = `translateX(${-offsetX}px) translateY(${-offsetY}px)`;
+    card.domElement.style.transform = `translateX(${offsetX}px) translateY(${offsetY}px)`;
     card.domElement.style.zIndex = zIndex;
   }
 
   async flipCard(card) {
     try {
-      // return new Promise(() => {
       this.eventManager.emit(GameEvents.CARD_FLIP, card);
-      // });
     } catch (error) {
       console.log(error);
       throw error;

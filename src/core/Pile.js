@@ -1,5 +1,4 @@
 import { Card } from "./Card.js";
-import { GameEvents } from "../utils/Constants.js";
 
 export class Pile {
   constructor(type, index = 0) {
@@ -22,11 +21,6 @@ export class Pile {
   addCard(card) {
     const position = this.cards.length;
     card.positionData = this.getPositionData(position);
-    console.log(
-      "card.positionData.elementPosition:",
-      card.positionData.elementPosition
-    );
-
     this.cards.push(card);
     card.parentElement = this.element;
     this.updateCardElement(card, position);
