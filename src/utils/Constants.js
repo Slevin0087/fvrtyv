@@ -97,6 +97,8 @@ export const GameEvents = {
   PULSE_COLLECT_BTN: "pulse:collect:btn",
   CHANGE_CARDS_STYLES: "change:cards:styles",
   CARDS_COLLECT: "cards:collect",
+  ADD_STOCK_EVENTS: "add:stock:events",
+  COLLECT_BTN_HIDDEN: "collect:btn:hidden",
 };
 
 export const AnimationDurations = {

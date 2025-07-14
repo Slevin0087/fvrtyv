@@ -25,7 +25,7 @@ export class CardMovementSystem {
           containerTo,
           containerToName,
         });
-        return;
+        return true;
       }
     }
 
@@ -41,12 +41,29 @@ export class CardMovementSystem {
           containerTo,
           containerToName,
         });
-        return;
+        return true;
       }
     }
 
     this.audioManager.play(AudioName.INFO);
     return false;
+  }
+
+  isCardMoveToFoundations(card, gameComponents) {
+    for (let i = 0; i < gameComponents.foundations.length; i++) {
+      if (gameComponents.foundations[i].canAccept(card, gameComponents)) {
+        this.audioManager.play(AudioName.CLICK);
+        const containerTo = gameComponents.foundations[i];
+        const containerToName = this.cardContainers.foundation;
+        this.eventManager.emit(GameEvents.CARD_MOVE, {
+          card,
+          containerToIndex: i,
+          containerTo,
+          containerToName,
+        });
+        return true;
+      }
+    }
   }
 
   getCardSource(card) {

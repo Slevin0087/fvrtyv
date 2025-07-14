@@ -52,6 +52,10 @@ export class UIGamePage extends UIPage {
       this.elements.collectBtn.classList.remove("hidden");
     });
 
+    this.eventManager.on(GameEvents.COLLECT_BTN_HIDDEN, () => {
+      this.elements.collectBtn.classList.add("hidden");
+    });
+
     this.eventManager.on(GameEvents.TIME_UPDATE, (time) => {
       this.updateTime(time);
     });

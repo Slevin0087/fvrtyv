@@ -188,112 +188,104 @@ export class GameLogicSystem {
     }
   }
 
-  cardsCollect() {
+  async cardsCollect() {
     const { tableaus, stock, waste } = this.stateManager.state.cardsComponents;
-    this.autoCollectCards(tableaus, stock, waste);
+    await this.autoCollectCards(tableaus, stock, waste);
   }
 
-  autoCollectCards(tableaus, stock, waste) {
+  async autoCollectCards(tableaus, stock, waste) {
     // Проверяем условие выхода
     if (this.winSystem.check()) return;
     else {
-      if (stock.cards.length > 0) {
-        stock.cards.forEach((card) => (card.faceUp = true));
-      }
-
-      if (waste.cards.length > 0) {
-        for (let i = 0; i < waste.cards.length; i++) {
-          const topCard = waste.cards[waste.cards.length - 1];
-          setTimeout(() => {
-            const isMove = this.movementSystem.handleCardClick(topCard);
-            if (!isMove) return;
-          }, this.cardMoveDuration);
-        }
-      }
-
-      tableaus.forEach((tableau) => {
+      const gameComponents = this.stateManager.state.cardsComponents;
+      for (const tableau of tableaus) {
         if (tableau.cards.length > 0) {
-          const topCard = tableau.cards[tableau.cards.length - 1];
-          setTimeout(() => {
-            const isMove = this.movementSystem.handleCardClick(topCard);
-            if (!isMove) return;
-          }, this.cardMoveDuration);
+          const card = tableau.cards[tableau.cards.length - 1];
+          // const isMove = this.movementSystem.isCardMoveToFoundations(
+          //   topCard,
+          //   gameComponents
+          // );
+          for (let i = 0; i < gameComponents.foundations.length; i++) {
+            if (gameComponents.foundations[i].canAccept(card, gameComponents)) {
+              // this.audioManager.play(AudioName.CLICK);
+              const containerTo = gameComponents.foundations[i];
+              const containerToName = GameConfig.cardContainers.foundation;
+              this.eventManager.emit(GameEvents.CARD_MOVE, {
+                card,
+                containerToIndex: i,
+                containerTo,
+                containerToName,
+              });
+              // return true;
+              await this.delay(this.cardMoveDuration + 100);
+              await this.autoCollectCards(tableaus, stock, waste);
+            }
+          }
+          // if (isMove) {
+          // }
+          // await this.autoCollectCards(tableaus, stock, waste);
         }
-      });
-      setTimeout(() => {
-        this.autoCollectCards(tableaus, stock, waste);
-      }, this.cardMoveDuration + 100);
+      }
+      if (waste.cards.length > 0) {
+        const topCard = waste.cards[waste.cards.length - 1];
+        const isMove = this.movementSystem.handleCardClick(
+          topCard
+        );
+        if (isMove) {
+          await this.delay(this.cardMoveDuration + 100);
+          await this.autoCollectCards(tableaus, stock, waste);
+        } else if (!isMove) {
+          this.eventManager.emit(GameEvents.ADD_STOCK_EVENTS, stock, waste);
+          await this.delay(this.cardMoveDuration + 100);
+          await this.autoCollectCards(tableaus, stock, waste);
+        }
+      } else if (stock.cards.length > 0) {
+        this.eventManager.emit(GameEvents.ADD_STOCK_EVENTS, stock, waste);
+        await this.delay(this.cardMoveDuration + 100);
+        await this.autoCollectCards(tableaus, stock, waste);
+      }
     }
-
-    // let movedAnyCard = false;
-
-    // // Обрабатываем waste
-    // while (waste.cards.length > 0) {
-    //   const topCard = waste.cards[waste.cards.length - 1];
-    //   const isMove = this.movementSystem.handleCardClick(topCard);
-    //   if (isMove) {
-    //     movedAnyCard = true;
-    //   } else {
-    //     break;
-    //   }
-    // }
-
-    // // Обрабатываем tableaus
-    // for (const tableau of tableaus) {
-    //   if (tableau.cards.length > 0) {
-    //     const topCard = tableau.cards[tableau.cards.length - 1];
-    //     if (!topCard.faceUp) continue;
-
-    //     const isMove = this.movementSystem.handleCardClick(topCard);
-    //     if (isMove) {
-    //       movedAnyCard = true;
-    //       // После перемещения проверяем снова с начала, так как состояние изменилось
-    //       return this.autoCollectCards(tableaus, waste);
-    //     }
-    //   }
-    // }
-
-    // // Если ничего не удалось переместить, выходим
-    // if (!movedAnyCard) return false;
-
-    // // Продолжаем процесс
-    // return this.autoCollectCards(tableaus, waste);
   }
 
-  // handleTableauMove({ card, toContainerIndex, toContainer, nameToContainer }) {
-  //   const source = this.movementSystem.getCardSource(card);
-
-  //   this.undoSystem.updateLastMove({
-  //     card,
-  //     from: source,
-  //     to: `${nameToContainer}-${toContainerIndex}`,
-  //   });
-
-  //   const elementFrom = this.movementSystem.getElementFrom(source);
-
-  //   this.eventManager.emit(
-  //     GameEvents.ANIMATE_CARD_MOVE,
-  //     card,
-  //     source,
-  //     elementFrom,
-  //     toContainer,
-  //     this.movementSystem
-  //   );
-
-  //   this.scoringSystem.addPoints(GameConfig.rules.scoreForTableauMove);
-  //   const backStyle =
-  //     this.stateManager.state.player.selectedItems.backs.styleClass;
-  //   const faceStyle =
-  //     this.stateManager.state.player.selectedItems.faces.styleClass;
-
-  //   const openCard = this.movementSystem.openNextCardIfNeeded(
-  //     source,
-  //     backStyle,
-  //     faceStyle
-  //   );
-  //   card.openCard = openCard;
-  // }
+  // Вспомогательная функция задержки
+  delay(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
 }
+
+// handleTableauMove({ card, toContainerIndex, toContainer, nameToContainer }) {
+//   const source = this.movementSystem.getCardSource(card);
+
+//   this.undoSystem.updateLastMove({
+//     card,
+//     from: source,
+//     to: `${nameToContainer}-${toContainerIndex}`,
+//   });
+
+//   const elementFrom = this.movementSystem.getElementFrom(source);
+
+//   this.eventManager.emit(
+//     GameEvents.ANIMATE_CARD_MOVE,
+//     card,
+//     source,
+//     elementFrom,
+//     toContainer,
+//     this.movementSystem
+//   );
+
+//   this.scoringSystem.addPoints(GameConfig.rules.scoreForTableauMove);
+//   const backStyle =
+//     this.stateManager.state.player.selectedItems.backs.styleClass;
+//   const faceStyle =
+//     this.stateManager.state.player.selectedItems.faces.styleClass;
+
+//   const openCard = this.movementSystem.openNextCardIfNeeded(
+//     source,
+//     backStyle,
+//     faceStyle
+//   );
+//   card.openCard = openCard;
+// }
 
 // import { GameEvents, AudioName } from "../utils/Constants.js";
 // import { GameConfig } from "../configs/GameConfig.js";

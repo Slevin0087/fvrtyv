@@ -110,6 +110,7 @@ export class GameManager {
 
   async gameRestart() {
     this.stopTimeInterval();
+    this.eventManager.emit(GameEvents.COLLECT_BTN_HIDDEN);
     await this.setGame();
   }
 

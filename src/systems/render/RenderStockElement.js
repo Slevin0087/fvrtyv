@@ -26,6 +26,14 @@ export class RenderStockElement {
     this.clickLimitTime =
       UIConfig.animations.cardMoveDuration +
       UIConfig.animations.cardFlipDuration * 1000;
+
+    this.setupEventListeners();
+  }
+
+  setupEventListeners() {
+    this.eventManager.on(GameEvents.ADD_STOCK_EVENTS, async (stock, waste) =>
+      await this.handleStockElement(stock, waste)
+    );
   }
 
   render(stock, waste) {
@@ -36,11 +44,13 @@ export class RenderStockElement {
   }
 
   addStockEventListeners(stock, waste) {
-    stock.element.removeEventListener("click", () =>
-      this.handleStockElement(stock, waste)
+    stock.element.removeEventListener(
+      "click",
+      async () => await this.handleStockElement(stock, waste)
     );
-    stock.element.addEventListener("click", () =>
-      this.handleStockElement(stock, waste)
+    stock.element.addEventListener(
+      "click",
+      async () => await this.handleStockElement(stock, waste)
     );
   }
 
@@ -75,8 +85,11 @@ export class RenderStockElement {
         containerTo: waste,
         containerToName: this.cardContainers.waste,
       });
-      console.log('this.state.game.lastMove:', this.stateManager.state.game.lastMove);
-      
+      console.log(
+        "this.state.game.lastMove:",
+        this.stateManager.state.game.lastMove
+      );
+
       // this.eventManager.emit(GameEvents.CARD_MOVE, {
       //   card,
       //   containerToIndex: 0,
