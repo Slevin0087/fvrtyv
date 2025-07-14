@@ -19,9 +19,7 @@ export class Pile {
   }
 
   addCard(card) {
-    const position = this.cards.length;
-    console.log('position:', position);
-    
+    const position = this.cards.length;    
     card.positionData = this.getPositionData(position);
     this.cards.push(card);
     card.parentElement = this.element;

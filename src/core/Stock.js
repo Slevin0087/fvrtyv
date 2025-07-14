@@ -40,6 +40,7 @@ export class Stock extends Pile {
     this.cards.push(card);
     card.parentElement = this.element;
     card.faceUp = false;
+    this.stockCardPosition++;
   }
 
   getWasteCard() {

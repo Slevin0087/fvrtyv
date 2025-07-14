@@ -73,16 +73,16 @@ export class RenderStockElement {
       waste.element.querySelectorAll(".card").forEach((el) => {
         el.remove();
       });
-      setTimeout(() => {
-        this.isClickAllowed = true; // Разрешаем клики после задержки
-      }, this.clickLimitTime);
-
+      await this.delay(this.clickLimitTime);
+      this.isClickAllowed = true; // Разрешаем клики после задержки
       return;
     }
     this.isClickAllowed = false;
     console.log("stockCardPosition >= 0");
     const card = stock.getWasteCard();
     if (card) {
+      console.log("card(getWasteCard) при клике по stock:", card);
+
       this.eventManager.emit(GameEvents.AUDIO_CARD_CLICK);
       await this.gameLogicSystem.handleCardMove({
         card,
@@ -92,11 +92,10 @@ export class RenderStockElement {
       });
       await this.flipCard(card);
     }
-    setTimeout(() => {
-      this.isClickAllowed = true; // Разрешаем клики после задержки
-      this.cardsSystem.removeHandleCard(card);
-      this.cardsSystem.handleCard(card);
-    }, this.clickLimitTime);
+    await this.delay(this.clickLimitTime);
+    this.isClickAllowed = true; // Разрешаем клики после задержки
+    this.cardsSystem.removeHandleCard(card);
+    this.cardsSystem.handleCard(card);
   }
 
   renderStockCards(stock) {
@@ -134,10 +133,16 @@ export class RenderStockElement {
 
   async flipCard(card) {
     try {
+      console.log("card, которая попадает в flipCard:", card);
+
       this.eventManager.emit(GameEvents.CARD_FLIP, card);
     } catch (error) {
       console.log(error);
       throw error;
     }
+  }
+
+  delay(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 }
