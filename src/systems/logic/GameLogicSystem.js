@@ -121,15 +121,6 @@ export class GameLogicSystem {
       this.cardMoveDuration
     );
 
-    // this.eventManager.emit(
-    //   GameEvents.ANIMATE_CARD_MOVE,
-    //   card,
-    //   source,
-    //   elementFrom,
-    //   containerTo,
-    //   this.movementSystem
-    // );
-
     // setTimeout(() => {
     this.stateManager.updateMoves(this.numberMoves);
     this.eventManager.emit(GameEvents.UP_MOVES);

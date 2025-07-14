@@ -79,7 +79,7 @@ export class AnimationSystem {
     );
 
     this.eventManager.on(GameEvents.ANIMATE_STOCK_CARD_MOVE, async (params) => {
-      await Animator.animateStockCardMove(params, this.startMoveSpeed * 10);
+      await Animator.animateStockCardMove(params, this.startMoveSpeed);
     });
 
     this.eventManager.on(

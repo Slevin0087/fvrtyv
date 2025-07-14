@@ -70,57 +70,6 @@ export class Animator {
     });
   }
 
-  // static animateCardMove(card, data, duration = 10) {
-  //   return new Promise((resolve) => {
-  //     const cardElement = card.domElement;
-  //     console.log("data:", data);
-
-  //     const offset = 20;
-
-  //     // Получаем конечную позицию (центрируем относительно последней карты в цели)
-  //     // const targetCard = data.targetCard || null;
-  //     // console.log("targetCard.positionData:", targetCard?.positionData);
-  //     // const targetElement = targetCard?.domElement || data.target;
-  //     // console.log("targetCard, targetElement:", targetCard, targetElement);
-
-  //     // Сбрасываем текущие трансформации
-  //     gsap.set(cardElement, {
-  //       x: 0,
-  //       y: 0,
-  //       zIndex: 1000,
-  //     });
-
-  //     // Создаем timeline для последовательной анимации
-  //     const tl = gsap.timeline({
-  //       onComplete: () => {
-  //         // После завершения перемещаем в DOM и устанавливаем финальное положение
-  //         data.target.append(cardElement);
-  //         gsap.set(cardElement, {
-  //           y: 0,
-  //           x: 0,
-  //           zIndex: 1,
-  //         });
-  //         resolve();
-  //       },
-  //     });
-
-  //     // Анимация перемещения
-  //     tl.to(cardElement, {
-  //       x: () => {
-  //         return data.targetRectX - data.startRectX;
-  //       },
-  //       y: () => {
-  //         return data.targetRectY - (data.startRectY + data.offset);
-  //       },
-  //       duration: duration * 0.9, // 90% времени на основное движение
-  //       ease: "power2.out",
-  //     });
-
-  //     // Небольшая задержка перед завершением (10% от общего времени)
-  //     tl.to({}, { duration: duration * 0.1 });
-  //   });
-  // }
-
   static animateCardMove(
     card,
     source,

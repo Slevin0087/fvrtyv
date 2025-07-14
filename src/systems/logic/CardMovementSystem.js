@@ -89,8 +89,6 @@ export class CardMovementSystem {
     } else if (source.startsWith(this.cardContainers.stock)) {
       return this.stateManager.state.cardsComponents.stock;
     } else if (source.startsWith(this.cardContainers.waste)) {
-      // this.stateManager.state.cardsComponents.waste.removeCurrentCard(card);
-      // this.stateManager.state.cardsComponents.stock.removeCurrentCard(card);
       return this.stateManager.state.cardsComponents.waste;
     }
   }

@@ -38,6 +38,7 @@ export class UndoSystem {
     }
     // const lastMoveLength = this.stateManager.state.game.lastMove.length
     const { card, from } = this.stateManager.state.game.lastMove.pop();
+    card.isUndo = true;
     if (card.openCard) {
       const openCard = card.openCard;
       const score = GameConfig.rules.scoreForCardFlip;
@@ -117,17 +118,19 @@ export class UndoSystem {
       //   toElement.element,
       // );
     }
-    card.isUndo = !card.isUndo;
+    // card.isUndo = false;
   }
 
   updateLastMove(params) {
     const { card } = params;
-    if (card.isUndo) return;
-    if (this.isLastMove()) {
-      console.log("в if (this.isLastMove())");
-      card.isUndo = !card.isUndo;
-      console.log("card.isUndo:", card.isUndo);
+    console.log("card.isUndo:", card.isUndo);
 
+    if (card.isUndo) {
+      card.isUndo = false;
+      return;
+    }
+    if (this.isLastMove()) {
+      card.isUndo = false;
       this.stateManager.updateLastMove(params);
       return;
     }
