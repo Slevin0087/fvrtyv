@@ -42,6 +42,7 @@ export class UIGamePage extends UIPage {
 
     this.elements.collectBtn.addEventListener("click", () => {
       this.eventManager.emit(GameEvents.CARDS_COLLECT);
+      this.elements.collectBtn.classList.add("hidden");
     });
 
     this.eventManager.on(GameEvents.SCORE_UPDATE, (score) =>
