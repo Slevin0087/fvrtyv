@@ -251,7 +251,6 @@ export class StateManager {
         : this.state.game.lastMove),
       moveData,
     ];
-    // this.state.game.lastMove.push(moveData);
   }
 
   resetLastMove() {

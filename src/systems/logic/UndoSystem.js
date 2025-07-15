@@ -30,6 +30,7 @@ export class UndoSystem {
   }
 
   async handleUndo() {
+    if (!this.stateManager.state.game.isRunning) return;
     if (this.stateManager.state.game.lastMove.length === 0) {
       this.audioManager.play(AudioName.INFO);
       return;
