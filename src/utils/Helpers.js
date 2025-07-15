@@ -133,6 +133,8 @@ export class Helpers {
   }
 
   static updateLanUI() {
+    console.log('в updateLanUI');
+    
     // Обновляем все текстовые элементы на странице
     document.querySelectorAll("[data-i18n]").forEach((el) => {
       const key = el.getAttribute("data-i18n");

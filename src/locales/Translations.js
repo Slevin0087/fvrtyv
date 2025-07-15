@@ -35,6 +35,15 @@ export const Translations = {
       //   },
       //   playerState: {
       player_state_title: "Player stats",
+      player_state_name: "Name:",
+      player_state_coins: "Husynks:",
+      player_state_games_played: "Games played:",
+      player_state_games_won: "Games won:",
+      player_state_best_score: "Best score:",
+      player_state_best_time: "Best time:",
+      player_state_moves: "Moves:",
+      player_state_achievement: "Achievement:",
+
       //   },
       //   gameInterface: {
       blinking_text: "Collect cards",
@@ -97,6 +106,14 @@ export const Translations = {
       //   },
       //   playerState: {
       player_state_title: "Статистика игрока",
+      player_state_name: "Имя:",
+      player_state_coins: "Хусынки:",
+      player_state_games_played: "Сыграно игр:",
+      player_state_games_won: "Выиграно игр:",
+      player_state_best_score: "Лучший счет:",
+      player_state_best_time: "Лучшее время:",
+      player_state_moves: "Ходы:",
+      player_state_achievement: "Достижение:",
       //   },
       //   gameInterface: {
       blinking_text: "Собрать карты",
@@ -140,10 +157,10 @@ export const Translations = {
   },
   abaza: {
     ui: {
-        ru_btn: "Урышв",
-        en_btn: "En",
-        tr_btn: "Тр",
-        abaza_btn: "Х|ыбызшва",
+      ru_btn: "Урышв",
+      en_btn: "En",
+      tr_btn: "Тр",
+      abaza_btn: "Х|ыбызшва",
       btnBackToMenu: "Щт|ахьла аменю",
       //   menuBtns: {
       menu_btn_new_game: "Хъвмарра ш|ыц",
@@ -174,6 +191,14 @@ export const Translations = {
       //   },
       //   playerState: {
       player_state_title: "Ахъвмарыг|в йстатистика",
+      player_state_name: "Ахъвмарраг|в йыхьыз:",
+      player_state_coins: "Х|вусынк|ата:",
+      player_state_games_played: "Йаг|всхьаз ахъвмарраква:",
+      player_state_games_won: "Аг|атгараква:",
+      player_state_best_score: "Йбзидздзу асчет:",
+      player_state_best_time: "Заман бзи:",
+      player_state_moves: "Ацараква:",
+      player_state_achievement: "Адостиженияква:",
       //   },
       //   gameInterface: {
       blinking_text: "Ак|артква азк|к|ра",
@@ -218,10 +243,10 @@ export const Translations = {
   // Другие языки (например, турецкий)
   tr: {
     ui: {
-        ru_btn: "Ru",
-        en_btn: "En",
-        tr_btn: "Tr",
-        abaza_btn: "Abaza",
+      ru_btn: "Ru",
+      en_btn: "En",
+      tr_btn: "Tr",
+      abaza_btn: "Abaza",
       btnBackToMenu: "Menüye geri dön",
       //   menuBtns: {
       menu_btn_new_game: "Yeni oyun",
@@ -252,6 +277,14 @@ export const Translations = {
       //   },
       //   playerState: {
       player_state_title: "Oyuncu istatistikleri",
+      player_state_name: "İsim:",
+      player_state_coins: "Husynki:",
+      player_state_games_played: "Oynanan oyunlar:",
+      player_state_games_won: "Kazanılan oyunlar:",
+      player_state_best_score: "En iyi skor:",
+      player_state_best_time: "En iyi zaman:",
+      player_state_moves: "Hamleler:",
+      player_state_achievement: "Başarı:",
       //   },
       //   gameInterface: {
       blinking_text: "Kartları topla",

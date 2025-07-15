@@ -65,7 +65,7 @@ export class GameManager {
     );
     this.enButton.addEventListener("click", () => Helpers.changeLanguage("en"));
     this.trButton.addEventListener("click", () => Helpers.changeLanguage("tr"));
-    this.abazaButton.addEventListener("click", (e) =>
+    this.abazaButton.addEventListener("click", () =>
       Helpers.changeLanguage("abaza")
     );
     this.eventManager.on(GameEvents.SET_NEW_GAME, async () => {

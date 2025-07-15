@@ -1,5 +1,5 @@
 import { UIPage } from "./UIPage.js";
-import { GameEvents } from "../utils/Constants.js";
+import { Helpers } from "../utils/Helpers.js";
 
 export class UIPlayerStatePage extends UIPage {
   constructor(eventManager, stateManager) {
@@ -15,35 +15,35 @@ export class UIPlayerStatePage extends UIPage {
     container.innerHTML = "";
     container.innerHTML = `<table class="p-state-table table">
       <tr>
-        <td class="left-td">Имя:</td>
+        <td class="left-td" data-i18n="player_state_name">Имя:</td>
         <td class="right-td">${statePlayer.name}</td>
       </tr>
       <tr>
-        <td class="left-td">Хусынки:</td>
+        <td class="left-td" data-i18n="player_state_coins">Хусынки:</td>
         <td class="right-td">${statePlayer.coins}</td>
       </tr>
       <tr>
-        <td class="left-td">Сыграно игр:</td>
+        <td class="left-td" data-i18n="player_state_games_played">Сыграно игр:</td>
         <td class="right-td">${statePlayer.gamesPlayed}</td>
       </tr>
       <tr>
-        <td class="left-td">Выиграно игр:</td>
+        <td class="left-td" data-i18n="player_state_games_won">Выиграно игр:</td>
         <td class="right-td">${statePlayer.wins}</td>
       </tr>
       <tr>
-        <td class="left-td">Лучший счет:</td>
+        <td class="left-td" data-i18n="player_state_best_score">Лучший счет:</td>
         <td class="right-td">${statePlayer.highestScore}</td>
       </tr>
       <tr>
-        <td class="left-td">Лучшее время:</td>
+        <td class="left-td" data-i18n="player_state_best_time">Лучшее время:</td>
         <td class="right-td"></td>
       </tr>
       <tr>
-        <td class="left-td">Ходы:</td>
+        <td class="left-td" data-i18n="player_state_moves">Ходы:</td>
         <td class="right-td"></td>
       </tr>
       <tr>
-        <td class="left-td">Достижение:</td>
+        <td class="left-td" data-i18n="player_state_achievement">Достижение:</td>
         <td class="right-td">${statePlayer.achievements.active.icon}</td>
       </tr>`;
   }
@@ -51,6 +51,6 @@ export class UIPlayerStatePage extends UIPage {
   show() {
     super.show();
     this.render();
-    // await Animator.fadeIn(this.page, this.displayPage);
+    Helpers.updateLanUI();
   }
 }
