@@ -41,14 +41,21 @@
       <div class="spinner"></div>
     </div>
     <div id="app" class="app-container">
+      <div class="language-switcher">
+        <button type="button" id="ru-btn" data-i18n="ru_btn">Ру</button>
+        <button type="button" id="en-btn" data-i18n="en_btn">En</button>
+        <button type="button" id="tr-btn" data-i18n="tr_btn">Tr</button>
+        <button type="button" id="abaza-btn" data-i18n="abaza_btn">Abaza</button>
+      </div>
       <div id="notification-toast" class="toast hidden"></div>
 
       <button class="full-screen-button" id="full-screen-btn">[ ]</button>
       <div id="player-page" class="name-page hidden">
         <form id="player-form" class="player-form">
           <div class="page-content">
-            <h2 class="name-h2">Введите ваше имя</h2>
+            <h2 class="name-h2" data-i18n="add_name">Введите ваше имя</h2>
             <input
+              data-i18n="player_name"
               type="text"
               id="player-name"
               name="player_name"
@@ -57,8 +64,12 @@
               required
             />
             <div class="page-buttons">
-              <button type="submit">Начать игру</button>
-              <button type="button" id="skip-name">Пропустить</button>
+              <button type="submit" data-i18n="add_name_btn">
+                Начать игру
+              </button>
+              <button type="button" id="skip-name" data-i18n="add_name_skip">
+                Пропустить
+              </button>
             </div>
           </div>
         </form>
@@ -67,23 +78,33 @@
       <!-- Меню игры -->
       <div id="game-menu" class="menu hidden">
         <h1>Хусынка</h1>
-        <button id="new-game-btn">Новая игра</button>
-        <button id="continue-btn">Продолжить</button>
-        <button id="settings-btn">Настройки</button>
-        <button id="state-player">Статистика</button>
-        <button id="shop-btn">Магазин</button>
-        <button id="exit-btn">Выход</button>
+        <button id="new-game-btn" data-i18n="menu_btn_new_game">
+          Новая игра
+        </button>
+        <button id="continue-btn" data-i18n="menu_btn_continue_game">
+          Продолжить
+        </button>
+        <button id="settings-btn" data-i18n="menu_btn_settings_game">
+          Настройки
+        </button>
+        <button id="state-player" data-i18n="menu_btn_state_player">
+          Статистика
+        </button>
+        <button id="shop-btn" data-i18n="menu_btn_shop">Магазин</button>
+        <button id="exit-btn" data-i18n="menu_btn_exit_game">Выход</button>
       </div>
       <!-- Настройки -->
       <div id="settings" class="settings hidden">
         <div class="setting-head">
-          <h2 class="setting-title">Настройки</h2>
+          <h2 class="setting-title" data-i18n="setting_title">Настройки</h2>
         </div>
         <div class="setting-item">
           <!-- <label for="music-volume">Громкость:</label>
           <input type="text" id="music-volume" name="name" /> -->
           <div class="volume-control container-setting-item">
-            <label for="music-volume">Громкость:</label>
+            <label for="music-volume" data-i18n="music_volume"
+              >Громкость:</label
+            >
             <input
               type="range"
               id="music-volume"
@@ -97,24 +118,32 @@
             <!-- <label class="setting-label"
               >Звуки: <input type="checkbox" id="sound-toggle" checked
             /></label> -->
-            <label class="span-sound-off-in">Звуки:</label>
+            <label class="span-sound-off-in" data-i18n="span_sound_off_in"
+              >Звуки:</label
+            >
             <label class="setting-label">
               <input type="checkbox" id="sound-toggle" />
               <span class="slider"></span>
             </label>
           </div>
           <div class="c-setting-item">
-            <label>Сложность: </label>
+            <label data-i18n="c_setting_item">Сложность:</label>
             <select id="difficulty">
-              <option value="easy">Лёгкая</option>
-              <option value="normal" selected>Обычная</option>
-              <option value="hard">Сложная</option>
+              <option value="easy" data-i18n="option_easy">Лёгкая</option>
+              <option value="medium" selected data-i18n="option_medium">
+                Средняя
+              </option>
+              <option value="hard" data-i18n="option_hard">Сложная</option>
             </select>
           </div>
         </div>
         <!-- <div class="setting-item"> -->
         <!-- </div> -->
-        <button class="settings-back-btn" id="back-to-menu">
+        <button
+          class="settings-back-btn"
+          id="back-to-menu"
+          data-i18n="btnBackToMenu"
+        >
           Назад в меню
         </button>
       </div>
@@ -122,19 +151,43 @@
       <!-- Магазин -->
       <div id="shop" class="shop hidden">
         <div class="shop-head">
-          <button class="shop-back-btn" id="shop-back">Назад в меню</button>
-          <h2>Магазин</h2>
-          <div class="balance">Баланс: <span id="coins">0</span> хусынок</div>
+          <button
+            class="shop-back-btn"
+            id="shop-back"
+            data-i18n="btnBackToMenu"
+          >
+            Назад в меню
+          </button>
+          <h2 class="shop-title" data-i18n="shop_title">Магазин</h2>
+          <div class="balance" data-i18n="balance">
+            Баланс: <span id="coins">0</span> хусынок
+          </div>
         </div>
         <div class="choose-container">
-          <button class="btn-card-face btn" id="face-btn">Лицо</button>
-          <button class="btn-card-shirt btn" id="shirt-btn">Рубашка</button>
-          <button class="btn-card-fon btn" id="fon-btn">Фон</button>
+          <button
+            class="btn-card-face btn"
+            id="face-btn"
+            data-i18n="btn_card_face"
+          >
+            Лицо
+          </button>
+          <button
+            class="btn-card-shirt btn"
+            id="shirt-btn"
+            data-i18n="btn_card_shirt"
+          >
+            Рубашка
+          </button>
+          <button
+            class="btn-card-fon btn"
+            id="fon-btn"
+            data-i18n="btn_card_fon"
+          >
+            Фон
+          </button>
         </div>
         <!-- <div class="all-items-container" id="face-container"> -->
         <div class="all-items-container" id="all-items-container">
-          тут будут стили лицо карт
-
           <div class="all-items-container" id="face-container"></div>
 
           <div class="all-items-container" id="shirt-container"></div>
@@ -146,12 +199,16 @@
       <!-- Статистика игрока -->
       <div class="player-state hidden" id="player-state">
         <div class="player-state-head">
-          <h2 class="player-state-title">Статистика игрока</h2>
+          <h2 class="player-state-title" data-i18n="player_state_title">
+            Статистика игрока
+          </h2>
         </div>
         <div class="player-state-content" id="player-state-content">
           <!-- Контент статистики здесь -->
         </div>
-        <button class="btn" id="btn-back-st-player">Назад в меню</button>
+        <button class="btn" id="btn-back-st-player" data-i18n="btnBackToMenu">
+          Назад в меню
+        </button>
       </div>
 
       <!-- Game интерфейс -->
@@ -177,11 +234,15 @@
           <div class="row-2" id="tableausDiv"></div>
         </div>
         <div class="controls-container" id="controls">
-          <span class="blinking-text hidden" id="collect-cards"
+          <span
+            class="blinking-text hidden"
+            id="collect-cards"
+            data-i18n="blinking_text"
             >Собрать карты</span
           >
           <div class="controls-btn-container">
             <button
+              data-i18n="undo_btn_aria_title"
               id="undo-btn"
               class="controls-btn"
               aria-label="Отменить ход"
@@ -191,17 +252,18 @@
               <span class="btn-counter" id="undo-counter"></span>
             </button>
             <button
+              data-i18n="new_game_ctr_btn"
               class="controls-btn"
               id="new-game-ctr-btn"
               title="Новая игра"
             >
               ↻
             </button>
-            <button class="controls-btn" id="hint" title="Подсказка">
+            <button class="controls-btn" id="hint" title="Подсказка" data-i18n="hint_btn">
               💡
               <span class="btn-counter" id="hint-counter"></span>
             </button>
-            <button class="controls-btn" id="menu-btn" title="Меню игры">
+            <button class="controls-btn" id="menu-btn" title="Меню игры" data-i18n="menu_btn">
               ☰
             </button>
           </div>

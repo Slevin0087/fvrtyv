@@ -29,6 +29,8 @@
   --border-radius-btn-input: 0.3em;
   --full-screen-button-top-left: 1em;
   --full-screen-button-width: 2.5em;
+  --language-switcher-bottom: calc(var(--full-screen-button-top-left) + var(--full-screen-button-width));
+  --language-switcher-right: 1em;
 }
 
 /**
@@ -264,7 +266,7 @@ body {
   /*/////////////////////////////////*/
   /* overflow: hidden; */
   /*/////////////////////////////////*/
-  
+
   /* justify-content: center; */
   /* align-items: center; */
   /* background: url("../assets/shop/fons/fon_4.jpg") no-repeat center center
@@ -289,8 +291,12 @@ body {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .full-screen-button {
@@ -321,4 +327,12 @@ body {
   position: absolute;
   top: 50%;
   left: 50%;
+}
+
+.language-switcher {
+  position: fixed;
+  right: var(--language-switcher-right);
+  bottom: var(--language-switcher-bottom);
+  /* width: var(--full-screen-button-width); */
+  z-index: 1;
 }

@@ -1,3 +1,5 @@
+import { Translations } from "../locales/Translations.js";
+
 export class Helpers {
   static shuffleArray(array) {
     // Оптимизированный алгоритм Фишера-Йетса
@@ -75,5 +77,72 @@ export class Helpers {
     const div = document.createElement("div");
     div.textContent = str;
     return div.innerHTML;
+  }
+
+  static #currentLang = "ru"; // Приватное поле для текущего языка
+  static #availableLangs = ["ru", "en", "abaza", "tr"]; // Поддерживаемые языки
+  static #translations = Translations; // Импортированный объект переводов
+
+  // Инициализация языка (вызывается при старте игры)
+  // static initLanguage(ysdk) {
+  //   this.#currentLang =
+  //     ysdk?.environment?.i18n?.lang || navigator.language.slice(0, 2) || "ru";
+  // }
+
+  static initLanguage(ysdk) {
+    // Приоритеты: 1) сохраненный выбор, 2) язык Яндекса, 3) язык браузера
+    this.#currentLang =
+      localStorage.getItem("gameLanguage") ||
+      ysdk?.environment?.i18n?.lang ||
+      navigator.language.slice(0, 2) ||
+      "ru";
+
+    // Корректируем, если выбранный язык не поддерживается
+    if (!this.#availableLangs.includes(this.#currentLang)) {
+      this.#currentLang = "ru";
+    }
+
+    this.updateUI();
+  }
+
+  // Получение перевода для UI-элемента
+  static t(key) {
+    return (
+      Translations[this.#currentLang]?.ui?.[key] ||
+      Translations.en.ui[key] || // Fallback на английский
+      key
+    ); // Если ключ не найден
+  }
+
+  // Плюрализация (склонение слов)
+  static pluralize(word, count) {
+    return (
+      Translations[this.#currentLang]?.plurals?.[word]?.(count) ||
+      `${count} ${word}`
+    ); // Fallback
+  }
+
+  static changeLanguage(newLang) {
+    if (this.#availableLangs.includes(newLang)) {
+      this.#currentLang = newLang;
+      localStorage.setItem("gameLanguage", newLang); // Сохраняем выбор
+      this.updateUI(); // Обновляем интерфейс
+    } else {
+      console.warn(`Язык "${newLang}" не поддерживается.`);
+    }
+  }
+
+  static updateUI() {
+    // Обновляем все текстовые элементы на странице
+    document.querySelectorAll("[data-i18n]").forEach((el) => {
+      const key = el.getAttribute("data-i18n");
+      el.textContent = this.t(key);
+    });
+
+    // Пример для динамических текстов (например, с плюрализацией)
+    // const coins = 5; // Пример значения
+    // document.getElementById("balance").textContent = `${this.t(
+    //   "balance"
+    // )}: ${coins} ${this.pluralize("хусынок", coins)}`;
   }
 }

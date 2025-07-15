@@ -10,6 +10,7 @@ import { RenderingSystem } from "../systems/render/RenderingSystem.js";
 import { AnimationSystem } from "../systems/AnimationSystem.js";
 import { ShopSystem } from "../systems/ShopSystem.js";
 import { Animator } from "../utils/Animator.js";
+import { Helpers } from "../utils/Helpers.js";
 
 export class GameManager {
   constructor() {
@@ -17,6 +18,10 @@ export class GameManager {
     this.startTime = 0;
     this.lastTime = 0;
     this.fullScreenBtn = document.getElementById("full-screen-btn");
+    this.russianButton = document.getElementById("ru-btn");
+    this.enButton = document.getElementById("en-btn");
+    this.trButton = document.getElementById("tr-btn");
+    this.abazaButton = document.getElementById("abaza-btn");
   }
 
   startApp() {
@@ -55,6 +60,14 @@ export class GameManager {
     this.fullScreenBtn.addEventListener("click", (e) =>
       this.eventManager.emit(GameEvents.FULL_SCREEN_BTN, e)
     );
+    this.russianButton.addEventListener("click", () =>
+      Helpers.changeLanguage("ru")
+    );
+    this.enButton.addEventListener("click", () => Helpers.changeLanguage("en"));
+    this.trButton.addEventListener("click", () => Helpers.changeLanguage("tr"));
+    this.abazaButton.addEventListener("click", (e) =>
+      Helpers.changeLanguage("abaza")
+    );
     this.eventManager.on(GameEvents.SET_NEW_GAME, async () => {
       await this.setGame();
     });
@@ -65,7 +78,9 @@ export class GameManager {
     this.eventManager.on(GameEvents.START_PLAY_TIME, () =>
       this.startTimeInterval()
     );
-    this.eventManager.on(GameEvents.STOP_PLAY_TIME, () => this.stopTimeInterval());
+    this.eventManager.on(GameEvents.STOP_PLAY_TIME, () =>
+      this.stopTimeInterval()
+    );
   }
 
   startTimeInterval() {

@@ -5,6 +5,8 @@
   --gap: 0.1vw; /* Отступы между элементами */
   --border-c: 0.02vw;
   --padding-c: 0.07em;
+  --padding-c-900: 0.09em;
+  --padding-c-1500: 0.05em;
   /* --card-width: 14vw; Базовая ширина карты */
   --card-width: calc((100vw - (var(--padding-c) * 2)) / 7 - (var(--gap) * 6));
   --card-height: calc(var(--card-width) * 1.4); /* Высота (1.4 от ширины) */
@@ -12,6 +14,24 @@
   --margin-card-value: 0.2em;
   --font-size-tbcard-v: calc(var(--card-width) / 5);
   --font-size-ccard-v: calc(var(--card-width) / 1.7);
+
+    --card-width-900: calc(
+    (80vw - (var(--padding-c-900) * 2)) / 7 - (var(--gap) * 6)
+  );
+  --card-height-900: calc(var(--card-width-900) * 1.4);
+  --font-size-tbcard-v-900: calc(var(--card-width-900) / 5);
+  --font-size-ccard-v-900: calc(var(--card-width-900) / 1.7);
+  --gap-900: 0.8vw; /* Отступы между элементами */
+  --gap-row1-900: calc(var(--card-width-900) + var(--gap-900) * 2);
+
+  --card-width-1500: calc(
+    (60vw - (var(--padding-c-1500) * 2)) / 7 - (var(--gap) * 6)
+  );
+  --card-height-1500: calc(var(--card-width-1500) * 1.4);
+  --font-size-tbcard-v-1500: calc(var(--card-width-1500) / 7);
+  --font-size-ccard-v-1500: calc(var(--card-width-1500) / 1.9);
+  --gap-1500: 0.8vw; /* Отступы между элементами */
+  --gap-row1-1500: calc(var(--card-width-1500) + var(--gap-1500) * 2);
 }
 
 /* Контейнер игры */
@@ -229,4 +249,110 @@
   z-index: 100;
   will-change: transform, opacity;
   -webkit-font-smoothing: antialiased;
+}
+
+@media (min-width: 900px) {
+  .row-a,
+  .row-b {
+    gap: var(--gap-900);
+  }
+  .row-2 {
+    gap: var(--gap-900);
+    /* width: 70%; */
+  }
+
+  .row-1 {
+    gap: var(--gap-row1-900);
+  }
+
+  .card,
+  .card-front,
+  .card-back {
+    padding: var(--padding-c-900);
+  }
+
+  .card,
+  .card-front,
+  .card-back,
+  .pile-stock,
+  .stock-span,
+  .pile-foundation,
+  .pile-waste,
+  .pile-tableau {
+    width: var(--card-width-900);
+    height: var(--card-height-900);
+  }
+
+  .stock-span,
+  .foundation-span,
+  .tableau-span {
+    font-size: var(--card-width-900);
+  }
+
+  .card .top {
+    padding: var(--padding-c-900);
+    font-size: var(--font-size-tbcard-v-900);
+  }
+
+  .card .center {
+    font-size: var(--font-size-ccard-v-900);
+  }
+
+  .card .bottom {
+    padding: var(--padding-c-900);
+    font-size: var(--font-size-tbcard-v-900);
+  }
+}
+
+@media (min-width: 1500px) {
+  .row-a,
+  .row-b {
+    gap: var(--gap-1500);
+  }
+  .row-2 {
+    gap: var(--gap-1500);
+    /* width: 70%; */
+  }
+
+  .row-1 {
+    gap: var(--gap-row1-1500);
+  }
+
+  .card,
+  .card-front,
+  .card-back {
+    padding: var(--padding-c-1500);
+  }
+
+  .card,
+  .card-front,
+  .card-back,
+  .pile-stock,
+  .stock-span,
+  .pile-foundation,
+  .pile-waste,
+  .pile-tableau {
+    width: var(--card-width-1500);
+    height: var(--card-height-1500);
+  }
+
+  .stock-span,
+  .foundation-span,
+  .tableau-span {
+    font-size: var(--card-width-1500);
+  }
+
+  .card .top {
+    padding: var(--padding-c-1500);
+    font-size: var(--font-size-tbcard-v-1500);
+  }
+
+  .card .center {
+    font-size: var(--font-size-ccard-v-1500);
+  }
+
+  .card .bottom {
+    padding: var(--padding-c-1500);
+    font-size: var(--font-size-tbcard-v-1500);
+  }
 }
