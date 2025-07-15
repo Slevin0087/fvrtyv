@@ -30,13 +30,10 @@ export class UndoSystem {
   }
 
   async handleUndo() {
-    console.log("в handleUndo:", this.stateManager.state.game.lastMove);
-
     if (this.stateManager.state.game.lastMove.length === 0) {
       this.audioManager.play(AudioName.INFO);
       return;
     }
-    // const lastMoveLength = this.stateManager.state.game.lastMove.length
     const { card, from } = this.stateManager.state.game.lastMove.pop();
     card.isUndo = true;
     if (card.openCard) {
@@ -65,11 +62,7 @@ export class UndoSystem {
   }
 
   reverseMove({ card, from }) {
-    console.log("card, from:", card, from);
-
     const [fromType, fromIndex] = this.parseTargetId(from);
-    console.log("fromType, fromIndex:", fromType, fromIndex);
-
     const gameComponents = this.stateManager.state.cardsComponents;
 
     if (fromType === this.cardContainers.tableau) {
@@ -123,19 +116,15 @@ export class UndoSystem {
 
   updateLastMove(params) {
     const { card } = params;
-    console.log("card.isUndo:", card.isUndo);
-
     if (card.isUndo) {
       card.isUndo = false;
       return;
     }
-    if (this.isLastMove()) {
-      card.isUndo = false;
-      this.stateManager.updateLastMove(params);
-      return;
-    }
-    this.stateManager.resetLastMove();
     this.stateManager.updateLastMove(params);
+    this.eventManager.emit(
+      GameEvents.UP_UNDO_CONTAINER,
+      this.stateManager.state.game.lastMove.length
+    );
   }
 
   isLastMove() {

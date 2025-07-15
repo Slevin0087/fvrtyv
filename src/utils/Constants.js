@@ -99,6 +99,7 @@ export const GameEvents = {
   CARDS_COLLECT: "cards:collect",
   ADD_STOCK_EVENTS: "add:stock:events",
   COLLECT_BTN_HIDDEN: "collect:btn:hidden",
+  UP_UNDO_CONTAINER: "up:undo:container",
 };
 
 export const AnimationDurations = {

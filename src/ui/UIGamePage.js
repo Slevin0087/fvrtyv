@@ -16,6 +16,8 @@ export class UIGamePage extends UIPage {
       menuBtn: document.getElementById("menu-btn"),
       collectBtn: document.getElementById("collect-cards"),
       undoBtn: document.getElementById("undo-btn"),
+      undoCounter: document.getElementById("undo-counter"),
+      hintCounter: document.getElementById("hint-counter"),
     };
   }
 
@@ -69,8 +71,13 @@ export class UIGamePage extends UIPage {
       this.showMessage(message, type);
     });
 
+    this.eventManager.on(GameEvents.UP_UNDO_CONTAINER, (n) =>
+      this.upUndoCounter(n)
+    );
+
     this.elements.undoBtn.addEventListener("click", () => {
       this.eventManager.emit(GameEvents.UNDO_MOVE);
+      this.upUndoCounter(this.state.game.lastMove.length);
     });
   }
 
@@ -78,6 +85,7 @@ export class UIGamePage extends UIPage {
     this.updateScore(this.state.game.score);
     this.updateTime(this.state.game.playTime);
     this.updateMoves(this.state.game.moves);
+    this.upUndoCounter(this.state.game.lastMove.length);
   }
 
   resetTime(minutes, seconds) {
@@ -89,9 +97,11 @@ export class UIGamePage extends UIPage {
   }
 
   updateMoves(n) {
-    console.log("в updateMoves:", n);
-
     this.elements.movesEl.textContent = `👣: ${n}`;
+  }
+
+  upUndoCounter(n) {
+    this.elements.undoCounter.textContent = n;
   }
 
   updateTime(time) {

@@ -56,7 +56,7 @@ export class WinConditionSystem {
       `Бонус за победу: ${this.addition}${GameConfig.rules.winScoreBonus}`
     );
     
-    await this.delay(UIConfig.animations.animationCoinsEarned * 1000 + 100);
+    await this.delay(UIConfig.animations.animationCoinsEarned * 1100);
 
     this.eventManager.emit(
       GameEvents.ANIMATION_COINS_EARNED,
