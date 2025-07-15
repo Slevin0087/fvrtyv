@@ -142,7 +142,7 @@ export const Translations = {
         abaza_btn: "Х|ыбызшва",
       btnBackToMenu: "Щт|ахьла аменю",
       //   menuBtns: {
-      menu_btn_new_game: "Къвмарра ш|ыц",
+      menu_btn_new_game: "Хъвмарра ш|ыц",
       menu_btn_continue_game: "Аджвыквц|ара",
       menu_btn_settings_game: "Анырг|алра",
       menu_btn_state_player: "Астатистика",
@@ -151,7 +151,7 @@ export const Translations = {
       //   },
       //   settinsGame: {
       setting_title: "Анырг|алра",
-      music_volume: "Абжьы аъкъару:",
+      music_volume: "Абжьы акъару:",
       span_sound_off_in: "Абыжьква:",
       c_setting_item: "Абаргвыра:",
       option_easy: "Майра",
@@ -160,7 +160,7 @@ export const Translations = {
       //   },
       //   shopGame: {
       shop_title: "Аткван",
-      balance: "Ахча: ",
+      balance: "Ахча-баг|вча: ",
       // balanceTextContentH: "",
       btn_card_face: "Аш|ахъа",
       btn_card_shirt: "Арубашка",
