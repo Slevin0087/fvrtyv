@@ -1,6 +1,10 @@
 :root {
   --gap-for-flex: 1em;
   --padding-sb: 0.5em;
+  --padding-bc: 0.3em;
+  /* --margin-bc: -0.2em; */
+  --top-right-bc: -0.8em;
+  --min-width-bc: 1.5em
 }
 
 .game-interface {
@@ -109,21 +113,21 @@
 
 .btn-counter {
   position: absolute;
-  top: -8px;
-  right: -8px;
-  font-size: 12px;
+  padding: var(--padding-bc);
+  /* margin: var(--margin-bc); */
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: var(--top-right-bc);
+  right: var(--top-right-bc);
+  font-size: 0.3em;
   color: yellow;
   -webkit-text-fill-color: yellow;
-  background-color: transparent;
+  /* background-color: transparent; */
   border-radius: 50%;
-  min-width: 16px;
-  text-align: center;
+  min-width: var(--min-width-bc);
   pointer-events: none;
-}
-
-.btn-counter {
-  background-color: rgba(0, 0, 0, 0.7);
-  padding: 0 4px;
 }
 
 .controls-btn-container {

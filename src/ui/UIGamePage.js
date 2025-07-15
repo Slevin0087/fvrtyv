@@ -86,6 +86,7 @@ export class UIGamePage extends UIPage {
     this.updateTime(this.state.game.playTime);
     this.updateMoves(this.state.game.moves);
     this.upUndoCounter(this.state.game.lastMove.length);
+    this.upHintCounter(this.state.game.hintsUsed);
   }
 
   resetTime(minutes, seconds) {
@@ -102,6 +103,10 @@ export class UIGamePage extends UIPage {
 
   upUndoCounter(n) {
     this.elements.undoCounter.textContent = n;
+  }
+
+  upHintCounter(n) {
+    this.elements.hintCounter.textContent = n;
   }
 
   updateTime(time) {
