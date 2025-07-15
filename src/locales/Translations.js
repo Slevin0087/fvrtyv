@@ -26,6 +26,8 @@ export const Translations = {
       //   shopGame: {
       shop_title: "Shop",
       balance: "Balance: ",
+      shop_btn_apply: "Apply",
+      shop_btn_buy: "Buy",
       // balanceTextContentH: "",
       btn_card_face: "Face",
       btn_card_shirt: "Shirt",
@@ -86,6 +88,8 @@ export const Translations = {
       //   shopGame: {
       shop_title: "Магазин",
       balance: "Баланс: ",
+      shop_btn_apply: "Применить",
+      shop_btn_buy: "Купить",
       // balanceTextContentH: "",
       btn_card_face: "Лицо",
       btn_card_shirt: "Рубашка",
@@ -161,6 +165,8 @@ export const Translations = {
       //   shopGame: {
       shop_title: "Аткван",
       balance: "Ахча-баг|вча: ",
+      shop_btn_apply: "Аргылра",
+      shop_btn_buy: "Ахвг|ара",
       // balanceTextContentH: "",
       btn_card_face: "Аш|ахъа",
       btn_card_shirt: "Арубашка",
@@ -237,6 +243,8 @@ export const Translations = {
       //   shopGame: {
       shop_title: "Mağaza",
       balance: "Denge: ",
+      shop_btn_apply: "Uygula",
+      shop_btn_buy: "Satın almak",
       // balanceTextContentH: "",
       btn_card_face: "Yüz",
       btn_card_shirt: "Gömlek",

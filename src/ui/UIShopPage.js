@@ -1,6 +1,7 @@
 import { UIPage } from "./UIPage.js";
 import { ShopConfig } from "../configs/ShopConfig.js";
 import { GameEvents } from "../utils/Constants.js";
+import { Helpers } from "../utils/Helpers.js";
 
 export class UIShopPage extends UIPage {
   constructor(eventManager, stateManager) {
@@ -181,8 +182,13 @@ export class UIShopPage extends UIPage {
     btn.classList.add("shop-action-btn");
     btn.id = `btn-buy-${index}`;
     if (!isOwned && !isItemBuy) {
-      btn.textContent = `Купить (${item.price})`;
-    } else if (isItemBuy) btn.textContent = "Применить";
+      btn.setAttribute("data-i18n", "shop_btn_buy");
+      Helpers.updateLanOneUI(btn);
+      btn.textContent = `${btn.textContent }(${item.price})`;
+    } else if (isItemBuy) {
+      btn.setAttribute("data-i18n", "shop_btn_apply");
+      Helpers.updateLanOneUI(btn);
+    }
 
     btn.addEventListener("click", (e) =>
       this.handleBtnClick(item, isOwned, isItemBuy)

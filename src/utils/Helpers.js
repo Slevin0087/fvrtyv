@@ -102,7 +102,7 @@ export class Helpers {
       this.#currentLang = "ru";
     }
 
-    this.updateUI();
+    this.updateLanUI();
   }
 
   // Получение перевода для UI-элемента
@@ -126,13 +126,13 @@ export class Helpers {
     if (this.#availableLangs.includes(newLang)) {
       this.#currentLang = newLang;
       localStorage.setItem("gameLanguage", newLang); // Сохраняем выбор
-      this.updateUI(); // Обновляем интерфейс
+      this.updateLanUI(); // Обновляем интерфейс
     } else {
       console.warn(`Язык "${newLang}" не поддерживается.`);
     }
   }
 
-  static updateUI() {
+  static updateLanUI() {
     // Обновляем все текстовые элементы на странице
     document.querySelectorAll("[data-i18n]").forEach((el) => {
       const key = el.getAttribute("data-i18n");
@@ -144,5 +144,15 @@ export class Helpers {
     // document.getElementById("balance").textContent = `${this.t(
     //   "balance"
     // )}: ${coins} ${this.pluralize("хусынок", coins)}`;
+  }
+
+  static updateLanOneUI(el) {
+    // Обновляем все текстовые элементы на странице
+    // const el = document.getElementById(id);
+    console.log('el:', el);
+    
+    const key = el.getAttribute("data-i18n");
+    console.log('key:', key);
+    el.textContent = this.t(key);
   }
 }
