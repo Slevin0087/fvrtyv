@@ -6,6 +6,8 @@
   --btn-pstate-left-bottom: 1em;
   --font-size-ps-350px: 1.3em;
   --padding-table: 1em;
+  --p-state-table-width-1200: calc(100vw / 2);
+  --p-state-table-width-1500: calc(100vw / 4);
 }
 
 .player-state {
@@ -67,5 +69,30 @@
 @media (min-width: 350px) {
   .player-state button {
     font-size: var(--font-size-ps-350px);
+  }
+}
+
+@media (min-width: 900px) {
+  .player-state button {
+    /* font-size: var(--font-size-s-350px); */
+    /* bottom: var(--btn-settings-left-bottom); */
+    left: calc(
+      var(--p-state-table-width-1200) / 2 + var(--btn-pstate-left-bottom)
+    );
+  }
+}
+
+@media (min-width: 1200px) {
+  .player-state button {
+    left: calc(
+      var(--p-state-table-width-1200) / 1.8 + var(--btn-pstate-left-bottom)
+    );
+  }
+}
+
+@media (min-width: 1500px) {
+  .player-state button {
+    left: calc(100vw / 2 - (var(--p-state-table-width-1500) / 2) + var(--btn-pstate-left-bottom)
+    );
   }
 }

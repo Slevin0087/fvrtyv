@@ -6,7 +6,10 @@ export const Translations = {
       en_btn: "English",
       tr_btn: "Turkish",
       abaza_btn: "Abaza",
-      btnBackToMenu: "Back to menu",
+      btn_back_to_menu: "Back to menu",
+      win_bonus: "Bonus for winning",
+      you_have_earned: "You have earned",
+      coins: "coin", // базовая форма слова
       //   menuBtns: {
       menu_btn_new_game: "New Game",
       menu_btn_continue_game: "Continue",
@@ -68,7 +71,7 @@ export const Translations = {
       game_name: "Khusynka",
     },
     plurals: {
-      coin: (count) => `${count} ${count === 1 ? "coin" : "coins"}`,
+      coins: (count) => `${count} ${count === 1 ? "coin" : "coins"}`,
       // ... другие слова с плюрализацией
     },
   },
@@ -79,7 +82,11 @@ export const Translations = {
       en_btn: "Английский",
       tr_btn: "Турецкий",
       abaza_btn: "Абаза",
-      btnBackToMenu: "Назад в меню",
+      btn_back_to_menu: "Назад в меню",
+      win_bonus: "Бонус за победу",
+      you_have_earned: "Вы заработали",
+      coins: "хусынок", // базовая форма слова
+
       //   menuBtns: {
       menu_btn_new_game: "Новая игра",
       menu_btn_continue_game: "Продолжить",
@@ -140,7 +147,7 @@ export const Translations = {
       // ... другие UI-тексты
     },
     plurals: {
-      хусынок: (count) => {
+      coins: (count) => {
         const lastDigit = count % 10;
         const lastTwoDigits = count % 100;
         if (lastTwoDigits >= 11 && lastTwoDigits <= 19)
@@ -166,7 +173,11 @@ export const Translations = {
       en_btn: "En",
       tr_btn: "Трыквбызшва",
       abaza_btn: "Х|ыбызшва",
-      btnBackToMenu: "Щт|ахьла аменю",
+      btn_back_to_menu: "Щт|ахьла аменю",
+      win_bonus: "Айг|айра бонус",
+      you_have_earned: "У(б)ара йг|ау(б)ынхат|/",
+      coins: "х|вусынк|ата", // базовая форма слова
+
       //   menuBtns: {
       menu_btn_new_game: "Хъвмарра ш|ыц",
       menu_btn_continue_game: "Аджвыквц|ара",
@@ -220,7 +231,7 @@ export const Translations = {
       win: "Айгъ|айра!",
       moves: "Аходква",
       time: "Азаман",
-      add_name: "Уыхьыз/быхьыз таг|вы",
+      add_name: "У(б)ыхьыз таг|вы",
       add_name_btn: "Ахъвмарра алагара",
       add_name_skip: "Аг|вщтра",
       player_name: "Ахъвмарраг|в",
@@ -228,7 +239,7 @@ export const Translations = {
       // ... другие UI-тексты
     },
     plurals: {
-      хусынок: (count) => {
+      coins: (count) => {
         const lastDigit = count % 10;
         const lastTwoDigits = count % 100;
         if (lastTwoDigits >= 11 && lastTwoDigits <= 19)
@@ -255,7 +266,10 @@ export const Translations = {
       en_btn: "Ingilizce dili",
       tr_btn: "Dilimiz",
       abaza_btn: "Abaza dili",
-      btnBackToMenu: "Menüye geri dön",
+      btn_back_to_menu: "Menüye geri dön",
+      win_bonus: "Kazanma bonusu",
+      you_have_earned: "Kazandın",
+      coins: "husynok", // базовая форма слова
       //   menuBtns: {
       menu_btn_new_game: "Yeni oyun",
       menu_btn_continue_game: "Devam etmek",
@@ -317,7 +331,7 @@ export const Translations = {
       // ... другие UI-тексты
     },
     plurals: {
-      husynok: (count) => {
+      coins: (count) => {
         const lastDigit = count % 10;
         const lastTwoDigits = count % 100;
         if (lastTwoDigits >= 11 && lastTwoDigits <= 19)

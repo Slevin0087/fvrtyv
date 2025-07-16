@@ -2,6 +2,7 @@ import { GameEvents, AnimationOperators } from "../../utils/Constants.js";
 import { GameConfig } from "../../configs/GameConfig.js";
 import { AudioName } from "../../utils/Constants.js";
 import { UIConfig } from "../../configs/UIConfig.js";
+import { Helpers } from "../../utils/Helpers.js";
 
 export class WinConditionSystem {
   constructor(eventManager, stateManager, audioManager) {
@@ -45,22 +46,26 @@ export class WinConditionSystem {
 
     this.audioManager.play(AudioName.WIN);
     this.eventManager.emit(GameEvents.UI_ANIMATE_WIN);
-    
+
     this.eventManager.emit(
       GameEvents.INCREMENT_COINS,
       GameConfig.earnedCoins.win
     );
 
+    const textWinBonus = Helpers.t("win_bonus");
+    const textEarned = Helpers.t("win_bonus");
+    const textCoins = Helpers.pluralize("coins", GameConfig.earnedCoins.win);
+
     this.eventManager.emit(
       GameEvents.ANIMATION_COINS_EARNED,
-      `Бонус за победу: ${this.addition}${GameConfig.rules.winScoreBonus}`
+      `${textWinBonus}: ${this.addition}${GameConfig.rules.winScoreBonus}`
     );
-    
+
     await this.delay(UIConfig.animations.animationCoinsEarned * 1100);
 
     this.eventManager.emit(
       GameEvents.ANIMATION_COINS_EARNED,
-      `Вы заработали ${GameConfig.earnedCoins.win} хусынок`
+      `${textEarned} ${textCoins}`
     );
     this.eventManager.emit(GameEvents.GAME_END);
   }

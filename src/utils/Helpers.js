@@ -122,6 +122,19 @@ export class Helpers {
     ); // Fallback
   }
 
+  static pluralizeByKey(key, count) {
+    // 1. Проверяем, есть ли прямое правило для этого ключа
+  const pluralFn = Translations[this.#currentLang]?.plurals?.[key];
+  
+  if (pluralFn) {
+    return pluralFn(count);
+  }
+  
+  // 2. Fallback: получаем базовую форму и добавляем число
+  const word = this.t(key);
+  return `${count} ${word}`;
+  }
+
   static changeLanguage(newLang) {
     if (this.#availableLangs.includes(newLang)) {
       this.#currentLang = newLang;
@@ -144,7 +157,9 @@ export class Helpers {
       el.textContent = this.t(key);
     });
 
-    document.getElementById('player-name').placeholder = this.t('player_name_placeholder');
+    document.getElementById("player-name").placeholder = this.t(
+      "player_name_placeholder"
+    );
 
     // Пример для динамических текстов (например, с плюрализацией)
     // const coins = 5; // Пример значения
@@ -172,7 +187,7 @@ export class Helpers {
     // 2. Добавим обработчик изменений
     languageSelect.addEventListener("change", (event) => {
       console.log('в событии languageSelect.addEventListener("change"');
-      
+
       const newLang = event.target.value;
       this.changeLanguage(newLang);
     });
