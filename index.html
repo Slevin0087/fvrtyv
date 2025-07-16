@@ -42,10 +42,12 @@
     </div>
     <div id="app" class="app-container">
       <div class="language-switcher">
-        <button type="button" id="ru-btn" data-i18n="ru_btn">Ру</button>
-        <button type="button" id="en-btn" data-i18n="en_btn">En</button>
-        <button type="button" id="tr-btn" data-i18n="tr_btn">Tr</button>
-        <button type="button" id="abaza-btn" data-i18n="abaza_btn">Abaza</button>
+        <button type="button" id="ru-btn" data-i18n="ru_btn">Русский</button>
+        <button type="button" id="en-btn" data-i18n="en_btn">Английский</button>
+        <button type="button" id="tr-btn" data-i18n="tr_btn">Турецкий</button>
+        <button type="button" id="abaza-btn" data-i18n="abaza_btn">
+          Абаза
+        </button>
       </div>
       <div id="notification-toast" class="toast hidden"></div>
 
@@ -133,6 +135,15 @@
                 Средняя
               </option>
               <option value="hard" data-i18n="option_hard">Сложная</option>
+            </select>
+          </div>
+          <div class="c-setting-item">
+            <label data-i18n="ln_setting_item">Язык:</label>
+            <select id="difficulty">
+              <option value="ru" selected data-i18n="ru_btn">Русский</option>
+              <option value="en" data-i18n="en_btn">Английский</option>
+              <option value="tr" data-i18n="tr_btn">Турецкий</option>
+              <option value="abaza" data-i18n="abaza_btn">Абаза</option>
             </select>
           </div>
         </div>
@@ -233,9 +244,7 @@
           <div class="row-2" id="tableausDiv"></div>
         </div>
         <div class="controls-container" id="controls">
-          <span
-            class="blinking-text hidden"
-            id="collect-cards"
+          <span class="blinking-text hidden" id="collect-cards"
             >Собрать карты</span
           >
           <div class="controls-btn-container">

@@ -9,6 +9,9 @@
   --padding-setting-head: 0.5em;
   --btn-settings-left-bottom: 1em;
   --font-size-s-350px: 1.3em;
+  --btn-settings-left-bottom-1200: 50%;
+  --setting-item-width-1200: calc(100vw / 2);
+  --setting-item-width-1500: calc(100vw / 4);
 }
 
 .settings {
@@ -204,5 +207,55 @@ input[type="range"]::-moz-range-track {
 
   .settings button {
     font-size: var(--font-size-s-350px);
+  }
+}
+
+@media (min-width: 900px) {
+  /* .settings {
+    width: 50%;
+  } */
+  .setting-item {
+    width: var(--setting-item-width-1200);
+    font-size: var(--font-size-s-350px);
+  }
+
+  .settings button {
+    font-size: var(--font-size-s-350px);
+    bottom: var(--btn-settings-left-bottom);
+    left: calc(var(--setting-item-width-1200) / 2 + var(--btn-settings-left-bottom));
+  }
+}
+
+@media (min-width: 1200px) {
+  /* .settings {
+    width: 50%;
+  } */
+  .setting-item {
+    width: var(--setting-item-width-1200);
+
+    font-size: var(--font-size-s-350px);
+  }
+
+  .settings button {
+    font-size: var(--font-size-s-350px);
+    bottom: var(--btn-settings-left-bottom);
+    left: calc(var(--setting-item-width-1200) / 2 + var(--btn-settings-left-bottom));
+  }
+}
+
+@media (min-width: 1500px) {
+  /* .settings {
+    width: 50%;
+  } */
+  .setting-item {
+    width: var(--setting-item-width-1500);
+
+    font-size: var(--font-size-s-350px);
+  }
+
+  .settings button {
+    font-size: var(--font-size-s-350px);
+    bottom: var(--btn-settings-left-bottom);
+    left: calc(100vw / 2 - (var(--setting-item-width-1500) / 2) + var(--btn-settings-left-bottom));
   }
 }

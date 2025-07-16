@@ -1,9 +1,9 @@
 export const Translations = {
   en: {
     ui: {
-      ru_btn: "Ru",
-      en_btn: "En",
-      tr_btn: "Tr",
+      ru_btn: "Russian",
+      en_btn: "English",
+      tr_btn: "Turkish",
       abaza_btn: "Abaza",
       btnBackToMenu: "Back to menu",
       //   menuBtns: {
@@ -22,6 +22,7 @@ export const Translations = {
       option_easy: "Easy",
       option_medium: "Average",
       option_hard: "Complex",
+      ln_setting_item: "Language",
       //   },
       //   shopGame: {
       shop_title: "Shop",
@@ -72,9 +73,9 @@ export const Translations = {
   },
   ru: {
     ui: {
-      ru_btn: "Ру",
-      en_btn: "En",
-      tr_btn: "Tr",
+      ru_btn: "Русский",
+      en_btn: "Английский",
+      tr_btn: "Турецкий",
       abaza_btn: "Абаза",
       btnBackToMenu: "Назад в меню",
       //   menuBtns: {
@@ -93,6 +94,7 @@ export const Translations = {
       option_easy: "Лёгкая",
       option_medium: "Средняя",
       option_hard: "Сложная",
+      ln_setting_item: "Язык",
       //   },
       //   shopGame: {
       shop_title: "Магазин",
@@ -157,9 +159,9 @@ export const Translations = {
   },
   abaza: {
     ui: {
-      ru_btn: "Урышв",
+      ru_btn: "Урышвбызшва",
       en_btn: "En",
-      tr_btn: "Тр",
+      tr_btn: "Трыквбызшва",
       abaza_btn: "Х|ыбызшва",
       btnBackToMenu: "Щт|ахьла аменю",
       //   menuBtns: {
@@ -178,6 +180,8 @@ export const Translations = {
       option_easy: "Майра",
       option_medium: "Йыгьбаргвым",
       option_hard: "Баргвы",
+      ln_setting_item: "Абызшва",
+
       //   },
       //   shopGame: {
       shop_title: "Аткван",
@@ -243,10 +247,10 @@ export const Translations = {
   // Другие языки (например, турецкий)
   tr: {
     ui: {
-      ru_btn: "Ru",
-      en_btn: "En",
-      tr_btn: "Tr",
-      abaza_btn: "Abaza",
+      ru_btn: "Rus dili",
+      en_btn: "Ingilizce dili",
+      tr_btn: "Dilimiz",
+      abaza_btn: "Abaza dili",
       btnBackToMenu: "Menüye geri dön",
       //   menuBtns: {
       menu_btn_new_game: "Yeni oyun",
@@ -264,6 +268,8 @@ export const Translations = {
       option_easy: "Işık",
       option_medium: "Ortalama",
       option_hard: "Karmaşık",
+      ln_setting_item: "Dil",
+
       //   },
       //   shopGame: {
       shop_title: "Mağaza",
