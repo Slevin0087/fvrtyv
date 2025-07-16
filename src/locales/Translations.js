@@ -175,7 +175,7 @@ export const Translations = {
       abaza_btn: "Х|ыбызшва",
       btn_back_to_menu: "Щт|ахьла аменю",
       win_bonus: "Айг|айра бонус",
-      you_have_earned: "У(б)ара йг|ау(б)ынхат|/",
+      you_have_earned: "У(б)ара йг|ау(б)ынхат|",
       coins: "х|вусынк|ата", // базовая форма слова
 
       //   menuBtns: {
