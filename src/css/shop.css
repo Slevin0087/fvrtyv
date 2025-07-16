@@ -11,6 +11,21 @@
   --font-size-tbcard-vSh: calc(var(--shopCard-width) / 5);
   --font-size-ccard-vSh: calc(var(--shopCard-width) / 1.7);
   --item-border: 0.1em;
+
+  --shopCard-width-900: calc(var(--card-width-900) * 2);
+  --shopCard-height-900: calc(var(--shopCard-width-900) * 1.4);
+  --font-size-tbcard-vSh-900: calc(var(--shopCard-width-900) / 5);
+  --font-size-ccard-vSh-900: calc(var(--shopCard-width-900) / 1.7);
+
+  --shopCard-width-1200: calc(var(--card-width-900) * 1.5);
+  --shopCard-height-1200: calc(var(--shopCard-width-1200) * 1.4);
+  --font-size-tbcard-vSh-1200: calc(var(--shopCard-width-1200) / 7);
+  --font-size-ccard-vSh-1200: calc(var(--shopCard-width-1200) / 1.9);
+
+  --shopCard-width-1500: calc(var(--card-width-1500) * 1.5);
+  --shopCard-height-1500: calc(var(--shopCard-width-1500) * 1.4);
+  --font-size-tbcard-vSh-1500: calc(var(--shopCard-width-1500) / 7);
+  --font-size-ccard-vSh-1500: calc(var(--shopCard-width-1500) / 1.9);
 }
 
 .shop {
@@ -200,5 +215,62 @@
 @media (min-width: 350px) {
   .shop button {
     font-size: var(--font-size-shop-350px);
+  }
+}
+
+@media (min-width: 900px) {
+  .shop-item-card {
+    width: var(--shopCard-width-900);
+    height: var(--shopCard-height-900);
+  }
+
+  .shop-card-top-left {
+    font-size: var(--font-size-tbcard-vSh-900);
+  }
+
+  .shop-card-center {
+    font-size: var(--font-size-ccard-vSh-900);
+  }
+
+  .shop-card-bottom-right {
+    font-size: var(--font-size-tbcard-vSh-900);
+  }
+}
+
+@media (min-width: 1200px) {
+  .shop-item-card {
+    width: var(--shopCard-width-1200);
+    height: var(--shopCard-height-1200);
+  }
+
+  .shop-card-top-left {
+    font-size: var(--font-size-tbcard-vSh-1200);
+  }
+
+  .shop-card-center {
+    font-size: var(--font-size-ccard-vSh-1200);
+  }
+
+  .shop-card-bottom-right {
+    font-size: var(--font-size-tbcard-vSh-1200);
+  }
+}
+
+@media (min-width: 1500px) {
+  .shop-item-card {
+    width: var(--shopCard-width-1500);
+    height: var(--shopCard-height-1500);
+  }
+
+  .shop-card-top-left {
+    font-size: var(--font-size-tbcard-vSh-1500);
+  }
+
+  .shop-card-center {
+    font-size: var(--font-size-ccard-vSh-1500);
+  }
+
+  .shop-card-bottom-right {
+    font-size: var(--font-size-tbcard-vSh-1500);
   }
 }
