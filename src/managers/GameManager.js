@@ -18,10 +18,10 @@ export class GameManager {
     this.startTime = 0;
     this.lastTime = 0;
     this.fullScreenBtn = document.getElementById("full-screen-btn");
-    this.russianButton = document.getElementById("ru-btn");
-    this.enButton = document.getElementById("en-btn");
-    this.trButton = document.getElementById("tr-btn");
-    this.abazaButton = document.getElementById("abaza-btn");
+    // this.russianButton = document.getElementById("ru-btn");
+    // this.enButton = document.getElementById("en-btn");
+    // this.trButton = document.getElementById("tr-btn");
+    // this.abazaButton = document.getElementById("abaza-btn");
   }
 
   startApp() {
@@ -52,6 +52,7 @@ export class GameManager {
       this.cardsSystem
     );
     this.shopSystem = new ShopSystem(this.eventManager, this.stateManager);
+    Helpers.changeLanguage(this.stateManager.state.settings.language);
     this.setupEventListeners();
     // this.gameLoop(0);
   }
@@ -60,14 +61,14 @@ export class GameManager {
     this.fullScreenBtn.addEventListener("click", (e) =>
       this.eventManager.emit(GameEvents.FULL_SCREEN_BTN, e)
     );
-    this.russianButton.addEventListener("click", () =>
-      Helpers.changeLanguage("ru")
-    );
-    this.enButton.addEventListener("click", () => Helpers.changeLanguage("en"));
-    this.trButton.addEventListener("click", () => Helpers.changeLanguage("tr"));
-    this.abazaButton.addEventListener("click", () =>
-      Helpers.changeLanguage("abaza")
-    );
+    // this.russianButton.addEventListener("click", () =>
+    //   Helpers.changeLanguage("ru")
+    // );
+    // this.enButton.addEventListener("click", () => Helpers.changeLanguage("en"));
+    // this.trButton.addEventListener("click", () => Helpers.changeLanguage("tr"));
+    // this.abazaButton.addEventListener("click", () =>
+    //   Helpers.changeLanguage("abaza")
+    // );
     this.eventManager.on(GameEvents.SET_NEW_GAME, async () => {
       await this.setGame();
     });

@@ -126,6 +126,9 @@ export class Helpers {
     if (this.#availableLangs.includes(newLang)) {
       this.#currentLang = newLang;
       localStorage.setItem("gameLanguage", newLang); // Сохраняем выбор
+
+      // document.getElementById("language-selected").value = newLang;
+
       this.updateLanUI(); // Обновляем интерфейс
     } else {
       console.warn(`Язык "${newLang}" не поддерживается.`);
@@ -133,8 +136,8 @@ export class Helpers {
   }
 
   static updateLanUI() {
-    console.log('в updateLanUI');
-    
+    console.log("в updateLanUI");
+
     // Обновляем все текстовые элементы на странице
     document.querySelectorAll("[data-i18n]").forEach((el) => {
       const key = el.getAttribute("data-i18n");
@@ -151,10 +154,25 @@ export class Helpers {
   static updateLanOneUI(el) {
     // Обновляем все текстовые элементы на странице
     // const el = document.getElementById(id);
-    console.log('el:', el);
-    
+    console.log("el:", el);
+
     const key = el.getAttribute("data-i18n");
-    console.log('key:', key);
+    console.log("key:", key);
     el.textContent = this.t(key);
+  }
+
+  static initLanguageSelect() {
+    const languageSelect = document.getElementById("language-selected");
+
+    // 1. Установим текущий язык в select
+    languageSelect.value = this.#currentLang;
+
+    // 2. Добавим обработчик изменений
+    languageSelect.addEventListener("change", (event) => {
+      console.log('в событии languageSelect.addEventListener("change"');
+      
+      const newLang = event.target.value;
+      this.changeLanguage(newLang);
+    });
   }
 }

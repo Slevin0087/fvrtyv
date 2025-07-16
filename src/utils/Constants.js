@@ -43,6 +43,7 @@ export const GameEvents = {
   SET_CURRENT_GAME: "set:current:game",
   SETTINGS_MUSIC_VOLUME: "settings:music:volume",
   SET_DIFFICUTY_CHANGE: "set:difficulty:change",
+  SET_LANGUAGE_CHANGE: "set:language:change",
   SET_MUSIC_VOLUME: "set:music:volume",
   SET_SOUND_TOGGLE: "set:sound:toggle",
   SET_SELECTED_ITEMS: "set:selected:items",

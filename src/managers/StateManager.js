@@ -89,6 +89,11 @@ export class StateManager {
       this.saveGameSettings();
     });
 
+        this.eventManager.on(GameEvents.SET_LANGUAGE_CHANGE, (value) => {
+      this.state.settings.language = value;
+      this.saveGameSettings();
+    });
+
     this.eventManager.on(GameEvents.GAME_END, () => {
       this.state.game.isRunning = false;
       // this.saveAllData();
