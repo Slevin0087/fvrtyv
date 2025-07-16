@@ -53,7 +53,7 @@ export class WinConditionSystem {
     );
 
     const textWinBonus = Helpers.t("win_bonus");
-    const textEarned = Helpers.t("win_bonus");
+    const textEarned = Helpers.t("you_have_earned");
     const textCoins = Helpers.pluralize("coins", GameConfig.earnedCoins.win);
 
     this.eventManager.emit(
