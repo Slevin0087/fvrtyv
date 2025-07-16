@@ -201,7 +201,7 @@ export const Translations = {
       player_state_name: "Ахъвмарраг|в йыхьыз:",
       player_state_coins: "Х|вусынк|ата:",
       player_state_games_played: "Йаг|всхьаз хъвмаррата:",
-      player_state_games_won: "Аг|Айг|айрата:",
+      player_state_games_won: "Айг|айрата:",
       player_state_best_score: "Йбзидздзу асчет:",
       player_state_best_time: "Заман бзи:",
       player_state_moves: "Ацараква:",
