@@ -1,6 +1,7 @@
 export const Translations = {
   en: {
     ui: {
+      player_name_placeholder: "Player",
       ru_btn: "Russian",
       en_btn: "English",
       tr_btn: "Turkish",
@@ -73,6 +74,7 @@ export const Translations = {
   },
   ru: {
     ui: {
+      player_name_placeholder: "Игрок",
       ru_btn: "Русский",
       en_btn: "Английский",
       tr_btn: "Турецкий",
@@ -159,6 +161,7 @@ export const Translations = {
   },
   abaza: {
     ui: {
+      player_name_placeholder: "Ахъвмарраг|в",
       ru_btn: "Урышвбызшва",
       en_btn: "En",
       tr_btn: "Трыквбызшва",
@@ -247,6 +250,7 @@ export const Translations = {
   // Другие языки (например, турецкий)
   tr: {
     ui: {
+      player_name_placeholder: "Oyuncu",
       ru_btn: "Rus dili",
       en_btn: "Ingilizce dili",
       tr_btn: "Dilimiz",

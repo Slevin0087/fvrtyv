@@ -1,5 +1,6 @@
 import { UIPage } from "./UIPage.js";
 import { GameEvents } from "../utils/Constants.js";
+import { Helpers } from "../utils/Helpers.js";
 
 export class UINamePage extends UIPage {
   constructor(eventManager, stateManager) {
@@ -12,21 +13,19 @@ export class UINamePage extends UIPage {
       errorMsg: document.getElementById("name-error"),
     };
 
-    // this.init();
-  }
-
-  init() {
-    super.init();
-    this.setNameInInput();
   }
 
   setupEventListeners() {
     this.elements.form.addEventListener("submit", (e) => this.handleSubmit(e));
     this.elements.skipBtn.addEventListener("click", () => this.handleSkip());
+    this.eventManager.on(GameEvents.SET_NAME_IN_INPUT, () => this.setNameInInput());
   }
 
   setNameInInput() {
-    this.elements.input.value = this.stateManager.state.player.name;
+    const value = this.stateManager.state.player.name === ""
+    ? this.elements.input.placeholder
+    : this.stateManager.state.player.name    
+    this.elements.input.value = value;
   }
 
   handleSubmit(event) {
@@ -38,7 +37,7 @@ export class UINamePage extends UIPage {
   }
 
   handleSkip() {
-    this.eventManager.emit(GameEvents.PLAYER_NAME_SET, this.state.player.name);
+    // this.eventManager.emit(GameEvents.PLAYER_NAME_SET, this.state.player.name);
     this.eventManager.emit(GameEvents.UI_NAME_HIDE);
   }
 

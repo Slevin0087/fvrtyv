@@ -11,12 +11,18 @@ export class UIPlayerStatePage extends UIPage {
 
   render() {
     const statePlayer = this.stateManager.state.player;
+    let playerName = '';
+    if (statePlayer.name === "") {
+      playerName = document.getElementById("player-name").placeholder;
+    } else if (statePlayer.name !== "") {
+      playerName = statePlayer.name
+    };
     const container = document.getElementById("player-state-content");
     container.innerHTML = "";
     container.innerHTML = `<table class="p-state-table table">
       <tr>
         <td class="left-td" data-i18n="player_state_name">Имя:</td>
-        <td class="right-td">${statePlayer.name}</td>
+        <td class="right-td">${playerName}</td>
       </tr>
       <tr>
         <td class="left-td" data-i18n="player_state_coins">Хусынки:</td>

@@ -144,6 +144,8 @@ export class Helpers {
       el.textContent = this.t(key);
     });
 
+    document.getElementById('player-name').placeholder = this.t('player_name_placeholder');
+
     // Пример для динамических текстов (например, с плюрализацией)
     // const coins = 5; // Пример значения
     // document.getElementById("balance").textContent = `${this.t(

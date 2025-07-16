@@ -5,7 +5,7 @@ export class Storage {
     };
 
     this.defaultPlayerStats = {
-      name: "Игрок",
+      name: "",
       coins: 1000,
       wins: 0,
       losses: 0,

@@ -53,8 +53,8 @@ export class GameManager {
     );
     this.shopSystem = new ShopSystem(this.eventManager, this.stateManager);
     Helpers.changeLanguage(this.stateManager.state.settings.language);
+    this.eventManager.emit(GameEvents.SET_NAME_IN_INPUT);
     this.setupEventListeners();
-    // this.gameLoop(0);
   }
 
   setupEventListeners() {
