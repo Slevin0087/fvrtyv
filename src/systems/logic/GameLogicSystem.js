@@ -180,8 +180,10 @@ export class GameLogicSystem {
   }
 
   async cardsCollect() {
+    this.stateManager.state.game.usedAutoCollectCards = true;
     const { tableaus, stock, waste } = this.stateManager.state.cardsComponents;
     await this.autoCollectCards(tableaus, stock, waste);
+    this.stateManager.state.game.usedAutoCollectCards = false;
   }
 
   async autoCollectCards(tableaus, stock, waste) {

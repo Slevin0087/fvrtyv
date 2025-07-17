@@ -63,6 +63,7 @@ export class Storage {
     this.defaultGameStats = {
       isRunning: false,
       isPaused: false,
+      usedAutoCollectCards: false,
       score: 0,
       moves: 0,
       playTime: 0,

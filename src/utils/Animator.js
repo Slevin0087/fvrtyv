@@ -567,7 +567,7 @@ export class Animator {
         fontSize = "24px",
         targetFontSize = "32px",
         color = "#ffeb3b",
-        position = "center",
+        position = "bottom",
         fadeInDuration = 0.3,
         fadeOutDuration = 1,
       } = options;

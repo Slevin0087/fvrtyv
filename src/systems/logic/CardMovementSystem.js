@@ -13,10 +13,12 @@ export class CardMovementSystem {
     if (!card.faceUp || this.stateManager.state.game.isPaused) return false;
 
     const gameComponents = this.stateManager.state.cardsComponents;
+    const usedAutoCollectCards =
+      this.stateManager.state.game.usedAutoCollectCards;
     // Проверка foundation
     for (let i = 0; i < gameComponents.foundations.length; i++) {
       if (gameComponents.foundations[i].canAccept(card, gameComponents)) {
-        this.audioManager.play(AudioName.CLICK);
+        if (!usedAutoCollectCards) this.audioManager.play(AudioName.CLICK);
         const containerTo = gameComponents.foundations[i];
         const containerToName = this.cardContainers.foundation;
         this.eventManager.emit(GameEvents.CARD_MOVE, {
@@ -32,7 +34,7 @@ export class CardMovementSystem {
     // Проверка tableau
     for (let i = 0; i < gameComponents.tableaus.length; i++) {
       if (gameComponents.tableaus[i].canAccept(card)) {
-        this.audioManager.play(AudioName.CLICK);
+        if (!usedAutoCollectCards) this.audioManager.play(AudioName.CLICK);
         const containerTo = gameComponents.tableaus[i];
         const containerToName = this.cardContainers.tableau;
         this.eventManager.emit(GameEvents.CARD_MOVE, {
@@ -45,7 +47,7 @@ export class CardMovementSystem {
       }
     }
 
-    this.audioManager.play(AudioName.INFO);
+    if (!usedAutoCollectCards) this.audioManager.play(AudioName.INFO);
     return false;
   }
 
