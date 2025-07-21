@@ -45,4 +45,11 @@ export const GameConfig = {
     waste: "waste",
     stock: "stock",
   },
+
+  dataAttributes: {
+    dataAttributeDND: "data-card-dnd",
+    cardDnd: "cardDnd",
+    cardParent: "cardParent",
+    name: "[data-card-dnd]",
+  }
 };

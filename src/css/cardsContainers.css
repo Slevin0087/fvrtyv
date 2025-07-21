@@ -15,7 +15,7 @@
   --font-size-tbcard-v: calc(var(--card-width) / 5);
   --font-size-ccard-v: calc(var(--card-width) / 1.7);
 
-    --card-width-900: calc(
+  --card-width-900: calc(
     (80vw - (var(--padding-c-900) * 2)) / 7 - (var(--gap) * 6)
   );
   --card-height-900: calc(var(--card-width-900) * 1.4);
@@ -59,9 +59,16 @@
   border: var(--border-c) solid rgb(7, 7, 7);
   top: 0;
   left: 0;
-  cursor: pointer;
+  cursor: grab;
   transform: translate(0, 0);
+  user-select: none;
+  touch-action: none;
   /* transition: transform 2000ms linear; */
+}
+
+.card.is-dragging {
+  cursor: grabbing;
+  border: var(--border-c) solid rgb(186, 218, 11);
 }
 
 /* .card-front,

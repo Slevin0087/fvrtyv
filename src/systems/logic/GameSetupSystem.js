@@ -1,5 +1,6 @@
 import { GameEvents, AnimationDurations } from "../../utils/Constants.js";
 import { UIConfig } from "../../configs/UIConfig.js";
+import { GameConfig } from "../../configs/GameConfig.js";
 
 export class GameSetupSystem {
   constructor(eventManager, stateManager) {
@@ -19,6 +20,11 @@ export class GameSetupSystem {
     this.eventManager.on(GameEvents.UP_FACE_DOWN_CARD, (card) =>
       this.updateFaceDownCard(card)
     );
+
+    this.eventManager.on(GameEvents.ADD_CARD_CLICK, (card) => {
+      this.removeHandleCard(card);
+      this.handleCard(card);
+    });
   }
 
   setCards(deck, stock) {
@@ -55,9 +61,18 @@ export class GameSetupSystem {
       await this.animateCardMove(card, tableau);
       if (shouldFaceUp) {
         await this.flipCard(card);
+        this.setDataAttribute(
+          card.domElement,
+          GameConfig.dataAttributes.cardParent,
+          card.positionData.parent
+        );
+        this.setDataAttribute(
+          card.domElement,
+          GameConfig.dataAttributes.cardDnd
+        );
       } else if (!shouldFaceUp) this.updateFaceDownCard(card);
-      this.removeHandleCard(card);
-      this.handleCard(card);
+      // this.removeHandleCard(card);
+      // this.handleCard(card);
     } catch (error) {
       throw new Error(error);
     }
@@ -125,5 +140,15 @@ export class GameSetupSystem {
 
   updateFaceDownCard(card) {
     this.faceDownCards.push(card);
+  }
+
+  setDataAttribute(element, nameAttribite, valueAttribute = "") {
+    console.log(
+      "element.dataset[nameAttribite]:",
+      element.dataset[nameAttribite]
+    );
+
+    element.dataset[nameAttribite] = valueAttribute;
+    // element.setAttribute(nameAttribite, valueAttribute);
   }
 }

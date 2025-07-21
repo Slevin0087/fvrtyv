@@ -1,5 +1,6 @@
 import { UIPage } from "./UIPage.js";
 import { GameEvents } from "../utils/Constants.js";
+import { GameConfig } from "../configs/GameConfig.js";
 
 export class UIGamePage extends UIPage {
   constructor(eventManager, stateManager) {
@@ -80,7 +81,6 @@ export class UIGamePage extends UIPage {
       this.upUndoCounter(this.state.game.lastMove.length);
     });
   }
-
   updateUI() {
     this.updateScore(this.state.game.score);
     this.updateTime(this.state.game.playTime);

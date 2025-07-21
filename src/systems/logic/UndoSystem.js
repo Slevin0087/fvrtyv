@@ -23,6 +23,8 @@ export class UndoSystem {
   }
 
   setupEventListeners() {
+    this.eventManager.on(GameConfig.GET_CARD_SOURCE, (from) => this.parseTargetId(from));
+
     this.eventManager.on(
       GameEvents.UNDO_MOVE,
       async () => await this.handleUndo()

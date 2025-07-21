@@ -96,7 +96,7 @@ export class StateManager {
 
     this.eventManager.on(GameEvents.GAME_END, () => {
       this.state.game.isRunning = false;
-      // this.saveAllData();
+      this.saveAllData();
     });
 
     this.eventManager.on(GameEvents.GAME_PAUSE, () => {

@@ -7,6 +7,11 @@ export class CardMovementSystem {
     this.stateManager = stateManager;
     this.audioManager = audioManager;
     this.cardContainers = GameConfig.cardContainers;
+
+    this.setupEventListeners();
+  }
+
+  setupEventListeners() {
   }
 
   handleCardClick(card) {

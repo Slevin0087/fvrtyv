@@ -7,6 +7,7 @@ import { WinConditionSystem } from "./WinConditionSystem.js";
 import { HintSystem } from "./HintSystem.js";
 import { UndoSystem } from "./UndoSystem.js";
 import { UIConfig } from "../../configs/UIConfig.js";
+import { DragAndDrop } from "./DragAndDrop.js";
 // import { autoCollectCards } from "../../utils/autoCollectCards.js";
 
 export class GameLogicSystem {
@@ -55,8 +56,14 @@ export class GameLogicSystem {
       this.stateManager,
       // this.cardsSystem,
       this.animator,
-      this.audioManager,
+      this.audioManager
       // this.handleCardClick
+    );
+    this.dragAndDrop = new DragAndDrop(
+      this.eventManager,
+      this.stateManager,
+      this.audioManager,
+      this.movementSystem
     );
   }
 
@@ -172,6 +179,15 @@ export class GameLogicSystem {
             this.addition
           );
           this.scoringSystem.addPoints(score);
+          this.setupSystem.setDataAttribute(
+            openCard.domElement,
+            GameConfig.dataAttributes.cardParent,
+            openCard.positionData.parent
+          );
+          this.setupSystem.setDataAttribute(
+            openCard.domElement,
+            GameConfig.dataAttributes.cardDnd
+          );
           this.eventManager.emit(GameEvents.IS_FACE_DOWN_CARD, openCard);
         }, UIConfig.animations.cardFlipDuration * 1000);
         resolve();
@@ -221,9 +237,7 @@ export class GameLogicSystem {
       }
       if (waste.cards.length > 0) {
         const topCard = waste.cards[waste.cards.length - 1];
-        const isMove = this.movementSystem.handleCardClick(
-          topCard
-        );
+        const isMove = this.movementSystem.handleCardClick(topCard);
         if (isMove) {
           await this.delay(this.cardMoveDuration + 100);
           await this.autoCollectCards(tableaus, stock, waste);
