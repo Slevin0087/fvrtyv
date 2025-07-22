@@ -87,7 +87,7 @@ export class DragAndDrop {
             transform: `translate(${card.positionData.offsetX}px, ${card.positionData.offsetY}px)`,
           },
         ],
-        { duration: 3000, easing: "ease-out" }
+        { duration: 700, easing: "ease-out" }
       );
 
       returnAnimation.onfinish = () => {
