@@ -14,6 +14,8 @@ export class DragAndDrop {
     this.offsetX = null;
     this.offsetY = null;
     this.isDragging = false;
+    this.isCards = false;
+    this.cards = null;
     this.card = null;
 
     this.setupEventListeners();
@@ -30,7 +32,6 @@ export class DragAndDrop {
   }
 
   onPointerDown(event) {
-
     const { target, x, y } = event;
 
     const isDraggable = target.closest(
@@ -41,16 +42,66 @@ export class DragAndDrop {
     this.currentDraggingCard = isDraggable;
     const gameComponents = this.stateManager.state.cardsComponents;
     const source = this.currentDraggingCard.dataset[this.dataCardParent];
+    this.cards = this.getCards(source, gameComponents);
+    console.log("this.cards:", this.cards);
 
-    this.card = this.getCard(source, gameComponents); 
     this.offsetX = x;
     this.offsetY = y;
   }
 
   onPointerMove(event) {
     if (!this.currentDraggingCard) return;
-    const x = event.clientX - this.offsetX + this.card.positionData.offsetX;
-    const y = event.clientY - this.offsetY + this.card.positionData.offsetY;
+    console.log("this.cards:", this.cards);
+
+    this.cards.forEach((card, index) => {
+      this.currentDraggingCard = card.domElement;
+      const x = event.clientX - this.offsetX + card.positionData.offsetX;
+      const y = event.clientY - this.offsetY + card.positionData.offsetY;
+
+      // Если перемещение больше 5px — считаем это drag’ом
+      if (Math.abs(x) > 5 || Math.abs(y) > 5) {
+        card.domElement.classList.add("is-dragging");
+        this.isDragging = true;
+        card.domElement.style.zIndex = `${100 + index}`;
+        card.domElement.style.transform = `translate(${x}px, ${y}px)`;
+      }
+    });
+  }
+
+  onPointerUp() {
+    if (!this.currentDraggingCard) return;
+
+    if (!this.isDragging) {
+      // this.isCards = true;
+      this.eventManager.emit(GameEvents.CARD_CLICK, this.cards[0]);
+      this.resetDragState();
+      return;
+    }
+    this.isCards = false;
+    this.cards.forEach((card) => {
+      const computedStyle = window.getComputedStyle(card.domElement);
+      const returnAnimation = card.domElement.animate(
+        [
+          { transform: computedStyle.transform },
+          {
+            transform: `translate(${card.positionData.offsetX}px, ${card.positionData.offsetY}px)`,
+          },
+        ],
+        { duration: 3000, easing: "ease-out" }
+      );
+
+      returnAnimation.onfinish = () => {
+        card.domElement.style.transform = `translate(${card.positionData.offsetX}px, ${card.positionData.offsetY}px)`;
+        card.domElement.style.zIndex = card.positionData.zIndex;
+        card.domElement.classList.remove("is-dragging");
+        this.resetDragState();
+      };
+    });
+  }
+
+  helpMove(event, card) {
+    const x = event.clientX - this.offsetX + card.positionData.offsetX;
+    const y = event.clientY - this.offsetY + card.positionData.offsetY;
 
     // Если перемещение больше 5px — считаем это drag’ом
     if (Math.abs(x) > 5 || Math.abs(y) > 5) {
@@ -59,34 +110,6 @@ export class DragAndDrop {
       this.currentDraggingCard.style.zIndex = "100";
       this.currentDraggingCard.style.transform = `translate(${x}px, ${y}px)`;
     }
-  }
-
-  onPointerUp() {
-    if (!this.currentDraggingCard) return;
-
-    if (!this.isDragging) {
-      this.eventManager.emit(GameEvents.CARD_CLICK, this.card);
-      this.resetDragState();
-      return;
-    }
-
-    const computedStyle = window.getComputedStyle(this.currentDraggingCard);
-    const returnAnimation = this.currentDraggingCard.animate(
-      [
-        { transform: computedStyle.transform },
-        {
-          transform: `translate(${this.card.positionData.offsetX}px, ${this.card.positionData.offsetY}px)`,
-        },
-      ],
-      { duration: 3000, easing: "ease-out" }
-    );
-
-    returnAnimation.onfinish = () => {
-      this.currentDraggingCard.style.transform = `translate(${this.card.positionData.offsetX}px, ${this.card.positionData.offsetY}px)`;
-      this.currentDraggingCard.style.zIndex = this.card.positionData.zIndex;
-      this.currentDraggingCard.classList.remove("is-dragging");
-      this.resetDragState();
-    };
   }
 
   // onPointerUp(event) {
@@ -200,35 +223,39 @@ export class DragAndDrop {
     return [type, parseInt(index)];
   }
 
-  getCard(source, gameComponents) {
-    let cardElement = null;
+  getCards(source, gameComponents) {
+    // let cardElement = [];
     if (source.startsWith(this.cardContainers.tableau)) {
       const index = parseInt(source.split("-")[1]);
       gameComponents.tableaus[index].cards.forEach((card) => {
         if (card.domElement === this.currentDraggingCard) {
-          cardElement = card;
+          this.isCards = true;
+          this.cards = gameComponents.tableaus[index].getTopCards(card);
+          // console.log("gameComponents.tableaus[index].getTopCards(card):", gameComponents.tableaus[index].getTopCards(card));
         }
       });
-      return cardElement;
+      return this.cards;
     } else if (source.startsWith(this.cardContainers.foundation)) {
       const index = parseInt(source.split("-")[1]);
       gameComponents.foundations[index].cards.forEach((card) => {
         if (card.domElement === this.currentDraggingCard) {
-          cardElement = card;
+          this.isCards = false;
+          this.cards = [card];
         }
       });
-      return cardElement;
+      return this.cards;
     } else if (source.startsWith(this.cardContainers.waste)) {
       const card = gameComponents.waste.getTopCard();
-      console.log("в source.startsWith(this.cardContainers.waste) card", card);
+      // console.log("в source.startsWith(this.cardContainers.waste) card", card);
 
       //   gameComponents.waste.cards.forEach((card) => {
       if (card.domElement === this.currentDraggingCard) {
-        cardElement = card;
+        this.isCards = false;
+        this.cards = [card];
       }
       //   });
-      return cardElement;
+      return this.cards;
     }
-    return cardElement;
+    // return cardElement;
   }
 }

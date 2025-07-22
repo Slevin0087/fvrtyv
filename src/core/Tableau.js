@@ -44,4 +44,16 @@ export class Tableau extends Pile {
     }
     return [];
   }
+
+  getTopCards(card) {
+    const index = this.cards.indexOf(card);
+    if (index >= 0) {
+      const topCards = [];
+      for (let i = index; i < this.cards.length; i++) {
+        topCards.push(this.cards[i]);
+      }
+      return topCards;
+    }
+    return [];
+  }
 }
