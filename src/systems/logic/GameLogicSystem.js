@@ -127,7 +127,15 @@ export class GameLogicSystem {
       this.movementSystem,
       this.cardMoveDuration
     );
-
+    this.setupSystem.setDataAttribute(
+      card.domElement,
+      GameConfig.dataAttributes.cardParent,
+      card.positionData.parent
+    );
+    this.setupSystem.setDataAttribute(
+      card.domElement,
+      GameConfig.dataAttributes.cardDnd
+    );
     // setTimeout(() => {
     this.stateManager.updateMoves(this.numberMoves);
     this.eventManager.emit(GameEvents.UP_MOVES);

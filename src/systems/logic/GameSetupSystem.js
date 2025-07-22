@@ -25,6 +25,11 @@ export class GameSetupSystem {
       this.removeHandleCard(card);
       this.handleCard(card);
     });
+    this.eventManager.on(
+      GameEvents.SET_CARD_DATA_ATTRIBUTE,
+      (cardDomElement, dataAttribute, cardParent) =>
+        this.setDataAttribute(cardDomElement, dataAttribute, cardParent)
+    );
   }
 
   setCards(deck, stock) {

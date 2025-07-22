@@ -91,11 +91,22 @@ export class RenderStockElement {
         containerToName: this.cardContainers.waste,
       });
       await this.flipCard(card);
+      this.eventManager.emit(
+        GameEvents.SET_CARD_DATA_ATTRIBUTE,
+        card.domElement,
+        GameConfig.dataAttributes.cardParent,
+        card.positionData.parent
+      );
+      this.eventManager.emit(
+        GameEvents.SET_CARD_DATA_ATTRIBUTE,
+        card.domElement,
+        GameConfig.dataAttributes.cardDnd
+      );
     }
     await this.delay(this.clickLimitTime);
     this.isClickAllowed = true; // Разрешаем клики после задержки
-    this.cardsSystem.removeHandleCard(card);
-    this.cardsSystem.handleCard(card);
+    // this.cardsSystem.removeHandleCard(card);
+    // this.cardsSystem.handleCard(card);
   }
 
   renderStockCards(stock) {
