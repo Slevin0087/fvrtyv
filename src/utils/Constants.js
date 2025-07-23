@@ -36,6 +36,7 @@ export const GameEvents = {
   UI_SHOP_SHOW: "ui:shop:show",
   UI_NAME_HIDE: "ui:name:hide",
   UP_MOVES: "up:moves",
+  UP_LAST_MOVE: "up:last:move",
   SET_NAME_IN_INPUT: "set:name:in:input",
   SET_ACTIV_PAGE: "set:activ:page",
   PLAYER_NAME_SET: "player:name:set",

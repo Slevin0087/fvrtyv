@@ -12,6 +12,7 @@ export class CardMovementSystem {
   }
 
   setupEventListeners() {
+    
   }
 
   handleCardClick(card) {
@@ -107,9 +108,9 @@ export class CardMovementSystem {
     } else if (source.startsWith(this.cardContainers.foundation)) {
       return [elementFrom.removeTopCard()];
     } else if (source.startsWith(this.cardContainers.stock)) {
-      return [elementFrom.removeTopCard(card)];
+      return [elementFrom.removeTopCard()];
     } else if (source.startsWith(this.cardContainers.waste)) {
-      return [elementFrom.removeTopCard(card)];
+      return [elementFrom.removeTopCard()];
     }
   }
 

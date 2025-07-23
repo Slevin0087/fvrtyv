@@ -76,9 +76,9 @@ export class GameManager {
       GameEvents.GAME_RESTART,
       async () => await this.gameRestart()
     );
-    this.eventManager.on(GameEvents.START_PLAY_TIME, () =>
-      this.startTimeInterval()
-    );
+    // this.eventManager.on(GameEvents.START_PLAY_TIME, () =>
+    //   this.startTimeInterval()
+    // );
     this.eventManager.on(GameEvents.STOP_PLAY_TIME, () =>
       this.stopTimeInterval()
     );

@@ -148,12 +148,12 @@ export class GameSetupSystem {
   }
 
   setDataAttribute(element, nameAttribite, valueAttribute = "") {
+    
+    element.dataset[nameAttribite] = valueAttribute;
+    // element.setAttribute(nameAttribite, valueAttribute);
     console.log(
       "element.dataset[nameAttribite]:",
       element.dataset[nameAttribite]
     );
-
-    element.dataset[nameAttribite] = valueAttribute;
-    // element.setAttribute(nameAttribite, valueAttribute);
   }
 }

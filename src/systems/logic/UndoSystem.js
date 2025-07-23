@@ -23,6 +23,7 @@ export class UndoSystem {
   }
 
   setupEventListeners() {
+    this.eventManager.on(GameConfig.UP_LAST_MOVE, (params) => this.updateLastMove(params));
     this.eventManager.on(GameConfig.GET_CARD_SOURCE, (from) => this.parseTargetId(from));
 
     this.eventManager.on(

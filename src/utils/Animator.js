@@ -1,4 +1,5 @@
 import { GameEvents } from "./Constants.js";
+import { GameConfig } from "../configs/GameConfig.js";
 
 export class Animator {
   static animateStockCardMove(params, duration = 500) {
@@ -88,7 +89,6 @@ export class Animator {
       );
       removedCards.forEach((card) => {
         const cardElement = card.domElement;
-
         // 1. First - сохраняем начальное положение ДО любых изменений
         // Получаем начальные координаты карты
         const initialRect = cardElement.getBoundingClientRect();
@@ -99,7 +99,17 @@ export class Animator {
 
         containerTo.addCard(card);
         containerTo.element.append(cardElement);
-
+        movementSystem.eventManager.emit(
+          GameEvents.SET_CARD_DATA_ATTRIBUTE,
+          cardElement,
+          GameConfig.dataAttributes.cardParent,
+          card.positionData.parent
+        );
+        movementSystem.eventManager.emit(
+          GameEvents.SET_CARD_DATA_ATTRIBUTE,
+          cardElement,
+          GameConfig.dataAttributes.cardDnd,
+        );
         const newOffsetX = card.positionData.offsetX;
         const newOffsetY = card.positionData.offsetY;
 
