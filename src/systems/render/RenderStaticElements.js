@@ -26,7 +26,7 @@ export class RenderStaticElements {
       this.eventManager.emit(
         GameEvents.SET_CARD_DATA_ATTRIBUTE,
         foundation.element,
-        GameConfig.dataAttributes.fAndTContainers
+        GameConfig.dataAttributes.setFAndTContainers
       );
       this.domElements.foundationsDiv.append(foundation.element);
     });
@@ -35,7 +35,7 @@ export class RenderStaticElements {
       this.eventManager.emit(
         GameEvents.SET_CARD_DATA_ATTRIBUTE,
         tableau.element,
-        GameConfig.dataAttributes.fAndTContainers
+        GameConfig.dataAttributes.setFAndTContainers
       );
       this.domElements.tableausEl.append(tableau.element);
     });
