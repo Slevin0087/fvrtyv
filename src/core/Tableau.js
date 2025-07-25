@@ -23,6 +23,8 @@ export class Tableau extends Pile {
     if (this.isEmpty()) return card.value === "K";
 
     const topCard = this.getTopCard();
+    console.log('topCard:', topCard);
+    
     return card.isOppositeColor(topCard) && card.isNextInSequence(topCard);
   }
 

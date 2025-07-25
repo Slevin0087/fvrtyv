@@ -94,6 +94,8 @@ export class UIGamePage extends UIPage {
   }
 
   updateScore(score) {
+    console.log("score:", score);
+
     this.elements.scoreEl.textContent = `🌟: ${score}`;
   }
 
@@ -127,7 +129,6 @@ export class UIGamePage extends UIPage {
   }
 
   show() {
-    console.log("SHOOOOOOOOOOOOOOOOOOW GAME");
     this.page.className = "";
     const styleClass =
       this.stateManager.state.player.selectedItems.backgrounds.styleClass;

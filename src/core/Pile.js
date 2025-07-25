@@ -19,13 +19,11 @@ export class Pile {
   }
 
   addCard(card) {
-    console.log('addCard, card:', card);
     const position = this.cards.length;    
     card.positionData = this.getPositionData(position);
     this.cards.push(card);
     card.parentElement = this.element;
     this.updateCardElement(card, position);
-    console.log('addCard, card 2:', card);
   }
 
   getPositionData(position) {

@@ -250,6 +250,8 @@ export class StateManager {
   }
 
   updateLastMove(moveData) {
+    console.log('moveData:', moveData);
+    
     this.state.game.lastMove = [
       ...(this.state.game.lastMove.length >= this.state.player.lastMoveQuantity
         ? this.state.game.lastMove.slice(1)
@@ -267,11 +269,13 @@ export class StateManager {
   }
 
   updateScore(points) {
+    console.log('POINT:', points);
     this.state.game.score += points;
     if (this.state.game.score > this.state.player.highestScore) {
       this.state.player.highestScore = this.state.game.score;
       this.storage.setPlayerStats(this.state.player);
     }
+    console.log('this.state.game.score:', this.state.game.score);
 
     this.eventManager.emit(GameEvents.SCORE_UPDATE, this.state.game.score);
   }

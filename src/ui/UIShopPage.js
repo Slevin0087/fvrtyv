@@ -30,7 +30,6 @@ export class UIShopPage extends UIPage {
     super.setupEventListeners();
     Object.entries(this.elements.categoryButtons).forEach(([category, btn]) => {
       btn.addEventListener("click", () => {
-        console.log("category:", typeof category);
         this.eventManager.emit(GameEvents.SHOP_CATEGORY_CHANGE, category);
         this.render(this.stateManager.state.shop, ShopConfig);
       });
@@ -46,8 +45,6 @@ export class UIShopPage extends UIPage {
   }
 
   render(shopState, shopConfig) {
-    console.log("render(shopState, shopConfig):", shopState, shopConfig);
-
     // Очищаем контейнер
     this.elements.itemsContainer.innerHTML = "";
 
@@ -73,10 +70,6 @@ export class UIShopPage extends UIPage {
   createShopItemElement(item, index) {
     const containerElement = document.createElement("div");
     const selectedItems = this.stateManager.state.player.selectedItems;
-
-    console.log("selectedItems:", selectedItems);
-    console.log("item.type:", item.type);
-
     const selectedItem = selectedItems[item.type];
     const isOwned = item.id === selectedItem.id;
     const purchasedItems = this.stateManager.state.player.purchasedItems;
@@ -86,8 +79,6 @@ export class UIShopPage extends UIPage {
     containerElement.className = `item-container ${isOwned ? "owned" : ""}`;
     const itemElement = document.createElement("div");
     // Действия с найденным элементом
-    console.log("Найден выбранный элемент:", selectedItem);
-
     itemElement.className = "shop-item";
     itemElement.id = `shop-item-${index}`;
     const itemHead = document.createElement("div");
@@ -184,7 +175,7 @@ export class UIShopPage extends UIPage {
     if (!isOwned && !isItemBuy) {
       btn.setAttribute("data-i18n", "shop_btn_buy");
       Helpers.updateLanOneUI(btn);
-      btn.textContent = `${btn.textContent }(${item.price})`;
+      btn.textContent = `${btn.textContent}(${item.price})`;
     } else if (isItemBuy) {
       btn.setAttribute("data-i18n", "shop_btn_apply");
       Helpers.updateLanOneUI(btn);

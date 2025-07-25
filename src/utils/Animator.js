@@ -10,12 +10,6 @@ export class Animator {
         const cardElement = card.domElement;
         const oldOffsetX = card.positionData.offsetX;
         const oldOffsetY = card.positionData.offsetY;
-        console.log(
-          "в animateStockCardMove oldOffsetX, oldOffsetY",
-          oldOffsetX,
-          oldOffsetY
-        );
-
         // FLIP: First - запоминаем начальное положение
         const initialRect = cardElement.getBoundingClientRect();
 
@@ -80,8 +74,6 @@ export class Animator {
     duration = 300
   ) {
     return new Promise((resolve, reject) => {
-      console.log("card, source, elementFrom:", card, source, elementFrom);
-
       const removedCards = movementSystem.removeCardFromSource(
         card,
         source,
@@ -95,8 +87,6 @@ export class Animator {
 
         const oldOffsetX = card.positionData.offsetX;
         const oldOffsetY = card.positionData.offsetY;
-        console.log("containerTo:", containerTo);
-
         containerTo.addCard(card);
         containerTo.element.append(cardElement);
         movementSystem.eventManager.emit(
@@ -316,8 +306,6 @@ export class Animator {
       const offsetX = card.positionData.offsetX;
 
       const offsetY = card.positionData.offsetY;
-      console.log("offsetX в animateCardToWaste:", offsetX);
-
       void cardElement.offsetHeight; // Это заставляет браузер применить стили
       // Устанавливаем конечное положение
       // const targetTop =
@@ -349,7 +337,6 @@ export class Animator {
       // 10. По завершении фиксируем результат
       animation.onfinish = () => {
         cardElement.style.transform = `translateX(${offsetX}px) translateY(${offsetY}px)`;
-        // console.log("offset в animateCardToWaste:", offset);
         cardElement.style.zIndex = `${card.positionData.zIndex}`;
         resolve();
       };

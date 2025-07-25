@@ -36,7 +36,6 @@ export class AudioManager {
       "./src/assets/sounds/background.mp3",
       true
     );
-    // console.log("this.state.settings:", this.stateManager.state);
     this.backgroundMusic.volume = this.stateManager.state.settings.musicVolume;
   }
 

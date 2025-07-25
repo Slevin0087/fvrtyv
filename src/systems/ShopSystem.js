@@ -62,8 +62,6 @@ export class ShopSystem {
   }
 
   purchaseItem(item) {
-    console.log("в purchaseItem:", item);
-
     if (this.stateManager.state.player.coins >= item.price) {
       this.eventManager.emit(GameEvents.DECREMENT_COINS, item.price);
 
@@ -77,7 +75,7 @@ export class ShopSystem {
     } else {
       // this.eventManager.emit(
       //   GameEvents.UI_NOTIFICATION,
-       alert( "Недостаточно хусынок");
+      alert("Недостаточно хусынок");
       // );
     }
   }

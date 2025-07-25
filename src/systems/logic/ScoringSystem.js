@@ -2,14 +2,24 @@ import { GameEvents } from "../../utils/Constants.js";
 
 export class ScoringSystem {
   constructor(eventManager, stateManager) {
-    this.eventManager = eventManager
+    this.eventManager = eventManager;
     this.stateManager = stateManager;
 
     this.setupEventListeners();
   }
 
   setupEventListeners() {
-    this.eventManager.on(GameEvents.ADD_POINTS, (points) => this.addPoints(points));
+    this.eventManager.on(GameEvents.ADD_POINTS, (points) =>
+      this.addPoints(points)
+    );
+  }
+
+  addPoints(points) {
+    // console.log('POINT:', points);
+
+    const calculated = this.calculatePoints(points);
+    this.stateManager.updateScore(calculated);
+    return calculated;
   }
 
   calculatePoints(score) {
@@ -20,11 +30,5 @@ export class ScoringSystem {
       hard: 0.8,
     }[difficulty];
     return Math.round(score * multiplier);
-  }
-
-  addPoints(points) {
-    const calculated = this.calculatePoints(points);
-    this.stateManager.updateScore(calculated);
-    return calculated;
   }
 }

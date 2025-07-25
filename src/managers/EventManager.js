@@ -4,7 +4,7 @@ export class EventManager {
   }
 
   on(event, callback) {
-    // console.log(`${event}: ${callback}`);
+    console.log(`${event}: ${callback}`);
     if (!this.listeners.has(event)) {
       this.listeners.set(event, []);
     }

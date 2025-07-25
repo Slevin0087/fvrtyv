@@ -15,20 +15,20 @@ export class UndoSystem {
     this.cardContainers = GameConfig.cardContainers;
     this.subtraction = AnimationOperators.SUBTRACTION;
 
-    this.init();
-  }
-
-  init() {
     this.setupEventListeners();
   }
 
   setupEventListeners() {
-    this.eventManager.on(GameConfig.UP_LAST_MOVE, (params) => this.updateLastMove(params));
-    this.eventManager.on(GameConfig.GET_CARD_SOURCE, (from) => this.parseTargetId(from));
+    this.eventManager.on(GameEvents.GET_CARD_SOURCE, (from) =>
+      this.parseTargetId(from)
+    );
 
     this.eventManager.on(
       GameEvents.UNDO_MOVE,
       async () => await this.handleUndo()
+    );
+    this.eventManager.on(GameEvents.UP_LAST_MOVE, (params) =>
+      this.updateLastMove(params)
     );
   }
 

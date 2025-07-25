@@ -10,6 +10,12 @@ export class WinConditionSystem {
     this.stateManager = stateManager;
     this.audioManager = audioManager;
     this.addition = AnimationOperators.ADDITION;
+
+    this.setupEventListeners();
+  }
+
+  setupEventListeners() {
+    this.eventManager.on(GameEvents.HANDLE_WIN, async () => await this.handleWin());
   }
 
   check() {

@@ -124,15 +124,15 @@ export class Helpers {
 
   static pluralizeByKey(key, count) {
     // 1. Проверяем, есть ли прямое правило для этого ключа
-  const pluralFn = Translations[this.#currentLang]?.plurals?.[key];
-  
-  if (pluralFn) {
-    return pluralFn(count);
-  }
-  
-  // 2. Fallback: получаем базовую форму и добавляем число
-  const word = this.t(key);
-  return `${count} ${word}`;
+    const pluralFn = Translations[this.#currentLang]?.plurals?.[key];
+
+    if (pluralFn) {
+      return pluralFn(count);
+    }
+
+    // 2. Fallback: получаем базовую форму и добавляем число
+    const word = this.t(key);
+    return `${count} ${word}`;
   }
 
   static changeLanguage(newLang) {
@@ -149,8 +149,6 @@ export class Helpers {
   }
 
   static updateLanUI() {
-    console.log("в updateLanUI");
-
     // Обновляем все текстовые элементы на странице
     document.querySelectorAll("[data-i18n]").forEach((el) => {
       const key = el.getAttribute("data-i18n");
@@ -170,11 +168,7 @@ export class Helpers {
 
   static updateLanOneUI(el) {
     // Обновляем все текстовые элементы на странице
-    // const el = document.getElementById(id);
-    console.log("el:", el);
-
     const key = el.getAttribute("data-i18n");
-    console.log("key:", key);
     el.textContent = this.t(key);
   }
 
@@ -186,8 +180,6 @@ export class Helpers {
 
     // 2. Добавим обработчик изменений
     languageSelect.addEventListener("change", (event) => {
-      console.log('в событии languageSelect.addEventListener("change"');
-
       const newLang = event.target.value;
       this.changeLanguage(newLang);
     });

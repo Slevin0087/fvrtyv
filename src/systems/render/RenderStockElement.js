@@ -67,7 +67,6 @@ export class RenderStockElement {
     if (stock.stockCardPosition < 0 && waste.isEmpty()) return;
     else if (stock.stockCardPosition < 0) {
       this.isClickAllowed = false;
-      console.log("stockCardPosition < 0");
       stock.recycleWaste(waste);
       this.renderStockCards(stock);
       waste.element.querySelectorAll(".card").forEach((el) => {
@@ -78,11 +77,8 @@ export class RenderStockElement {
       return;
     }
     this.isClickAllowed = false;
-    console.log("stockCardPosition >= 0");
     const card = stock.getWasteCard();
     if (card) {
-      console.log("card(getWasteCard) при клике по stock:", card);
-
       this.eventManager.emit(GameEvents.AUDIO_CARD_CLICK);
       await this.gameLogicSystem.handleCardMove({
         card,
@@ -144,8 +140,6 @@ export class RenderStockElement {
 
   async flipCard(card) {
     try {
-      console.log("card, которая попадает в flipCard:", card);
-
       this.eventManager.emit(GameEvents.CARD_FLIP, card);
     } catch (error) {
       console.log(error);

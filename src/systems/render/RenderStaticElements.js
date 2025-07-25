@@ -1,6 +1,10 @@
+import { GameConfig } from "../../configs/GameConfig.js";
+import { GameEvents } from "../../utils/Constants.js";
+
 export class RenderStaticElements {
-  constructor(domElements) {
+  constructor(domElements, eventManager) {
     this.domElements = domElements;
+    this.eventManager = eventManager;
   }
 
   render(foundations, tableaus) {
@@ -19,11 +23,20 @@ export class RenderStaticElements {
     );
 
     foundations.forEach((foundation) => {
+      this.eventManager.emit(
+        GameEvents.SET_CARD_DATA_ATTRIBUTE,
+        foundation.element,
+        GameConfig.dataAttributes.fAndTContainers
+      );
       this.domElements.foundationsDiv.append(foundation.element);
-      console.log("в addElementsInDom:", this.domElements.foundationsDiv);
     });
 
     tableaus.forEach((tableau) => {
+      this.eventManager.emit(
+        GameEvents.SET_CARD_DATA_ATTRIBUTE,
+        tableau.element,
+        GameConfig.dataAttributes.fAndTContainers
+      );
       this.domElements.tableausEl.append(tableau.element);
     });
   }

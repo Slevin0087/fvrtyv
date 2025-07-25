@@ -62,6 +62,7 @@ export const GameEvents = {
   GAME_WIN: "game:win",
   GAME_MOVE: "game:move",
   GAME_OVER: "game:over",
+  HANDLE_WIN: "handle:win",
   ADD_CARD_CLICK: "add:card:click",
   CARD_CLICK: "card:clicked",
   CARD_FLIP: "card:flip",

@@ -3,7 +3,7 @@ import { GameEvents } from "../utils/Constants.js";
 
 export class UIMenuPage extends UIPage {
   constructor(eventManager, stateManager) {
-    super(eventManager, stateManager, "game-menu")
+    super(eventManager, stateManager, "game-menu");
     this.elements = {
       newGameBtn: document.getElementById("new-game-btn"),
       settingsBtn: document.getElementById("settings-btn"),
@@ -43,7 +43,6 @@ export class UIMenuPage extends UIPage {
   }
 
   show() {
-    console.log('swoooooooooooooooooooooooooooooooow MENU');
     super.show();
     if (this.stateManager.state.game.isRunning) {
       this.elements.continueBtn.style.display = "block";

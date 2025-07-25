@@ -31,7 +31,10 @@ export class RenderingSystem {
 
   registerComponents() {
     this.components = {
-      renderStaticElements: new RenderStaticElements(this.domElements),
+      renderStaticElements: new RenderStaticElements(
+        this.domElements,
+        this.eventManager
+      ),
       renderStockElement: new RenderStockElement(
         this.eventManager,
         this.stateManager,

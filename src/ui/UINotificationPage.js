@@ -25,15 +25,11 @@ export class UINotificationPage {
   }
 
   addToQueue(message, type) {
-    console.log('В addToQueue');
-    
     this.notificationQueue.push({ message, type });
     this.processQueue();
   }
 
   processQueue() {
-    console.log('в processQueue this.isShowing:', this.isShowing);
-    
     if (this.isShowing || this.notificationQueue.length === 0) return;
 
     const { message, type } = this.notificationQueue.shift();
@@ -41,8 +37,6 @@ export class UINotificationPage {
   }
 
   showNotification(message, type) {
-    console.log('в showNotification:', message, type);
-    
     this.isShowing = true;
     this.page.textContent = message;
     this.page.className = `toast ${type}`;

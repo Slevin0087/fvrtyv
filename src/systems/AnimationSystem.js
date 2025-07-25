@@ -85,8 +85,6 @@ export class AnimationSystem {
     this.eventManager.on(
       GameEvents.ANIMATE_UNDO_TO_WASTE,
       (card, toElement) => {
-        console.log("ddddddddd");
-
         this.animateCardToWaste(card, toElement);
       }
     );
@@ -137,8 +135,6 @@ export class AnimationSystem {
   dealCardsAnimation() {
     const tableauElements = [];
     const stockElement = document.getElementById("stock");
-    console.log("stockElement:", stockElement);
-
     this.stateManager.state.currentGame.components.tableaus.forEach(
       (tableau) => {
         tableauElements.push(tableau.element);

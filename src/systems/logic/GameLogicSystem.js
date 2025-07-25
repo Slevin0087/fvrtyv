@@ -8,7 +8,6 @@ import { HintSystem } from "./HintSystem.js";
 import { UndoSystem } from "./UndoSystem.js";
 import { UIConfig } from "../../configs/UIConfig.js";
 import { DragAndDrop } from "./DragAndDrop.js";
-// import { autoCollectCards } from "../../utils/autoCollectCards.js";
 
 export class GameLogicSystem {
   constructor(eventManager, stateManager, cardsSystem, animator, audioManager) {
@@ -21,8 +20,8 @@ export class GameLogicSystem {
     this.subtraction = AnimationOperators.SUBTRACTION;
     this.numberMoves = GameConfig.rules.initialMove;
     this.cardMoveDuration = UIConfig.animations.cardMoveDuration;
-
     this.firstCardClick = false;
+    
     this.setupSystems();
     this.setupEventListeners();
   }
@@ -54,22 +53,17 @@ export class GameLogicSystem {
     this.undoSystem = new UndoSystem(
       this.eventManager,
       this.stateManager,
-      // this.cardsSystem,
       this.animator,
       this.audioManager
-      // this.handleCardClick
     );
     this.dragAndDrop = new DragAndDrop(
       this.eventManager,
       this.stateManager,
       this.audioManager,
-      this.movementSystem
+      this.movementSystem,
+      this.scoringSystem
     );
   }
-
-  // init() {
-  //   this.setupEventListeners();
-  // }
 
   setupEventListeners() {
     this.eventManager.on(GameEvents.CARD_CLICK, (card) => {
