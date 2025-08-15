@@ -157,7 +157,6 @@ export class DragAndDrop {
       return;
     } else if (target === null && fAndT) {
       console.log("if");
-      alert('в target === null && fAndT:', fAndT)
       const source = fAndT.id;
       if (source.startsWith(this.cardContainers.tableau)) {
         const index = parseInt(source.split("-")[1]);
