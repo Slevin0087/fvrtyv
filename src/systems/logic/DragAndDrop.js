@@ -43,6 +43,41 @@ export class DragAndDrop {
       this.onPointerMove(event)
     );
     document.addEventListener("pointerup", (event) => this.onPointerUp(event));
+
+    // Для мобильных устройств
+    // document.addEventListener("touchstart", (event) =>
+    //   this.onTouchStart(event)
+    // );
+    // document.addEventListener("touchmove", (event) => this.onTouchMove(event));
+    // document.addEventListener("touchend", (event) => this.onTouchEnd(event));
+  }
+
+  onTouchStart(event) {
+    event.preventDefault(); // Предотвращаем скролл страницы
+    const touch = event.touches[0];
+    this.onPointerDown({
+      target: touch.target,
+      x: touch.clientX,
+      y: touch.clientY,
+    });
+  }
+
+  onTouchMove(event) {
+    event.preventDefault(); // Предотвращаем скролл страницы
+    const touch = event.touches[0];
+    this.onPointerMove({
+      clientX: touch.clientX,
+      clientY: touch.clientY,
+    });
+  }
+
+  onTouchEnd(event) {
+    event.preventDefault();
+    const touch = event.changedTouches[0];
+    this.onPointerUp({
+      clientX: touch.clientX,
+      clientY: touch.clientY,
+    });
   }
 
   onPointerDown(event) {
@@ -122,7 +157,7 @@ export class DragAndDrop {
       return;
     } else if (target === null && fAndT) {
       console.log("if");
-
+      alert('в target === null && fAndT:', fAndT)
       const source = fAndT.id;
       if (source.startsWith(this.cardContainers.tableau)) {
         const index = parseInt(source.split("-")[1]);
