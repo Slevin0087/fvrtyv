@@ -57,6 +57,7 @@ export class DragAndDrop {
     const isDraggable = target.closest(
       `[${GameConfig.dataAttributes.dataAttributeDND}]`
     );
+    console.log("isDraggable:", isDraggable);
 
     if (isDraggable === null) return;
     this.currentDraggingCard = isDraggable;
@@ -98,10 +99,19 @@ export class DragAndDrop {
       this.resetDragState();
       return;
     }
+
+    this.cards.forEach((card, index) => {
+      card.domElement.style.visibility = "hidden";
+    });
+
     const fromPoint = document.elementFromPoint(event.clientX, event.clientY);
+    this.cards.forEach((card, index) => {
+      card.domElement.style.visibility = "visible";
+    });
     console.log("fromPoint:", fromPoint);
 
     const fAndT = this.isTAndF(fromPoint);
+
     const target = this.getDropTarget(fromPoint);
     console.log("fAndT, target:", fAndT, target);
 
@@ -111,6 +121,8 @@ export class DragAndDrop {
       });
       return;
     } else if (target === null && fAndT) {
+      console.log("if");
+
       const source = fAndT.id;
       if (source.startsWith(this.cardContainers.tableau)) {
         const index = parseInt(source.split("-")[1]);
@@ -118,23 +130,45 @@ export class DragAndDrop {
           this.gameComponents.tableaus[index].cards.length === 0 &&
           this.gameComponents.tableaus[index].canAccept(this.cards[0])
         ) {
-          this.cards.forEach((card) => this.animateTo(card));
+          const targetSource = fAndT.dataset[this.dataCardParent];
+          // console.log('');
+
+          const [containerToName, containerToIndex] = this.parseTargetId(
+            fAndT.id
+          );
+          this.moveFunction({
+            targetSource,
+            containerTo: this.gameComponents.tableaus[index],
+            containerToName,
+          });
         }
         this.cards.forEach((card) => this.animate(card));
       } else if (source.startsWith(this.cardContainers.foundation)) {
         const index = parseInt(source.split("-")[1]);
         if (
-          this.gameComponents.foundation[index].cards.length === 0 &&
-          this.gameComponents.foundation[index].canAccept(
+          this.gameComponents.foundations[index].cards.length === 0 &&
+          this.gameComponents.foundations[index].canAccept(
             this.cards[0],
             this.gameComponents
           )
         ) {
-          this.cards.forEach((card) => this.animateTo(card));
+          const targetSource = fAndT.dataset[this.dataCardParent];
+          // console.log('');
+
+          const [containerToName, containerToIndex] = this.parseTargetId(
+            fAndT.id
+          );
+
+          this.moveFunction({
+            targetSource,
+            containerTo: this.gameComponents.foundations[index],
+            containerToName,
+          });
         }
         this.cards.forEach((card) => this.animate(card));
       }
-    } else if (target && fAndT === null) {
+      // } else if (target && fAndT === null) {
+    } else if (target) {
       const targetSource = target.dataset[this.dataCardParent];
       console.log("targetSource:", targetSource);
 
@@ -151,111 +185,7 @@ export class DragAndDrop {
       if (canAccept) {
         console.log("ПЕРЕД АПОМ");
 
-        this.eventManager.emit(GameEvents.UP_LAST_MOVE, {
-          card: this.cards[0],
-          from: this.currentDraggingCardSource,
-          to: targetSource,
-        });
-
-        this.cards = this.movementSystem.removeCardFromSource(
-          this.cards[0],
-          this.currentDraggingCardSource,
-          this.getGameComponent(this.currentDraggingCardSource)
-        );
-
-        this.cards.forEach((card) => {
-          containerTo.addCard(card);
-          containerTo.element.append(card.domElement);
-          this.eventManager.emit(
-            GameEvents.SET_CARD_DATA_ATTRIBUTE,
-            card.domElement,
-            GameConfig.dataAttributes.cardParent,
-            card.positionData.parent
-          );
-          this.eventManager.emit(
-            GameEvents.SET_CARD_DATA_ATTRIBUTE,
-            card.domElement,
-            GameConfig.dataAttributes.cardDnd
-          );
-          this.animateTo(card);
-          this.stateManager.updateMoves(this.numberMoves);
-          this.eventManager.emit(GameEvents.UP_MOVES);
-
-          if (
-            containerToName === GameConfig.cardContainers.foundation ||
-            this.currentDraggingCardSource.startsWith(
-              GameConfig.cardContainers.foundation
-            )
-          ) {
-            // await new Promise((resolve) => {
-            //   setTimeout(() => {
-            const score = GameConfig.rules.scoreForFoundation;
-            let operator = "";
-            if (containerToName === GameConfig.cardContainers.foundation)
-              operator = this.addition;
-            else if (
-              this.currentDraggingCardSource.startsWith(
-                GameConfig.cardContainers.foundation
-              )
-            )
-              operator = this.subtraction;
-
-            Animator.showPointsAnimation(card, score, operator);
-
-            if (containerToName === GameConfig.cardContainers.foundation)
-              this.scoringSystem.addPoints(score);
-            else if (
-              this.currentDraggingCardSource.startsWith(
-                GameConfig.cardContainers.foundation
-              )
-            )
-              this.scoringSystem.addPoints(-score);
-          }
-
-          if (
-            this.stateManager.state.cardsComponents.foundations.every((f) =>
-              f.isComplete()
-            )
-          ) {
-            this.eventManager.on(GameEvents.HANDLE_WIN);
-          }
-
-          const openCard = this.movementSystem.openNextCardIfNeeded(
-            this.currentDraggingCardSource
-          );
-
-          card.openCard = openCard;
-          if (openCard) {
-            const score = GameConfig.rules.scoreForCardFlip;
-            new Promise((resolve) => {
-              setTimeout(() => {
-                this.eventManager.emit(
-                  GameEvents.UI_ANIMATION_POINTS_EARNED,
-                  openCard,
-                  score,
-                  this.addition
-                );
-                console.log("SCORE:", score);
-                this.scoringSystem.addPoints(score);
-                this.eventManager.emit(
-                  GameEvents.SET_CARD_DATA_ATTRIBUTE,
-                  openCard.domElement,
-                  GameConfig.dataAttributes.cardParent,
-                  openCard.positionData.parent
-                );
-                this.eventManager.emit(
-                  GameEvents.SET_CARD_DATA_ATTRIBUTE,
-                  openCard.domElement,
-                  GameConfig.dataAttributes.cardDnd
-                );
-                this.eventManager.emit(GameEvents.IS_FACE_DOWN_CARD, openCard);
-              }, UIConfig.animations.cardFlipDuration * 1000);
-              resolve();
-            });
-          }
-        });
-        this.resetDragState();
-        return;
+        this.moveFunction({ targetSource, containerTo, containerToName });
       } else if (!canAccept) {
         this.cards.forEach((card) => {
           this.animate(card);
@@ -287,7 +217,9 @@ export class DragAndDrop {
   animateTo(card) {
     const returnAnimation = card.domElement.animate(
       [
-        { transform: `translate(${xx}px, ${yy}px)` },
+        {
+          transform: `translate(${card.positionData.offsetX}px, ${card.positionData.offsetY}px)`,
+        },
         {
           transform: `translate(${card.positionData.offsetX}px, ${card.positionData.offsetY}px)`,
         },
@@ -362,12 +294,9 @@ export class DragAndDrop {
     } else if (source.startsWith(this.cardContainers.foundation)) {
       const index = parseInt(source.split("-")[1]);
       return this.gameComponents.foundations[index];
-    } else if (
-      source.startsWith(this.cardContainers.waste) ||
-      source.startsWith(this.cardContainers.stock)
-    ) {
-      return null;
-    }
+    } else if (source.startsWith(this.cardContainers.waste))
+      return this.gameComponents.waste;
+    else if (source.startsWith(this.cardContainers.stock)) return null;
   }
 
   isCanAccept(card, source, containerTo) {
@@ -381,104 +310,6 @@ export class DragAndDrop {
     return false;
   }
 
-  // onPointerUp(event) {
-  //   console.log("onPointerUp event:", event);
-  //   if (this.currentDraggingCard === null) return;
-  //   const x = event.clientX;
-  //   const y = event.clientY;
-  //   const gameComponents = this.stateManager.state.cardsComponents;
-  //   console.log("this.dataCardParent:", this.dataCardParent);
-  //   const source = this.currentDraggingCard.dataset[this.dataCardParent];
-  //   console.log("source:", source);
-
-  //   const card = this.getCard(source, gameComponents);
-  //   console.log("card:", card);
-  //   if (this.isDragging === false) {
-  //     console.log("в if");
-
-  //     this.eventManager.emit(GameEvents.CARD_CLICK, card);
-  //     this.currentDraggingCard = null;
-  //     return;
-  //   }
-  //   console.log("после if", x, y);
-
-  //   this.isDragging = false;
-  //   // Запоминаем текущие координаты
-  //   const currentRect = this.currentDraggingCard.getBoundingClientRect();
-
-  //   this.newDifferenceX = x - currentRect.left;
-  //   this.newDifferenceY = y - currentRect.top;
-
-  //   console.log("this.newDifferenceX, this.newDifferenceY:", this.newDifferenceX, this.newDifferenceY);
-
-  //   const startX = 0;
-  //   const startY = 0;
-  //   console.log("this.oldX, this.oldY:", this.oldX, this.oldY);
-  //   console.log(
-  //     "currentRect.left, currentRect.top:",
-  //     currentRect.left,
-  //     currentRect.top
-  //   );
-  //   const endX = this.newDifferenceX - x;
-  //   const endY = this.newDifferenceY - y;
-  //   console.log("endX, endY:", endX, endY);
-  //   // Создаем анимацию возврата
-  //   // this.currentDraggingCard.left = currentRect.left;
-  //   // this.currentDraggingCard.top = currentRect.top;
-  //   // void this.currentDraggingCard.offsetHeight;
-
-  //   const returnAnimation = this.currentDraggingCard.animate(
-  //     [
-  //       {
-  //         transform: `translate(${startX + card.positionData.offsetX}px, ${
-  //           startY + card.positionData.offsetY
-  //         }px)`,
-  //         // left: `${currentRect.left}px`,
-  //         // top: `${currentRect.top}px`,
-  //       },
-  //       {
-  //         transform: `translate(${endX}px, ${endY}px)`,
-  //         // left: `${card.positionData.offsetX}px`,
-  //         // top: `${card.positionData.offsetY}px`,
-  //       },
-  //     ],
-  //     {
-  //       duration: 3000,
-  //       easing: "ease-out",
-  //     }
-  //   );
-
-  //   // По завершении анимации
-  //   returnAnimation.onfinish = () => {
-  //     console.log('card.positionData.offsetY:', card.positionData.offsetY);
-
-  //     this.currentDraggingCard.style.transform = `translate(${card.positionData.offsetX}px, ${card.positionData.offsetY}px)`;
-  //     // this.currentDraggingCard.style.transform = "none";
-  //     // this.currentDraggingCard.style.left = `${card.positionData.offsetX}px`;
-  //     // this.currentDraggingCard.style.top = `${card.positionData.offsetY}px`;
-  //     this.currentDraggingCard.style.zIndex = card.positionData.zIndex;
-  //     this.currentDraggingCard.classList.remove("is-dragging");
-  //     this.resetDragState();
-  //   };
-
-  //   // Если анимация не поддерживается - мгновенный возврат
-  //   returnAnimation.oncancel = () => {
-  //     this.currentDraggingCard.style.transform = "none";
-  //     this.currentDraggingCard.style.left = `${this.oldX}px`;
-  //     this.currentDraggingCard.style.top = `${this.oldY}px`;
-  //     this.resetDragState();
-  //   };
-
-  //   // this.currentDraggingCard.style.left = `${this.offsetX}px`;
-  //   // this.currentDraggingCard.style.top = `${this.offsetY}px`;
-  //   // setTimeout(() => {
-  //   //   this.currentDraggingCard.style.transform = "none";
-  //   //   // this.currentDraggingCard.style.left = `${this.oldX}px`;
-  //   //   // this.currentDraggingCard.style.top = `${this.oldY}px`;
-
-  //   // }, 2000);
-  // }
-
   // Новый метод для сброса состояния
   resetDragState() {
     this.currentDraggingCard = null;
@@ -488,6 +319,8 @@ export class DragAndDrop {
   }
 
   parseTargetId(targetId) {
+    console.log("targetId");
+
     const [type, index] = targetId.split("-");
     return [type, parseInt(index)];
   }
@@ -521,5 +354,110 @@ export class DragAndDrop {
       return this.cards;
     }
     // return cardElement;
+  }
+
+  moveFunction({ targetSource, containerTo, containerToName }) {
+    this.eventManager.emit(GameEvents.UP_LAST_MOVE, {
+      card: this.cards[0],
+      from: this.currentDraggingCardSource,
+      to: targetSource,
+    });
+
+    this.cards = this.movementSystem.removeCardFromSource(
+      this.cards[0],
+      this.currentDraggingCardSource,
+      this.getGameComponent(this.currentDraggingCardSource)
+    );
+    this.cards.forEach((card) => {
+      containerTo.addCard(card);
+      containerTo.element.append(card.domElement);
+      this.eventManager.emit(
+        GameEvents.SET_CARD_DATA_ATTRIBUTE,
+        card.domElement,
+        GameConfig.dataAttributes.cardParent,
+        card.positionData.parent
+      );
+      this.eventManager.emit(
+        GameEvents.SET_CARD_DATA_ATTRIBUTE,
+        card.domElement,
+        GameConfig.dataAttributes.cardDnd
+      );
+      this.animateTo(card);
+      this.stateManager.updateMoves(this.numberMoves);
+      this.eventManager.emit(GameEvents.UP_MOVES);
+
+      if (
+        containerToName === GameConfig.cardContainers.foundation ||
+        this.currentDraggingCardSource.startsWith(
+          GameConfig.cardContainers.foundation
+        )
+      ) {
+        const score = GameConfig.rules.scoreForFoundation;
+        let operator = "";
+        if (containerToName === GameConfig.cardContainers.foundation)
+          operator = this.addition;
+        else if (
+          this.currentDraggingCardSource.startsWith(
+            GameConfig.cardContainers.foundation
+          )
+        )
+          operator = this.subtraction;
+
+        Animator.showPointsAnimation(card, score, operator);
+
+        if (containerToName === GameConfig.cardContainers.foundation)
+          this.scoringSystem.addPoints(score);
+        else if (
+          this.currentDraggingCardSource.startsWith(
+            GameConfig.cardContainers.foundation
+          )
+        )
+          this.scoringSystem.addPoints(-score);
+      }
+
+      if (
+        this.stateManager.state.cardsComponents.foundations.every((f) =>
+          f.isComplete()
+        )
+      ) {
+        this.eventManager.on(GameEvents.HANDLE_WIN);
+      }
+
+      const openCard = this.movementSystem.openNextCardIfNeeded(
+        this.currentDraggingCardSource
+      );
+
+      card.openCard = openCard;
+      if (openCard) {
+        const score = GameConfig.rules.scoreForCardFlip;
+        new Promise((resolve) => {
+          setTimeout(() => {
+            this.eventManager.emit(
+              GameEvents.UI_ANIMATION_POINTS_EARNED,
+              openCard,
+              score,
+              this.addition
+            );
+            console.log("SCORE:", score);
+            this.scoringSystem.addPoints(score);
+            this.eventManager.emit(
+              GameEvents.SET_CARD_DATA_ATTRIBUTE,
+              openCard.domElement,
+              GameConfig.dataAttributes.cardParent,
+              openCard.positionData.parent
+            );
+            this.eventManager.emit(
+              GameEvents.SET_CARD_DATA_ATTRIBUTE,
+              openCard.domElement,
+              GameConfig.dataAttributes.cardDnd
+            );
+            this.eventManager.emit(GameEvents.IS_FACE_DOWN_CARD, openCard);
+          }, UIConfig.animations.cardFlipDuration * 1000);
+          resolve();
+        });
+      }
+    });
+    this.resetDragState();
+    return;
   }
 }

@@ -102,6 +102,9 @@ export class CardMovementSystem {
   }
 
   removeCardFromSource(card, source, elementFrom) {
+    console.log('card, source, elementFrom:', card, source, elementFrom);
+    
+
     // ... реализация аналогична оригиналу
     if (source.startsWith(this.cardContainers.tableau)) {
       return elementFrom.removeCardsFrom(card);

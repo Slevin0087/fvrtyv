@@ -26,7 +26,7 @@ export class RenderStaticElements {
       this.eventManager.emit(
         GameEvents.SET_CARD_DATA_ATTRIBUTE,
         foundation.element,
-        GameConfig.dataAttributes.setFAndTContainers
+        GameConfig.dataAttributes.setFAndTContainers,
       );
       this.domElements.foundationsDiv.append(foundation.element);
     });
