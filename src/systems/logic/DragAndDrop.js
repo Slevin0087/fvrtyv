@@ -161,7 +161,7 @@ export class DragAndDrop {
     
     const target = this.getDropTarget(fromPoint);
     const marker = document.createElement("div");
-    marker.textContent = `${target.textContent}`;
+    marker.textContent = `${target.textContent || target}`;
     marker.style.cssText = `
         position: fixed;
         left: ${event.clientX}px;
