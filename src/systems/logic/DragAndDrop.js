@@ -135,7 +135,7 @@ export class DragAndDrop {
       return;
     }
 
-    this.cards.forEach((card, index) => {
+    this.cards.forEach((card) => {
       card.domElement.style.visibility = "hidden";
     });
 
@@ -148,7 +148,20 @@ export class DragAndDrop {
     //   (event.changedTouches && event.changedTouches[0].clientY);
 
     // Визуализация точки дропа (красная точка)
+
+    // 🔥 Конец вставки маркера ------------------------------------------
+
+    const fromPoint = document.elementFromPoint(event.clientX, event.clientY);
+    this.cards.forEach((card) => {
+      card.domElement.style.visibility = "visible";
+    });
+    console.log("fromPoint:", fromPoint);
+    
+    const fAndT = this.isTAndF(fromPoint);
+    
+    const target = this.getDropTarget(fromPoint);
     const marker = document.createElement("div");
+    marker.textContent = `${target.textContent}`;
     marker.style.cssText = `
         position: fixed;
         left: ${event.clientX}px;
@@ -159,20 +172,12 @@ export class DragAndDrop {
         border-radius: 50%;
         z-index: 9999;
         pointer-events: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     `;
     document.body.appendChild(marker);
     setTimeout(() => marker.remove(), 3000);
-    // 🔥 Конец вставки маркера ------------------------------------------
-
-    const fromPoint = document.elementFromPoint(event.clientX, event.clientY);
-    this.cards.forEach((card, index) => {
-      card.domElement.style.visibility = "visible";
-    });
-    console.log("fromPoint:", fromPoint);
-
-    const fAndT = this.isTAndF(fromPoint);
-
-    const target = this.getDropTarget(fromPoint);
     console.log("fAndT, target:", fAndT, target);
 
     if (target === null && fAndT === null) {
@@ -190,7 +195,6 @@ export class DragAndDrop {
           this.gameComponents.tableaus[index].canAccept(this.cards[0])
         ) {
           const targetSource = fAndT.dataset[this.dataCardParent];
-          // console.log('');
 
           const [containerToName, containerToIndex] = this.parseTargetId(
             fAndT.id
