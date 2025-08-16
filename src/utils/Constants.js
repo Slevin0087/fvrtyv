@@ -26,6 +26,7 @@ export const GameEvents = {
   FULL_SCREEN_BTN: "full-screen-btn",
   BACK_BTN_CLICKED: "back:btn:clicked",
   STORAGE_SET: "storage:set",
+  FIRST_CARD_CLICK: "first:card:click",
   START_PLAY_TIME: "start:play:time",
   STOP_PLAY_TIME: "stop:play:time",
   UIMANAGER_INIT: "uiManager:init",

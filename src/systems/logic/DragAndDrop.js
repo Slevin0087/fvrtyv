@@ -134,7 +134,10 @@ export class DragAndDrop {
       this.resetDragState();
       return;
     }
-
+    if (!this.stateManager.state.player.playerFirstCardClick) {
+      this.stateManager.state.player.playerFirstCardClick = true;
+      this.eventManager.emit(GameEvents.START_PLAY_TIME, 0);
+    }
     this.cards.forEach((card) => {
       card.domElement.style.visibility = "hidden";
       card.domElement.style.pointerEvents = "none";

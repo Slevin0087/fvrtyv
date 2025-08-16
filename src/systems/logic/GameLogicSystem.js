@@ -20,8 +20,6 @@ export class GameLogicSystem {
     this.subtraction = AnimationOperators.SUBTRACTION;
     this.numberMoves = GameConfig.rules.initialMove;
     this.cardMoveDuration = UIConfig.animations.cardMoveDuration;
-    this.firstCardClick = false;
-
     this.setupSystems();
     this.setupEventListeners();
   }
@@ -92,8 +90,8 @@ export class GameLogicSystem {
 
   handleCardClick(card) {
     if (this.winSystem.check()) return;
-    if (!this.stateManager.state.firstCardClick) {
-      this.stateManager.state.firstCardClick = true;
+    if (!this.stateManager.state.player.playerFirstCardClick) {
+      this.eventManager.emit(GameEvents.FIRST_CARD_CLICK);
       this.eventManager.emit(GameEvents.START_PLAY_TIME, 0);
     }
     this.movementSystem.handleCardClick(card);

@@ -60,8 +60,8 @@ export class RenderStockElement {
     if (!this.isClickAllowed) {
       return; // Если клики запрещены, ничего не делаем
     }
-    if (!this.stateManager.state.firstCardClick) {
-      this.stateManager.state.firstCardClick = true;
+    if (!this.stateManager.state.player.playerFirstCardClick) {
+      this.stateManager.state.player.playerFirstCardClick = true;
       this.eventManager.emit(GameEvents.START_PLAY_TIME, 0);
     }
     if (stock.stockCardPosition < 0 && waste.isEmpty()) return;

@@ -7,6 +7,7 @@ export class Storage {
     this.defaultPlayerStats = {
       name: "",
       coins: 1000,
+      playerFirstCardClick: false,
       wins: 0,
       losses: 0,
       totalMoves: 0,
