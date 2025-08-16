@@ -271,14 +271,14 @@ export class DragAndDrop {
 
   getDropTarget(fromPoint) {
     // Временное скрытие
-    this.cards.forEach((card) => {
-      card.domElement.style.pointerEvents = "none";
-    });
-    // this.currentDraggingCard.style.pointerEvents = "none";
+    // this.cards.forEach((card) => {
+    //   card.domElement.style.pointerEvents = "none";
+    // });
+    // // this.currentDraggingCard.style.pointerEvents = "none";
 
-    this.cards.forEach((card) => {
-      card.domElement.style.pointerEvents = "";
-    });
+    // this.cards.forEach((card) => {
+    //   card.domElement.style.pointerEvents = "";
+    // });
     // this.currentDraggingCard.style.pointerEvents = "";
     const isDraggable = fromPoint.closest(
       `[${GameConfig.dataAttributes.dataAttributeDND}]`
@@ -293,12 +293,12 @@ export class DragAndDrop {
   }
 
   isTAndF(fromPoint) {
-    this.cards.forEach((card) => {
-      card.domElement.style.pointerEvents = "none";
-    });
-    this.cards.forEach((card) => {
-      card.domElement.style.pointerEvents = "";
-    });
+    // this.cards.forEach((card) => {
+    //   card.domElement.style.pointerEvents = "none";
+    // });
+    // this.cards.forEach((card) => {
+    //   card.domElement.style.pointerEvents = "";
+    // });
     const isDraggable = fromPoint.closest(
       `[${GameConfig.dataAttributes.getFAndTContainers}]`
     );
