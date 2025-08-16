@@ -1,4 +1,5 @@
 import { Pile } from "./Pile.js";
+import { GameConfig } from "../configs/GameConfig.js";
 
 export class Foundation extends Pile {
   constructor(index) {
@@ -18,6 +19,11 @@ export class Foundation extends Pile {
 
   canAccept(card, gameComponents) {
     if (!card.faceUp) return false;
+    else if (
+      card.value === "A" &&
+      card.positionData.parent.startsWith(GameConfig.cardContainers.foundation)
+    )
+      return false;
     else {
       if (super.isEmpty() && !this.isCards(card, gameComponents))
         return card.value === "A";
