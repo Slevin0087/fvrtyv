@@ -69,6 +69,7 @@
 .card.is-dragging {
   cursor: grabbing;
   border: var(--border-c) solid rgb(186, 218, 11);
+  touch-action: none;
 }
 
 /* .card-front,
