@@ -139,6 +139,31 @@ export class DragAndDrop {
       card.domElement.style.visibility = "hidden";
     });
 
+    // 🔥 Вот сюда добавляем маркер (начало) ----------------------------
+    // const dropX =
+    //   event.clientX ||
+    //   (event.changedTouches && event.changedTouches[0].clientX);
+    // const dropY =
+    //   event.clientY ||
+    //   (event.changedTouches && event.changedTouches[0].clientY);
+
+    // Визуализация точки дропа (красная точка)
+    const marker = document.createElement("div");
+    marker.style.cssText = `
+        position: fixed;
+        left: ${event.clientX}px;
+        top: ${event.clientY}px;
+        width: 50px;
+        height: 50px;
+        background: red;
+        border-radius: 50%;
+        z-index: 9999;
+        pointer-events: none;
+    `;
+    document.body.appendChild(marker);
+    setTimeout(() => marker.remove(), 3000);
+    // 🔥 Конец вставки маркера ------------------------------------------
+
     const fromPoint = document.elementFromPoint(event.clientX, event.clientY);
     this.cards.forEach((card, index) => {
       card.domElement.style.visibility = "visible";
