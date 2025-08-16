@@ -137,6 +137,7 @@ export class DragAndDrop {
 
     this.cards.forEach((card) => {
       card.domElement.style.visibility = "hidden";
+      card.domElement.style.pointerEvents = "none";
     });
 
     // 🔥 Вот сюда добавляем маркер (начало) ----------------------------
@@ -154,14 +155,15 @@ export class DragAndDrop {
     const fromPoint = document.elementFromPoint(event.clientX, event.clientY);
     this.cards.forEach((card) => {
       card.domElement.style.visibility = "visible";
+      card.domElement.style.pointerEvents = "auto";
     });
     console.log("fromPoint:", fromPoint);
-    
+
     const fAndT = this.isTAndF(fromPoint);
-    
+
     const target = this.getDropTarget(fromPoint);
     const marker = document.createElement("div");
-    marker.textContent = `${target === null ? 'null' : target.textContent}`;
+    marker.textContent = `${target === null ? "null" : target.textContent}`;
     marker.style.cssText = `
         position: fixed;
         left: ${event.clientX}px;
