@@ -98,7 +98,7 @@ export class Animator {
         movementSystem.eventManager.emit(
           GameEvents.SET_CARD_DATA_ATTRIBUTE,
           cardElement,
-          GameConfig.dataAttributes.cardDnd,
+          GameConfig.dataAttributes.cardDnd
         );
         const newOffsetX = card.positionData.offsetX;
         const newOffsetY = card.positionData.offsetY;
@@ -438,7 +438,13 @@ export class Animator {
   //   }, 1500);
   // }
 
-  static showPointsAnimation(card, points, operator) {
+  static showPointsAnimation(
+    card,
+    points,
+    operator,
+    isSourceFromFoundation = false,
+    cardParentFoundationElForUndo = null
+  ) {
     const cardElement = card.domElement;
     if (!cardElement) return;
 
@@ -447,7 +453,9 @@ export class Animator {
     pointsElement.textContent = `${operator}${points}`;
 
     // 1. Позиционирование через transform + left/top (для iOS)
-    const cardRect = cardElement.getBoundingClientRect();
+    const cardRect = isSourceFromFoundation
+      ? cardParentFoundationElForUndo.getBoundingClientRect()
+      : cardElement.getBoundingClientRect();
     pointsElement.style.left = `${cardRect.left + cardRect.width / 2}px`;
     pointsElement.style.top = `${cardRect.top}px`;
 

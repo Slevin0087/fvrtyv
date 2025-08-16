@@ -21,7 +21,7 @@ export class GameLogicSystem {
     this.numberMoves = GameConfig.rules.initialMove;
     this.cardMoveDuration = UIConfig.animations.cardMoveDuration;
     this.firstCardClick = false;
-    
+
     this.setupSystems();
     this.setupEventListeners();
   }
@@ -112,7 +112,7 @@ export class GameLogicSystem {
       from: source,
       to: `${containerToName}-${containerToIndex}`,
     });
-
+    const cardParentFoundationElForUndo = card.parentElement;
     await this.animator.animateCardMove(
       card,
       source,
@@ -133,25 +133,22 @@ export class GameLogicSystem {
       //   setTimeout(() => {
       const score = GameConfig.rules.scoreForFoundation;
       let operator = "";
-      if (containerToName === GameConfig.cardContainers.foundation)
+      let isSourceFromFoundation = false;
+      if (containerToName === GameConfig.cardContainers.foundation) {
         operator = this.addition;
-      else if (source.startsWith(GameConfig.cardContainers.foundation))
-        operator = this.subtraction;
-
-      this.animator.showPointsAnimation(card, score, operator);
-      // this.eventManager.emit(
-      //   GameEvents.UI_ANIMATION_POINTS_EARNED,
-      //   card,
-      //   score,
-      //   operator
-      // );
-      if (containerToName === GameConfig.cardContainers.foundation)
         this.scoringSystem.addPoints(score);
-      else if (source.startsWith(GameConfig.cardContainers.foundation))
+      } else if (source.startsWith(GameConfig.cardContainers.foundation)) {
+        operator = this.subtraction;
+        isSourceFromFoundation = !isSourceFromFoundation;
         this.scoringSystem.addPoints(-score);
-      // }, UIConfig.animations.cardMoveDuration);
-      // resolve();
-      // });
+      }
+      this.animator.showPointsAnimation(
+        card,
+        score,
+        operator,
+        isSourceFromFoundation,
+        cardParentFoundationElForUndo
+      );
     }
 
     if (this.winSystem.check()) {
