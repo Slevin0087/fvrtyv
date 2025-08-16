@@ -131,6 +131,7 @@ export class StateManager {
     });
 
     this.eventManager.on(GameEvents.SET_SHOP_STATS, () => this.saveShopStats());
+    this.eventManager.on(GameEvents.RESET_LAST_MOVES, () => this.resetLastMove());
   }
 
   getAllData() {

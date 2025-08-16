@@ -64,8 +64,16 @@ export class RenderStockElement {
       this.stateManager.state.player.playerFirstCardClick = true;
       this.eventManager.emit(GameEvents.START_PLAY_TIME, 0);
     }
-    if (stock.stockCardPosition < 0 && waste.isEmpty()) return;
-    else if (stock.stockCardPosition < 0) {
+    if (stock.stockCardPosition < 0 && waste.isEmpty()) {
+      stock.element.querySelector(".stock-span").textContent = "";
+      return;
+    } else if (stock.stockCardPosition < 0) {
+      stock.element.querySelector(".stock-span").textContent = "↺";
+      this.eventManager.emit(GameEvents.RESET_LAST_MOVES);
+      this.eventManager.emit(
+        GameEvents.UP_UNDO_CONTAINER,
+        this.stateManager.state.game.lastMove.length
+      );
       this.isClickAllowed = false;
       stock.recycleWaste(waste);
       this.renderStockCards(stock);

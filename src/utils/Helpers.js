@@ -80,7 +80,7 @@ export class Helpers {
   }
 
   static #currentLang = "ru"; // Приватное поле для текущего языка
-  static #availableLangs = ["ru", "en", "abaza", "tr"]; // Поддерживаемые языки
+  static #availableLangs = ["ru", "en", "tr", "abaza"]; // Поддерживаемые языки
   static #translations = Translations; // Импортированный объект переводов
 
   // Инициализация языка (вызывается при старте игры)
@@ -170,6 +170,16 @@ export class Helpers {
     // Обновляем все текстовые элементы на странице
     const key = el.getAttribute("data-i18n");
     el.textContent = this.t(key);
+  }
+
+  static updateLanShopBalance(count) {
+    const balanceContainer = document.getElementById('balance-container');
+    const key = balanceContainer.getAttribute("data-i18n");
+    balanceContainer.textContent = this.t(key);
+    const span = document.createElement('span');
+    span.id = "coins";
+    span.textContent = `${this.pluralize(span.id, count)}`;
+    balanceContainer.appendChild(span);
   }
 
   static initLanguageSelect() {

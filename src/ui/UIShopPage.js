@@ -62,9 +62,13 @@ export class UIShopPage extends UIPage {
         this.createShopItemElement(item, index)
       );
     });
-
+    console.log('this.stateManager.state.player.coins:', this.stateManager.state.player.coins);
+    console.log('this.elements.balance:', this.elements.balance);
+    
+    
     // Обновляем баланс
     this.updateBalance(this.stateManager.state.player.coins);
+    Helpers.updateLanShopBalance(this.stateManager.state.player.coins);
   }
 
   createShopItemElement(item, index) {
