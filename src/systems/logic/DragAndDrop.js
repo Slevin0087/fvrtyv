@@ -134,8 +134,8 @@ export class DragAndDrop {
       this.resetDragState();
       return;
     }
-    if (!this.stateManager.state.player.playerFirstCardClick) {
-      this.stateManager.state.player.playerFirstCardClick = true;
+    if (!this.stateManager.state.game.playerFirstCardClick) {
+      this.stateManager.state.game.playerFirstCardClick = true;
       this.eventManager.emit(GameEvents.START_PLAY_TIME, 0);
     }
     this.cards.forEach((card) => {
@@ -394,6 +394,8 @@ export class DragAndDrop {
   }
 
   getCards(source, gameComponents) {
+    console.log('source:', source);
+    
     // let cardElement = [];
     if (source.startsWith(this.cardContainers.tableau)) {
       const index = parseInt(source.split("-")[1]);

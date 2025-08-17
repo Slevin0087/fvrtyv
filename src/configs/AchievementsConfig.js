@@ -2,6 +2,7 @@ export const AchievementsConfig = [
   {
     id: "newbie",
     type: "start",
+    life: "one",
     title: "Новичок",
     description: "Сыграть первую игру",
     icon: "👶",
@@ -13,6 +14,7 @@ export const AchievementsConfig = [
   {
     id: "first_win",
     type: "win",
+    life: "one",
     title: "Первая победа",
     description: "Одержать первую победу в игре",
     icon: "🏆",
@@ -24,6 +26,7 @@ export const AchievementsConfig = [
   {
     id: "fast_win",
     type: "win",
+    life: "many",
     title: "Скоростная игра",
     description: "Победить менее чем за 5 минут",
     icon: "⏱️",
@@ -35,6 +38,7 @@ export const AchievementsConfig = [
   {
     id: "perfect_game",
     type: "win",
+    life: "many",
     title: "Идеальная игра",
     description: "Победить за минимальное количество ходов",
     icon: "✨",
@@ -46,6 +50,7 @@ export const AchievementsConfig = [
   {
     id: "foundation_master",
     type: "inGame",
+    life: "one",
     title: "Мастер фундаментов",
     description: "Переместить 50 карт в фундаменты",
     icon: "🔼",
@@ -61,17 +66,19 @@ export const AchievementsConfig = [
   {
     id: "score_breaker",
     type: "inGame",
+    life: "many",
     title: "Рекордсмен",
     description: "Набрать 1000 очков в одной игре",
     icon: "💯",
     reward: 300,
-    condition: (stats) => stats.highestScore >= 1000,
+    condition: (stats) => stats.score >= 1000,
     rarity: "rare",
     hidden: false,
   },
   {
     id: "card_flipper",
     type: "inGame",
+    life: "one",
     title: "Переворачиватель",
     description: "Перевернуть 100 карт",
     icon: "🔄",
@@ -86,7 +93,8 @@ export const AchievementsConfig = [
   },
   {
     id: "persistent_player",
-    type: "restart_and_win",
+    type: "restartAndWin",
+    life: "one",
     title: "Упорный игрок",
     description: "Сыграть 20 игр",
     icon: "🎮",
@@ -102,6 +110,7 @@ export const AchievementsConfig = [
   {
     id: "hint_saver",
     type: "win",
+    life: "many",
     title: "Экономный",
     description: "Победить, не используя подсказки",
     icon: "💡",
@@ -113,6 +122,7 @@ export const AchievementsConfig = [
   {
     id: "win_streak",
     type: "win",
+    life: "one",
     title: "Серия побед",
     description: "Одержать 3 победы подряд",
     icon: "🔥",
@@ -128,6 +138,7 @@ export const AchievementsConfig = [
   {
     id: "tableau_cleaner",
     type: "inGame",
+    life: "one",
     title: "Чистильщик таблиц",
     description: "Очистить одну из таблиц полностью",
     icon: "🧹",
@@ -139,6 +150,7 @@ export const AchievementsConfig = [
   {
     id: "undo_avoider",
     type: "win",
+    life: "many",
     title: "Решительный",
     description: "Победить, не используя отмену хода",
     icon: "⏮️",
@@ -149,7 +161,8 @@ export const AchievementsConfig = [
   },
   {
     id: "veteran_player",
-    type: "restart_and_win",
+    type: "restartAndWin",
+    life: "one",
     title: "Ветеран",
     description: "Сыграть 100 игр",
     icon: "👴",
@@ -165,6 +178,7 @@ export const AchievementsConfig = [
   {
     id: "king_of_cards",
     type: "win",
+    life: "one",
     title: "Король карт",
     description: "Одержать 50 побед",
     icon: "👑",

@@ -28,7 +28,7 @@ export class StateManager {
 
   setupEventListeners() {
     this.eventManager.on(GameEvents.FIRST_CARD_CLICK, () => {
-      this.state.player.playerFirstCardClick = true;
+      this.state.game.playerFirstCardClick = true;
       this.state.player.gamesPlayed++;
       this.savePlayerStats();
     });
@@ -211,7 +211,7 @@ export class StateManager {
   }
 
   resetTime(time) {
-    this.state.player.playerFirstCardClick = false;
+    this.state.game.playerFirstCardClick = false;
     this.state.game.playTime = time;
   }
 
@@ -277,20 +277,33 @@ export class StateManager {
   }
 
   updateScore(points) {
-    console.log("POINT:", points);
     this.state.game.score += points;
     if (this.state.game.score > this.state.player.highestScore) {
       this.state.player.highestScore = this.state.game.score;
       this.storage.setPlayerStats(this.state.player);
     }
-    console.log("this.state.game.score:", this.state.game.score);
-
     this.eventManager.emit(GameEvents.SCORE_UPDATE, this.state.game.score);
   }
 
+  incrementGameStat(statName, amount = 1) {
+    try {
+      if (this.state.game[statName] !== undefined) {
+        this.state.game[statName] += amount;
+      }
+    } catch (error) {
+      console.error("incrementGameStat failed:", error);
+      throw error;
+    }
+  }
+
   incrementStat(statName, amount = 1) {
-    if (this.state.player[statName] !== undefined) {
-      this.state.player[statName] += amount;
+    try {
+      if (this.state.player[statName] !== undefined) {
+        this.state.player[statName] += amount;
+      }
+    } catch (error) {
+      console.error("incrementStat failed:", error);
+      throw error;
     }
   }
 

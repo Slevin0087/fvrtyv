@@ -7,6 +7,8 @@ export class CardMovementSystem {
     this.stateManager = stateManager;
     this.audioManager = audioManager;
     this.cardContainers = GameConfig.cardContainers;
+    this.textCardsFlipped = "cardsFlipped";
+    this.typeCardFlipCheckAchievements = "inGame";
 
     this.setupEventListeners();
   }
@@ -127,8 +129,12 @@ export class CardMovementSystem {
     if (card && !card.faceUp) {
       card.flip();
       this.eventManager.emit(GameEvents.CARD_FLIP, card);
-      this.stateManager.incrementStat("cardsFlipped");
+      this.stateManager.incrementStat(this.textCardsFlipped);
+      this.eventManager.emit(GameEvents.CHECK_GET_ACHIEVEMENTS, this.typeCardFlipCheckAchievements);
+      console.log('this.stateManager.state:', this.stateManager.state);
+      
       return card;
     }
+    return null;
   }
 }

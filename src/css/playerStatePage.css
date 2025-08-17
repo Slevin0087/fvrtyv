@@ -54,7 +54,7 @@
   grid-template-columns: auto 1fr; /* Левая колонка по ширине контента */
   gap: 12px 20px;
   width: 100%;
-  padding: 1rem;
+  padding: var(--padding-table);
   /* max-width: 600px; Ограничиваем ширину */
   /* padding: 0 calc(var(--padding-table) - var(--gap-for-pstate)); */
   /* align-items: center; */
@@ -78,9 +78,27 @@
   color: black;
 }
 
+.sub-item {
+  font-size: 0.9em;
+  color: #666;
+  margin-left: 20px;
+}
+
+.dt-dd-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 @media (min-width: 350px) {
   .player-state button {
     font-size: var(--font-size-ps-350px);
+  }
+}
+
+@media (min-width: 600px) {
+  .p-state-table {
+    width: 60%;
   }
 }
 
@@ -95,7 +113,6 @@
 
   .p-state-table {
     width: 50%;
-    padding: 1rem;
   }
 }
 

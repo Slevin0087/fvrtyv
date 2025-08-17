@@ -12,12 +12,19 @@ export class WinConditionSystem {
     this.addition = AnimationOperators.ADDITION;
     this.translateWinBonusKey = "win_bonus";
     this.translateWinEarnedBonusKey = "you_have_earned";
+    this.typeWinCheckAchievements = "win";
+    this.textWins = "wins";
+    this.textWinsWithoutHints = "winsWithoutHints";
+    this.textWinsWithoutUndo = "winsWithoutUndo";
 
     this.setupEventListeners();
   }
 
   setupEventListeners() {
-    this.eventManager.on(GameEvents.HANDLE_WIN, async () => await this.handleWin());
+    this.eventManager.on(
+      GameEvents.HANDLE_WIN,
+      async () => await this.handleWin()
+    );
   }
 
   check() {
@@ -29,25 +36,8 @@ export class WinConditionSystem {
   async handleWin() {
     console.log("В HANDLEWIIIIIIIIIIIIIIIIN");
     this.eventManager.emit(GameEvents.STOP_PLAY_TIME);
-    this.stateManager.incrementStat("wins");
-    this.eventManager.emit(
-      GameEvents.ADD_POINTS,
-      GameConfig.rules.winScoreBonus
-    );
 
-    // Проверяем победу без подсказок
-    if (this.stateManager.state.game.hintsUsed === 0) {
-      this.stateManager.incrementStat("winsWithoutHints");
-    }
-
-    // Проверяем быструю победу
-    if (
-      this.stateManager.state.game.playTime <
-      this.stateManager.state.player.fastestWin
-    ) {
-      this.stateManager.state.player.fastestWin =
-        this.stateManager.state.game.playTime;
-    }
+    this.saveWinStats();
 
     this.audioManager.play(AudioName.WIN);
     this.eventManager.emit(GameEvents.UI_ANIMATE_WIN);
@@ -72,8 +62,51 @@ export class WinConditionSystem {
       GameEvents.ANIMATION_COINS_EARNED,
       `${textEarned} ${textCoins}`
     );
-    this.eventManager.emit(GameEvents.CHECK_WIN_ACHIEVEMENTS);
+
+    await this.delay(UIConfig.animations.animationCoinsEarned * 1100);
+
+    this.eventManager.emit(
+      GameEvents.CHECK_GET_ACHIEVEMENTS,
+      this.typeWinCheckAchievements
+    );
     this.eventManager.emit(GameEvents.GAME_END);
+  }
+
+  saveWinStats() {
+    this.stateManager.incrementStat(this.textWins);
+    this.eventManager.emit(
+      GameEvents.ADD_POINTS,
+      GameConfig.rules.winScoreBonus
+    );
+
+    // Проверяем без подсказок ли победа
+    if (this.stateManager.state.game.hintsUsed === 0) {
+      this.stateManager.incrementStat(this.textWinsWithoutHints);
+    }
+
+    // Проверяем быструю победу, время меньше ли чем в прошлый раз
+    if (
+      this.stateManager.state.game.playTime <
+      this.stateManager.state.player.fastestWin
+    ) {
+      this.stateManager.state.player.fastestWin =
+        this.stateManager.state.game.playTime;
+    }
+
+    // Проверяем количество ходов, меньше ли чем в прошлый раз
+    if (
+      this.stateManager.state.game.moves <
+      this.stateManager.state.game.minPossibleMoves
+    ) {
+      this.stateManager.state.game.minPossibleMoves =
+      this.stateManager.state.game.moves;
+    }
+
+    // // Проверяется без отмен хода ли победа
+    if (this.stateManager.state.game.undoUsed === 0) {
+      this.stateManager.incrementStat(this.textWinsWithoutUndo);
+    }
+
   }
 
   delay(ms) {

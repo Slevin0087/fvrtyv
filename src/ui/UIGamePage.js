@@ -80,6 +80,10 @@ export class UIGamePage extends UIPage {
       this.eventManager.emit(GameEvents.UNDO_MOVE);
       this.upUndoCounter(this.state.game.lastMove.length);
     });
+
+    this.eventManager.on(GameEvents.UP_ACHIEVENT_ICON, () =>
+      this.upAchievementIcon(this.state.player.achievements.active.icon)
+    );
   }
   updateUI() {
     this.updateScore(this.state.game.score);
@@ -87,6 +91,7 @@ export class UIGamePage extends UIPage {
     this.updateMoves(this.state.game.moves);
     this.upUndoCounter(this.state.game.lastMove.length);
     this.upHintCounter(this.state.game.hintsUsed);
+    this.upAchievementIcon(this.state.player.achievements.active.icon);
   }
 
   resetTime(minutes, seconds) {
@@ -111,6 +116,10 @@ export class UIGamePage extends UIPage {
     this.elements.hintCounter.textContent = n;
   }
 
+  upAchievementIcon(icon) {
+    this.elements.achievementsIconEl.textContent = `🏆: ${icon}`;
+  }
+
   updateTime(time) {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
@@ -132,10 +141,7 @@ export class UIGamePage extends UIPage {
     this.page.className = "";
     const styleClass =
       this.stateManager.state.player.selectedItems.backgrounds.styleClass;
-    const achievementsIconElText =
-      this.stateManager.state.player.achievements.active.icon;
     this.page.classList.add("game-interface", styleClass);
-    this.elements.achievementsIconEl.textContent = `🏆: ${achievementsIconElText}`;
-    this.updateUI();    
+    this.updateUI();
   }
 }

@@ -38,6 +38,7 @@ export const GameEvents = {
   UI_NAME_HIDE: "ui:name:hide",
   UP_MOVES: "up:moves",
   UP_LAST_MOVE: "up:last:move",
+  UP_ACHIEVENT_ICON: "up:achievement:icon",
   RESET_LAST_MOVES: "reset:last:moves",
   SET_NAME_IN_INPUT: "set:name:in:input",
   SET_ACTIV_PAGE: "set:activ:page",
@@ -109,7 +110,7 @@ export const GameEvents = {
   ADD_STOCK_EVENTS: "add:stock:events",
   COLLECT_BTN_HIDDEN: "collect:btn:hidden",
   UP_UNDO_CONTAINER: "up:undo:container",
-  CHECK_WIN_ACHIEVEMENTS: "check:win:achievements",
+  CHECK_GET_ACHIEVEMENTS: "check:get:achievements",
 };
 
 export const AnimationDurations = {

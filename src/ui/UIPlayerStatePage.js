@@ -11,6 +11,8 @@ export class UIPlayerStatePage extends UIPage {
 
   render() {
     const statePlayer = this.stateManager.state.player;
+    const stateGame = this.stateManager.state.game;
+    const storagePlayer = this.stateManager.storage.getPlayerStats();
     let playerName = "";
     if (statePlayer.name === "") {
       playerName = document.getElementById("player-name").placeholder;
@@ -19,16 +21,6 @@ export class UIPlayerStatePage extends UIPage {
     }
     const container = document.getElementById("player-state-content");
     container.innerHTML = "";
-    // container.innerHTML = `<ul>
-    //   <li>Игры: 0</li>
-    //   <li>Победы: 0</li>
-    //   <li>Лучш. время: -</li>
-    //   <li>Ходов всего: 0</li>
-    //   <li>Отмен: 0</li>
-    //   <li>Серия побед: 0</li>
-    //   <li>Открыто карт: 0</li>
-    //   <li>Стрик оснований: 0</li>
-    // </ul>`;
     container.innerHTML = `<dl class="p-state-table table">
         <dt class="left-td" data-i18n="player_state_name">Имя:</dt>
         <dd class="right-td">${playerName}</dd>
@@ -37,20 +29,29 @@ export class UIPlayerStatePage extends UIPage {
         <dd class="right-td">${statePlayer.coins}</dd>
   
         <dt class="left-td" data-i18n="player_state_games_played">Сыграно игр:</dt>
-        <dd class="right-td">${statePlayer.gamesPlayed}</dd>
+        <dd class="right-td">${storagePlayer.gamesPlayed}</dd>
   
         <dt class="left-td" data-i18n="player_state_games_won">Выиграно игр:</dt>
         <dd class="right-td">${statePlayer.wins}</dd>
-   
+        
+        <dt class="left-td" data-i18n="player_state_games_won_no_undo">Без отмен ходов:</dt>
+        <dd class="right-td">${storagePlayer.winsWithoutUndo}</dd>
+
+        <dt class="left-td" data-i18n="player_state_games_won_no_hints">Без подсказок:</dt>
+        <dd class="right-td">${storagePlayer.winsWithoutHints}</dd>
+
         <dt class="left-td" data-i18n="player_state_best_score">Лучший счет:</dt>
         <dd class="right-td">${statePlayer.highestScore}</dd>
  
         <dt class="left-td" data-i18n="player_state_best_time">Лучшее время:</dt>
-        <dd class="right-td"></dd>
+        <dd class="right-td">${"00:00"}</dd>
   
-        <dt class="left-td" data-i18n="player_state_moves">Ходы:</dt>
-        <dd class="right-td"></dd>
+        <dt class="left-td" data-i18n="player_state_moves">Ходов за игру:</dt>
+        <dd class="right-td">${stateGame.moves}</dd>
   
+        <dt class="left-td" data-i18n="all_player_state_moves">Ходов за всё время:</dt>
+        <dd class="right-td">${storagePlayer.totalMoves}</dd>
+
         <dt class="left-td" data-i18n="player_state_achievement">Достижение:</dt>
         <dd class="right-td">${statePlayer.achievements.active.icon}</dd>
    

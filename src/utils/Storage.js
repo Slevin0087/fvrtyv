@@ -7,7 +7,6 @@ export class Storage {
     this.defaultPlayerStats = {
       name: "",
       coins: 1000,
-      playerFirstCardClick: false,
       wins: 0,
       losses: 0,
       totalMoves: 0,
@@ -19,6 +18,7 @@ export class Storage {
       gamesPlayed: 0,
       cardsFlipped: 0,
       winsWithoutHints: 0,
+      winsWithoutUndo: 0,
       purchasedItems: {
         faces: {
           ids: ["classic_faces", "cosmo_faces", "leather_faces"],
@@ -61,17 +61,20 @@ export class Storage {
         },
       },
     };
-
+    
     this.defaultGameStats = {
       isRunning: false,
       isPaused: false,
+      playerFirstCardClick: false,
       usedAutoCollectCards: false,
       score: 0,
       moves: 0,
       playTime: 0,
       hintsUsed: 0,
+      undoUsed: 0,
       lastMove: [],
-      minPossibleMoves: 52, // Теоретический минимум для пасьянса
+      // minPossibleMoves: 52, // Теоретический минимум для пасьянса
+      minPossibleMoves: Infinity,
       difficulty: "normal",
       faceDownCards: 28,
     };

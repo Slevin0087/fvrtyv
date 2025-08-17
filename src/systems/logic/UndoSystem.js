@@ -14,6 +14,7 @@ export class UndoSystem {
     this.audioManager = audioManager;
     this.cardContainers = GameConfig.cardContainers;
     this.subtraction = AnimationOperators.SUBTRACTION;
+    this.textUndoUsed = "undoUsed";
 
     this.setupEventListeners();
   }
@@ -63,6 +64,7 @@ export class UndoSystem {
       card,
       from,
     });
+    this.stateManager.incrementGameStat(this.textUndoUsed);
   }
 
   reverseMove({ card, from }) {

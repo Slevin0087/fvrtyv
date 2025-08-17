@@ -29,6 +29,11 @@ export class GameLogicSystem {
       this.eventManager,
       this.stateManager
     );
+    this.winSystem = new WinConditionSystem(
+      this.eventManager,
+      this.stateManager,
+      this.audioManager
+    );
     this.movementSystem = new CardMovementSystem(
       this.eventManager,
       this.stateManager,
@@ -37,11 +42,6 @@ export class GameLogicSystem {
     this.scoringSystem = new ScoringSystem(
       this.eventManager,
       this.stateManager
-    );
-    this.winSystem = new WinConditionSystem(
-      this.eventManager,
-      this.stateManager,
-      this.audioManager
     );
     this.hintSystem = new HintSystem(
       this.eventManager,
@@ -90,7 +90,7 @@ export class GameLogicSystem {
 
   handleCardClick(card) {
     if (this.winSystem.check()) return;
-    if (!this.stateManager.state.player.playerFirstCardClick) {
+    if (!this.stateManager.state.game.playerFirstCardClick) {
       this.eventManager.emit(GameEvents.FIRST_CARD_CLICK);
       this.eventManager.emit(GameEvents.START_PLAY_TIME, 0);
     }
@@ -181,6 +181,7 @@ export class GameLogicSystem {
         resolve();
       });
     }
+    return;
   }
 
   async cardsCollect() {

@@ -159,7 +159,7 @@ export class GameManager {
 
     if (
       this.stateManager.state.game.isRunning &&
-      this.stateManager.state.player.playerFirstCardClick
+      this.stateManager.state.game.playerFirstCardClick
     ) {
       this.stateManager.state.game.playTime += deltaTime;
       this.eventManager.emit(
