@@ -28,6 +28,22 @@ export const AchievementsConfig = [
       target: 100,
     }),
   },
+  {
+    id: "foundation_master_test",
+    type: "inGame",
+    life: "one",
+    title: "Мастер фундаментов",
+    description: "Переместить 50 карт в фундаменты",
+    icon: "🔼",
+    reward: 200,
+    condition: (stats) => stats.cardsToFoundation >= 5,
+    rarity: "uncommon",
+    hidden: false,
+    getProgress: (stats) => ({
+      current: stats.cardsToFoundation,
+      target: 50,
+    }),
+  },
   ////////////////////
   {
     id: "newbie",

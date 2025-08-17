@@ -20,6 +20,8 @@ export class GameLogicSystem {
     this.subtraction = AnimationOperators.SUBTRACTION;
     this.numberMoves = GameConfig.rules.initialMove;
     this.cardMoveDuration = UIConfig.animations.cardMoveDuration;
+    this.typeToFoundationCheckAchievements = "inGame";
+    this.textToFoundationCheckAchievements = "cardsToFoundation";
     this.setupSystems();
     this.setupEventListeners();
   }
@@ -135,6 +137,8 @@ export class GameLogicSystem {
       if (containerToName === GameConfig.cardContainers.foundation) {
         operator = this.addition;
         this.scoringSystem.addPoints(score);
+        this.stateManager.incrementStat(this.textToFoundationCheckAchievements);
+        this.eventManager.emit(GameEvents.CHECK_GET_ACHIEVEMENTS, this.typeToFoundationCheckAchievements);
       } else if (source.startsWith(GameConfig.cardContainers.foundation)) {
         operator = this.subtraction;
         isSourceFromFoundation = !isSourceFromFoundation;

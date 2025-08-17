@@ -81,7 +81,7 @@ export class AchievementSystem {
                 if (a.life === "one") {
                   const state = this.stateManager.state.player;
                   if (a.condition(state)) {
-                    // unlocked.push(a.id);
+                    unlocked.push(a.id);
                     this.setActiveAchievement(state, a);
                     this.eventManager.emit(GameEvents.UP_ACHIEVENT_ICON);
                     console.log("получено достижение:", a.title);
@@ -89,8 +89,8 @@ export class AchievementSystem {
                 } else if (a.life === "many") {
                   const state = this.stateManager.state.game;
                   if (a.condition(state)) {
-                    this.setActiveAchievement(state, a);
-                    this.eventManager.emit(GameEvents.UP_ACHIEVENT_ICON);
+                    // this.setActiveAchievement(state, a);
+                    // this.eventManager.emit(GameEvents.UP_ACHIEVENT_ICON);
                     console.log("получено достижение:", a.title);
                   }
                 }
@@ -159,6 +159,8 @@ export class AchievementSystem {
   }
 
   setActiveAchievement(state, a) {
+    console.log('в setActiveAchievement:', state);
+    
     state.achievements.activeId = a.id;
     state.achievements.active = a;
   }
