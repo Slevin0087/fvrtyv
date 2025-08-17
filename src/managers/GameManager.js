@@ -11,6 +11,7 @@ import { AnimationSystem } from "../systems/AnimationSystem.js";
 import { ShopSystem } from "../systems/ShopSystem.js";
 import { Animator } from "../utils/Animator.js";
 import { Helpers } from "../utils/Helpers.js";
+import { AchievementSystem } from "../systems/AchievementSystem.js";
 
 export class GameManager {
   constructor() {
@@ -27,8 +28,9 @@ export class GameManager {
   startApp() {
     // 1. Инициализация менеджеров
     this.eventManager = new EventManager();
-    this.stogare = new Storage(this.eventManager);
-    this.stateManager = new StateManager(this.eventManager, this.stogare);
+    this.storage = new Storage(this.eventManager);
+    this.stateManager = new StateManager(this.eventManager, this.storage);
+    this.achievementSystem = new AchievementSystem(this.eventManager, this.stateManager, this.storage);
     this.uiManager = new UIManager(this.eventManager, this.stateManager);
     this.audioManager = new AudioManager(this.eventManager, this.stateManager);
     this.cardsSystem = new CardsSystem(this.eventManager, this.stateManager);
@@ -37,7 +39,6 @@ export class GameManager {
       this.stateManager,
       this.cardsSystem
     );
-    // this.animator = new Animator();
     this.gameLogicSystem = new GameLogicSystem(
       this.eventManager,
       this.stateManager,

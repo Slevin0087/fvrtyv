@@ -31,7 +31,7 @@ export class StateManager {
       this.state.player.playerFirstCardClick = true;
       this.state.player.gamesPlayed++;
       this.savePlayerStats();
-    })
+    });
     this.eventManager.on(GameEvents.PLAYER_NAME_SET, (name) => {
       this.state.player.name = name;
       this.savePlayerStats();
@@ -131,7 +131,9 @@ export class StateManager {
     });
 
     this.eventManager.on(GameEvents.SET_SHOP_STATS, () => this.saveShopStats());
-    this.eventManager.on(GameEvents.RESET_LAST_MOVES, () => this.resetLastMove());
+    this.eventManager.on(GameEvents.RESET_LAST_MOVES, () =>
+      this.resetLastMove()
+    );
   }
 
   getAllData() {

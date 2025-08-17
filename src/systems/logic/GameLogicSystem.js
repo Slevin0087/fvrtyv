@@ -152,7 +152,7 @@ export class GameLogicSystem {
     if (this.winSystem.check()) {
       await this.winSystem.handleWin();
     }
-
+    
     const openCard = this.movementSystem.openNextCardIfNeeded(source);
 
     card.openCard = openCard;

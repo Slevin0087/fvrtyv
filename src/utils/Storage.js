@@ -50,6 +50,7 @@ export class Storage {
         activeId: "newbie",
         active: {
           id: "newbie",
+          type: "start",
           title: "Новичок",
           description: "Сыграть первую игру",
           icon: "👶",

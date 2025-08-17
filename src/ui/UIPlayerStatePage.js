@@ -11,47 +11,50 @@ export class UIPlayerStatePage extends UIPage {
 
   render() {
     const statePlayer = this.stateManager.state.player;
-    let playerName = '';
+    let playerName = "";
     if (statePlayer.name === "") {
       playerName = document.getElementById("player-name").placeholder;
     } else if (statePlayer.name !== "") {
-      playerName = statePlayer.name
-    };
+      playerName = statePlayer.name;
+    }
     const container = document.getElementById("player-state-content");
     container.innerHTML = "";
-    container.innerHTML = `<table class="p-state-table table">
-      <tr>
-        <td class="left-td" data-i18n="player_state_name">Имя:</td>
-        <td class="right-td">${playerName}</td>
-      </tr>
-      <tr>
-        <td class="left-td" data-i18n="player_state_coins">Хусынки:</td>
-        <td class="right-td">${statePlayer.coins}</td>
-      </tr>
-      <tr>
-        <td class="left-td" data-i18n="player_state_games_played">Сыграно игр:</td>
-        <td class="right-td">${statePlayer.gamesPlayed}</td>
-      </tr>
-      <tr>
-        <td class="left-td" data-i18n="player_state_games_won">Выиграно игр:</td>
-        <td class="right-td">${statePlayer.wins}</td>
-      </tr>
-      <tr>
-        <td class="left-td" data-i18n="player_state_best_score">Лучший счет:</td>
-        <td class="right-td">${statePlayer.highestScore}</td>
-      </tr>
-      <tr>
-        <td class="left-td" data-i18n="player_state_best_time">Лучшее время:</td>
-        <td class="right-td"></td>
-      </tr>
-      <tr>
-        <td class="left-td" data-i18n="player_state_moves">Ходы:</td>
-        <td class="right-td"></td>
-      </tr>
-      <tr>
-        <td class="left-td" data-i18n="player_state_achievement">Достижение:</td>
-        <td class="right-td">${statePlayer.achievements.active.icon}</td>
-      </tr>`;
+    // container.innerHTML = `<ul>
+    //   <li>Игры: 0</li>
+    //   <li>Победы: 0</li>
+    //   <li>Лучш. время: -</li>
+    //   <li>Ходов всего: 0</li>
+    //   <li>Отмен: 0</li>
+    //   <li>Серия побед: 0</li>
+    //   <li>Открыто карт: 0</li>
+    //   <li>Стрик оснований: 0</li>
+    // </ul>`;
+    container.innerHTML = `<dl class="p-state-table table">
+        <dt class="left-td" data-i18n="player_state_name">Имя:</dt>
+        <dd class="right-td">${playerName}</dd>
+
+        <dt class="left-td" data-i18n="player_state_coins">Хусынки:</dt>
+        <dd class="right-td">${statePlayer.coins}</dd>
+  
+        <dt class="left-td" data-i18n="player_state_games_played">Сыграно игр:</dt>
+        <dd class="right-td">${statePlayer.gamesPlayed}</dd>
+  
+        <dt class="left-td" data-i18n="player_state_games_won">Выиграно игр:</dt>
+        <dd class="right-td">${statePlayer.wins}</dd>
+   
+        <dt class="left-td" data-i18n="player_state_best_score">Лучший счет:</dt>
+        <dd class="right-td">${statePlayer.highestScore}</dd>
+ 
+        <dt class="left-td" data-i18n="player_state_best_time">Лучшее время:</dt>
+        <dd class="right-td"></dd>
+  
+        <dt class="left-td" data-i18n="player_state_moves">Ходы:</dt>
+        <dd class="right-td"></dd>
+  
+        <dt class="left-td" data-i18n="player_state_achievement">Достижение:</dt>
+        <dd class="right-td">${statePlayer.achievements.active.icon}</dd>
+   
+    </dl>`;
   }
 
   show() {

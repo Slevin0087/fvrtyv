@@ -136,6 +136,6 @@ export class UIGamePage extends UIPage {
       this.stateManager.state.player.achievements.active.icon;
     this.page.classList.add("game-interface", styleClass);
     this.elements.achievementsIconEl.textContent = `🏆: ${achievementsIconElText}`;
-    this.updateUI();
+    this.updateUI();    
   }
 }

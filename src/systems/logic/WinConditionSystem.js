@@ -10,6 +10,8 @@ export class WinConditionSystem {
     this.stateManager = stateManager;
     this.audioManager = audioManager;
     this.addition = AnimationOperators.ADDITION;
+    this.translateWinBonusKey = "win_bonus";
+    this.translateWinEarnedBonusKey = "you_have_earned";
 
     this.setupEventListeners();
   }
@@ -32,9 +34,6 @@ export class WinConditionSystem {
       GameEvents.ADD_POINTS,
       GameConfig.rules.winScoreBonus
     );
-    // this.stateManager.updateScore(
-    //   this.calculatePoints(GameConfig.rules.winScoreBonus)
-    // );
 
     // Проверяем победу без подсказок
     if (this.stateManager.state.game.hintsUsed === 0) {
@@ -58,8 +57,8 @@ export class WinConditionSystem {
       GameConfig.earnedCoins.win
     );
 
-    const textWinBonus = Helpers.t("win_bonus");
-    const textEarned = Helpers.t("you_have_earned");
+    const textWinBonus = Helpers.t(this.translateWinBonusKey);
+    const textEarned = Helpers.t(this.translateWinEarnedBonusKey);
     const textCoins = Helpers.pluralize("coins", GameConfig.earnedCoins.win);
 
     this.eventManager.emit(
@@ -73,6 +72,7 @@ export class WinConditionSystem {
       GameEvents.ANIMATION_COINS_EARNED,
       `${textEarned} ${textCoins}`
     );
+    this.eventManager.emit(GameEvents.CHECK_WIN_ACHIEVEMENTS);
     this.eventManager.emit(GameEvents.GAME_END);
   }
 

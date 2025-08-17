@@ -50,6 +50,12 @@
 }
 
 .p-state-table {
+  display: grid;
+  grid-template-columns: auto 1fr; /* Левая колонка по ширине контента */
+  gap: 12px 20px;
+  width: 100%;
+  padding: 1rem;
+  /* max-width: 600px; Ограничиваем ширину */
   /* padding: 0 calc(var(--padding-table) - var(--gap-for-pstate)); */
   /* align-items: center; */
   font-size: var(--font-size-s-350px);
@@ -59,10 +65,16 @@
 }
 
 .right-td {
+  justify-self: end; /* Выравнивание по правому краю */
+  text-align: right;
+  word-break: break-word; /* Перенос длинных слов */
+  overflow-wrap: anywhere;
   color: yellow;
 }
 
 .left-td {
+  justify-self: start; /* Выравнивание по левому краю */
+  min-width: 150px; /* Фиксированная ширина для терминов */
   color: black;
 }
 
@@ -80,6 +92,11 @@
       var(--p-state-table-width-1200) / 2 + var(--btn-pstate-left-bottom)
     );
   }
+
+  .p-state-table {
+    width: 50%;
+    padding: 1rem;
+  }
 }
 
 @media (min-width: 1200px) {
@@ -92,7 +109,9 @@
 
 @media (min-width: 1500px) {
   .player-state button {
-    left: calc(100vw / 2 - (var(--p-state-table-width-1500) / 2) + var(--btn-pstate-left-bottom)
+    left: calc(
+      100vw / 2 - (var(--p-state-table-width-1500) / 2) +
+        var(--btn-pstate-left-bottom)
     );
   }
 }

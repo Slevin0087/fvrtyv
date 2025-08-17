@@ -2,9 +2,10 @@ import { GameEvents } from "../utils/Constants.js";
 import { AchievementsConfig } from "../configs/AchievementsConfig.js";
 
 export class AchievementSystem {
-  constructor(eventManager, stateManager) {
+  constructor(eventManager, stateManager, storage) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
+    this.storage = storage;
     // this.achievements = this.loadAchievements();
     this.achievements = AchievementsConfig;
     this.init();
@@ -12,11 +13,13 @@ export class AchievementSystem {
 
   init() {
     this.setupEventListeners();
+    console.log('this.stogare:', this.stogare);
+    
     // this.loadPlayerAchievements();
   }
 
   setupEventListeners() {
-    this.eventManager.on(GameEvents.GAME_WIN, () =>
+    this.eventManager.on(GameEvents.CHECK_WIN_ACHIEVEMENTS, () =>
       this.checkWinAchievements()
     );
     this.eventManager.on("game:move", (moveData) =>
@@ -60,20 +63,34 @@ export class AchievementSystem {
   }
 
   checkWinAchievements() {
-    this.stateManager.player.stats.wins++;
-    this.checkAchievement("first_win");
-
-    if (
-      this.stateManager.game.currentTime <
-      this.stateManager.player.stats.fastestWin
-    ) {
-      this.stateManager.player.stats.fastestWin =
-        this.stateManager.game.currentTime;
-      this.checkAchievement("fast_win");
-    }
-
-    this.saveStats();
+    const unlocked = this.storage.getPlayerStats().achievements.unlocked;
+    const winAchievements = this.achievements.filter(a => a.type === "win");
+    winAchievements.forEach(a => {
+      unlocked.forEach(u => {
+        if (a.id !== u && a.condition(this.stateManager.state.player)) {
+          console.log('в checkWinAchievements():', a);
+          
+          alert("сработало что-то из достижений после выигрыша")
+        }
+      })
+    })
   }
+
+  // checkWinAchievements() {
+  //   this.stateManager.player.stats.wins++;
+  //   this.checkAchievement("first_win");
+
+  //   if (
+  //     this.stateManager.game.currentTime <
+  //     this.stateManager.player.stats.fastestWin
+  //   ) {
+  //     this.stateManager.player.stats.fastestWin =
+  //       this.stateManager.game.currentTime;
+  //     this.checkAchievement("fast_win");
+  //   }
+
+  //   this.saveStats();
+  // }
 
   checkMoveAchievements(moveData) {
     this.stateManager.player.stats.totalMoves++;

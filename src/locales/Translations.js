@@ -199,7 +199,7 @@ export const Translations = {
       //   },
       //   shopGame: {
       shop_title: "Аткван",
-      balance: "Ахча-баг|вча: ",
+      balance: "Ахча: ",
       shop_btn_apply: "Аргылра",
       shop_btn_buy: "Ахвг|ара",
       // balanceTextContentH: "",

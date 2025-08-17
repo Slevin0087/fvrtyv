@@ -109,6 +109,7 @@ export const GameEvents = {
   ADD_STOCK_EVENTS: "add:stock:events",
   COLLECT_BTN_HIDDEN: "collect:btn:hidden",
   UP_UNDO_CONTAINER: "up:undo:container",
+  CHECK_WIN_ACHIEVEMENTS: "check:win:achievements",
 };
 
 export const AnimationDurations = {
