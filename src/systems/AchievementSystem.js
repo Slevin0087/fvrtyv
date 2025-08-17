@@ -85,6 +85,7 @@ export class AchievementSystem {
                     this.setActiveAchievement(state, a);
                     this.eventManager.emit(GameEvents.UP_ACHIEVENT_ICON);
                     console.log("получено достижение:", a.title);
+                    this.storage.setPlayerStats(state);
                   }
                 } else if (a.life === "many") {
                   const state = this.stateManager.state.game;
