@@ -1,4 +1,18 @@
 export const AchievementsConfig = [
+  ////////////////////////// для теста, потом убрать
+    {
+    id: "score_breaker_test",
+    type: "inGame",
+    life: "many",
+    title: "Рекордсмен",
+    description: "Набрать 100 очков в одной игре",
+    icon: "💯",
+    reward: 300,
+    condition: (stats) => stats.score >= 100,
+    rarity: "rare",
+    hidden: false,
+  },
+  ////////////////////
   {
     id: "newbie",
     type: "start",
