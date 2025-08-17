@@ -1,6 +1,6 @@
 export const AchievementsConfig = [
   ////////////////////////// для теста, потом убрать
-    {
+  {
     id: "score_breaker_test",
     type: "inGame",
     life: "many",
@@ -11,6 +11,22 @@ export const AchievementsConfig = [
     condition: (stats) => stats.score >= 100,
     rarity: "rare",
     hidden: false,
+  },
+  {
+    id: "card_flipper_test",
+    type: "inGame",
+    life: "one",
+    title: "Переворачиватель",
+    description: "Перевернуть 6 карт",
+    icon: "🔄",
+    reward: 150,
+    condition: (stats) => stats.cardsFlipped >= 6,
+    rarity: "common",
+    hidden: false,
+    getProgress: (stats) => ({
+      current: stats.cardsFlipped,
+      target: 100,
+    }),
   },
   ////////////////////
   {
