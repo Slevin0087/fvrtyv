@@ -64,44 +64,30 @@ export class AchievementSystem {
 
   checkAchievements(type) {
     const playerState = this.storage.getPlayerStats();
-    const unlocked = playerState.achievements.unlocked;
-    const achievements = this.achievements
-      .filter((a) => a.type === type)
-      .forEach((a) => {
-        unlocked.forEach((u) => {
-          if (a.id !== u) {
-            console.log("в checkAchievements():", a);
-            switch (type) {
-              case "win":
-                console.log('мы в switch case "win" a, u:', a, u);
+    console.log("playerState:", playerState);
 
-                alert("сработало что-то из достижений после выигрыша");
-                break;
-              case "inGame":
-                if (a.life === "one") {
-                  const state = this.stateManager.state.player;
-                  if (a.condition(state)) {
-                    unlocked.push(a.id);
-                    this.setActiveAchievement(state, a);
-                    this.eventManager.emit(GameEvents.UP_ACHIEVENT_ICON);
-                    console.log("получено достижение:", a.title);
-                    this.storage.setPlayerStats(state);
-                  }
-                } else if (a.life === "many") {
-                  const state = this.stateManager.state.game;
-                  if (a.condition(state)) {
-                    // this.setActiveAchievement(state, a);
-                    // this.eventManager.emit(GameEvents.UP_ACHIEVENT_ICON);
-                    console.log("получено достижение:", a.title);
-                  }
-                }
-                break;
-              case "restartAndWin":
-                break;
-            }
-          }
-        });
-      });
+    const { unlocked } = playerState.achievements;
+    console.log(unlocked === playerState.achievements);
+
+    const achievementsFilter = this.achievements.filter(
+      (a) => a.type === type && !unlocked.includes(a.id)
+    );
+    console.log("achievementsFilter:", achievementsFilter);
+    achievementsFilter.map((a) => {
+      const state =
+        a.life === "one"
+          ? this.stateManager.state.player
+          : this.stateManager.state.game;
+      if (a.life === "one") {
+        if (a.condition(state)) {
+          state.achievements.unlocked.push(a.id);
+          this.setActiveAchievement(state, a);
+          this.storage.setPlayerStats(state);
+          this.eventManager.emit(GameEvents.UP_ACHIEVENT_ICON);
+        }
+      }
+    });
+    return achievementsFilter; // Возвращаем полученные достижения
   }
 
   // checkWinAchievements() {
@@ -160,8 +146,8 @@ export class AchievementSystem {
   }
 
   setActiveAchievement(state, a) {
-    console.log('в setActiveAchievement:', state);
-    
+    console.log("в setActiveAchievement:", state);
+
     state.achievements.activeId = a.id;
     state.achievements.active = a;
   }

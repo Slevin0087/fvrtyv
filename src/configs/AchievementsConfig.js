@@ -20,7 +20,7 @@ export const AchievementsConfig = [
     description: "Перевернуть 6 карт",
     icon: "🔄",
     reward: 150,
-    condition: (stats) => stats.cardsFlipped >= 6,
+    condition: (stats) => stats.cardsFlipped >= 5,
     rarity: "common",
     hidden: false,
     getProgress: (stats) => ({
@@ -36,7 +36,7 @@ export const AchievementsConfig = [
     description: "Переместить 50 карт в фундаменты",
     icon: "🔼",
     reward: 200,
-    condition: (stats) => stats.cardsToFoundation >= 5,
+    condition: (stats) => stats.cardsToFoundation >= 4,
     rarity: "uncommon",
     hidden: false,
     getProgress: (stats) => ({
