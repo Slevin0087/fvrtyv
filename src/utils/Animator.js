@@ -654,4 +654,19 @@ export class Animator {
       });
     });
   }
+
+  static animateAchievementText() {
+  const span = document.getElementById('achievements_span');  
+  gsap.fromTo(span, 
+    { scale: 1, opacity: 1 },
+    {
+      scale: 1.5,
+      opacity: 0.8,
+      duration: 1.2,
+      yoyo: true,
+      repeat: 1,
+      ease: "power1.inOut"
+    }
+  );
+}
 }

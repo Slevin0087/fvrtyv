@@ -1,6 +1,7 @@
 import { UIPage } from "./UIPage.js";
 import { GameEvents } from "../utils/Constants.js";
 import { GameConfig } from "../configs/GameConfig.js";
+import { Animator } from "../utils/Animator.js";
 
 export class UIGamePage extends UIPage {
   constructor(eventManager, stateManager) {
@@ -81,8 +82,8 @@ export class UIGamePage extends UIPage {
       this.upUndoCounter(this.state.game.lastMove.length);
     });
 
-    this.eventManager.on(GameEvents.UP_ACHIEVENT_ICON, () =>
-      this.upAchievementIcon(this.state.player.achievements.active.icon)
+    this.eventManager.on(GameEvents.UP_ACHIEVENT_ICON, (boolen) =>
+      this.upAchievementIcon(this.state.player.achievements.active.icon, boolen)
     );
   }
   updateUI() {
@@ -116,8 +117,12 @@ export class UIGamePage extends UIPage {
     this.elements.hintCounter.textContent = n;
   }
 
-  upAchievementIcon(icon) {
+  upAchievementIcon(icon, animate = false) {
     this.elements.achievementsIconEl.textContent = `🏆: ${icon}`;
+    if (animate)
+      Animator.animateAchievementText(
+        this.elements.achievementsIconEl.textContent
+      );
   }
 
   updateTime(time) {

@@ -83,7 +83,7 @@ export class AchievementSystem {
           state.achievements.unlocked.push(a.id);
           this.setActiveAchievement(state, a);
           this.storage.setPlayerStats(state);
-          this.eventManager.emit(GameEvents.UP_ACHIEVENT_ICON);
+          this.eventManager.emit(GameEvents.UP_ACHIEVENT_ICON, true);
         }
       }
     });
