@@ -73,6 +73,7 @@ export const GameEvents = {
   AUDIO_CARD_FLIP: "audio:card:flip",
   AUDIO_CARD_MOVE: "audio:card:move",
   AUDIO_CARD_CLICK: "audio:card:click",
+  AUDIO_UP_ACH: "audio:up:ach",
   UI_ANIMATION_POINTS_EARNED: "ui:animation:points:earned",
   UI_ANIMATE_WIN: "ui:animate:win",
   UI_ANIMATE_DEAL_CARDS: "ui:animate:deal:cards",

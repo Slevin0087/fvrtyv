@@ -1,4 +1,5 @@
 import { AudioName } from "../utils/Constants.js";
+import { AudioAchievements } from "../configs/AchievementsConfig.js";
 import { GameEvents } from "../utils/Constants.js";
 
 export class AudioManager {
@@ -29,6 +30,11 @@ export class AudioManager {
     this.addSound(AudioName.CARD_MOVE, "./src/assets/sounds/card-move.mp3");
     this.addSound(AudioName.WIN, "./src/assets/sounds/win.mp3");
     this.addSound(AudioName.INFO, "./src/assets/sounds/info.mp3");
+    this.addSound(
+      AudioAchievements.UP_ACH,
+      "./src/assets/sounds/up-achievements.mp3"
+    );
+
     // this.addSound("error", "./src/assets/sounds/error.mp3");
 
     // Фоновая музыка
@@ -64,6 +70,10 @@ export class AudioManager {
 
     this.eventManager.on(GameEvents.AUDIO_CARD_MOVE, () =>
       this.play(AudioName.CARD_MOVE)
+    );
+
+    this.eventManager.on(GameEvents.AUDIO_UP_ACH, () =>
+      this.play(AudioAchievements.UP_ACH)
     );
 
     this.eventManager.on("game:start", () => this.playMusic());

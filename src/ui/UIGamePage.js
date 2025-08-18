@@ -119,10 +119,12 @@ export class UIGamePage extends UIPage {
 
   upAchievementIcon(icon, animate = false) {
     this.elements.achievementsIconEl.textContent = `🏆: ${icon}`;
-    if (animate)
+    if (animate) {
+      this.eventManager.emit(GameEvents.AUDIO_UP_ACH);
       Animator.animateAchievementText(
         this.elements.achievementsIconEl.textContent
       );
+    }
   }
 
   updateTime(time) {

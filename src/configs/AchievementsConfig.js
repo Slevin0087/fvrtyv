@@ -266,3 +266,7 @@ export const AchievementsRarities = {
     chance: 0.01,
   },
 };
+
+export const AudioAchievements = {
+  UP_ACH: "up-achievements",
+}
