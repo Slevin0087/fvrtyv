@@ -65,8 +65,12 @@ export class AchievementSystem {
   checkAchievements(type) {
     const playerState = this.storage.getPlayerStats();
     const { unlocked } = playerState.achievements;
+    const { unlockedMany } = this.stateManager.state.stateForAchievements;
     const achievementsFilter = this.achievements.filter(
-      (a) => a.type === type && !unlocked.includes(a.id)
+      (a) =>
+        a.type === type &&
+        !unlocked.includes(a.id) &&
+        !unlockedMany.includes(a.id)
     );
     console.log("achievementsFilter:", achievementsFilter);
     achievementsFilter.map((a) => {
@@ -83,6 +87,7 @@ export class AchievementSystem {
         }
       } else if (a.life === "many") {
         if (a.condition(state)) {
+          state.unlockedMany.push(a.id);
           this.setActiveAchievement(state, a, this.stateManager.state.player);
           this.storage.setPlayerStats(state);
           this.eventManager.emit(GameEvents.UP_ACHIEVENT_ICON, true);

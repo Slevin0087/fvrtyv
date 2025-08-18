@@ -26,6 +26,9 @@ export class StateManager {
         winsWithoutHints: 0,
         winsWithoutUndo: 0,
         minPossibleMoves: Infinity,
+        unlockedMany: [],
+        activeId: [],
+        active: {}
       },
       cardsComponents: null,
       ui: this.storage.getUIStats(),
