@@ -19,6 +19,8 @@ export class Storage {
       cardsFlipped: 0,
       winsWithoutHints: 0,
       winsWithoutUndo: 0,
+      // minPossibleMoves: 52, // Теоретический минимум для пасьянса
+      minPossibleMoves: Infinity,
       purchasedItems: {
         faces: {
           ids: ["classic_faces", "cosmo_faces", "leather_faces"],
@@ -61,7 +63,7 @@ export class Storage {
         },
       },
     };
-    
+
     this.defaultGameStats = {
       isRunning: false,
       isPaused: false,
@@ -73,8 +75,6 @@ export class Storage {
       hintsUsed: 0,
       undoUsed: 0,
       lastMove: [],
-      // minPossibleMoves: 52, // Теоретический минимум для пасьянса
-      minPossibleMoves: Infinity,
       difficulty: "normal",
       faceDownCards: 28,
     };

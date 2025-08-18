@@ -8,7 +8,7 @@ export const AchievementsConfig = [
     description: "Набрать 100 очков в одной игре",
     icon: "💯",
     reward: 300,
-    condition: (stats) => stats.score >= 100,
+    condition: (stats) => stats.score >= 30,
     rarity: "rare",
     hidden: false,
   },

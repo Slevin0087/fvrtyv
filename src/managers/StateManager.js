@@ -5,18 +5,28 @@ export class StateManager {
     this.eventManager = eventManager;
     this.storage = storage;
     this.state = null;
-
+    this.typeScoreCheckAchievements = "inGame";
+    // this.oneState =
     this.init();
   }
 
   init() {
     this.state = this.getInitialState();
+    this.state.stateForAchievements.minPossibleMoves =
+      this.state.player.minPossibleMoves;
     this.setupEventListeners();
   }
 
   getInitialState() {
     return {
-      currentGame: null,
+      stateForAchievements: {
+        fastestWin: 0,
+        moves: 0,
+        score: 0,
+        winsWithoutHints: 0,
+        winsWithoutUndo: 0,
+        minPossibleMoves: Infinity,
+      },
       cardsComponents: null,
       ui: this.storage.getUIStats(),
       game: this.storage.getGameStats(),
@@ -208,6 +218,7 @@ export class StateManager {
 
   resetScore(score) {
     this.state.game.score = score;
+    this.state.stateForAchievements.score = score;
   }
 
   resetTime(time) {
@@ -217,6 +228,7 @@ export class StateManager {
 
   resetMoves(n) {
     this.state.game.moves = n;
+    this.state.stateForAchievements.moves = n;
   }
 
   addCoins(amount) {
@@ -274,14 +286,18 @@ export class StateManager {
 
   updateMoves(n) {
     this.state.game.moves += n;
+    this.state.stateForAchievements.moves += n;
+    this.state.player.totalMoves += n;
   }
 
   updateScore(points) {
     this.state.game.score += points;
+    this.state.stateForAchievements.score += points;
     if (this.state.game.score > this.state.player.highestScore) {
       this.state.player.highestScore = this.state.game.score;
       this.storage.setPlayerStats(this.state.player);
     }
+    this.eventManager.emit(GameEvents.CHECK_GET_ACHIEVEMENTS, this.typeScoreCheckAchievements);
     this.eventManager.emit(GameEvents.SCORE_UPDATE, this.state.game.score);
   }
 
