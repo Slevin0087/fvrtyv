@@ -345,11 +345,14 @@ export class Animator {
 
   static animationTextAchievement(domElement, achievement = {}) {
     domElement.classList.remove("hidden");
-    const { title, description } = achievement;    
+    const { title, description, icon, reward } = achievement;
     document.getElementById("ach-info").textContent = `${title}: ${description}`;
     setTimeout(() => {
-      domElement.classList.add("hidden");
-    }, 5000)
+      document.getElementById("ach-info").textContent = `Награда: ${icon}, ${reward}`;
+      setTimeout(() => {
+        domElement.classList.add("hidden");
+      }, 2500);
+    }, 2500);
   }
 
   static animationCoinsEarned(text, options = {}) {

@@ -128,7 +128,6 @@ export class DragAndDrop {
 
   onPointerUp(event) {
     if (!this.currentDraggingCard) return;
-
     if (!this.isDragging) {
       this.eventManager.emit(GameEvents.CARD_CLICK, this.cards[0]);
       this.resetDragState();
