@@ -25,6 +25,7 @@
   width: 100%;
   background-color: rgba(155, 60, 112, 0.692);
   padding: calc(var(--padding-sb) / 2) var(--padding-sb);
+  font-size: clamp(.9em, 2.5vw, 1em);
 }
 
 .status-bar span {
@@ -39,21 +40,34 @@
   align-items: center;
   max-width: max-content;
   color: #ffeb3b;
-  max-height: max-content;
+  max-height: fit-content;
   text-decoration: solid;
+  text-align: left;
   margin: 0;
   padding: 0;
+  flex-shrink: 1;
 }
 
 .ach-div h4 {
   margin-block-start: 0%;
   margin-block-end: 0%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .ach-div p {
   text-align: center;
   align-items: center;
   line-height: 1.3;
+  /* white-space: nowrap; */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  line-clamp: inherit;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  /* font-size: clamp(12px); */
 }
 
 .achievements-container {
@@ -174,14 +188,11 @@
 }
 
 @media (min-width: 350px) {
-  .status-bar {
-    font-size: 1.4em;
-  }
   .controls-btn-container {
     font-size: 2.6em;
   }
   .ach-div {
-    font-size: 0.6em;
+    font-size: 12px;
   }
 
   .ach-div p {
@@ -196,17 +207,24 @@
 }
 
 @media (min-width: 450px) {
-    .ach-div {
+  .ach-div {
     font-size: 0.8em;
   }
 }
 
 @media (min-width: 500px) {
-    .ach-div {
+  .ach-div {
     font-size: 1em;
   }
 }
 
+@media (min-width: 768px) {
+  .ach-div p,
+  .ach-div h4 {
+    line-clamp: inherit;
+    -webkit-line-clamp: 1; /* Только 1 строка на мобильных */
+  }
+}
 @media (min-width: 900px) {
   .status-bar {
     justify-content: center;
@@ -223,6 +241,7 @@
   .status-bar {
     justify-content: center;
     gap: 25vw;
+    font-size: 1.5em;
   }
 
   .controls-btn-container {
