@@ -346,9 +346,10 @@ export class Animator {
   static animationTextAchievement(domElement, achievement = {}) {
     domElement.classList.remove("hidden");
     const { title, description, icon, reward } = achievement;
-    document.getElementById("ach-info").textContent = `${title}: ${description}`;
+    const container = document.getElementById("ach-info");
+    container.textContent = `${title}: ${description}`;
     setTimeout(() => {
-      document.getElementById("ach-info").textContent = `Награда: ${icon}, ${reward}`;
+      container.textContent = `Награда: ${icon}, ${reward}`;
       setTimeout(() => {
         domElement.classList.add("hidden");
       }, 2500);
