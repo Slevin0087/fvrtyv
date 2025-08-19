@@ -343,6 +343,15 @@ export class Animator {
     );
   }
 
+  static animationTextAchievement(domElement, achievement = {}) {
+    domElement.classList.remove("hidden");
+    const { title, description } = achievement;    
+    document.getElementById("ach-info").textContent = `${title}: ${description}`;
+    setTimeout(() => {
+      domElement.classList.add("hidden");
+    }, 5000)
+  }
+
   static animationCoinsEarned(text, options = {}) {
     return new Promise((resolve) => {
       // Параметры по умолчанию
@@ -435,17 +444,18 @@ export class Animator {
   }
 
   static animateAchievementText() {
-  const span = document.getElementById('achievements_span');  
-  gsap.fromTo(span, 
-    { scale: 1, opacity: 1 },
-    {
-      scale: 1.5,
-      opacity: 0.8,
-      duration: 1.2,
-      yoyo: true,
-      repeat: 1,
-      ease: "power1.inOut"
-    }
-  );
-}
+    const span = document.getElementById("achievements_span");
+    gsap.fromTo(
+      span,
+      { scale: 1, opacity: 1 },
+      {
+        scale: 1.5,
+        opacity: 0.8,
+        duration: 1.2,
+        yoyo: true,
+        repeat: 1,
+        ease: "power1.inOut",
+      }
+    );
+  }
 }

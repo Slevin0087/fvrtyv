@@ -28,7 +28,7 @@ export class StateManager {
         minPossibleMoves: Infinity,
         unlockedMany: [],
         activeId: [],
-        active: {}
+        active: {},
       },
       cardsComponents: null,
       ui: this.storage.getUIStats(),
@@ -90,6 +90,7 @@ export class StateManager {
       this.resetTime(0);
       this.resetLastMove();
       this.resetMoves(0);
+      this.resetAchievementsActive();
     });
 
     this.eventManager.on(GameEvents.SET_NEW_GAME, () => {
@@ -234,6 +235,12 @@ export class StateManager {
     this.state.stateForAchievements.moves = n;
   }
 
+  resetAchievementsActive() {
+    this.state.stateForAchievements.unlockedMany = [];
+    this.state.stateForAchievements.activeId = [];
+    this.state.stateForAchievements.active = {};
+  }
+
   addCoins(amount) {
     if (!this.validator.isPositiveNumber(amount)) return;
 
@@ -300,7 +307,10 @@ export class StateManager {
       this.state.player.highestScore = this.state.game.score;
       this.storage.setPlayerStats(this.state.player);
     }
-    this.eventManager.emit(GameEvents.CHECK_GET_ACHIEVEMENTS, this.typeScoreCheckAchievements);
+    this.eventManager.emit(
+      GameEvents.CHECK_GET_ACHIEVEMENTS,
+      this.typeScoreCheckAchievements
+    );
     this.eventManager.emit(GameEvents.SCORE_UPDATE, this.state.game.score);
   }
 

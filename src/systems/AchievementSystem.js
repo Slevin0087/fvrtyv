@@ -84,6 +84,7 @@ export class AchievementSystem {
           this.setActiveAchievement(state, a);
           this.storage.setPlayerStats(state);
           this.eventManager.emit(GameEvents.UP_ACHIEVENT_ICON, true);
+          this.eventManager.emit(GameEvents.UP_ACHIEVENT_DIV, a);
         }
       } else if (a.life === "many") {
         if (a.condition(state)) {
@@ -91,6 +92,7 @@ export class AchievementSystem {
           this.setActiveAchievement(state, a, this.stateManager.state.player);
           this.storage.setPlayerStats(state);
           this.eventManager.emit(GameEvents.UP_ACHIEVENT_ICON, true);
+          this.eventManager.emit(GameEvents.UP_ACHIEVENT_DIV, a);
         }
       }
     });

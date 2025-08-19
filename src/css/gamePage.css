@@ -31,6 +31,31 @@
   color: white;
 }
 
+.ach-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.2px;
+  align-items: center;
+  max-width: max-content;
+  color: #ffeb3b;
+  max-height: max-content;
+  text-decoration: solid;
+  margin: 0;
+  padding: 0;
+}
+
+.ach-div h4 {
+  margin-block-start: 0%;
+  margin-block-end: 0%;
+}
+
+.ach-div p {
+  text-align: center;
+  align-items: center;
+  line-height: 1.3;
+}
+
 .achievements-container {
   display: flex;
   flex-direction: column;
@@ -155,10 +180,30 @@
   .controls-btn-container {
     font-size: 2.6em;
   }
+  .ach-div {
+    font-size: 0.6em;
+  }
+
+  .ach-div p {
+    font-size: 0.7em;
+  }
+
   .controls-btn-container button {
     background-color: rgba(255, 255, 255, 0);
     border: 0.1em solid rgba(128, 98, 0, 0);
     padding: 0;
+  }
+}
+
+@media (min-width: 450px) {
+    .ach-div {
+    font-size: 0.8em;
+  }
+}
+
+@media (min-width: 500px) {
+    .ach-div {
+    font-size: 1em;
   }
 }
 

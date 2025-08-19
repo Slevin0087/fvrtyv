@@ -12,6 +12,7 @@ export class UIGamePage extends UIPage {
       scoreEl: document.getElementById("points-in-game"),
       timeEl: document.getElementById("time-display"),
       movesEl: document.getElementById("moves_span"),
+      achDiv: document.getElementById("ach-div"),
       achievementsIconEl: document.getElementById("achievements_span"),
       restartGameBtn: document.getElementById("new-game-ctr-btn"),
       hintBtn: document.getElementById("hint"),
@@ -45,8 +46,8 @@ export class UIGamePage extends UIPage {
     });
 
     this.elements.collectBtn.addEventListener("click", () => {
-      this.eventManager.emit(GameEvents.CARDS_COLLECT);
       this.elements.collectBtn.classList.add("hidden");
+      this.eventManager.emit(GameEvents.CARDS_COLLECT);
     });
 
     this.eventManager.on(GameEvents.SCORE_UPDATE, (score) =>
@@ -77,6 +78,10 @@ export class UIGamePage extends UIPage {
       this.upUndoCounter(n)
     );
 
+    this.eventManager.on(GameEvents.SHOW_ACH_DIV, (a) =>
+      Animator.animateAchievementText(this.elements.achDiv, a)
+    );
+
     this.elements.undoBtn.addEventListener("click", () => {
       this.eventManager.emit(GameEvents.UNDO_MOVE);
       this.upUndoCounter(this.state.game.lastMove.length);
@@ -84,6 +89,10 @@ export class UIGamePage extends UIPage {
 
     this.eventManager.on(GameEvents.UP_ACHIEVENT_ICON, (boolen) =>
       this.upAchievementIcon(this.state.player.achievements.active.icon, boolen)
+    );
+
+    this.eventManager.on(GameEvents.UP_ACHIEVENT_DIV, (a) =>
+      Animator.animationTextAchievement(this.elements.achDiv, a)
     );
   }
   updateUI() {
