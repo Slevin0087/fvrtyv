@@ -343,7 +343,7 @@ export class Animator {
     );
   }
 
-  static animationTextAchievement(domElement, achievement = {}) {
+  static animationTextAchievement(domElement, achievement = {}, direction = 5000) {
     domElement.classList.remove("hidden");
     const { title, description, icon, reward } = achievement;
     const container = document.getElementById("ach-info");
@@ -352,8 +352,8 @@ export class Animator {
       container.textContent = `Награда: ${icon}, ${reward}`;
       setTimeout(() => {
         domElement.classList.add("hidden");
-      }, 2500);
-    }, 2500);
+      }, direction / 2);
+    }, direction / 2);
   }
 
   static animationCoinsEarned(text, options = {}) {
