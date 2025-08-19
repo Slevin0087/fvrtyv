@@ -394,8 +394,8 @@ export class DragAndDrop {
   }
 
   getCards(source, gameComponents) {
-    console.log('source:', source);
-    
+    console.log("source:", source);
+
     // let cardElement = [];
     if (source.startsWith(this.cardContainers.tableau)) {
       const index = parseInt(source.split("-")[1]);
@@ -453,9 +453,6 @@ export class DragAndDrop {
         GameConfig.dataAttributes.cardDnd
       );
       this.animateTo(card);
-      this.stateManager.updateMoves(this.numberMoves);
-      this.eventManager.emit(GameEvents.UP_MOVES);
-
       if (
         containerToName === GameConfig.cardContainers.foundation ||
         this.currentDraggingCardSource.startsWith(
@@ -527,6 +524,8 @@ export class DragAndDrop {
         });
       }
     });
+    this.stateManager.updateMoves(this.numberMoves);
+    this.eventManager.emit(GameEvents.UP_MOVES);
     this.resetDragState();
     return;
   }

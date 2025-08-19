@@ -34,6 +34,7 @@ export class AnimationSystem {
     this.eventManager.on(
       GameEvents.UI_ANIMATION_POINTS_EARNED,
       (card, score, operator) => {
+        if (operator === "+") this.eventManager.emit(GameEvents.AUDIO_UP_SCORE);
         Animator.showPointsAnimation(card, score, operator);
       }
     );

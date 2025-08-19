@@ -138,72 +138,6 @@ export class Animator {
     });
   }
 
-  // static animateCardMove(card, target, duration = 2000) {
-  //   console.log("animateCardMove called for targetElement:", target.cards);
-  //   // console.trace(); // Это покажет стек вызовов
-
-  //   return new Promise((resolve) => {
-  //     const cardElement = card.domElement;
-  //     const tEl = target.cards[target.cards.length - 1];
-  //     const targetElement = tEl.domElement;
-  //     // console.log("tEl:", tEl);
-
-  //     const startRect = cardElement.getBoundingClientRect();
-  //     const targetRect = targetElement.getBoundingClientRect();
-  //     console.log("startRect, targetRect:", startRect, targetRect);
-
-  //     const offset = 20;
-  //     // console.log("offset:", offset);
-
-  //     const deltaX = targetRect.left - startRect.left;
-  //     const deltaY = (targetRect.top + offset) - startRect.top;
-  //     console.log("deltaX, deltaY:", deltaX, deltaY);
-
-  //     // Подготовка
-  //     cardElement.style.transition = "none";
-  //     cardElement.style.transform = "none"
-  //     cardElement.style.transform = `translate(0, 0)`; // Начальная позиция
-  //     cardElement.style.zIndex = "1000";
-
-  //     // requestAnimationFrame(() => {
-  //     // Анимация к цели
-  //     cardElement.style.transition = `transform ${duration}ms linear`;
-  //     cardElement.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
-  //     setTimeout(() => {
-  //       console.log("в setTimeout");
-
-  //       cardElement.style.zIndex = `${card.positionData.position}`;
-  //       target.element.appendChild(cardElement);
-  //       cardElement.style.transform = `translate(0, ${
-  //         (target.cards.length - 1) * offset
-  //       }px)`;
-  //       resolve();
-  //     }, duration * 1.5);
-  //   });
-  // }
-
-  // static animate({
-  //   element,
-  //   from,
-  //   to,
-  //   duration,
-  //   delay = 0,
-  //   easing = "linear",
-  // }) {
-  //   return new Promise((resolve) => {
-  //     element.style.transition = `all ${duration}ms ${easing}`;
-  //     element.style.transform = `rotate(${from.rotate}deg) scale(${from.scale})`;
-
-  //     setTimeout(() => {
-  //       element.style.transform = `rotate(${to.rotate}deg) scale(${to.scale})`;
-
-  //       setTimeout(() => {
-  //         resolve();
-  //       }, duration);
-  //     }, delay);
-  //   });
-  // }
-
   static async animate({
     element,
     from,
@@ -245,54 +179,6 @@ export class Animator {
     // Сбрасываем стили после завершения
     element.style.transform = "";
   }
-
-  // static flipCard(card, backClass, faceClass, duration = 0.5) {
-  //   return new Promise((resolve) => {
-  //     // Устанавливаем начальную позицию
-  //     gsap.set(card.domElement, {
-  //       rotationY: 0,
-  //     });
-
-  //     // Создаем timeline для последовательной анимации
-  //     const tl = gsap.timeline({
-  //       onComplete: () => resolve(),
-  //     });
-
-  //     // Первая половина - разворот на 90 градусов
-  //     tl.to(card.domElement, {
-  //       rotationY: 90,
-  //       duration: duration / 2,
-  //       ease: "power1.out",
-  //       onComplete: () => {
-  //         const topSymbol = document.createElement("span");
-  //         topSymbol.className = "card-symbol top";
-  //         topSymbol.textContent = card.getSymbol();
-
-  //         const centerSymbol = document.createElement("span");
-  //         centerSymbol.className = "card-symbol center";
-  //         centerSymbol.textContent = card.suit;
-
-  //         const bottomSymbol = document.createElement("span");
-  //         bottomSymbol.className = "card-symbol bottom";
-  //         bottomSymbol.textContent = card.getSymbol();
-  //         card.domElement.classList.remove(backClass);
-  //         card.domElement.classList.add(faceClass);
-  //         card.domElement.append(topSymbol, centerSymbol, bottomSymbol);
-  //         // card.flipped = !card.flipped;
-  //       },
-  //     });
-
-  //     // Вторая половина - завершение разворота
-  //     tl.to(card.domElement, {
-  //       rotationY: 0,
-  //       duration: duration / 2,
-  //       ease: "power1.in",
-  //       onComplete: () => {
-  //         card.flipped = !card.flipped;
-  //       },
-  //     });
-  //   });
-  // }
 
   static animateCardToWaste(card, toElement, duration = 50) {
     return new Promise((resolve, reject) => {
@@ -414,30 +300,6 @@ export class Animator {
     }
   }
 
-  // static showPointsAnimation(card, points) {
-  //   // Получаем DOM-элемент карты
-  //   const cardElement = card.domElement;
-  //   if (!cardElement) return;
-
-  //   // Создаем элемент для отображения очков
-  //   const pointsElement = document.createElement("div");
-  //   pointsElement.className = "points-popup";
-  //   pointsElement.textContent = `+${points}`;
-
-  //   // Позиционируем элемент относительно карты
-  //   const cardRect = cardElement.getBoundingClientRect();
-  //   pointsElement.style.left = `${cardRect.left + cardRect.width / 2 - 20}px`;
-  //   pointsElement.style.top = `${cardRect.top}px`;
-
-  //   // Добавляем в DOM
-  //   document.body.appendChild(pointsElement);
-
-  //   // Удаляем элемент после завершения анимации
-  //   setTimeout(() => {
-  //     pointsElement.remove();
-  //   }, 1500);
-  // }
-
   static showPointsAnimation(
     card,
     points,
@@ -480,89 +342,6 @@ export class Animator {
       }
     );
   }
-
-  // static animationCoinsEarned(text, options = {}) {
-  //   return new Promise((resolve) => {
-  //     // Параметры по умолчанию
-  //     const {
-  //       duration = 2000, // Общая продолжительность анимации
-  //       fontSize = "24px", // Начальный размер шрифта
-  //       targetFontSize = "32px", // Размер при увеличении
-  //       color = "#ffeb3b", // Цвет текста
-  //       position = "center", // Позиция на экране
-  //       fadeInDuration = 300, // Длительность появления
-  //       fadeOutDuration = 1000, // Длительность исчезновения
-  //     } = options;
-
-  //     // Создаем элемент для текста
-  //     const textElement = document.createElement("div");
-  //     textElement.className = "animated-text";
-  //     textElement.textContent = text;
-  //     textElement.style.position = "fixed";
-  //     textElement.style.color = color;
-  //     textElement.style.fontSize = fontSize;
-  //     textElement.style.fontWeight = "bold";
-  //     textElement.style.textShadow = "0 0 5px rgba(0,0,0,0.5)";
-  //     textElement.style.pointerEvents = "none";
-  //     textElement.style.zIndex = "2000";
-  //     textElement.style.opacity = "0";
-  //     textElement.style.transition = `all ${fadeInDuration}ms ease-out`;
-
-  //     // Позиционирование
-  //     switch (position) {
-  //       case "center":
-  //         textElement.style.top = "50%";
-  //         textElement.style.left = "50%";
-  //         textElement.style.transform = "translate(-50%, -50%)";
-  //         break;
-  //       case "top":
-  //         textElement.style.top = "20%";
-  //         textElement.style.left = "50%";
-  //         textElement.style.transform = "translateX(-50%)";
-  //         break;
-  //       case "bottom":
-  //         textElement.style.bottom = "20%";
-  //         textElement.style.left = "50%";
-  //         textElement.style.transform = "translateX(-50%)";
-  //         break;
-  //       default:
-  //         if (position.x !== undefined && position.y !== undefined) {
-  //           textElement.style.left = `${position.x}px`;
-  //           textElement.style.top = `${position.y}px`;
-  //         }
-  //     }
-
-  //     document.body.appendChild(textElement);
-
-  //     // Анимация
-  //     requestAnimationFrame(() => {
-  //       // Фаза 1: Появление
-  //       textElement.style.opacity = "1";
-
-  //       setTimeout(() => {
-  //         // Фаза 2: Увеличение
-  //         textElement.style.transition = `all ${duration / 3}ms ease-in-out`;
-  //         textElement.style.fontSize = targetFontSize;
-
-  //         setTimeout(() => {
-  //           // Фаза 3: Возврат к исходному размеру
-  //           textElement.style.fontSize = fontSize;
-
-  //           setTimeout(() => {
-  //             // Фаза 4: Исчезновение
-  //             textElement.style.transition = `opacity ${fadeOutDuration}ms ease-out`;
-  //             textElement.style.opacity = "0";
-
-  //             setTimeout(() => {
-  //               textElement.remove();
-  //               resolve();
-  //             }, fadeOutDuration);
-  //           }, duration / 3);
-  //         }, duration / 3);
-  //       }, fadeInDuration);
-  //     });
-  //   });
-  // }
 
   static animationCoinsEarned(text, options = {}) {
     return new Promise((resolve) => {

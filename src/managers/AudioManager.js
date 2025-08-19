@@ -30,6 +30,8 @@ export class AudioManager {
     this.addSound(AudioName.CARD_MOVE, "./src/assets/sounds/card-move.mp3");
     this.addSound(AudioName.WIN, "./src/assets/sounds/win.mp3");
     this.addSound(AudioName.INFO, "./src/assets/sounds/info.mp3");
+    this.addSound(AudioName.UP_SCORE, "./src/assets/sounds/up-score.mp3");
+
     this.addSound(
       AudioAchievements.UP_ACH,
       "./src/assets/sounds/up-achievements.mp3"
@@ -70,6 +72,10 @@ export class AudioManager {
 
     this.eventManager.on(GameEvents.AUDIO_CARD_MOVE, () =>
       this.play(AudioName.CARD_MOVE)
+    );
+
+    this.eventManager.on(GameEvents.AUDIO_UP_SCORE, () =>
+      this.play(AudioName.UP_SCORE)
     );
 
     this.eventManager.on(GameEvents.AUDIO_UP_ACH, () =>

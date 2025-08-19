@@ -144,6 +144,7 @@ export class GameLogicSystem {
         isSourceFromFoundation = !isSourceFromFoundation;
         this.scoringSystem.addPoints(-score);
       }
+      if (operator === this.addition) this.eventManager.emit(GameEvents.AUDIO_UP_SCORE);
       this.animator.showPointsAnimation(
         card,
         score,
