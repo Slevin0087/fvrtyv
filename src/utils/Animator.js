@@ -350,13 +350,14 @@ export class Animator {
   ) {
     domElement.classList.remove("hidden");
     const { title, description, icon, reward } = achievement;
+    document.getElementById("ach-div-h4").textContent = `Достижение ${icon} разблокировано!`;
     const container = document.getElementById("ach-info");
     const spanAnimateForCurrency = document.createElement("span");
     const spanAnimateForIcon = document.createElement("span");
 
     container.textContent = `${title}: ${description}`;
     setTimeout(() => {
-      container.textContent = `Награда: ${icon}, ${reward}`;
+      container.textContent = `Награда: ${reward}`;
       setTimeout(() => {
         spanAnimateForCurrency.classList.add("hidden");
         spanAnimateForIcon.classList.add("hidden");
