@@ -349,15 +349,22 @@ export class Animator {
     duration = 5000
   ) {
     domElement.classList.remove("hidden");
-    const { title, description, icon, reward } = achievement;
-    document.getElementById("ach-div-h4").textContent = `Достижение ${icon} разблокировано!`;
+    const { title, description, icon, reward, currency } = achievement;
+    document.getElementById(
+      "ach-div-h4"
+    ).textContent = `Достижение ${icon} разблокировано!`;
     const container = document.getElementById("ach-info");
     const spanAnimateForCurrency = document.createElement("span");
     const spanAnimateForIcon = document.createElement("span");
 
-    container.textContent = `${title}: ${description}`;
+    container.innerHTML = `
+      <span class="ach-info-span-red">${title}:${" "}</span>
+      <span class="ach-info-span-title-description" id="ach-info-span">${description}</span>`;
     setTimeout(() => {
-      container.textContent = `Награда: ${reward}`;
+      container.innerHTML = `
+        <span class="ach-info-span-red">Награда:${" "}</span>
+        <span class="ach-info-span-yellow" id="ach-info-span">${reward}${" "}</span>
+        <span>${currency}`;
       setTimeout(() => {
         spanAnimateForCurrency.classList.add("hidden");
         spanAnimateForIcon.classList.add("hidden");
@@ -380,45 +387,32 @@ export class Animator {
         const deltaYIcon = startRect.top - iconLastRect.top;
         spanAnimateForCurrency.classList.remove("hidden");
         spanAnimateForIcon.classList.remove("hidden");
-        const animationCurrency = spanAnimateForCurrency.animate(
-          [
-            {
-              transform: `translate(${deltaXCurrency}px, ${deltaYCurrency}px)`,
-            },
-            { transform: `translate(0, 0)` },
-          ],
-          {
-            duration: duration / 5,
-            easing: "linear",
-          }
-        );
-        // 10. По завершении фиксируем результат
-        animationCurrency.onfinish = () => {
-          spanAnimateForCurrency.style.transform = `translateX(0x) translateY(0)`;
-          spanAnimateForCurrency.style.zIndex = `0`;
-          spanAnimateForCurrency.remove();
-        };
-        const animationIcon = spanAnimateForIcon.animate(
-          [
-            {
-              transform: `translate(${deltaXIcon}px, ${deltaYIcon}px)`,
-            },
-            { transform: `translate(0, 0)` },
-          ],
-          {
-            duration: duration / 3,
-            easing: "linear",
-          }
-        );
-        // 10. По завершении фиксируем результат
-        animationIcon.onfinish = () => {
-          spanAnimateForIcon.style.transform = `translateX(0x) translateY(0)`;
-          spanAnimateForIcon.style.zIndex = `0`;
-          spanAnimateForIcon.remove();
-        };
+        // this.animationSpansAch(spanAnimateForCurrency, deltaXCurrency, deltaYCurrency, duration);
+        // this.animationSpansAch(spanAnimateForIcon, deltaXIcon, deltaYIcon, duration);
         domElement.classList.add("hidden");
       }, duration / 2);
     }, duration / 2);
+  }
+
+  static animationSpansAch(spanElement, deltaX, deltaY, duration, n = 3) {
+    const animateSpan = spanElement.animate(
+      [
+        {
+          transform: `translate(${deltaX}px, ${deltaY}px)`,
+        },
+        { transform: `translate(0, 0)` },
+      ],
+      {
+        duration: duration / n,
+        easing: "linear",
+      }
+    );
+    // 10. По завершении фиксируем результат
+    animateSpan.onfinish = () => {
+      spanElement.style.transform = `translate(0, 0)`;
+      spanElement.style.zIndex = `0`;
+      spanElement.remove();
+    };
   }
 
   static animationCoinsEarned(text, options = {}) {
@@ -512,10 +506,9 @@ export class Animator {
     });
   }
 
-  static animateAchievementText() {
-    const span = document.getElementById("achievements_span");
+  static animateAchievementText(element) {
     gsap.fromTo(
-      span,
+      element,
       { scale: 1, opacity: 1 },
       {
         scale: 1.5,

@@ -40,6 +40,7 @@ export const GameEvents = {
   UP_LAST_MOVE: "up:last:move",
   UP_ACHIEVENT_ICON: "up:achievement:icon",
   UP_ACHIEVENT_DIV: "up:achievement:div",
+  UP_ACHIEVENT_SCORE_DIV: "up:achievement:score:div",
   RESET_LAST_MOVES: "reset:last:moves",
   SET_NAME_IN_INPUT: "set:name:in:input",
   SET_ACTIV_PAGE: "set:activ:page",

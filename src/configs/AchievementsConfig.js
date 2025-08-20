@@ -1,4 +1,4 @@
-const currency = {
+export const currency = {
   SCORE: "score",
   COINS: "coins",
   NONE: "none"

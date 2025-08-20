@@ -1,5 +1,5 @@
 import { GameEvents } from "../utils/Constants.js";
-import { AchievementsConfig } from "../configs/AchievementsConfig.js";
+import { currency, AchievementsConfig } from "../configs/AchievementsConfig.js";
 
 export class AchievementSystem {
   constructor(eventManager, stateManager, storage) {
@@ -83,16 +83,27 @@ export class AchievementSystem {
           state.achievements.unlocked.push(a.id);
           this.setActiveAchievement(state, a);
           this.storage.setPlayerStats(state);
-          this.eventManager.emit(GameEvents.UP_ACHIEVENT_ICON, true);
           this.eventManager.emit(GameEvents.UP_ACHIEVENT_DIV, a);
+          this.eventManager.emit(GameEvents.UP_ACHIEVENT_ICON, true);
+          if (a.currency === currency.SCORE) {
+            this.eventManager.emit(GameEvents.UP_ACHIEVENT_SCORE_DIV, true);
+            
+          }
         }
       } else if (a.life === "many") {
         if (a.condition(state)) {
           state.unlockedMany.push(a.id);
           this.setActiveAchievement(state, a, this.stateManager.state.player);
           this.storage.setPlayerStats(state);
-          this.eventManager.emit(GameEvents.UP_ACHIEVENT_ICON, true);
           this.eventManager.emit(GameEvents.UP_ACHIEVENT_DIV, a);
+          this.eventManager.emit(GameEvents.UP_ACHIEVENT_ICON, true);
+          console.log('a.currency, currency.SCORE:', a.currency, currency.SCORE);
+          
+          if (a.currency === currency.SCORE) {
+            console.log('вввввввввввввв iiiiiiiiiiiiiiiiifffffffffffffffff');
+            
+            this.eventManager.emit(GameEvents.UP_ACHIEVENT_SCORE_DIV, true);
+          }
         }
       }
     });

@@ -87,12 +87,19 @@ export class UIGamePage extends UIPage {
       this.upUndoCounter(this.state.game.lastMove.length);
     });
 
-    this.eventManager.on(GameEvents.UP_ACHIEVENT_ICON, (boolen) =>
-      this.upAchievementIcon(this.state.player.achievements.active.icon, boolen)
+    this.eventManager.on(GameEvents.UP_ACHIEVENT_ICON, (boolean) =>
+      this.upAchievementIcon(
+        this.state.player.achievements.active.icon,
+        boolean
+      )
     );
 
     this.eventManager.on(GameEvents.UP_ACHIEVENT_DIV, (a) =>
       Animator.animationTextAchievement(this.elements.achDiv, a)
+    );
+
+    this.eventManager.on(GameEvents.UP_ACHIEVENT_SCORE_DIV, (boolean) =>
+      this.updateScore(this.state.game.score, boolean)
     );
   }
   updateUI() {
@@ -108,10 +115,13 @@ export class UIGamePage extends UIPage {
     this.elements.timeEl.textContent = `${minutes}${minutes}:${seconds}${seconds}`;
   }
 
-  updateScore(score) {
-    console.log("score:", score);
-
+  updateScore(score, animate = false) {
     this.elements.scoreEl.textContent = `🌟: ${score}`;
+
+    if (animate) {
+      this.eventManager.emit(GameEvents.AUDIO_UP_ACH);
+      Animator.animateAchievementText(this.elements.scoreEl);
+    }
   }
 
   updateMoves(n) {
@@ -129,10 +139,9 @@ export class UIGamePage extends UIPage {
   upAchievementIcon(icon, animate = false) {
     this.elements.achievementsIconEl.textContent = `🏆: ${icon}`;
     if (animate) {
+      const span = document.getElementById("achievements_span");
       this.eventManager.emit(GameEvents.AUDIO_UP_ACH);
-      Animator.animateAchievementText(
-        this.elements.achievementsIconEl.textContent
-      );
+      Animator.animateAchievementText(span);
     }
   }
 

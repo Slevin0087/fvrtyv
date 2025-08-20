@@ -89,6 +89,18 @@
   gap: calc(var(--gap-for-flex) / 2.5);
 }
 
+.ach-info-span-title-description {
+  color: green !important;
+}
+
+.ach-info-span-yellow {
+  color: yellow !important;
+}
+
+.ach-info-span-red {
+  color: red !important;
+}
+
 .span-animate-for-ach {
   position: absolute;
   color: yellow !important;
