@@ -164,24 +164,24 @@ export class DragAndDrop {
     const fAndT = this.isTAndF(fromPoint);
 
     const target = this.getDropTarget(fromPoint);
-    const marker = document.createElement("div");
-    marker.textContent = `${target === null ? "null" : target.textContent}`;
-    marker.style.cssText = `
-        position: fixed;
-        left: ${event.clientX}px;
-        top: ${event.clientY}px;
-        width: 50px;
-        height: 50px;
-        background: red;
-        border-radius: 50%;
-        z-index: 9999;
-        pointer-events: none;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    `;
-    document.body.appendChild(marker);
-    setTimeout(() => marker.remove(), 3000);
+    // const marker = document.createElement("div");
+    // marker.textContent = `${target === null ? "null" : target.textContent}`;
+    // marker.style.cssText = `
+    //     position: fixed;
+    //     left: ${event.clientX}px;
+    //     top: ${event.clientY}px;
+    //     width: 50px;
+    //     height: 50px;
+    //     background: red;
+    //     border-radius: 50%;
+    //     z-index: 9999;
+    //     pointer-events: none;
+    //     display: flex;
+    //     justify-content: center;
+    //     align-items: center;
+    // `;
+    // document.body.appendChild(marker);
+    // setTimeout(() => marker.remove(), 3000);
     console.log("fAndT, target:", fAndT, target);
 
     if (target === null && fAndT === null) {

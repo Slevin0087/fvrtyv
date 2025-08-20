@@ -343,17 +343,81 @@ export class Animator {
     );
   }
 
-  static animationTextAchievement(domElement, achievement = {}, direction = 5000) {
+  static animationTextAchievement(
+    domElement,
+    achievement = {},
+    duration = 5000
+  ) {
     domElement.classList.remove("hidden");
     const { title, description, icon, reward } = achievement;
     const container = document.getElementById("ach-info");
+    const spanAnimateForCurrency = document.createElement("span");
+    const spanAnimateForIcon = document.createElement("span");
+
     container.textContent = `${title}: ${description}`;
     setTimeout(() => {
       container.textContent = `Награда: ${icon}, ${reward}`;
       setTimeout(() => {
+        spanAnimateForCurrency.classList.add("hidden");
+        spanAnimateForIcon.classList.add("hidden");
+        spanAnimateForCurrency.textContent = `${reward}`;
+        spanAnimateForIcon.textContent = `${icon}`;
+        container.append(spanAnimateForCurrency, spanAnimateForIcon);
+        const startRect = container.getBoundingClientRect();
+        const toElementCurrency = document.getElementById("points-in-game");
+        const toElementIcon = document.getElementById("achievements_span");
+        toElementCurrency.append(spanAnimateForCurrency);
+        toElementIcon.append(spanAnimateForIcon);
+        spanAnimateForCurrency.classList.add("span-animate-for-ach");
+        spanAnimateForIcon.classList.add("span-animate-for-ach");
+        const currencyLastRect = toElementCurrency.getBoundingClientRect();
+        const iconLastRect = toElementIcon.getBoundingClientRect();
+        const deltaXCurrency = startRect.left - currencyLastRect.left;
+        const deltaYCurrency = startRect.top - currencyLastRect.top;
+
+        const deltaXIcon = startRect.left - iconLastRect.left;
+        const deltaYIcon = startRect.top - iconLastRect.top;
+        spanAnimateForCurrency.classList.remove("hidden");
+        spanAnimateForIcon.classList.remove("hidden");
+        const animationCurrency = spanAnimateForCurrency.animate(
+          [
+            {
+              transform: `translate(${deltaXCurrency}px, ${deltaYCurrency}px)`,
+            },
+            { transform: `translate(0, 0)` },
+          ],
+          {
+            duration: duration / 5,
+            easing: "linear",
+          }
+        );
+        // 10. По завершении фиксируем результат
+        animationCurrency.onfinish = () => {
+          spanAnimateForCurrency.style.transform = `translateX(0x) translateY(0)`;
+          spanAnimateForCurrency.style.zIndex = `0`;
+          spanAnimateForCurrency.remove();
+        };
+        const animationIcon = spanAnimateForIcon.animate(
+          [
+            {
+              transform: `translate(${deltaXIcon}px, ${deltaYIcon}px)`,
+            },
+            { transform: `translate(0, 0)` },
+          ],
+          {
+            duration: duration / 3,
+            easing: "linear",
+          }
+        );
+        // 10. По завершении фиксируем результат
+        animationIcon.onfinish = () => {
+          spanAnimateForIcon.style.transform = `translateX(0x) translateY(0)`;
+          spanAnimateForIcon.style.zIndex = `0`;
+          spanAnimateForIcon.remove();
+        };
         domElement.classList.add("hidden");
-      }, direction / 2);
-    }, direction / 2);
+      }, duration / 2);
+    }, duration / 2);
   }
 
   static animationCoinsEarned(text, options = {}) {
