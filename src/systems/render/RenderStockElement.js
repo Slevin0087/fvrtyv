@@ -16,6 +16,7 @@ export class RenderStockElement {
   ) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
+    this.state = this.stateManager.state;
     this.gameLogicSystem = gameLogicSystem;
     this.domElements = domElements;
     this.cardsSystem = cardsSystem;
@@ -60,8 +61,8 @@ export class RenderStockElement {
     if (!this.isClickAllowed) {
       return; // Если клики запрещены, ничего не делаем
     }
-    if (!this.stateManager.state.game.playerFirstCardClick) {
-      this.stateManager.state.game.playerFirstCardClick = true;
+    if (!this.state.game.playerFirstCardClick) {
+      this.state.game.playerFirstCardClick = true;
       this.eventManager.emit(GameEvents.START_PLAY_TIME, 0);
     }
     if (stock.stockCardPosition < 0 && waste.isEmpty()) {
@@ -72,7 +73,7 @@ export class RenderStockElement {
       this.eventManager.emit(GameEvents.RESET_LAST_MOVES);
       this.eventManager.emit(
         GameEvents.UP_UNDO_CONTAINER,
-        this.stateManager.state.game.lastMove.length
+        this.state.game.lastMove.length
       );
       this.isClickAllowed = false;
       stock.recycleWaste(waste);
@@ -128,7 +129,7 @@ export class RenderStockElement {
     cardElement.dataset.value = card.value;
 
     cardElement.classList.add(
-      this.stateManager.state.player.selectedItems.backs.styleClass
+      this.state.player.selectedItems.backs.styleClass
     );
 
     // Сохраняем ссылку на DOM элемент в карте

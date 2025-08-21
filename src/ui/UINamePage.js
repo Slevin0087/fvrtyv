@@ -5,6 +5,7 @@ import { Helpers } from "../utils/Helpers.js";
 export class UINamePage extends UIPage {
   constructor(eventManager, stateManager) {
     super(eventManager, stateManager, "player-page");
+    this.state = stateManager.state;
     this.elements = {
       form: document.getElementById("player-form"),
       input: document.getElementById("player-name"),
@@ -22,9 +23,9 @@ export class UINamePage extends UIPage {
   }
 
   setNameInInput() {
-    const value = this.stateManager.state.player.name === ""
+    const value = this.state.player.name === ""
     ? this.elements.input.placeholder
-    : this.stateManager.state.player.name    
+    : this.state.player.name    
     this.elements.input.value = value;
   }
 

@@ -6,6 +6,7 @@ import { GameEvents } from "../utils/Constants.js";
 export class ShopSystem {
   constructor(eventManager, stateManager) {
     this.stateManager = stateManager;
+    this.state = this.stateManager.state;
     this.eventManager = eventManager;
     this.storage = new Storage();
     // this.validator = new Validator();
@@ -62,7 +63,7 @@ export class ShopSystem {
   }
 
   purchaseItem(item) {
-    if (this.stateManager.state.player.coins >= item.price) {
+    if (this.state.player.coins >= item.price) {
       this.eventManager.emit(GameEvents.DECREMENT_COINS, item.price);
 
       this.applyItem(item);
@@ -81,12 +82,12 @@ export class ShopSystem {
   }
 
   applyItem(item) {
-    this.stateManager.state.player.purchasedItems[item.type].ids.push(item.id);
+    this.state.player.purchasedItems[item.type].ids.push(item.id);
   }
 
   setSelectedItems(item) {
-    this.stateManager.state.player.selectedItems[item.type].id = item.id;
-    this.stateManager.state.player.selectedItems[item.type].styleClass =
+    this.state.player.selectedItems[item.type].id = item.id;
+    this.state.player.selectedItems[item.type].styleClass =
       item.styleClass;
     this.stateManager.savePlayerStats();
   }

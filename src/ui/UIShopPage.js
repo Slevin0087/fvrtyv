@@ -6,6 +6,7 @@ import { Helpers } from "../utils/Helpers.js";
 export class UIShopPage extends UIPage {
   constructor(eventManager, stateManager) {
     super(eventManager, stateManager, "shop");
+    this.state = stateManager.state;
     this.elements = {
       backBtn: document.getElementById("shop-back"),
       balance: document.getElementById("coins"),
@@ -31,7 +32,7 @@ export class UIShopPage extends UIPage {
     Object.entries(this.elements.categoryButtons).forEach(([category, btn]) => {
       btn.addEventListener("click", () => {
         this.eventManager.emit(GameEvents.SHOP_CATEGORY_CHANGE, category);
-        this.render(this.stateManager.state.shop, ShopConfig);
+        this.render(this.state.shop, ShopConfig);
       });
     });
 
@@ -62,21 +63,21 @@ export class UIShopPage extends UIPage {
         this.createShopItemElement(item, index)
       );
     });
-    console.log('this.stateManager.state.player.coins:', this.stateManager.state.player.coins);
+    console.log('this.state.player.coins:', this.state.player.coins);
     console.log('this.elements.balance:', this.elements.balance);
     
     
     // Обновляем баланс
-    this.updateBalance(this.stateManager.state.player.coins);
-    Helpers.updateLanShopBalance(this.stateManager.state.player.coins);
+    this.updateBalance(this.state.player.coins);
+    Helpers.updateLanShopBalance(this.state.player.coins);
   }
 
   createShopItemElement(item, index) {
     const containerElement = document.createElement("div");
-    const selectedItems = this.stateManager.state.player.selectedItems;
+    const selectedItems = this.state.player.selectedItems;
     const selectedItem = selectedItems[item.type];
     const isOwned = item.id === selectedItem.id;
-    const purchasedItems = this.stateManager.state.player.purchasedItems;
+    const purchasedItems = this.state.player.purchasedItems;
     const purchasedItem = purchasedItems[item.type];
     const isItemBuy = purchasedItem.ids.includes(item.id);
 
@@ -196,10 +197,10 @@ export class UIShopPage extends UIPage {
     if (isItemBuy && !isOwned) {
       this.eventManager.emit(GameEvents.SET_SELECTED_ITEMS, item);
       this.eventManager.emit(GameEvents.CHANGE_CARDS_STYLES);
-      this.render(this.stateManager.state.shop, ShopConfig);
+      this.render(this.state.shop, ShopConfig);
     } else if (!isItemBuy && !isOwned) {
       this.eventManager.emit(GameEvents.SHOP_ITEM_PURCHASE, item);
-      this.render(this.stateManager.state.shop, ShopConfig);
+      this.render(this.state.shop, ShopConfig);
     }
   }
 
@@ -232,6 +233,6 @@ export class UIShopPage extends UIPage {
 
   show() {
     super.show();
-    this.render(this.stateManager.state.shop, ShopConfig);
+    this.render(this.state.shop, ShopConfig);
   }
 }

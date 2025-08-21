@@ -2,6 +2,10 @@ import { GameEvents } from "./Constants.js";
 import { GameConfig } from "../configs/GameConfig.js";
 
 export class Animator {
+  constructor() {
+    this.animationsQueue = [];
+    this.isAnimating = false;
+  }
   static animateStockCardMove(params, duration = 500) {
     return new Promise((resolve, reject) => {
       try {
@@ -81,7 +85,7 @@ export class Animator {
       );
       removedCards.forEach((card) => {
         const cardElement = card.domElement;
-        // 1. First - сохраняем начальное положение ДО любых изменений
+
         // Получаем начальные координаты карты
         const initialRect = cardElement.getBoundingClientRect();
 
@@ -109,11 +113,10 @@ export class Animator {
         const lastRect = cardElement.getBoundingClientRect();
         cardElement.style.zIndex = "100";
 
-        // 5. Invert - теперь дельты будут корректны
         const deltaX = initialRect.left - lastRect.left + oldOffsetX;
         const deltaY = initialRect.top - lastRect.top + oldOffsetY;
 
-        // 9. Запускаем анимацию
+        // Запускаем анимацию
         const animation = cardElement.animate(
           [
             { transform: `translate(${deltaX}px, ${deltaY}px)` },
@@ -125,7 +128,7 @@ export class Animator {
           }
         );
 
-        // 10. По завершении фиксируем результат
+        // По завершении фиксируем результат
         animation.onfinish = () => {
           cardElement.style.transform = `translate(${newOffsetX}px, ${newOffsetY}px)`;
           cardElement.style.zIndex = `${card.positionData.zIndex}`;
@@ -155,36 +158,16 @@ export class Animator {
         duration,
         delay,
         easing,
-        // fill: "forwards",
       }
     );
 
     return await phase1.finished;
-
-    // // Вторая фаза анимации (продолжение вращения + возврат к исходному размеру)
-    // const phase2 = element.animate(
-    //   [
-    //     { transform: `rotate(360deg) scale(1.2)` },
-    //     { transform: `rotate(720deg) scale(1)` },
-    //   ],
-    //   {
-    //     duration: 1000,
-    //     easing: "ease-in-out",
-    //     fill: "forwards",
-    //   }
-    // );
-
-    // await phase2.finished;
-
-    // Сбрасываем стили после завершения
-    element.style.transform = "";
   }
 
   static animateCardToWaste(card, toElement, duration = 50) {
     return new Promise((resolve, reject) => {
       const cardElement = card.domElement;
 
-      // 1. First - сохраняем начальное положение ДО любых изменений
       // Получаем начальные координаты карты
       const initialRect = cardElement.getBoundingClientRect();
 
@@ -193,23 +176,14 @@ export class Animator {
 
       const offsetY = card.positionData.offsetY;
       void cardElement.offsetHeight; // Это заставляет браузер применить стили
-      // Устанавливаем конечное положение
-      // const targetTop =
-      //   targetContainer === stock.wasteElement ? newOffset : oldOffset;
-      // cardElement.style.position = "absolute";
-      // cardElement.style.transform = `translate(${offset}px, ${-offset}px)`;
-      // cardElement.style.zIndex = `10000`;
-      // Снова синхронизируем
-      // void cardElement.offsetHeight;
 
-      // 4. Получаем конечную позицию
+      // Получаем конечную позицию
       const lastRect = cardElement.getBoundingClientRect();
 
-      // 5. Invert - теперь дельты будут корректны
       const deltaX = initialRect.left - lastRect.left;
       const deltaY = initialRect.top - lastRect.top;
 
-      // 9. Запускаем анимацию
+      // Запускаем анимацию
       const animation = cardElement.animate(
         [
           { transform: `translate(${deltaX}px, ${deltaY}px)` },
@@ -220,7 +194,7 @@ export class Animator {
           easing: "linear",
         }
       );
-      // 10. По завершении фиксируем результат
+      // По завершении фиксируем результат
       animation.onfinish = () => {
         cardElement.style.transform = `translateX(${offsetX}px) translateY(${offsetY}px)`;
         cardElement.style.zIndex = `${card.positionData.zIndex}`;
@@ -507,8 +481,8 @@ export class Animator {
   }
 
   static animateAchievementText(element) {
-    console.log('element:', element);
-    
+    console.log("element:", element);
+
     gsap.fromTo(
       element,
       { scale: 1, opacity: 1 },
@@ -523,9 +497,9 @@ export class Animator {
     );
   }
 
-   static animateAchievementText2(element) {
-    console.log('element:', element);
-    
+  static animateAchievementText2(element) {
+    console.log("element:", element);
+
     gsap.fromTo(
       element,
       { scale: 1, opacity: 1 },
@@ -538,5 +512,56 @@ export class Animator {
         ease: "power1.inOut",
       }
     );
+  }
+
+  static playWinAnimation() {
+    const animation = async () => {
+      this.isAnimating = true;
+
+      const cards = document.querySelectorAll(".card");
+      const animations = [];
+
+      // Анимация для каждой карты
+      cards.forEach((card, index) => {
+        animations.push(
+          this.animate({
+            element: card,
+            from: { rotate: 0, scale: 1 },
+            to: { rotate: 360, scale: 1.2 },
+            duration: 1000,
+            delay: index * 50,
+            easing: "ease-in-out",
+          }).then(() =>
+            this.animate({
+              element: card,
+              from: { rotate: 360, scale: 1.2 },
+              to: { rotate: 720, scale: 1 },
+              duration: 1000,
+              easing: "ease-in-out",
+            })
+          )
+        );
+      });
+
+      await Promise.all(animations);
+      this.isAnimating = false;
+      this.processQueue();
+    };
+
+    this.addToQueue(animation);
+  }
+
+  static processQueue() {
+    if (this.animationsQueue.length > 0 && !this.isAnimating) {
+      const nextAnimation = this.animationsQueue.shift();
+      nextAnimation();
+    }
+  }
+
+  static addToQueue(animationFn) {
+    this.animationsQueue.push(animationFn);
+    if (!this.isAnimating) {
+      this.processQueue();
+    }
   }
 }

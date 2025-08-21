@@ -8,20 +8,22 @@ import { HintSystem } from "./HintSystem.js";
 import { UndoSystem } from "./UndoSystem.js";
 import { UIConfig } from "../../configs/UIConfig.js";
 import { DragAndDrop } from "./DragAndDrop.js";
+import { Animator } from "../../utils/Animator.js";
+import { achType, achCheckName } from "../../configs/AchievementsConfig.js";
 
 export class GameLogicSystem {
-  constructor(eventManager, stateManager, cardsSystem, animator, audioManager) {
+  constructor(eventManager, stateManager, cardsSystem, audioManager) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
+    this.state = this.stateManager.state;
     this.cardsSystem = cardsSystem;
-    this.animator = animator;
     this.audioManager = audioManager;
     this.addition = AnimationOperators.ADDITION;
     this.subtraction = AnimationOperators.SUBTRACTION;
     this.numberMoves = GameConfig.rules.initialMove;
     this.cardMoveDuration = UIConfig.animations.cardMoveDuration;
-    this.typeToFoundationCheckAchievements = "inGame";
-    this.textToFoundationCheckAchievements = "cardsToFoundation";
+    this.typeToFoundationCheckAchievements = achType.IN_GAME;
+    this.textToFoundationCheckAchievements = achCheckName.CARDS_TO_FOUNDATION;
     this.setupSystems();
     this.setupEventListeners();
   }
@@ -53,7 +55,6 @@ export class GameLogicSystem {
     this.undoSystem = new UndoSystem(
       this.eventManager,
       this.stateManager,
-      this.animator,
       this.audioManager
     );
     this.dragAndDrop = new DragAndDrop(
@@ -92,7 +93,7 @@ export class GameLogicSystem {
 
   handleCardClick(card) {
     if (this.winSystem.check()) return;
-    if (!this.stateManager.state.game.playerFirstCardClick) {
+    if (!this.state.game.playerFirstCardClick) {
       this.eventManager.emit(GameEvents.FIRST_CARD_CLICK);
       this.eventManager.emit(GameEvents.START_PLAY_TIME, 0);
     }
@@ -113,7 +114,7 @@ export class GameLogicSystem {
       to: `${containerToName}-${containerToIndex}`,
     });
     const cardParentFoundationElForUndo = card.parentElement;
-    await this.animator.animateCardMove(
+    await Animator.animateCardMove(
       card,
       source,
       elementFrom,
@@ -137,15 +138,19 @@ export class GameLogicSystem {
       if (containerToName === GameConfig.cardContainers.foundation) {
         operator = this.addition;
         this.scoringSystem.addPoints(score);
-        this.stateManager.incrementStat(this.textToFoundationCheckAchievements);
-        this.eventManager.emit(GameEvents.CHECK_GET_ACHIEVEMENTS, this.typeToFoundationCheckAchievements);
+        this.stateManager.incrementStat(
+          this.textToFoundationCheckAchievements,
+          this.typeToFoundationCheckAchievements
+        );
+
       } else if (source.startsWith(GameConfig.cardContainers.foundation)) {
         operator = this.subtraction;
         isSourceFromFoundation = !isSourceFromFoundation;
         this.scoringSystem.addPoints(-score);
       }
-      if (operator === this.addition) this.eventManager.emit(GameEvents.AUDIO_UP_SCORE);
-      this.animator.showPointsAnimation(
+      if (operator === this.addition)
+        this.eventManager.emit(GameEvents.AUDIO_UP_SCORE);
+      Animator.showPointsAnimation(
         card,
         score,
         operator,
@@ -157,7 +162,7 @@ export class GameLogicSystem {
     if (this.winSystem.check()) {
       await this.winSystem.handleWin();
     }
-    
+
     const openCard = this.movementSystem.openNextCardIfNeeded(source);
 
     card.openCard = openCard;
@@ -190,17 +195,17 @@ export class GameLogicSystem {
   }
 
   async cardsCollect() {
-    this.stateManager.state.game.usedAutoCollectCards = true;
-    const { tableaus, stock, waste } = this.stateManager.state.cardsComponents;
+    this.state.game.usedAutoCollectCards = true;
+    const { tableaus, stock, waste } = this.state.cardsComponents;
     await this.autoCollectCards(tableaus, stock, waste);
-    this.stateManager.state.game.usedAutoCollectCards = false;
+    this.state.game.usedAutoCollectCards = false;
   }
 
   async autoCollectCards(tableaus, stock, waste) {
     // Проверяем условие выхода
     if (this.winSystem.check()) return;
     else {
-      const gameComponents = this.stateManager.state.cardsComponents;
+      const gameComponents = this.state.cardsComponents;
       for (const tableau of tableaus) {
         if (tableau.cards.length > 0) {
           const card = tableau.cards[tableau.cards.length - 1];

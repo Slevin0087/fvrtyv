@@ -4,6 +4,17 @@ export const currency = {
   NONE: "none"
 }
 
+export const achType = {
+  IN_GAME: "inGame",
+  WIN: "win",
+  RESTART_AND_WIN: "restartAndWin",
+}
+
+export const achCheckName = {
+  CARDS_TO_FOUNDATION: "cardsToFoundation",
+  CARDS_FLIPPED: "cardsFlipped",
+}
+
 export const AchievementsConfig = [
   ////////////////////////// для теста, потом убрать
   {

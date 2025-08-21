@@ -15,8 +15,6 @@ export class ScoringSystem {
   }
 
   addPoints(points) {
-    // console.log('POINT:', points);
-
     const calculated = this.calculatePoints(points);
     this.stateManager.updateScore(calculated);
     return calculated;

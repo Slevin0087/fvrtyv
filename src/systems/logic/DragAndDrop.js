@@ -13,6 +13,7 @@ export class DragAndDrop {
   ) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
+    this.state = this.stateManager.state;
     this.audioManager = audioManager;
     this.movementSystem = movementSystem;
     this.scoringSystem = scoringSystem;
@@ -82,7 +83,7 @@ export class DragAndDrop {
 
   onPointerDown(event) {
     if (
-      this.stateManager.state.cardsComponents.foundations.every((f) =>
+      this.state.cardsComponents.foundations.every((f) =>
         f.isComplete()
       )
     )
@@ -98,7 +99,7 @@ export class DragAndDrop {
     this.currentDraggingCard = isDraggable;
     this.currentDraggingCardSource =
       this.currentDraggingCard.dataset[this.dataCardParent];
-    this.gameComponents = this.stateManager.state.cardsComponents;
+    this.gameComponents = this.state.cardsComponents;
     this.cards = this.getCards(
       this.currentDraggingCardSource,
       this.gameComponents
@@ -133,8 +134,8 @@ export class DragAndDrop {
       this.resetDragState();
       return;
     }
-    if (!this.stateManager.state.game.playerFirstCardClick) {
-      this.stateManager.state.game.playerFirstCardClick = true;
+    if (!this.state.game.playerFirstCardClick) {
+      this.state.game.playerFirstCardClick = true;
       this.eventManager.emit(GameEvents.START_PLAY_TIME, 0);
     }
     this.cards.forEach((card) => {
@@ -482,7 +483,7 @@ export class DragAndDrop {
       }
 
       if (
-        this.stateManager.state.cardsComponents.foundations.every((f) =>
+        this.state.cardsComponents.foundations.every((f) =>
           f.isComplete()
         )
       ) {

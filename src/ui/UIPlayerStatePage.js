@@ -4,14 +4,15 @@ import { Helpers } from "../utils/Helpers.js";
 export class UIPlayerStatePage extends UIPage {
   constructor(eventManager, stateManager) {
     super(eventManager, stateManager, "player-state");
+    this.state = stateManager.state;
     this.elements = {
       backBtn: document.getElementById("btn-back-st-player"),
     };
   }
 
   render() {
-    const statePlayer = this.stateManager.state.player;
-    const stateGame = this.stateManager.state.game;
+    const statePlayer = this.state.player;
+    const stateGame = this.state.game;
     const storagePlayer = this.stateManager.storage.getPlayerStats();
     let playerName = "";
     if (statePlayer.name === "") {

@@ -4,11 +4,12 @@ export class HintSystem {
   constructor(eventManager, stateManager, audioManager) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
+    this.state = this.stateManager.state;
     this.audioManager = audioManager;
   }
 
   provide() {
-    if (this.stateManager.state.game.score < 5) {
+    if (this.state.game.score < 5) {
       this.audioManager.play(AudioName.INFO);
       this.eventManager.emit(
         "ui:notification",
@@ -21,8 +22,8 @@ export class HintSystem {
     // ... остальная логика
     if (hint) {
       this.stateManager.deductCoins(5);
-      this.stateManager.state.game.hintsUsed =
-        (this.stateManager.state.game.hintsUsed || 0) + 1;
+      this.state.game.hintsUsed =
+        (this.state.game.hintsUsed || 0) + 1;
       this.eventManager.emit("hint:show", hint);
     } else {
       this.audioManager.play(AudioName.INFO);
@@ -31,7 +32,7 @@ export class HintSystem {
   }
 
   findBestHint() {
-    const gameComponents = this.stateManager.state.cardsComponents;
+    const gameComponents = this.state.cardsComponents;
     // Сначала проверяем карты в waste
     const wasteCard = gameComponents.waste.getTopCard();
     if (wasteCard) {

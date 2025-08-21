@@ -5,6 +5,7 @@ export class AchievementSystem {
   constructor(eventManager, stateManager, storage) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
+    this.state = this.stateManager.state;
     this.storage = storage;
     // this.achievements = this.loadAchievements();
     this.achievements = AchievementsConfig;
@@ -65,7 +66,7 @@ export class AchievementSystem {
   checkAchievements(type) {
     const playerState = this.storage.getPlayerStats();
     const { unlocked } = playerState.achievements;
-    const { unlockedMany } = this.stateManager.state.stateForAchievements;
+    const { unlockedMany } = this.state.stateForAchievements;
     const achievementsFilter = this.achievements.filter(
       (a) =>
         a.type === type &&
@@ -76,8 +77,8 @@ export class AchievementSystem {
     achievementsFilter.map((a) => {
       const state =
         a.life === "one"
-          ? this.stateManager.state.player
-          : this.stateManager.state.stateForAchievements;
+          ? this.state.player
+          : this.state.stateForAchievements;
       if (a.life === "one") {
         if (a.condition(state)) {
           state.achievements.unlocked.push(a.id);
@@ -93,7 +94,7 @@ export class AchievementSystem {
       } else if (a.life === "many") {
         if (a.condition(state)) {
           state.unlockedMany.push(a.id);
-          this.setActiveAchievement(state, a, this.stateManager.state.player);
+          this.setActiveAchievement(state, a, this.state.player);
           this.storage.setPlayerStats(state);
           this.eventManager.emit(GameEvents.UP_ACHIEVENT_DIV, a);
           this.eventManager.emit(GameEvents.UP_ACHIEVENT_ICON, true);
@@ -127,21 +128,21 @@ export class AchievementSystem {
   // }
 
   checkMoveAchievements(moveData) {
-    this.stateManager.player.stats.totalMoves++;
+    this.player.stats.totalMoves++;
     // Проверка других достижений, связанных с ходами
     this.saveStats();
   }
 
   checkScoreAchievements(score) {
-    if (score > this.stateManager.player.stats.highestScore) {
-      this.stateManager.player.stats.highestScore = score;
+    if (score > this.player.stats.highestScore) {
+      this.player.stats.highestScore = score;
       // Проверка достижений, связанных с очками
     }
     this.saveStats();
   }
 
   checkTimeAchievements(time) {
-    this.stateManager.game.currentTime = time;
+    this.game.currentTime = time;
     // Проверка достижений, связанных со временем
   }
 
@@ -149,7 +150,7 @@ export class AchievementSystem {
     const achievement = this.achievements.find((a) => a.id === achievementId);
     if (!achievement || achievement.unlocked) return;
 
-    const stats = this.stateManager.player.stats;
+    const stats = this.player.stats;
     if (achievement.condition(stats)) {
       achievement.unlocked = true;
       this.storage.unlockAchievement(achievementId);
@@ -162,14 +163,14 @@ export class AchievementSystem {
   }
 
   saveStats() {
-    this.storage.savePlayerStats(this.stateManager.player.stats);
+    this.storage.savePlayerStats(this.player.stats);
   }
 
   setActiveAchievement(state, a, otherState = null) {
     console.log("в setActiveAchievement:", state);
     if (otherState) {
-      this.stateManager.state.player.achievements.activeId = a.id;
-      this.stateManager.state.player.achievements.active = a;
+      this.state.player.achievements.activeId = a.id;
+      this.state.player.achievements.active = a;
     } else if (otherState === null) {
       state.achievements.activeId = a.id;
       state.achievements.active = a;

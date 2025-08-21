@@ -8,6 +8,7 @@ export class RenderingSystem {
   constructor(eventManager, stateManager, gameLogicSystem, cardsSystem) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
+    this.state = this.stateManager.state;
     this.gameLogicSystem = gameLogicSystem;
     this.cardsSystem = cardsSystem;
     this.components = {};
@@ -223,7 +224,7 @@ export class RenderingSystem {
   }
 
   getCardsComponents() {
-    return this.stateManager.state.cardsComponents || null;
+    return this.state.cardsComponents || null;
   }
 
   // после
@@ -240,7 +241,7 @@ export class RenderingSystem {
     // Настройка рубашки/лица
     if (!card.faceUp) {
       cardElement.classList.add(
-        this.stateManager.state.player.selectedItems.backs.styleClass
+        this.state.player.selectedItems.backs.styleClass
       );
     } else if (card.faceUp) {
       // Создаем элементы для символов карты
@@ -248,7 +249,7 @@ export class RenderingSystem {
       // Собираем карту
       cardElement.append(...symbols);
       cardElement.classList.add(
-        this.stateManager.state.player.selectedItems.faces.styleClass
+        this.state.player.selectedItems.faces.styleClass
       );
     }
 
@@ -278,7 +279,7 @@ export class RenderingSystem {
     cardElement.dataset.value = card.value;
 
     cardElement.classList.add(
-      this.stateManager.state.player.selectedItems.backs.styleClass
+      this.state.player.selectedItems.backs.styleClass
     );
 
     // Сохраняем ссылку на DOM элемент в карте

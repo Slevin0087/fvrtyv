@@ -10,6 +10,7 @@ export class CardsSystem {
   constructor(eventManager, stateManager) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
+    this.state = this.stateManager.state;
     // this.waste = waste;
     this.dragState = null;
     this.selectedCard = null;
@@ -155,8 +156,8 @@ export class CardsSystem {
 
   getCardStyles() {
     return {
-      backStyle: this.stateManager.state.player.selectedItems.backs.styleClass,
-      faceStyle: this.stateManager.state.player.selectedItems.faces.styleClass,
+      backStyle: this.state.player.selectedItems.backs.styleClass,
+      faceStyle: this.state.player.selectedItems.faces.styleClass,
     };
   }
 
@@ -205,7 +206,7 @@ export class CardsSystem {
   }
 
   highlightValidTargets(card) {
-    const { foundations, tableaus } = this.stateManager.state.game;
+    const { foundations, tableaus } = this.state.game;
 
     // Проверка foundation
     foundations.forEach((foundation, index) => {
@@ -223,7 +224,7 @@ export class CardsSystem {
   }
 
   handleDragStart(card, element) {
-    if (this.stateManager.state.game.isPaused) return;
+    if (this.state.game.isPaused) return;
 
     this.dragState = {
       card,
@@ -284,7 +285,7 @@ export class CardsSystem {
   }
 
   getValidTargets(card) {
-    const { foundations, tableaus } = this.stateManager.state.game;
+    const { foundations, tableaus } = this.state.game;
     const targets = [];
 
     foundations.forEach((foundation, index) => {
@@ -321,7 +322,7 @@ export class CardsSystem {
 
   setCardsStyles() {
     const { foundations, tableaus, stock, waste } =
-      this.stateManager.state.cardsComponents;
+      this.state.cardsComponents;
     foundations?.forEach((foundation) =>
       this.circleCardsComponents(foundation)
     );

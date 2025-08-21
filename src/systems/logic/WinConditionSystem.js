@@ -3,11 +3,13 @@ import { GameConfig } from "../../configs/GameConfig.js";
 import { AudioName } from "../../utils/Constants.js";
 import { UIConfig } from "../../configs/UIConfig.js";
 import { Helpers } from "../../utils/Helpers.js";
+import { Animator } from "../../utils/Animator.js";
 
 export class WinConditionSystem {
   constructor(eventManager, stateManager, audioManager) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
+    this.state = this.stateManager.state;
     this.audioManager = audioManager;
     this.addition = AnimationOperators.ADDITION;
     this.translateWinBonusKey = "win_bonus";
@@ -28,9 +30,7 @@ export class WinConditionSystem {
   }
 
   check() {
-    return this.stateManager.state.cardsComponents.foundations.every((f) =>
-      f.isComplete()
-    );
+    return this.state.cardsComponents.foundations.every((f) => f.isComplete());
   }
 
   async handleWin() {
@@ -38,10 +38,8 @@ export class WinConditionSystem {
     this.eventManager.emit(GameEvents.STOP_PLAY_TIME);
 
     this.saveWinStats();
-
+    Animator.playWinAnimation();
     this.audioManager.play(AudioName.WIN);
-    this.eventManager.emit(GameEvents.UI_ANIMATE_WIN);
-
     this.eventManager.emit(
       GameEvents.INCREMENT_COINS,
       GameConfig.earnedCoins.win
@@ -51,19 +49,14 @@ export class WinConditionSystem {
     const textEarned = Helpers.t(this.translateWinEarnedBonusKey);
     const textCoins = Helpers.pluralize("coins", GameConfig.earnedCoins.win);
 
-    this.eventManager.emit(
-      GameEvents.ANIMATION_COINS_EARNED,
+    await Animator.animationCoinsEarned(
       `${textWinBonus}: ${this.addition}${GameConfig.rules.winScoreBonus}`
     );
 
-    await this.delay(UIConfig.animations.animationCoinsEarned * 1100);
+    // await this.delay(UIConfig.animations.animationCoinsEarned * 1100);
+    await Animator.animationCoinsEarned(`${textEarned} ${textCoins}`);
 
-    this.eventManager.emit(
-      GameEvents.ANIMATION_COINS_EARNED,
-      `${textEarned} ${textCoins}`
-    );
-
-    await this.delay(UIConfig.animations.animationCoinsEarned * 1100);
+    // await this.delay(UIConfig.animations.animationCoinsEarned * 1100);
 
     this.eventManager.emit(
       GameEvents.CHECK_GET_ACHIEVEMENTS,
@@ -80,33 +73,24 @@ export class WinConditionSystem {
     );
 
     // Проверяем без подсказок ли победа
-    if (this.stateManager.state.game.hintsUsed === 0) {
+    if (this.state.game.hintsUsed === 0) {
       this.stateManager.incrementStat(this.textWinsWithoutHints);
     }
 
     // Проверяем быструю победу, время меньше ли чем в прошлый раз
-    if (
-      this.stateManager.state.game.playTime <
-      this.stateManager.state.player.fastestWin
-    ) {
-      this.stateManager.state.player.fastestWin =
-        this.stateManager.state.game.playTime;
+    if (this.state.game.playTime < this.state.player.fastestWin) {
+      this.state.player.fastestWin = this.state.game.playTime;
     }
 
     // Проверяем количество ходов, меньше ли чем в прошлый раз
-    if (
-      this.stateManager.state.game.moves <
-      this.stateManager.state.game.minPossibleMoves
-    ) {
-      this.stateManager.state.game.minPossibleMoves =
-      this.stateManager.state.game.moves;
+    if (this.state.game.moves < this.state.game.minPossibleMoves) {
+      this.state.game.minPossibleMoves = this.state.game.moves;
     }
 
     // // Проверяется без отмен хода ли победа
-    if (this.stateManager.state.game.undoUsed === 0) {
+    if (this.state.game.undoUsed === 0) {
       this.stateManager.incrementStat(this.textWinsWithoutUndo);
     }
-
   }
 
   delay(ms) {

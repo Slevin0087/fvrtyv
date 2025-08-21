@@ -7,10 +7,10 @@ import { UIConfig } from "../../configs/UIConfig.js";
 import { GameConfig } from "../../configs/GameConfig.js";
 
 export class UndoSystem {
-  constructor(eventManager, stateManager, animator, audioManager) {
+  constructor(eventManager, stateManager, audioManager) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
-    this.animator = animator;
+    this.state = this.stateManager.state;
     this.audioManager = audioManager;
     this.cardContainers = GameConfig.cardContainers;
     this.subtraction = AnimationOperators.SUBTRACTION;
@@ -34,12 +34,12 @@ export class UndoSystem {
   }
 
   async handleUndo() {
-    if (!this.stateManager.state.game.isRunning) return;
-    if (this.stateManager.state.game.lastMove.length === 0) {
+    if (!this.state.game.isRunning) return;
+    if (this.state.game.lastMove.length === 0) {
       this.audioManager.play(AudioName.INFO);
       return;
     }
-    const { card, from } = this.stateManager.state.game.lastMove.pop();
+    const { card, from } = this.state.game.lastMove.pop();
     card.isUndo = true;
     if (card.openCard) {
       const openCard = card.openCard;
@@ -69,7 +69,7 @@ export class UndoSystem {
 
   reverseMove({ card, from }) {
     const [fromType, fromIndex] = this.parseTargetId(from);
-    const gameComponents = this.stateManager.state.cardsComponents;
+    const gameComponents = this.state.cardsComponents;
 
     if (fromType === this.cardContainers.tableau) {
       const containerTo = gameComponents.tableaus[fromIndex];
@@ -129,14 +129,14 @@ export class UndoSystem {
     this.stateManager.updateLastMove(params);
     this.eventManager.emit(
       GameEvents.UP_UNDO_CONTAINER,
-      this.stateManager.state.game.lastMove.length
+      this.state.game.lastMove.length
     );
   }
 
   isLastMove() {
     return (
-      this.stateManager.state.game.lastMove.length <
-      this.stateManager.state.player.lastMoveQuantity
+      this.state.game.lastMove.length <
+      this.state.player.lastMoveQuantity
     );
   }
 

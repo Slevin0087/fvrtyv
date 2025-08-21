@@ -161,7 +161,7 @@ export class UIGamePage extends UIPage {
   show() {
     this.page.className = "";
     const styleClass =
-      this.stateManager.state.player.selectedItems.backgrounds.styleClass;
+      this.state.player.selectedItems.backgrounds.styleClass;
     this.page.classList.add("game-interface", styleClass);
     this.updateUI();
   }

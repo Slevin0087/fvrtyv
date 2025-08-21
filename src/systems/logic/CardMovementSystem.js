@@ -1,14 +1,16 @@
 import { GameEvents, AudioName } from "../../utils/Constants.js";
 import { GameConfig } from "../../configs/GameConfig.js";
+import { achType, achCheckName } from "../../configs/AchievementsConfig.js";
 
 export class CardMovementSystem {
   constructor(eventManager, stateManager, audioManager) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
+    this.state = this.stateManager.state;
     this.audioManager = audioManager;
     this.cardContainers = GameConfig.cardContainers;
-    this.textCardsFlipped = "cardsFlipped";
-    this.typeCardFlipCheckAchievements = "inGame";
+    this.textCardsFlipped = achCheckName.CARDS_FLIPPED;
+    this.typeCardFlipCheckAchievements = achType.IN_GAME;
 
     this.setupEventListeners();
   }
@@ -18,11 +20,12 @@ export class CardMovementSystem {
   }
 
   handleCardClick(card) {
-    if (!card.faceUp || this.stateManager.state.game.isPaused) return false;
+    if (!card.faceUp || this.state.game.isPaused) return false;
 
-    const gameComponents = this.stateManager.state.cardsComponents;
+    const gameComponents = this.state.cardsComponents;
     const usedAutoCollectCards =
-      this.stateManager.state.game.usedAutoCollectCards;
+      this.state.game.usedAutoCollectCards;
+
     // Проверка foundation
     for (let i = 0; i < gameComponents.foundations.length; i++) {
       if (gameComponents.foundations[i].canAccept(card, gameComponents)) {
@@ -92,22 +95,18 @@ export class CardMovementSystem {
   getElementFrom(source) {
     if (source.startsWith(this.cardContainers.tableau)) {
       const index = parseInt(source.split("-")[1]);
-      return this.stateManager.state.cardsComponents.tableaus[index];
+      return this.state.cardsComponents.tableaus[index];
     } else if (source.startsWith(this.cardContainers.foundation)) {
       const index = parseInt(source.split("-")[1]);
-      return this.stateManager.state.cardsComponents.foundations[index];
+      return this.state.cardsComponents.foundations[index];
     } else if (source.startsWith(this.cardContainers.stock)) {
-      return this.stateManager.state.cardsComponents.stock;
+      return this.state.cardsComponents.stock;
     } else if (source.startsWith(this.cardContainers.waste)) {
-      return this.stateManager.state.cardsComponents.waste;
+      return this.state.cardsComponents.waste;
     }
   }
 
   removeCardFromSource(card, source, elementFrom) {
-    console.log('card, source, elementFrom:', card, source, elementFrom);
-    
-
-    // ... реализация аналогична оригиналу
     if (source.startsWith(this.cardContainers.tableau)) {
       return elementFrom.removeCardsFrom(card);
     } else if (source.startsWith(this.cardContainers.foundation)) {
@@ -124,14 +123,13 @@ export class CardMovementSystem {
 
     const index = parseInt(source.split("-")[1]);
 
-    const tableau = this.stateManager.state.cardsComponents.tableaus[index];
+    const tableau = this.state.cardsComponents.tableaus[index];
     const card = tableau.getTopCard();
     if (card && !card.faceUp) {
       card.flip();
       this.eventManager.emit(GameEvents.CARD_FLIP, card);
-      this.stateManager.incrementStat(this.textCardsFlipped);
-      this.eventManager.emit(GameEvents.CHECK_GET_ACHIEVEMENTS, this.typeCardFlipCheckAchievements);
-      console.log('this.stateManager.state:', this.stateManager.state);
+      this.stateManager.incrementStat(this.textCardsFlipped, this.typeCardFlipCheckAchievements);
+      console.log('this.state:', this.state);
       
       return card;
     }

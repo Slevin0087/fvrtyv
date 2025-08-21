@@ -1,4 +1,5 @@
 import { GameEvents } from "../utils/Constants.js";
+import { achType, achCheckName } from "../configs/AchievementsConfig.js";
 
 export class StateManager {
   constructor(eventManager, storage) {
@@ -307,11 +308,11 @@ export class StateManager {
       this.state.player.highestScore = this.state.game.score;
       this.storage.setPlayerStats(this.state.player);
     }
+    this.eventManager.emit(GameEvents.SCORE_UPDATE, this.state.game.score);
     this.eventManager.emit(
       GameEvents.CHECK_GET_ACHIEVEMENTS,
       this.typeScoreCheckAchievements
     );
-    this.eventManager.emit(GameEvents.SCORE_UPDATE, this.state.game.score);
   }
 
   incrementGameStat(statName, amount = 1) {
@@ -325,10 +326,11 @@ export class StateManager {
     }
   }
 
-  incrementStat(statName, amount = 1) {
+  incrementStat(statName, achType, amount = 1) {
     try {
       if (this.state.player[statName] !== undefined) {
         this.state.player[statName] += amount;
+        this.eventManager.emit(GameEvents.CHECK_GET_ACHIEVEMENTS, achType);
       }
     } catch (error) {
       console.error("incrementStat failed:", error);

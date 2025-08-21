@@ -9,7 +9,6 @@ import { GameLogicSystem } from "../systems/logic/GameLogicSystem.js";
 import { RenderingSystem } from "../systems/render/RenderingSystem.js";
 import { AnimationSystem } from "../systems/AnimationSystem.js";
 import { ShopSystem } from "../systems/ShopSystem.js";
-import { Animator } from "../utils/Animator.js";
 import { Helpers } from "../utils/Helpers.js";
 import { AchievementSystem } from "../systems/AchievementSystem.js";
 
@@ -39,7 +38,6 @@ export class GameManager {
       this.eventManager,
       this.stateManager,
       this.cardsSystem,
-      Animator,
       this.audioManager
     );
     this.renderingSystem = new RenderingSystem(
