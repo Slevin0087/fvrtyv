@@ -98,9 +98,10 @@ export class UIGamePage extends UIPage {
       Animator.animationTextAchievement(this.elements.achDiv, a)
     );
 
-    this.eventManager.on(GameEvents.UP_ACHIEVENT_SCORE_DIV, (boolean) =>
-      this.updateScore(this.state.game.score, boolean)
-    );
+    this.eventManager.on(GameEvents.UP_ACHIEVENT_SCORE_DIV, () => {
+      const span = document.getElementById("points-in-game");
+      Animator.animateAchievementText2(span);
+    });
   }
   updateUI() {
     this.updateScore(this.state.game.score);
@@ -115,13 +116,8 @@ export class UIGamePage extends UIPage {
     this.elements.timeEl.textContent = `${minutes}${minutes}:${seconds}${seconds}`;
   }
 
-  updateScore(score, animate = false) {
+  updateScore(score) {
     this.elements.scoreEl.textContent = `🌟: ${score}`;
-
-    if (animate) {
-      this.eventManager.emit(GameEvents.AUDIO_UP_ACH);
-      Animator.animateAchievementText(this.elements.scoreEl);
-    }
   }
 
   updateMoves(n) {

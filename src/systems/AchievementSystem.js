@@ -86,8 +86,8 @@ export class AchievementSystem {
           this.eventManager.emit(GameEvents.UP_ACHIEVENT_DIV, a);
           this.eventManager.emit(GameEvents.UP_ACHIEVENT_ICON, true);
           if (a.currency === currency.SCORE) {
-            this.eventManager.emit(GameEvents.UP_ACHIEVENT_SCORE_DIV, true);
-            
+            this.eventManager.emit(GameEvents.ADD_POINTS, a.reward);
+            this.eventManager.emit(GameEvents.UP_ACHIEVENT_SCORE_DIV);
           }
         }
       } else if (a.life === "many") {
@@ -97,12 +97,12 @@ export class AchievementSystem {
           this.storage.setPlayerStats(state);
           this.eventManager.emit(GameEvents.UP_ACHIEVENT_DIV, a);
           this.eventManager.emit(GameEvents.UP_ACHIEVENT_ICON, true);
-          console.log('a.currency, currency.SCORE:', a.currency, currency.SCORE);
-          
           if (a.currency === currency.SCORE) {
-            console.log('вввввввввввввв iiiiiiiiiiiiiiiiifffffffffffffffff');
-            
-            this.eventManager.emit(GameEvents.UP_ACHIEVENT_SCORE_DIV, true);
+            console.log("вввввввввввввв iiiiiiiiiiiiiiiiifffffffffffffffff");
+            this.eventManager.emit(GameEvents.ADD_POINTS, a.reward);
+            setTimeout(() => {
+              this.eventManager.emit(GameEvents.UP_ACHIEVENT_SCORE_DIV);
+            }, 2000);
           }
         }
       }

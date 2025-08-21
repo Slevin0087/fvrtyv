@@ -364,29 +364,29 @@ export class Animator {
       container.innerHTML = `
         <span class="ach-info-span-red">Награда:${" "}</span>
         <span class="ach-info-span-yellow" id="ach-info-span">${reward}${" "}</span>
-        <span>${currency}`;
+        <span class="ach-info-span-title-description">${currency}</span>`;
       setTimeout(() => {
-        spanAnimateForCurrency.classList.add("hidden");
-        spanAnimateForIcon.classList.add("hidden");
-        spanAnimateForCurrency.textContent = `${reward}`;
-        spanAnimateForIcon.textContent = `${icon}`;
-        container.append(spanAnimateForCurrency, spanAnimateForIcon);
-        const startRect = container.getBoundingClientRect();
-        const toElementCurrency = document.getElementById("points-in-game");
-        const toElementIcon = document.getElementById("achievements_span");
-        toElementCurrency.append(spanAnimateForCurrency);
-        toElementIcon.append(spanAnimateForIcon);
-        spanAnimateForCurrency.classList.add("span-animate-for-ach");
-        spanAnimateForIcon.classList.add("span-animate-for-ach");
-        const currencyLastRect = toElementCurrency.getBoundingClientRect();
-        const iconLastRect = toElementIcon.getBoundingClientRect();
-        const deltaXCurrency = startRect.left - currencyLastRect.left;
-        const deltaYCurrency = startRect.top - currencyLastRect.top;
+        // spanAnimateForCurrency.classList.add("hidden");
+        // spanAnimateForIcon.classList.add("hidden");
+        // spanAnimateForCurrency.textContent = `${reward}`;
+        // spanAnimateForIcon.textContent = `${icon}`;
+        // container.append(spanAnimateForCurrency, spanAnimateForIcon);
+        // const startRect = container.getBoundingClientRect();
+        // const toElementCurrency = document.getElementById("points-in-game");
+        // const toElementIcon = document.getElementById("achievements_span");
+        // toElementCurrency.append(spanAnimateForCurrency);
+        // toElementIcon.append(spanAnimateForIcon);
+        // spanAnimateForCurrency.classList.add("span-animate-for-ach");
+        // spanAnimateForIcon.classList.add("span-animate-for-ach");
+        // const currencyLastRect = toElementCurrency.getBoundingClientRect();
+        // const iconLastRect = toElementIcon.getBoundingClientRect();
+        // const deltaXCurrency = startRect.left - currencyLastRect.left;
+        // const deltaYCurrency = startRect.top - currencyLastRect.top;
 
-        const deltaXIcon = startRect.left - iconLastRect.left;
-        const deltaYIcon = startRect.top - iconLastRect.top;
-        spanAnimateForCurrency.classList.remove("hidden");
-        spanAnimateForIcon.classList.remove("hidden");
+        // const deltaXIcon = startRect.left - iconLastRect.left;
+        // const deltaYIcon = startRect.top - iconLastRect.top;
+        // spanAnimateForCurrency.classList.remove("hidden");
+        // spanAnimateForIcon.classList.remove("hidden");
         // this.animationSpansAch(spanAnimateForCurrency, deltaXCurrency, deltaYCurrency, duration);
         // this.animationSpansAch(spanAnimateForIcon, deltaXIcon, deltaYIcon, duration);
         domElement.classList.add("hidden");
@@ -507,11 +507,30 @@ export class Animator {
   }
 
   static animateAchievementText(element) {
+    console.log('element:', element);
+    
     gsap.fromTo(
       element,
       { scale: 1, opacity: 1 },
       {
-        scale: 1.5,
+        scale: 3.5,
+        opacity: 0.8,
+        duration: 1.2,
+        yoyo: true,
+        repeat: 1,
+        ease: "power1.inOut",
+      }
+    );
+  }
+
+   static animateAchievementText2(element) {
+    console.log('element:', element);
+    
+    gsap.fromTo(
+      element,
+      { scale: 1, opacity: 1 },
+      {
+        scale: 3.5,
         opacity: 0.8,
         duration: 1.2,
         yoyo: true,
