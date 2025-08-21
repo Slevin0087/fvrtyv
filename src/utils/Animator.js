@@ -481,8 +481,6 @@ export class Animator {
   }
 
   static animateAchievementText(element) {
-    console.log("element:", element);
-
     gsap.fromTo(
       element,
       { scale: 1, opacity: 1 },

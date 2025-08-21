@@ -1,5 +1,6 @@
 import { GameEvents } from "../utils/Constants.js";
 import { currency, AchievementsConfig } from "../configs/AchievementsConfig.js";
+import { Animator } from "../utils/Animator.js";
 
 export class AchievementSystem {
   constructor(eventManager, stateManager, storage) {
@@ -9,6 +10,8 @@ export class AchievementSystem {
     this.storage = storage;
     // this.achievements = this.loadAchievements();
     this.achievements = AchievementsConfig;
+    this.isAchShow = false;
+    this.showAchsQueue = [];
     this.init();
   }
 
@@ -76,35 +79,34 @@ export class AchievementSystem {
     console.log("achievementsFilter:", achievementsFilter);
     achievementsFilter.map((a) => {
       const state =
-        a.life === "one"
-          ? this.state.player
-          : this.state.stateForAchievements;
+        a.life === "one" ? this.state.player : this.state.stateForAchievements;
       if (a.life === "one") {
         if (a.condition(state)) {
           state.achievements.unlocked.push(a.id);
-          this.setActiveAchievement(state, a);
+          this.setActiveAchievement(a);
           this.storage.setPlayerStats(state);
-          this.eventManager.emit(GameEvents.UP_ACHIEVENT_DIV, a);
-          this.eventManager.emit(GameEvents.UP_ACHIEVENT_ICON, true);
-          if (a.currency === currency.SCORE) {
-            this.eventManager.emit(GameEvents.ADD_POINTS, a.reward);
-            this.eventManager.emit(GameEvents.UP_ACHIEVENT_SCORE_DIV);
-          }
+          this.showAchievements(state, a);
+          // this.eventManager.emit(GameEvents.UP_ACHIEVENT_DIV, a);
+          // this.eventManager.emit(GameEvents.UP_ACHIEVENT_ICON, true);
+          // if (a.currency === currency.SCORE) {
+          //   this.eventManager.emit(GameEvents.ADD_POINTS, a.reward);
+          //   this.eventManager.emit(GameEvents.UP_ACHIEVENT_SCORE_DIV);
+          // }
         }
       } else if (a.life === "many") {
         if (a.condition(state)) {
           state.unlockedMany.push(a.id);
-          this.setActiveAchievement(state, a, this.state.player);
+          this.setActiveAchievement(a, true);
           this.storage.setPlayerStats(state);
-          this.eventManager.emit(GameEvents.UP_ACHIEVENT_DIV, a);
-          this.eventManager.emit(GameEvents.UP_ACHIEVENT_ICON, true);
-          if (a.currency === currency.SCORE) {
-            console.log("вввввввввввввв iiiiiiiiiiiiiiiiifffffffffffffffff");
-            this.eventManager.emit(GameEvents.ADD_POINTS, a.reward);
-            setTimeout(() => {
-              this.eventManager.emit(GameEvents.UP_ACHIEVENT_SCORE_DIV);
-            }, 2000);
-          }
+          this.showAchievements(state, a);
+          // this.eventManager.emit(GameEvents.UP_ACHIEVENT_DIV, a);
+          // this.eventManager.emit(GameEvents.UP_ACHIEVENT_ICON, true);
+          // if (a.currency === currency.SCORE) {
+          //   this.eventManager.emit(GameEvents.ADD_POINTS, a.reward);
+          //   setTimeout(() => {
+          //     this.eventManager.emit(GameEvents.UP_ACHIEVENT_SCORE_DIV);
+          //   }, 2000);
+          // }
         }
       }
     });
@@ -166,14 +168,52 @@ export class AchievementSystem {
     this.storage.savePlayerStats(this.player.stats);
   }
 
-  setActiveAchievement(state, a, otherState = null) {
-    console.log("в setActiveAchievement:", state);
-    if (otherState) {
-      this.state.player.achievements.activeId = a.id;
-      this.state.player.achievements.active = a;
-    } else if (otherState === null) {
-      state.achievements.activeId = a.id;
-      state.achievements.active = a;
+  setActiveAchievement(a, many = false) {
+    this.state.player.achievements.activeId = a.id;
+    this.state.player.achievements.active = a;
+    if (many) {
+      this.state.stateForAchievements.activeId = a.id;
+      this.state.stateForAchievements.active = a;
+    }
+  }
+
+  showAchievements(a) {
+    const showAchievement = async () => {
+      this.isAchShow = true;
+
+      // state.unlocked.push(a.id);
+      // this.setActiveAchievement(state, a, statePlayer);
+      // this.storage.setPlayerStats(state);
+      const scoreEl = document.getElementById("points-in-game");
+      const achDiv = document.getElementById("ach-div");
+      const achievementsIconEl = document.getElementById("achievements_span");
+      const shows = [];
+      shows.push(Animator.animationTextAchievement(achDiv, a));
+      shows.push(Animator.animateAchievementText(achievementsIconEl, a));
+      if (a.currency === currency.SCORE) {
+        console.log("вввввввввввввв iiiiiiiiiiiiiiiiifffffffffffffffff");
+        this.eventManager.emit(GameEvents.ADD_POINTS, a.reward);
+        shows.push(Animator.animateAchievementText(scoreEl, a));
+      }
+
+      await Promise.all(shows);
+      this.isAchShow = false;
+      this.processQueue();
+    };
+    this.addToQueue(showAchievement);
+  }
+
+  processQueue() {
+    if (this.showAchsQueue.length > 0 && !this.isAchShow) {
+      const nextShowAch = this.showAchsQueue.shift();
+      nextShowAch();
+    }
+  }
+
+  addToQueue(showAchievement) {
+    this.showAchsQueue.push(showAchievement);
+    if (!this.isAchShow) {
+      this.processQueue();
     }
   }
 }

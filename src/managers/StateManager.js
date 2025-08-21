@@ -28,7 +28,7 @@ export class StateManager {
         winsWithoutUndo: 0,
         minPossibleMoves: Infinity,
         unlockedMany: [],
-        activeId: [],
+        activeId: "",
         active: {},
       },
       cardsComponents: null,
