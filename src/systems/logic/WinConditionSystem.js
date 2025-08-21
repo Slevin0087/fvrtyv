@@ -38,7 +38,9 @@ export class WinConditionSystem {
     this.eventManager.emit(GameEvents.STOP_PLAY_TIME);
 
     this.saveWinStats();
-    Animator.playWinAnimation();
+    // Animator.playWinAnimation();
+    this.eventManager.emit(GameEvents.UI_ANIMATE_WIN);
+
     this.audioManager.play(AudioName.WIN);
     this.eventManager.emit(
       GameEvents.INCREMENT_COINS,

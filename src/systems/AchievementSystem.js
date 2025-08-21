@@ -67,6 +67,12 @@ export class AchievementSystem {
   }
 
   checkAchievements(type) {
+    console.log(
+      "ВВВВВВВВВВВВВВВВВВВВВВВВ this.isAchShow, this.showAchsQueue:",
+      this.isAchShow,
+      this.showAchsQueue
+    );
+
     const playerState = this.storage.getPlayerStats();
     const { unlocked } = playerState.achievements;
     const { unlockedMany } = this.state.stateForAchievements;
@@ -85,7 +91,7 @@ export class AchievementSystem {
           state.achievements.unlocked.push(a.id);
           this.setActiveAchievement(a);
           this.storage.setPlayerStats(state);
-          this.showAchievements(state, a);
+          this.showAchievements(a);
           // this.eventManager.emit(GameEvents.UP_ACHIEVENT_DIV, a);
           // this.eventManager.emit(GameEvents.UP_ACHIEVENT_ICON, true);
           // if (a.currency === currency.SCORE) {
@@ -98,7 +104,9 @@ export class AchievementSystem {
           state.unlockedMany.push(a.id);
           this.setActiveAchievement(a, true);
           this.storage.setPlayerStats(state);
-          this.showAchievements(state, a);
+          this.showAchievements(a);
+          console.log("ПОСЛЕ this.showAchievements(a)");
+
           // this.eventManager.emit(GameEvents.UP_ACHIEVENT_DIV, a);
           // this.eventManager.emit(GameEvents.UP_ACHIEVENT_ICON, true);
           // if (a.currency === currency.SCORE) {
@@ -178,6 +186,8 @@ export class AchievementSystem {
   }
 
   showAchievements(a) {
+    console.log("QQQQQQQQQQQQQQQQQQQQQQ");
+
     const showAchievement = async () => {
       this.isAchShow = true;
 
@@ -188,15 +198,35 @@ export class AchievementSystem {
       const achDiv = document.getElementById("ach-div");
       const achievementsIconEl = document.getElementById("achievements_span");
       const shows = [];
-      shows.push(Animator.animationTextAchievement(achDiv, a));
-      shows.push(Animator.animateAchievementText(achievementsIconEl, a));
+      shows.push(
+        new Promise((resolve) => {
+          Animator.animationTextAchievement(achDiv, a);
+          // Таймаут на duration анимации + немного
+          setTimeout(resolve, 5500); // 5000ms + 500ms buffer
+        })
+      );
+      shows.push(
+        new Promise((resolve) => {
+          Animator.animateAchievementText(achievementsIconEl);
+          setTimeout(resolve, 2500); // duration анимации + buffer
+        })
+      );
       if (a.currency === currency.SCORE) {
         console.log("вввввввввввввв iiiiiiiiiiiiiiiiifffffffffffffffff");
         this.eventManager.emit(GameEvents.ADD_POINTS, a.reward);
-        shows.push(Animator.animateAchievementText(scoreEl, a));
+        shows.push(
+          new Promise((resolve) => {
+            Animator.animateAchievementText(scoreEl);
+            setTimeout(resolve, 2500);
+          })
+        );
       }
 
+      console.log("до промисолл");
+
       await Promise.all(shows);
+      console.log("после промисолл");
+
       this.isAchShow = false;
       this.processQueue();
     };
@@ -212,6 +242,8 @@ export class AchievementSystem {
 
   addToQueue(showAchievement) {
     this.showAchsQueue.push(showAchievement);
+    console.log("this.showAchsQueue:", this.showAchsQueue);
+
     if (!this.isAchShow) {
       this.processQueue();
     }

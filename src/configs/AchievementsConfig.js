@@ -26,7 +26,7 @@ export const AchievementsConfig = [
     icon: "💯",
     reward: 30,
     currency: currency.SCORE,
-    condition: (stats) => stats.score >= 30,
+    condition: (stats) => stats.score >= 2,
     rarity: "rare",
     hidden: false,
   },
@@ -39,7 +39,7 @@ export const AchievementsConfig = [
     icon: "🔄",
     reward: 50,
     currency: currency.SCORE,
-    condition: (stats) => stats.cardsFlipped >= 5,
+    condition: (stats) => stats.cardsFlipped >= 1,
     rarity: "common",
     hidden: false,
     getProgress: (stats) => ({
@@ -56,7 +56,7 @@ export const AchievementsConfig = [
     icon: "🔼",
     reward: 40,
     currency: currency.SCORE,
-    condition: (stats) => stats.cardsToFoundation >= 4,
+    condition: (stats) => stats.cardsToFoundation >= 1,
     rarity: "uncommon",
     hidden: false,
     getProgress: (stats) => ({
