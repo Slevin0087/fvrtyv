@@ -15,8 +15,6 @@
   --font-size-tbcard-v: calc(var(--card-width) / 5);
   --font-size-ccard-v: calc(var(--card-width) / 1.7);
 
-
-
   --card-width-900: calc(
     (80vw - (var(--padding-c-900) * 2)) / 7 - (var(--gap) * 6)
   );
@@ -34,6 +32,9 @@
   --font-size-ccard-v-1500: calc(var(--card-width-1500) / 1.9);
   --gap-1500: 0.8vw; /* Отступы между элементами */
   --gap-row1-1500: calc(var(--card-width-1500) + var(--gap-1500) * 2);
+
+  --cards-sprite-width: calc(var(--card-width) * 13);
+  --cards-sprite-height: calc(var(--card-height) * 4);
 }
 
 /* Контейнер игры */
@@ -66,6 +67,7 @@
   user-select: none;
   touch-action: none;
   /* transition: transform 2000ms linear; */
+  background-size: var(--cards-sprite-width) var(--cards-sprite-height);
 }
 
 .card.is-dragging {
