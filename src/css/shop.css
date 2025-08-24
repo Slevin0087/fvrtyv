@@ -26,6 +26,27 @@
   --shopCard-height-1500: calc(var(--shopCard-width-1500) * 1.4);
   --font-size-tbcard-vSh-1500: calc(var(--shopCard-width-1500) / 7);
   --font-size-ccard-vSh-1500: calc(var(--shopCard-width-1500) / 1.9);
+
+  /* Рассчитываем размер всего спрайта ИСХОДЯ из размера карты и известных пропорций */
+  --cards-sprite-width: calc(var(--shopCard-width) * 13); /* 14 карт в ширину */
+  --cards-sprite-height: calc(
+    var(--shopCard-height) * 4
+  ); /* 4 карты в высоту */
+
+  --cards-sprite-width-900: calc(
+    var(--shopCard-width-900) * 13
+  ); /* 14 карт в ширину */
+  --cards-sprite-height-900: calc(var(--shopCard-height-900) * 4);
+
+  --cards-sprite-width-1200: calc(
+    var(--shopCard-width-1200) * 13
+  ); /* 14 карт в ширину */
+  --cards-sprite-height-1200: calc(var(--shopCard-height-1200) * 4);
+
+  --cards-sprite-width-1500: calc(
+    var(--shopCard-width-1500) * 13
+  ); /* 14 карт в ширину */
+  --cards-sprite-height-1500: calc(var(--shopCard-height-1500) * 4);
 }
 
 .shop {
@@ -164,6 +185,14 @@
   background-color: white;
 }
 
+.shop-item-card-bg {
+  padding: var(--padding-c);
+  width: var(--shopCard-width);
+  height: var(--shopCard-height);
+  /* background-repeat: no-repeat; */
+  background-size: var(--cards-sprite-width) var(--cards-sprite-height);
+}
+
 .shop-card-top-left {
   font-size: var(--font-size-tbcard-vSh);
   padding: var(--padding-c);
@@ -224,6 +253,10 @@
     height: var(--shopCard-height-900);
   }
 
+  .shop-item-card-bg {
+    background-size: var(--cards-sprite-width-900) var(--cards-sprite-height-900);
+  }
+
   .shop-card-top-left {
     font-size: var(--font-size-tbcard-vSh-900);
   }
@@ -241,6 +274,9 @@
   .shop-item-card {
     width: var(--shopCard-width-1200);
     height: var(--shopCard-height-1200);
+  }
+  .shop-item-card-bg {
+    background-size: var(--cards-sprite-width-1200) var(--cards-sprite-height-1200);
   }
 
   .shop-card-top-left {
@@ -260,6 +296,10 @@
   .shop-item-card {
     width: var(--shopCard-width-1500);
     height: var(--shopCard-height-1500);
+  }
+
+  .shop-item-card-bg {
+    background-size: var(--cards-sprite-width-1500) var(--cards-sprite-height-1500);
   }
 
   .shop-card-top-left {

@@ -35,8 +35,6 @@ export class Card {
   }
 
   getSymbol() {
-    console.log("getSymbol this.faceUp:", this.faceUp);
-
     return this.faceUp ? `${this.value}${this.suit}` : "";
   }
 

@@ -1,4 +1,5 @@
 import { Translations } from "../locales/Translations.js";
+import { CardSuits, CardValues } from "./Constants.js";
 
 export class Helpers {
   static shuffleArray(array) {
@@ -173,10 +174,10 @@ export class Helpers {
   }
 
   static updateLanShopBalance(count) {
-    const balanceContainer = document.getElementById('balance-container');
+    const balanceContainer = document.getElementById("balance-container");
     const key = balanceContainer.getAttribute("data-i18n");
     balanceContainer.textContent = this.t(key);
-    const span = document.createElement('span');
+    const span = document.createElement("span");
     span.id = "coins";
     span.textContent = `${this.pluralize(span.id, count)}`;
     balanceContainer.appendChild(span);
@@ -193,5 +194,23 @@ export class Helpers {
       const newLang = event.target.value;
       this.changeLanguage(newLang);
     });
+  }
+
+  static calculatePosition(suit, value, element, manyColumns, manyLines) {
+    const suitIndex = [
+      CardSuits.HEARTS,
+      CardSuits.DIAMONDS,
+      CardSuits.CLUBS,
+      CardSuits.SPADES,
+    ].indexOf(suit);
+    const valueIndex = CardValues.indexOf(value);
+    console.log("suitIndex, valueIndex:", suitIndex, valueIndex, suit, value);
+
+    const x = (100 / (manyColumns - 1)) * valueIndex;
+    const y = (100 / (manyLines - 1)) * suitIndex;
+
+    // Задаем позицию напрямую через style
+    // element.style.backgroundPosition = `-${x}px -${y}px`;
+    return { x, y };
   }
 }

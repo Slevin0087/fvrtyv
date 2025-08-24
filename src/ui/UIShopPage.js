@@ -1,6 +1,6 @@
 import { UIPage } from "./UIPage.js";
 import { ShopConfig } from "../configs/ShopConfig.js";
-import { GameEvents } from "../utils/Constants.js";
+import { GameEvents, CardSuits, CardValues } from "../utils/Constants.js";
 import { Helpers } from "../utils/Helpers.js";
 
 export class UIShopPage extends UIPage {
@@ -63,10 +63,7 @@ export class UIShopPage extends UIPage {
         this.createShopItemElement(item, index)
       );
     });
-    console.log('this.state.player.coins:', this.state.player.coins);
-    console.log('this.elements.balance:', this.elements.balance);
-    
-    
+
     // Обновляем баланс
     this.updateBalance(this.state.player.coins);
     Helpers.updateLanShopBalance(this.state.player.coins);
@@ -100,13 +97,54 @@ export class UIShopPage extends UIPage {
       const shopItem2 = document.createElement("div");
       shopItem.classList.add("shop-item-card");
       shopItem2.classList.add("shop-item-card");
+      shopItemContainer.append(shopItem, shopItem2);
       // Применяем стили сразу
       if (item.styles) {
         Object.assign(shopItem.style, item.styles);
         Object.assign(shopItem2.style, item.styles);
+      } else if (!item.styles && item.previewImage) {
+        // const suitShopItem = CardSuits.CLUBS;
+        // const valueShopItem = CardValues[CardValues.length - 1];
+        // const suitShopItem2 = CardSuits.HEARTS;
+        // const valueShopItem2 = CardValues[0];
+
+        // Так как, в шаблоне шоп элемента мы указываем только "K♣" и "A♥",
+        // а valueShopItem === "K", suitShopItem === "♣", а valueShopItem2 === "A", suitShopItem2 === "♥",
+        // то const shopItem =
+
+        const bgPositionsShopItem = Helpers.calculatePosition(
+          CardSuits.CLUBS,
+          CardValues[CardValues.length - 1],
+          shopItem,
+          item.manyColumns,
+          item.manyLines
+        );
+        const bgPositionsShopItem2 = Helpers.calculatePosition(
+          CardSuits.HEARTS,
+          CardValues[0],
+          shopItem2,
+          item.manyColumns,
+          item.manyLines
+        );
+
+        console.log(
+          "bgPositionsShopItem, bgPositionsShopItem2:",
+          bgPositionsShopItem,
+          bgPositionsShopItem2
+        );
+
+        shopItem.className = "shop-item-card-bg";
+        shopItem2.className = "shop-item-card-bg";
+        shopItem.style.backgroundImage = `url(${item.previewImage})`;
+        shopItem2.style.backgroundImage = `url(${item.previewImage})`;
+
+        shopItem.style.backgroundPosition = `${bgPositionsShopItem.x}% ${bgPositionsShopItem.y}%`;
+
+        shopItem2.style.backgroundPosition = `${bgPositionsShopItem2.x}% ${bgPositionsShopItem2.y}%`;
+        shopItem.style.borderRadius = item.borderRadius;
+        shopItem2.style.borderRadius = item.borderRadius;
       }
-      shopItemContainer.append(shopItem, shopItem2);
-      if (item.category === "cardFace") {
+      if (item.category === "cardFace" && item.styles) {
         const topSymbolA = document.createElement("span");
         topSymbolA.className = "shop-card-top-left value-red";
         topSymbolA.textContent = "A♥";
@@ -121,15 +159,15 @@ export class UIShopPage extends UIPage {
 
         const topSymbolK = document.createElement("span");
         topSymbolK.className = "shop-card-top-left value-black";
-        topSymbolK.textContent = "K♥";
+        topSymbolK.textContent = "K♣";
 
         const centerSymbolK = document.createElement("span");
         centerSymbolK.className = "shop-card-center value-black";
-        centerSymbolK.textContent = "♥";
+        centerSymbolK.textContent = "♣";
 
         const bottomSymbolK = document.createElement("span");
         bottomSymbolK.className = "shop-card-bottom-right value-black";
-        bottomSymbolK.textContent = "K♥";
+        bottomSymbolK.textContent = "K♣";
 
         shopItem2.append(topSymbolK, centerSymbolK, bottomSymbolK);
         shopItem.append(topSymbolA, centerSymbolA, bottomSymbolA);
@@ -143,7 +181,7 @@ export class UIShopPage extends UIPage {
         shopItem.append(img);
       }
     }
-    shopItemContainer.append(shopItem);
+    // shopItemContainer.append(shopItem);
 
     const circle = this.createCircle(index);
     const btnOrCircle = this.createBtn(item, index, isOwned, isItemBuy);

@@ -134,11 +134,11 @@ export class UIGamePage extends UIPage {
 
   upAchievementIcon(icon, animate = false) {
     this.elements.achievementsIconEl.textContent = `🏆: ${icon}`;
-    if (animate) {
-      const span = document.getElementById("achievements_span");
-      this.eventManager.emit(GameEvents.AUDIO_UP_ACH);
-      Animator.animateAchievementText(span);
-    }
+    // if (animate) {
+    //   const span = document.getElementById("achievements_span");
+    //   this.eventManager.emit(GameEvents.AUDIO_UP_ACH);
+    //   Animator.animateAchievementText(span);
+    // }
   }
 
   updateTime(time) {

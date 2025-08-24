@@ -15,6 +15,8 @@
   --font-size-tbcard-v: calc(var(--card-width) / 5);
   --font-size-ccard-v: calc(var(--card-width) / 1.7);
 
+
+
   --card-width-900: calc(
     (80vw - (var(--padding-c-900) * 2)) / 7 - (var(--gap) * 6)
   );

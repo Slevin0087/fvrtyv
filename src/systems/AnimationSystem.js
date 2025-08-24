@@ -5,12 +5,15 @@ import {
 } from "../utils/Constants.js";
 import { Animator } from "../utils/Animator.js";
 import { UIConfig } from "../configs/UIConfig.js";
+import { CardSuits, CardValues } from "../utils/Constants.js";
+import { Helpers } from "../utils/Helpers.js";
 
 export class AnimationSystem {
   constructor(eventManager, stateManager, cardsSystem) {
     // this.components = {};
     this.eventManager = eventManager;
     this.stateManager = stateManager;
+    this.state = this.stateManager.state;
     this.cardsSystem = cardsSystem;
     this.animationsQueue = [];
     this.isAnimating = false;
@@ -21,6 +24,8 @@ export class AnimationSystem {
     this.wasteCardFlip = AnimationDurations.WASTE_CARD_FLIP;
     this.degsCardFlip = AnimationDegs.CARD_FLIP;
     this.degsBackCardFlip = AnimationDegs.BACK_CARD_FLIP;
+    this.cardWidth = 100;
+    this.cardHeight = 140;
 
     this.init();
   }
@@ -120,7 +125,9 @@ export class AnimationSystem {
 
     // this.eventManager.on(GameEvents.UI_ANIMATE_DEAL_CARDS, () => this.dealCardsAnimation());
 
-    this.eventManager.on(GameEvents.UI_ANIMATE_WIN, () => this.playWinAnimation());
+    this.eventManager.on(GameEvents.UI_ANIMATE_WIN, () =>
+      this.playWinAnimation()
+    );
 
     this.eventManager.on("card:select", (card) => this.highlightCard(card));
 
@@ -136,11 +143,9 @@ export class AnimationSystem {
   dealCardsAnimation() {
     const tableauElements = [];
     const stockElement = document.getElementById("stock");
-    this.stateManager.state.currentGame.components.tableaus.forEach(
-      (tableau) => {
-        tableauElements.push(tableau.element);
-      }
-    );
+    this.state.currentGame.components.tableaus.forEach((tableau) => {
+      tableauElements.push(tableau.element);
+    });
     Animator.dealCardsAnimation(stockElement, tableauElements);
   }
 
@@ -235,27 +240,51 @@ export class AnimationSystem {
   async animateCardFlip(card, deg, duration) {
     if (!card.domElement || card.isAnimating) return;
     try {
+      const cardDomElement = card.domElement;
+      const cardSuit = card.suit;
       const { backStyle, faceStyle } = this.cardsSystem.getCardStyles();
+      console.log("this.state.player:", this.state.player);
+
+      const bgType = this.state.player.selectedItems.faces.bgType;
+      
       card.isAnimating = true;
       await Animator.flipCard(
         card,
         () => {
           // Колбэк на середине анимации (90 градусов)
-          card.domElement.innerHTML = "";
-          const topSymbol = document.createElement("span");
-          topSymbol.className = "card-symbol top";
-          topSymbol.textContent = card.getSymbol();
+          cardDomElement.innerHTML = "";
+          console.log('cardDomElement.innerHTML:', cardDomElement.innerHTML);
+          cardDomElement.classList.remove(backStyle);
 
-          const centerSymbol = document.createElement("span");
-          centerSymbol.className = "card-symbol center";
-          centerSymbol.textContent = card.suit;
-
-          const bottomSymbol = document.createElement("span");
-          bottomSymbol.className = "card-symbol bottom";
-          bottomSymbol.textContent = card.getSymbol();
-          card.domElement.classList.remove(backStyle);
-          card.domElement.classList.add(faceStyle);
-          card.domElement.append(topSymbol, centerSymbol, bottomSymbol);
+          if (bgType === "styles") {
+            const topSymbol = document.createElement("span");
+            topSymbol.className = "card-symbol top";
+            topSymbol.textContent = card.getSymbol();
+            
+            const centerSymbol = document.createElement("span");
+            centerSymbol.className = "card-symbol center";
+            centerSymbol.textContent = cardSuit;
+            
+            const bottomSymbol = document.createElement("span");
+            bottomSymbol.className = "card-symbol bottom";
+            bottomSymbol.textContent = card.getSymbol();
+            // cardDomElement.classList.remove(backStyle);
+            cardDomElement.classList.add(faceStyle);
+            cardDomElement.append(topSymbol, centerSymbol, bottomSymbol);
+          } else if (bgType === "images") {
+            console.log('ifffffffffffffffffffffffffffffffffffffffffffff');
+            const cardValue = card.value;
+            cardDomElement.style.backgroundImage =
+              "url('./src/assets/cardsImages/imageCardsSSVG.svg')";
+            const elementPositions = Helpers.calculatePosition(
+              cardSuit,
+              cardValue,
+              cardDomElement,
+              13,
+              4
+            );
+            cardDomElement.style.backgroundPosition = `${elementPositions.x}% ${elementPositions.y}%`;
+          }
         },
         deg,
         this.eventManager,
@@ -267,6 +296,18 @@ export class AnimationSystem {
     } finally {
       card.isAnimating = false;
     }
+  }
+
+  // 4. Функция для расчета позиции в спрайте (Опционально)
+  calculatePosition(suit, value, element, width, height) {
+    const suitIndex = CardSuits.indexOf(suit);
+    const valueIndex = CardValues.indexOf(value);
+
+    const x = valueIndex * width;
+    const y = suitIndex * height;
+
+    // Задаем позицию напрямую через style
+    element.style.backgroundPosition = `-${x}px -${y}px`;
   }
 
   async animateBackCardFlip(card, deg, duration) {

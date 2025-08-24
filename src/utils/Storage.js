@@ -36,14 +36,17 @@ export class Storage {
         faces: {
           id: "leather_faces",
           styleClass: "leather-faces",
+          bgType: "styles",
         },
         backs: {
           id: "dice_back",
           styleClass: "dice-back",
+          bgType: "styles",
         },
         backgrounds: {
           id: "classic_fon_4",
           styleClass: "classic-fon-4",
+          bgType: "styles",
         },
       },
       achievements: {

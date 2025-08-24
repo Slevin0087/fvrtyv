@@ -207,6 +207,8 @@ export class AchievementSystem {
       );
       shows.push(
         new Promise((resolve) => {
+          this.eventManager.emit(GameEvents.UP_ACHIEVENT_ICON, true);
+
           Animator.animateAchievementText(achievementsIconEl);
           setTimeout(resolve, 2500); // duration анимации + buffer
         })
