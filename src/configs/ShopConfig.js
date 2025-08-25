@@ -59,7 +59,7 @@ export const ShopConfig = {
       description: "Стандартный дизайн карт",
       rarity: "common",
       unlockCondition: null,
-      previewImage: "./src/assets/cardsImages/imageCardsSSVG.svg",
+      previewImage: "./src/assets/cardsImages/imageCardsSSVG_2.svg",
       manyLines: 4,
       manyColumns: 13,
       borderRadius: "1.4rem",
