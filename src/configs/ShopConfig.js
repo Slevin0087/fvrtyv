@@ -60,17 +60,13 @@ export const ShopConfig = {
       rarity: "common",
       unlockCondition: null,
       previewImage: {
-        img: "./src/assets/cardsImages/imageCardsSSVG_4.svg",
+        img: "./src/assets/cardsImages/imageCardsSSVG_5.svg",
         styles: {
           borderRadius: "0.5vw",
         },
       },
       manyLines: 4,
       manyColumns: 13,
-      borderRadius: "1.4rem",
-      // styles: {
-      //   background: "rgb(204, 195, 195)",
-      // },
     },
     {
       id: "cosmo_faces",
