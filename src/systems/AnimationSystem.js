@@ -275,7 +275,7 @@ export class AnimationSystem {
             console.log('ifffffffffffffffffffffffffffffffffffffffffffff');
             const cardValue = card.value;
             cardDomElement.style.backgroundImage =
-              "url('./src/assets/cardsImages/imageCardsSSVG_2.svg')";
+              "url('./src/assets/cardsImages/imageCardsSSVG_3.svg')";
             const elementPositions = Helpers.calculatePosition(
               cardSuit,
               cardValue,
