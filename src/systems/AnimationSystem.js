@@ -246,25 +246,25 @@ export class AnimationSystem {
       console.log("this.state.player:", this.state.player);
 
       const selectedFaces = this.state.player.selectedItems.faces;
-      
+
       card.isAnimating = true;
       await Animator.flipCard(
         card,
         () => {
           // Колбэк на середине анимации (90 градусов)
           cardDomElement.innerHTML = "";
-          console.log('cardDomElement.innerHTML:', cardDomElement.innerHTML);
+          console.log("cardDomElement.innerHTML:", cardDomElement.innerHTML);
           cardDomElement.classList.remove(backStyle);
 
           if (selectedFaces.bgType === "styles") {
             const topSymbol = document.createElement("span");
             topSymbol.className = "card-symbol top";
             topSymbol.textContent = card.getSymbol();
-            
+
             const centerSymbol = document.createElement("span");
             centerSymbol.className = "card-symbol center";
             centerSymbol.textContent = cardSuit;
-            
+
             const bottomSymbol = document.createElement("span");
             bottomSymbol.className = "card-symbol bottom";
             bottomSymbol.textContent = card.getSymbol();
@@ -272,7 +272,7 @@ export class AnimationSystem {
             cardDomElement.classList.add(faceStyle);
             cardDomElement.append(topSymbol, centerSymbol, bottomSymbol);
           } else if (selectedFaces.bgType === "images") {
-            console.log('ifffffffffffffffffffffffffffffffffffffffffffff');
+            console.log("ifffffffffffffffffffffffffffffffffffffffffffff");
             const cardValue = card.value;
             cardDomElement.style.backgroundImage = `url(${selectedFaces.previewImage.img})`;
             const elementPositions = Helpers.calculatePosition(
@@ -283,8 +283,11 @@ export class AnimationSystem {
               4
             );
             cardDomElement.style.backgroundPosition = `${elementPositions.x}% ${elementPositions.y}%`;
-            if (selectedFaces.previewImage.styles) Object.assign(cardDomElement.style, selectedFaces.previewImage.styles);
-
+            if (selectedFaces.previewImage.styles)
+              Object.assign(
+                cardDomElement.style,
+                selectedFaces.previewImage.styles
+              );
           }
         },
         deg,
@@ -299,23 +302,12 @@ export class AnimationSystem {
     }
   }
 
-  // 4. Функция для расчета позиции в спрайте (Опционально)
-  calculatePosition(suit, value, element, width, height) {
-    const suitIndex = CardSuits.indexOf(suit);
-    const valueIndex = CardValues.indexOf(value);
-
-    const x = valueIndex * width;
-    const y = suitIndex * height;
-
-    // Задаем позицию напрямую через style
-    element.style.backgroundPosition = `-${x}px -${y}px`;
-  }
-
   async animateBackCardFlip(card, deg, duration) {
     if (!card.domElement || card.isAnimating) return;
 
     try {
       const { backStyle, faceStyle } = this.cardsSystem.getCardStyles();
+      const selectedFaces = this.state.player.selectedItems.faces;
       card.isAnimating = true;
       await Animator.flipCard(
         card,
@@ -324,8 +316,8 @@ export class AnimationSystem {
           this.cardsSystem.removeHandleCard(card);
 
           card.domElement.innerHTML = "";
-          card.domElement.classList.remove(faceStyle);
-          faceStyle;
+          if (selectedFaces.bgType === "styles") card.domElement.classList.remove(faceStyle);
+          else if (selectedFaces.bgType === "images") card.domElement.style.backgroundImage = "";
           card.domElement.classList.add(backStyle);
         },
         deg,

@@ -35,6 +35,12 @@
 
   --cards-sprite-width: calc(var(--card-width) * 13);
   --cards-sprite-height: calc(var(--card-height) * 4);
+
+  --cards-sprite-width-900: calc(var(--card-width-900) * 13);
+  --cards-sprite-height-900: calc(var(--card-height-900) * 4);
+
+  --cards-sprite-width-1500: calc(var(--card-width-1500) * 13);
+  --cards-sprite-height-1500: calc(var(--card-height-1500) * 4);
 }
 
 /* Контейнер игры */
@@ -50,7 +56,7 @@
 .card,
 .card-front,
 .card-back {
-  padding: var(--padding-c);
+  /* padding: var(--padding-c); */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -68,6 +74,8 @@
   touch-action: none;
   /* transition: transform 2000ms linear; */
   background-size: var(--cards-sprite-width) var(--cards-sprite-height);
+  background-repeat: no-repeat;
+  background-clip: content-box;
 }
 
 .card.is-dragging {
@@ -277,11 +285,11 @@
     gap: var(--gap-row1-900);
   }
 
-  .card,
+  /* .card,
   .card-front,
   .card-back {
     padding: var(--padding-c-900);
-  }
+  } */
 
   .card,
   .card-front,
@@ -293,6 +301,11 @@
   .pile-tableau {
     width: var(--card-width-900);
     height: var(--card-height-900);
+  }
+
+  .card {
+    background-size: var(--cards-sprite-width-900)
+      var(--cards-sprite-height-900);
   }
 
   .stock-span,
@@ -330,11 +343,11 @@
     gap: var(--gap-row1-1500);
   }
 
-  .card,
+  /* .card,
   .card-front,
   .card-back {
     padding: var(--padding-c-1500);
-  }
+  } */
 
   .card,
   .card-front,
@@ -346,6 +359,11 @@
   .pile-tableau {
     width: var(--card-width-1500);
     height: var(--card-height-1500);
+  }
+
+  .card {
+    background-size: var(--cards-sprite-width-1500)
+      var(--cards-sprite-height-1500);
   }
 
   .stock-span,

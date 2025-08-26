@@ -209,8 +209,6 @@ export class Helpers {
     const x = (100 / (manyColumns - 1)) * valueIndex;
     const y = (100 / (manyLines - 1)) * suitIndex;
 
-    // Задаем позицию напрямую через style
-    // element.style.backgroundPosition = `-${x}px -${y}px`;
     return { x, y };
   }
 }
