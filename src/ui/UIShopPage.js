@@ -135,8 +135,8 @@ export class UIShopPage extends UIPage {
 
         shopItem.className = "shop-item-card-bg";
         shopItem2.className = "shop-item-card-bg";
-        shopItem.style.backgroundImage = `url(${item.previewImage})`;
-        shopItem2.style.backgroundImage = `url(${item.previewImage})`;
+        shopItem.style.backgroundImage = `url(${item.previewImage.img})`;
+        shopItem2.style.backgroundImage = `url(${item.previewImage.img})`;
 
         shopItem.style.backgroundPosition = `${bgPositionsShopItem.x}% ${bgPositionsShopItem.y}%`;
 

@@ -245,7 +245,7 @@ export class AnimationSystem {
       const { backStyle, faceStyle } = this.cardsSystem.getCardStyles();
       console.log("this.state.player:", this.state.player);
 
-      const bgType = this.state.player.selectedItems.faces.bgType;
+      const selectedFaces = this.state.player.selectedItems.faces;
       
       card.isAnimating = true;
       await Animator.flipCard(
@@ -256,7 +256,7 @@ export class AnimationSystem {
           console.log('cardDomElement.innerHTML:', cardDomElement.innerHTML);
           cardDomElement.classList.remove(backStyle);
 
-          if (bgType === "styles") {
+          if (selectedFaces.bgType === "styles") {
             const topSymbol = document.createElement("span");
             topSymbol.className = "card-symbol top";
             topSymbol.textContent = card.getSymbol();
@@ -271,11 +271,10 @@ export class AnimationSystem {
             // cardDomElement.classList.remove(backStyle);
             cardDomElement.classList.add(faceStyle);
             cardDomElement.append(topSymbol, centerSymbol, bottomSymbol);
-          } else if (bgType === "images") {
+          } else if (selectedFaces.bgType === "images") {
             console.log('ifffffffffffffffffffffffffffffffffffffffffffff');
             const cardValue = card.value;
-            cardDomElement.style.backgroundImage =
-              "url('./src/assets/cardsImages/imageCardsSSVG_3.svg')";
+            cardDomElement.style.backgroundImage = `url(${selectedFaces.previewImage.img})`;
             const elementPositions = Helpers.calculatePosition(
               cardSuit,
               cardValue,
@@ -284,6 +283,8 @@ export class AnimationSystem {
               4
             );
             cardDomElement.style.backgroundPosition = `${elementPositions.x}% ${elementPositions.y}%`;
+            if (selectedFaces.previewImage.styles) Object.assign(cardDomElement.style, selectedFaces.previewImage.styles);
+
           }
         },
         deg,
