@@ -143,18 +143,6 @@ export class DragAndDrop {
       card.domElement.style.pointerEvents = "none";
     });
 
-    // 🔥 Вот сюда добавляем маркер (начало) ----------------------------
-    // const dropX =
-    //   event.clientX ||
-    //   (event.changedTouches && event.changedTouches[0].clientX);
-    // const dropY =
-    //   event.clientY ||
-    //   (event.changedTouches && event.changedTouches[0].clientY);
-
-    // Визуализация точки дропа (красная точка)
-
-    // 🔥 Конец вставки маркера ------------------------------------------
-
     const fromPoint = document.elementFromPoint(event.clientX, event.clientY);
     this.cards.forEach((card) => {
       card.domElement.style.visibility = "visible";

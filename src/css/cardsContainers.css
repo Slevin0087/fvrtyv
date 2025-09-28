@@ -1,9 +1,9 @@
 :root {
   --card-radius: 0.5vw; /* Скругление углов */
-  /* --card-overlap: 3vw; Перекрытие карт в tableau */
+  --card-overlap: 3vw; /*Перекрытие карт в tableau */
   --card-overlap: calc(var(--card-height) * 0.3);
   --gap: 0.1vw; /* Отступы между элементами */
-  --border-c: 0.02vw;
+  --border-c: 0.1vw;
   --padding-c: 0.07em;
   --padding-c-900: 0.09em;
   --padding-c-1500: 0.05em;
@@ -73,6 +73,7 @@
   user-select: none;
   touch-action: none;
   /* transition: transform 2000ms linear; */
+  background-origin: padding-box;
   background-size: var(--cards-sprite-width) var(--cards-sprite-height);
   background-repeat: no-repeat;
   background-clip: content-box;
@@ -81,7 +82,11 @@
 .card.is-dragging {
   cursor: grabbing;
   border: var(--border-c) solid rgb(186, 218, 11);
-  /* touch-action: none; */
+  touch-action: none;
+  /* 
+  width: var(--card-width);
+  height: var(--card-height);
+  background-size: var(--cards-sprite-width) var(--cards-sprite-height); */
 }
 
 /* .card-front,
@@ -224,41 +229,6 @@
   justify-content: center;
 }
 
-/* Стиль для карт в стопках */
-
-/* .card-placeholder .card:nth-child(n + 2) {
-  top: var(--card-overlap);
-} */
-
-/* Добавьте в ваш CSS файл (например, cardsContainers.css) */
-/* .points-popup {
-  position: absolute;
-  font-size: var(--font-size-ccard-v);
-  font-weight: bold;
-  color: gold;
-  text-shadow: 1px 1px 2px black;
-  opacity: 0;
-  pointer-events: none;
-  z-index: 1000;
-  animation: pointsFloatUp 1.5s ease-out forwards;
-  will-change: transform, opacity;
-  -webkit-font-smoothing: antialiased;
-} */
-
-/* @keyframes pointsFloatUp {
-  0% {
-    transform: translateY(0);
-    opacity: 1;
-  }
-  70% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-100px);
-    opacity: 0;
-  }
-} */
-
 .points-popup {
   position: fixed;
   font-size: var(--font-size-ccard-v);
@@ -278,18 +248,11 @@
   }
   .row-2 {
     gap: var(--gap-900);
-    /* width: 70%; */
   }
 
   .row-1 {
     gap: var(--gap-row1-900);
   }
-
-  /* .card,
-  .card-front,
-  .card-back {
-    padding: var(--padding-c-900);
-  } */
 
   .card,
   .card-front,
@@ -314,16 +277,16 @@
     font-size: var(--card-width-900);
   }
 
-  .card .top {
+  .card.top {
     padding: var(--padding-c-900);
     font-size: var(--font-size-tbcard-v-900);
   }
 
-  .card .center {
+  .card.center {
     font-size: var(--font-size-ccard-v-900);
   }
 
-  .card .bottom {
+  .card.bottom {
     padding: var(--padding-c-900);
     font-size: var(--font-size-tbcard-v-900);
   }
@@ -372,16 +335,16 @@
     font-size: var(--card-width-1500);
   }
 
-  .card .top {
+  .card.top {
     padding: var(--padding-c-1500);
     font-size: var(--font-size-tbcard-v-1500);
   }
 
-  .card .center {
+  .card.center {
     font-size: var(--font-size-ccard-v-1500);
   }
 
-  .card .bottom {
+  .card.bottom {
     padding: var(--padding-c-1500);
     font-size: var(--font-size-tbcard-v-1500);
   }

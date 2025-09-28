@@ -196,7 +196,7 @@ export class Helpers {
     });
   }
 
-  static calculatePosition(suit, value, element, manyColumns, manyLines) {
+  static calculatePosition(suit, value, element, manyColumns = 13, manyLines = 4) {
     const suitIndex = [
       CardSuits.HEARTS,
       CardSuits.DIAMONDS,

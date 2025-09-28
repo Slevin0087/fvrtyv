@@ -279,11 +279,11 @@ export class AnimationSystem {
               cardSuit,
               cardValue,
               cardDomElement,
-              13,
-              4
             );
             cardDomElement.style.backgroundPosition = `${elementPositions.x}% ${elementPositions.y}%`;
             if (selectedFaces.previewImage.styles)
+              console.log('ВВВВВВВВВВВВВВВВВВВВВВВВВif (selectedFaces.previewImage.styles): ', selectedFaces.previewImage.styles);
+              
               Object.assign(
                 cardDomElement.style,
                 selectedFaces.previewImage.styles

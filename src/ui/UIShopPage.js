@@ -127,12 +127,6 @@ export class UIShopPage extends UIPage {
           item.manyLines
         );
 
-        console.log(
-          "bgPositionsShopItem, bgPositionsShopItem2:",
-          bgPositionsShopItem,
-          bgPositionsShopItem2
-        );
-
         shopItem.className = "shop-item-card-bg";
         shopItem2.className = "shop-item-card-bg";
         shopItem.style.backgroundImage = `url(${item.previewImage.img})`;
@@ -141,8 +135,12 @@ export class UIShopPage extends UIPage {
         shopItem.style.backgroundPosition = `${bgPositionsShopItem.x}% ${bgPositionsShopItem.y}%`;
 
         shopItem2.style.backgroundPosition = `${bgPositionsShopItem2.x}% ${bgPositionsShopItem2.y}%`;
-        shopItem.style.borderRadius = item.borderRadius;
-        shopItem2.style.borderRadius = item.borderRadius;
+        console.log('item.borderRadius: ', item.borderRadius);
+        console.log('item: ', item);
+        Object.assign(shopItem.style, item.previewImage.styles);
+        Object.assign(shopItem2.style, item.previewImage.styles);
+        // shopItem.style.borderRadius = item.borderRadius;
+        // shopItem2.style.borderRadius = item.borderRadius;
       }
       if (item.category === "cardFace" && item.styles) {
         const topSymbolA = document.createElement("span");
