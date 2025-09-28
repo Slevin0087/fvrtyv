@@ -93,6 +93,8 @@ export class UIShopPage extends UIPage {
     itemName.textContent = item.name;
     itemDescription.textContent = item.description;
     itemHead.append(itemName, itemDescription);
+    console.log('item.category: ', item.category);
+    
     if (item.category === "cardFace" || item.category === "cardBack") {
       const shopItem2 = document.createElement("div");
       shopItem.classList.add("shop-item-card");
@@ -135,8 +137,6 @@ export class UIShopPage extends UIPage {
         shopItem.style.backgroundPosition = `${bgPositionsShopItem.x}% ${bgPositionsShopItem.y}%`;
 
         shopItem2.style.backgroundPosition = `${bgPositionsShopItem2.x}% ${bgPositionsShopItem2.y}%`;
-        console.log('item.borderRadius: ', item.borderRadius);
-        console.log('item: ', item);
         Object.assign(shopItem.style, item.previewImage.styles);
         Object.assign(shopItem2.style, item.previewImage.styles);
         // shopItem.style.borderRadius = item.borderRadius;
@@ -172,14 +172,18 @@ export class UIShopPage extends UIPage {
       }
     } else if (item.category === "background") {
       shopItem.classList.add("shop-item-fon");
+      console.log('ВВВВВВВВВВВВ item.category === "background": ', shopItem.style, item.styles);
+      
       if (item.styles) Object.assign(shopItem.style, item.styles);
       else if (item.previewImage) {
+        console.log('else if (item.previewImage)');
+        
         const img = document.createElement("img");
         img.src = item.previewImage;
         shopItem.append(img);
       }
+      shopItemContainer.append(shopItem);
     }
-    // shopItemContainer.append(shopItem);
 
     const circle = this.createCircle(index);
     const btnOrCircle = this.createBtn(item, index, isOwned, isItemBuy);
