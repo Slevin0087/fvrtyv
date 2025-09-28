@@ -77,6 +77,7 @@
   background-size: var(--cards-sprite-width) var(--cards-sprite-height);
   background-repeat: no-repeat;
   background-clip: content-box;
+  box-sizing: content-box;
 }
 
 .card.is-dragging {

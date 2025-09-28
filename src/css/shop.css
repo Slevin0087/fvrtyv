@@ -191,6 +191,7 @@
   height: var(--shopCard-height);
   /* background-repeat: no-repeat; */
   background-size: var(--shop-cards-sprite-width) var(--shop-cards-sprite-height);
+  box-sizing: content-box
 }
 
 .shop-card-top-left {

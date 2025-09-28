@@ -99,7 +99,6 @@ export class UIShopPage extends UIPage {
       const shopItem2 = document.createElement("div");
       shopItem.classList.add("shop-item-card");
       shopItem2.classList.add("shop-item-card");
-      shopItemContainer.append(shopItem, shopItem2);
       // Применяем стили сразу
       if (item.styles) {
         Object.assign(shopItem.style, item.styles);
@@ -114,14 +113,14 @@ export class UIShopPage extends UIPage {
         // а valueShopItem === "K", suitShopItem === "♣", а valueShopItem2 === "A", suitShopItem2 === "♥",
         // то const shopItem =
 
-        const bgPositionsShopItem = Helpers.calculatePosition(
+        const bgPositionsShopItem2 = Helpers.calculatePosition(
           CardSuits.CLUBS,
           CardValues[CardValues.length - 1],
           shopItem,
           item.manyColumns,
           item.manyLines
         );
-        const bgPositionsShopItem2 = Helpers.calculatePosition(
+        const bgPositionsShopItem = Helpers.calculatePosition(
           CardSuits.HEARTS,
           CardValues[0],
           shopItem2,
@@ -170,6 +169,7 @@ export class UIShopPage extends UIPage {
         shopItem2.append(topSymbolK, centerSymbolK, bottomSymbolK);
         shopItem.append(topSymbolA, centerSymbolA, bottomSymbolA);
       }
+      shopItemContainer.append(shopItem, shopItem2);
     } else if (item.category === "background") {
       shopItem.classList.add("shop-item-fon");
       console.log('ВВВВВВВВВВВВ item.category === "background": ', shopItem.style, item.styles);
