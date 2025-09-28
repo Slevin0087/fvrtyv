@@ -485,7 +485,7 @@ export class Animator {
       element,
       { scale: 1, opacity: 1 },
       {
-        scale: 3.5,
+        scale: 2,
         opacity: 0.8,
         duration: 1.2,
         yoyo: true,
@@ -502,7 +502,7 @@ export class Animator {
       element,
       { scale: 1, opacity: 1 },
       {
-        scale: 3.5,
+        scale: 2,
         opacity: 0.8,
         duration: 1.2,
         yoyo: true,
