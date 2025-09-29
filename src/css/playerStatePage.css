@@ -16,7 +16,7 @@
   flex-direction: column;
   /* justify-content: center; */
   align-items: center;
-  gap: var(--gap-for-pstate);
+  /* gap: var(--gap-for-pstate); */
   background-color: rgb(73, 73, 189);
   width: 100%;
   height: 100%;
@@ -43,7 +43,7 @@
 .player-state-content {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   height: 100%;
