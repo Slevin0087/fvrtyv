@@ -61,7 +61,8 @@ export const ShopConfig = {
       unlockCondition: null,
       previewImage: {
         // img: "./src/assets/cardsImages/imageCardsSSVG_16.svg",
-        img: "./src/assets/cardsImages/Frame_53PNG_14.png",
+        // img: "./src/assets/cardsImages/Frame_53PNG_14.png",
+        img: "./src/assets/cardsImages/Frame_53@4x.png",
         styles: {
           borderRadius: "0.5vw",
           padding: '0',
