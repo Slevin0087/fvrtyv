@@ -60,7 +60,7 @@ export const ShopConfig = {
       rarity: "common",
       unlockCondition: null,
       previewImage: {
-        img: "./src/assets/cardsImages/imageCardsSSVG_15.svg",
+        img: "./src/assets/cardsImages/imageCardsSSVG_16.svg",
         styles: {
           borderRadius: "0.5vw",
           padding: '0',
