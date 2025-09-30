@@ -72,6 +72,12 @@ export const Translations = {
       add_name_skip: "Skip",
       player_name: "Player",
       game_name: "Khusynka",
+
+      // модальное окно restart game
+      btn_game_restart_modal_again: 'Sure',
+      btn_game_restart_modal_cancel: 'Cancel',
+      game_restart_modal_cancel_content: 'Sure?',
+      game_restart_modal_title: 'New game!',
     },
     plurals: {
       coins: (count) => `${count} ${count === 1 ? "coin" : "coins"}`,
@@ -151,6 +157,12 @@ export const Translations = {
       player_name: "Игрок",
       game_name: "Хусынка",
       // ... другие UI-тексты
+
+            // модальное окно restart game
+      btn_game_restart_modal_again: 'Уверен',
+      btn_game_restart_modal_cancel: 'Отмена',
+      game_restart_modal_cancel_content: 'Уверены?',
+      game_restart_modal_title: 'Новая игра!',
     },
     plurals: {
       coins: (count) => {
@@ -246,6 +258,12 @@ export const Translations = {
       player_name: "Ахъвмарраг|в",
       game_name: "Х|вусынка",
       // ... другие UI-тексты
+
+                  // модальное окно restart game
+      btn_game_restart_modal_again: 'Съувереннап|',
+      btn_game_restart_modal_cancel: 'Момо',
+      game_restart_modal_cancel_content: 'У(б)ъувереннума?',
+      game_restart_modal_title: 'Хъвмарра ш|ыц|!',
     },
     plurals: {
       coins: (count) => {
@@ -341,6 +359,12 @@ export const Translations = {
       player_name: "Oyuncu",
       game_name: "Khusynka",
       // ... другие UI-тексты
+
+                        // модальное окно restart game
+      btn_game_restart_modal_again: 'Elbette',
+      btn_game_restart_modal_cancel: 'Iptal',
+      game_restart_modal_cancel_content: 'Elbette?',
+      game_restart_modal_title: 'Yeni oyun!',
     },
     plurals: {
       coins: (count) => {
