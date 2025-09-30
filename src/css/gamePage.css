@@ -238,6 +238,7 @@
   justify-content: space-between;
   text-align: center;
   color: black;
+  /* line-height: 1; */
 }
 
 .restart-game-modal-close {
@@ -248,6 +249,7 @@
 }
 
 .restart-game-modal-close-span {
+  font-size: 1.5rem;
   cursor: pointer;
 }
 
@@ -291,6 +293,10 @@
   /* .ach-div {
     font-size: 0.8em;
   } */
+
+  .restart-game-modal-close-span {
+    font-size: 2rem;
+  }
 }
 
 @media (min-width: 500px) {
