@@ -256,7 +256,9 @@
 }
 @media (min-width: 900px) {
   .status-bar {
-    justify-content: center;
+    /* justify-content: center; */
+    padding-left: 5vw;
+    padding-right: 5vw;
     gap: 5vw;
   }
 
@@ -268,8 +270,9 @@
 
 @media (min-width: 1500px) {
   .status-bar {
-    justify-content: center;
-    gap: 10vw;
+    padding-left: 20vw;
+    padding-right: 20vw;
+    gap:10vw;
     font-size: 1.4em;
     padding-top: 0.1em;
   }
