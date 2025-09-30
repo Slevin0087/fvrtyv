@@ -15,12 +15,17 @@ export class UIGamePage extends UIPage {
       achDiv: document.getElementById("ach-div"),
       achievementsIconEl: document.getElementById("achievements_span"),
       restartGameBtn: document.getElementById("new-game-ctr-btn"),
+      restartGameModal: document.getElementById('restart-game-modal'),
+      restartGameModalClose: document.getElementById('restart-game-modal-close'),
+      restartGameModalAgainBtn: document.getElementById('game-restart-modal-again-btn'),
+      restartGameModalCancelBtn: document.getElementById('game-restart-modal-cancel-btn'),
       hintBtn: document.getElementById("hint"),
       menuBtn: document.getElementById("menu-btn"),
       collectBtn: document.getElementById("collect-cards"),
       undoBtn: document.getElementById("undo-btn"),
       undoCounter: document.getElementById("undo-counter"),
       hintCounter: document.getElementById("hint-counter"),
+
     };
   }
 
@@ -31,11 +36,23 @@ export class UIGamePage extends UIPage {
 
   setupEventListeners() {
     this.elements.restartGameBtn.addEventListener("click", () => {
-      this.eventManager.emit(GameEvents.GAME_RESTART);
-      this.updateUI();
-
+      this.elements.restartGameModal.classList.remove('hidden')
       // setTimeout(() => this.eventManager.emit(GameEvents.UI_ANIMATE_DEAL_CARDS), 1000);
     });
+
+    this.elements.restartGameModalAgainBtn.addEventListener('click', () => {
+      this.elements.restartGameModal.classList.add('hidden')
+      this.eventManager.emit(GameEvents.GAME_RESTART);
+      this.updateUI();
+    })
+
+    this.elements.restartGameModalCancelBtn.addEventListener('click', () => {
+      this.elements.restartGameModal.classList.add('hidden');
+    })
+
+    this.elements.restartGameModalClose.addEventListener('click', () => {
+      this.elements.restartGameModal.classList.add('hidden');
+    })
 
     this.elements.hintBtn.addEventListener("click", () => {
       this.eventManager.emit("hint:request");

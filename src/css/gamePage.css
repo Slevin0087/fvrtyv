@@ -216,6 +216,43 @@
   -webkit-text-fill-color: yellow;
 }
 
+.restart-game-modal {
+  position: fixed;
+  background-color: #ffeb3b;
+  padding: 1rem;
+  z-index: 1000;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  gap: 1rem;
+  border-radius: 1rem;
+}
+
+.restart-game-modal-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  text-align: center;
+  gap: 1rem;
+  color: black;
+}
+
+.restart-game-modal-content {
+  color: #000;
+}
+
+.game-restart-modal-btns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  text-align: center;
+  gap: 1rem;
+}
+
 @media (min-width: 350px) {
   .controls-btn-container {
     font-size: 2.6em;
@@ -272,7 +309,7 @@
   .status-bar {
     padding-left: 20vw;
     padding-right: 20vw;
-    gap:10vw;
+    gap: 10vw;
     font-size: 1.4em;
     padding-top: 0.1em;
   }

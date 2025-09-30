@@ -10,7 +10,11 @@
       content="black-translucent"
     />
     <title>Хусынка</title>
-    <link rel="shortcut icon" href="./src/assets/icons/favicon.png" type="image/x-icon" />
+    <link
+      rel="shortcut icon"
+      href="./src/assets/icons/favicon.png"
+      type="image/x-icon"
+    />
     <link rel="stylesheet" href="./src/css/style.css" />
     <link rel="stylesheet" href="./src/css/hidden.css" />
     <link rel="stylesheet" href="./src/css/namePage.css" />
@@ -281,6 +285,22 @@
             <button class="controls-btn" id="menu-btn" title="Меню игры">
               ☰
             </button>
+          </div>
+        </div>
+        <!-- Модальное окно -->
+        <div id="restart-game-modal" class="restart-game-modal hidden">
+          <div class="restart-game-modal-header">
+            <h2>Начать игру заного</h2>
+            <!-- <span class="restart-game-modal-close">&times;</span> -->
+            <h2 class="restart-game-modal-close" id="restart-game-modal-close">&times;</h2>
+            <!-- <h2 class="restart-game-modal-close">X</h2> -->
+          </div>
+          <div class="restart-game-modal-content">
+            <h2>Уверены?</h2>
+          </div>
+          <div class="game-restart-modal-btns">
+            <button class="game-restart-modal-cancel-btn" id="game-restart-modal-cancel-btn">Отмена</button>
+            <button class="game-restart-modal-again-btn" id="game-restart-modal-again-btn">Заного</button>
           </div>
         </div>
       </div>
