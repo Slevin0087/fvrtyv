@@ -234,11 +234,17 @@
 
 .restart-game-modal-header {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content:space-between;
   text-align: center;
-  gap: 1rem;
   color: black;
+}
+
+.restart-game-modal-close {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  text-align: center;
 }
 
 .restart-game-modal-content {
@@ -251,6 +257,11 @@
   justify-content: space-between;
   text-align: center;
   gap: 1rem;
+}
+
+.restart-game-modal-header,
+.restart-game-modal-content {
+  font-size: 1rem;
 }
 
 @media (min-width: 350px) {
