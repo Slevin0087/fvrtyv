@@ -263,7 +263,7 @@ export const Translations = {
       btn_game_restart_modal_again: 'Съувереннап|',
       btn_game_restart_modal_cancel: 'Момо',
       game_restart_modal_cancel_content: 'У(б)ъувереннума?',
-      game_restart_modal_title: 'Хъвмарра ш|ыц|!',
+      game_restart_modal_title: 'Хъвмарра ш|ыц!',
     },
     plurals: {
       coins: (count) => {
