@@ -235,7 +235,7 @@
 .restart-game-modal-header {
   display: flex;
   flex-direction: column;
-  justify-content:space-between;
+  justify-content: space-between;
   text-align: center;
   color: black;
 }
@@ -245,6 +245,10 @@
   flex-direction: row;
   justify-content: end;
   text-align: center;
+}
+
+.restart-game-modal-close-span {
+  cursor: pointer;
 }
 
 .restart-game-modal-content {
@@ -340,5 +344,15 @@
   .controls-btn-container {
     left: 50%;
     right: 50%;
+  }
+
+  .restart-game-modal-header,
+  .restart-game-modal-content {
+    font-size: 2rem;
+  }
+
+  .game-restart-modal-cancel-btn,
+  .game-restart-modal-again-btn {
+    font-size: 1.5rem;
   }
 }
