@@ -1,7 +1,7 @@
 import { AudioName } from "../../utils/Constants.js";
 import { GameEvents } from "../../utils/Constants.js";
-import { HintsOfObviousMoves } from "./hintsOfObviousMoves.js";
 import { UIConfig } from "../../configs/UIConfig.js";
+import { HintsOfObviousMoves } from "./HintsOfObviousMoves.js";
 
 export class HintSystem {
   constructor(eventManager, stateManager, audioManager) {
