@@ -17,7 +17,6 @@ export class AchievementSystem {
 
   init() {
     this.setupEventListeners();
-    console.log("this.stogare:", this.stogare);
 
     // this.loadPlayerAchievements();
   }
@@ -195,12 +194,12 @@ export class AchievementSystem {
       // this.setActiveAchievement(state, a, statePlayer);
       // this.storage.setPlayerStats(state);
       const scoreEl = document.getElementById("points-in-game");
-      const achDiv = document.getElementById("ach-div");
+      const notifDiv = document.getElementById("notif-div");
       const achievementsIconEl = document.getElementById("achievements_span");
       const shows = [];
       shows.push(
         new Promise((resolve) => {
-          Animator.animationTextAchievement(achDiv, a);
+          Animator.animationTextAchievement(notifDiv, a);
           // Таймаут на duration анимации + немного
           setTimeout(resolve, 5500); // 5000ms + 500ms buffer
         })

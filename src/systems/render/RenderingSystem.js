@@ -52,7 +52,7 @@ export class RenderingSystem {
     // this.eventManager.on("game:undo:move", (data) =>
     //   this.animateUndoMove(data)
     // );
-    // this.eventManager.on("hint:show", (hint) => this.showHint(hint));
+    this.eventManager.on(GameEvents.HINT_SHOW, (hint) => this.showHint(hint));
     // this.eventManager.on("ui:theme:change", (theme) => this.applyTheme(theme));
   }
 
@@ -462,26 +462,26 @@ export class RenderingSystem {
   //   this.animateCardMove({ card, from: to, to: from });
   // }
 
-  // showHint(hint) {
-  //   const { card, target } = hint;
-  //   const cardElement = card.domElement;
-  //   const targetElement = document.getElementById(target);
+  showHint(hint) {
+    const { card, target } = hint;
+    const cardElement = card.domElement;
+    const targetElement = document.getElementById(target);
 
-  //   if (!cardElement || !targetElement) return;
+    if (!cardElement || !targetElement) return;
 
-  //   // Подсвечиваем карту и цель
-  //   Animator.highlightElement(cardElement, {
-  //     color: "#ffeb3b",
-  //     duration: 2000,
-  //   });
-  //   Animator.highlightElement(targetElement, {
-  //     color: "#4caf50",
-  //     duration: 2000,
-  //   });
+    // Подсвечиваем карту и цель
+    Animator.highlightElement(cardElement, {
+      color: "#ffeb3b",
+      duration: 2000,
+    });
+    Animator.highlightElement(targetElement, {
+      color: "#4caf50",
+      duration: 2000,
+    });
 
-  //   // Показываем подсказку в UI
-  //   this.eventManager.emit("ui:hint:show", hint);
-  // }
+    // Показываем подсказку в UI
+    this.eventManager.emit("ui:hint:show", hint);
+  }
 
   // applyTheme(themeName) {
   //   const theme = UIConfig.themes[themeName] || UIConfig.themes.default;

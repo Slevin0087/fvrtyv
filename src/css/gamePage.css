@@ -42,7 +42,7 @@
   gap: calc(var(--gap-for-flex) / 2);
 }
 
-.ach-div {
+.notif-div {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -55,7 +55,7 @@
   flex-shrink: 1;
 }
 
-.ach-div h4 {
+.notif-div h4 {
   margin-block-start: 0%;
   margin-block-end: 0%;
   white-space: nowrap;
@@ -64,7 +64,7 @@
   font-size: clamp(0.9em, 2.5vw, 1.5em);
 }
 
-.ach-div p {
+.notif-div div {
   position: relative;
   text-align: center;
   align-items: center;
@@ -78,6 +78,10 @@
   -webkit-box-orient: vertical;
   font-size: clamp(0.7em, 2.5vw, 1.5em);
   color: green;
+}
+
+.hint-notif-p {
+  color: #ffeb3b;
 }
 
 .achievements-container {
@@ -230,6 +234,7 @@
   text-align: center;
   gap: 1rem;
   border-radius: 1rem;
+  border: 0.5rem solid rgba(128, 98, 0);
 }
 
 .restart-game-modal-header {
@@ -274,11 +279,11 @@
   .controls-btn-container {
     font-size: 2.6em;
   }
-  /* .ach-div {
+  /* .notif-div {
     font-size: 14px;
   } */
 
-  /* .ach-div p {
+  /* .notif-div div {
     font-size: .9em;
   } */
 
@@ -290,7 +295,7 @@
 }
 
 @media (min-width: 450px) {
-  /* .ach-div {
+  /* .notif-div {
     font-size: 0.8em;
   } */
 
@@ -300,16 +305,17 @@
 }
 
 @media (min-width: 500px) {
-  /* .ach-div {
+  /* .notif-div {
     font-size: 1em;
   } */
 }
 
 @media (min-width: 768px) {
-  .ach-div p,
-  .ach-div h4 {
+  .notif-div div,
+  .notif-div h4 {
     line-clamp: inherit;
     -webkit-line-clamp: 1; /* Только 1 строка на мобильных */
+    font-size: 1.2rem;
   }
 }
 @media (min-width: 900px) {
@@ -339,11 +345,11 @@
   .achievements-container {
     gap: calc(var(--gap-for-flex) / 10);
   }
-  .ach-div h4 {
+  .notif-div h4 {
     font-size: 1em;
   }
 
-  .ach-div p {
+  .notif-div div {
     font-size: 0.8em;
   }
 

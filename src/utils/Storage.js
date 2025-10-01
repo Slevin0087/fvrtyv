@@ -1,3 +1,5 @@
+import { GameConfig } from '../configs/GameConfig.js'
+
 export class Storage {
   constructor() {
     this.defaultUIStats = {
@@ -6,11 +8,12 @@ export class Storage {
 
     this.defaultPlayerStats = {
       name: "",
-      coins: 1000,
+      coins: GameConfig.defaultPlayerStats.coins,
       wins: 0,
       losses: 0,
       totalMoves: 0,
-      lastMoveQuantity: 3,
+      lastMoveQuantity: GameConfig.defaultPlayerStats.lastMoveQuantity,
+      hintQuantity: GameConfig.defaultPlayerStats.hintQuantity,
       cardsToFoundation: 0,
       highestScore: 0,
       highestTime: "",

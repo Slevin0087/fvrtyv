@@ -7,7 +7,6 @@ export class StateManager {
     this.storage = storage;
     this.state = null;
     this.typeScoreCheckAchievements = "inGame";
-    // this.oneState =
     this.init();
   }
 
@@ -15,6 +14,7 @@ export class StateManager {
     this.state = this.getInitialState();
     this.state.stateForAchievements.minPossibleMoves =
       this.state.player.minPossibleMoves;
+    this.state.hintCounterState = this.state.player.hintQuantity
     this.setupEventListeners();
   }
 
@@ -149,6 +149,8 @@ export class StateManager {
     this.eventManager.on(GameEvents.RESET_LAST_MOVES, () =>
       this.resetLastMove()
     );
+
+    this.eventManager.on(GameEvents.UP_HITUSED_STATE, (count) => this.updateHintUsed(count))
   }
 
   getAllData() {
@@ -313,6 +315,10 @@ export class StateManager {
       GameEvents.CHECK_GET_ACHIEVEMENTS,
       this.typeScoreCheckAchievements
     );
+  }
+
+  updateHintUsed(count) {
+    this.state.game.hintUsed += count
   }
 
   incrementGameStat(statName, amount = 1) {

@@ -12,21 +12,29 @@ export class UIGamePage extends UIPage {
       scoreEl: document.getElementById("points-in-game"),
       timeEl: document.getElementById("time-display"),
       movesEl: document.getElementById("moves_span"),
-      achDiv: document.getElementById("ach-div"),
+      notifDiv: document.getElementById("notif-div"),
       achievementsIconEl: document.getElementById("achievements_span"),
       restartGameBtn: document.getElementById("new-game-ctr-btn"),
-      restartGameModal: document.getElementById('restart-game-modal'),
-      restartGameModalClose: document.getElementById('restart-game-modal-close'),
-      restartGameModalAgainBtn: document.getElementById('game-restart-modal-again-btn'),
-      restartGameModalCancelBtn: document.getElementById('game-restart-modal-cancel-btn'),
+      restartGameModal: document.getElementById("restart-game-modal"),
+      restartGameModalClose: document.getElementById(
+        "restart-game-modal-close"
+      ),
+      restartGameModalAgainBtn: document.getElementById(
+        "game-restart-modal-again-btn"
+      ),
+      restartGameModalCancelBtn: document.getElementById(
+        "game-restart-modal-cancel-btn"
+      ),
       hintBtn: document.getElementById("hint"),
+      hintCounter: document.getElementById("hint-counter"),
       menuBtn: document.getElementById("menu-btn"),
       collectBtn: document.getElementById("collect-cards"),
       undoBtn: document.getElementById("undo-btn"),
       undoCounter: document.getElementById("undo-counter"),
-      hintCounter: document.getElementById("hint-counter"),
-
     };
+
+    this.isHintNotifShow = false;
+    this.hintNotifyShowTimerId = null;
   }
 
   init() {
@@ -36,26 +44,26 @@ export class UIGamePage extends UIPage {
 
   setupEventListeners() {
     this.elements.restartGameBtn.addEventListener("click", () => {
-      this.elements.restartGameModal.classList.remove('hidden')
+      this.elements.restartGameModal.classList.remove("hidden");
       // setTimeout(() => this.eventManager.emit(GameEvents.UI_ANIMATE_DEAL_CARDS), 1000);
     });
 
-    this.elements.restartGameModalAgainBtn.addEventListener('click', () => {
-      this.elements.restartGameModal.classList.add('hidden')
+    this.elements.restartGameModalAgainBtn.addEventListener("click", () => {
+      this.elements.restartGameModal.classList.add("hidden");
       this.eventManager.emit(GameEvents.GAME_RESTART);
       this.updateUI();
-    })
+    });
 
-    this.elements.restartGameModalCancelBtn.addEventListener('click', () => {
-      this.elements.restartGameModal.classList.add('hidden');
-    })
+    this.elements.restartGameModalCancelBtn.addEventListener("click", () => {
+      this.elements.restartGameModal.classList.add("hidden");
+    });
 
-    this.elements.restartGameModalClose.addEventListener('click', () => {
-      this.elements.restartGameModal.classList.add('hidden');
-    })
+    this.elements.restartGameModalClose.addEventListener("click", () => {
+      this.elements.restartGameModal.classList.add("hidden");
+    });
 
     this.elements.hintBtn.addEventListener("click", () => {
-      this.eventManager.emit("hint:request");
+      this.eventManager.emit(GameEvents.HINT_BTN_CLICK);
     });
 
     this.elements.menuBtn.addEventListener("click", () => {
@@ -96,7 +104,7 @@ export class UIGamePage extends UIPage {
     );
 
     this.eventManager.on(GameEvents.SHOW_ACH_DIV, (a) =>
-      Animator.animateAchievementText(this.elements.achDiv, a)
+      Animator.animateAchievementText(this.elements.notifDiv, a)
     );
 
     this.elements.undoBtn.addEventListener("click", () => {
@@ -112,20 +120,25 @@ export class UIGamePage extends UIPage {
     );
 
     this.eventManager.on(GameEvents.UP_ACHIEVENT_DIV, (a) =>
-      Animator.animationTextAchievement(this.elements.achDiv, a)
+      Animator.animationTextAchievement(this.elements.notifDiv, a)
     );
 
     this.eventManager.on(GameEvents.UP_ACHIEVENT_SCORE_DIV, () => {
       const span = document.getElementById("points-in-game");
       Animator.animateAchievementText2(span);
     });
+
+    this.eventManager.on(GameEvents.HINT_NOTIF, (text) => this.hintNotif(text));
+    this.eventManager.on(GameEvents.HINT_USED, () => this.hintUsed());
   }
+
   updateUI() {
     this.updateScore(this.state.game.score);
     this.updateTime(this.state.game.playTime);
     this.updateMoves(this.state.game.moves);
     this.upUndoCounter(this.state.game.lastMove.length);
-    this.upHintCounter(this.state.game.hintsUsed);
+    // this.upHintCounter(this.state.game.hintsUsed);
+    this.upHintCounter(this.state.hintCounterState || 0);
     this.upAchievementIcon(this.state.player.achievements.active.icon);
   }
 
@@ -158,6 +171,26 @@ export class UIGamePage extends UIPage {
     // }
   }
 
+  hintUsed() {
+    this.state.hintCounterState -= 1;
+    this.upHintCounter(this.state.hintCounterState);
+    this.eventManager.emit(GameEvents.UP_HITUSED_STATE, 1);
+  }
+
+  hintNotif(text) {
+    if (this.hintNotifyShowTimerId) clearTimeout(this.hintNotifyShowTimerId);
+    this.elements.notifDiv.innerHTML = "";
+    const p = document.createElement("p");
+    p.className = "hint-notif-p";
+    p.textContent = text;
+    this.elements.notifDiv.append(p);
+    this.elements.notifDiv.classList.remove("hidden");
+    this.hintNotifyShowTimerId = setTimeout(() => {
+      this.elements.notifDiv.classList.add("hidden");
+      this.hintNotifyShowTimerId = null;
+    }, 2000);
+  }
+
   updateTime(time) {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
@@ -177,8 +210,7 @@ export class UIGamePage extends UIPage {
 
   show() {
     this.page.className = "";
-    const styleClass =
-      this.state.player.selectedItems.backgrounds.styleClass;
+    const styleClass = this.state.player.selectedItems.backgrounds.styleClass;
     this.page.classList.add("game-interface", styleClass);
     this.updateUI();
   }

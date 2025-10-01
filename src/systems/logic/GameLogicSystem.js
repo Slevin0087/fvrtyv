@@ -79,7 +79,7 @@ export class GameLogicSystem {
     //   this.handleCardMove(data)
     // );
     this.eventManager.on(GameEvents.CARDS_COLLECT, () => this.cardsCollect());
-    this.eventManager.on("hint:request", () => this.hintSystem.provide());
+    this.eventManager.on(GameEvents.HINT_BTN_CLICK, () => this.hintSystem.provide());
     this.eventManager.on("game:undo", () => this.undoSystem.execute());
   }
 

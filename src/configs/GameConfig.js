@@ -29,6 +29,12 @@ export const GameConfig = {
     },
   },
 
+  defaultPlayerStats: {
+    coins: 1000,
+    lastMoveQuantity: 3,
+    hintQuantity: 3,
+  },
+
   defaultSettings: {
     soundEnabled: true,
     musicVolume: 0.7,

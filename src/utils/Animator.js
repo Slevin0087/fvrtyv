@@ -322,20 +322,26 @@ export class Animator {
     achievement = {},
     duration = 5000
   ) {
-    domElement.classList.remove("hidden");
     const { title, description, icon, reward, currency } = achievement;
-    document.getElementById(
-      "ach-div-h4"
-    ).textContent = `Достижение ${icon} разблокировано!`;
-    const container = document.getElementById("ach-info");
-    const spanAnimateForCurrency = document.createElement("span");
-    const spanAnimateForIcon = document.createElement("span");
+    const h4 = document.createElement('h4')
+    const div = document.createElement('div')
+    domElement.innerHTML = ''
+    domElement.classList.remove("hidden");
+    domElement.append(h4, div)
+    h4.className = 'ach-div-h4'
+    h4.id = 'ach-div-h4'
+    h4.textContent = `Достижение ${icon} разблокировано!`
+    div.className = 'info-ach'
+    div.id = 'ach-info'
+    // const container = document.getElementById("ach-info");
+    // const spanAnimateForCurrency = document.createElement("span");
+    // const spanAnimateForIcon = document.createElement("span");
 
-    container.innerHTML = `
+    div.innerHTML = `
       <span class="ach-info-span-red">${title}:${" "}</span>
       <span class="ach-info-span-title-description" id="ach-info-span">${description}</span>`;
     setTimeout(() => {
-      container.innerHTML = `
+      div.innerHTML = `
         <span class="ach-info-span-red">Награда:${" "}</span>
         <span class="ach-info-span-yellow" id="ach-info-span">${reward}${" "}</span>
         <span class="ach-info-span-title-description">${currency}</span>`;
