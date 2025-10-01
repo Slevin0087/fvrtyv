@@ -1,6 +1,9 @@
 export const Translations = {
   en: {
     ui: {
+      //loader spinner
+      loader_spinner: 'Loading...',
+      ///////
       player_name_placeholder: "Player",
       ru_btn: "Russian",
       en_btn: "English",
@@ -78,6 +81,10 @@ export const Translations = {
       btn_game_restart_modal_cancel: 'Cancel',
       game_restart_modal_cancel_content: 'Sure?',
       game_restart_modal_title: 'New game!',
+
+      // для оповещений подсказок
+      hint_notif_nohints: 'No hints!',
+      hint_notif_nopoints: 'You need at least 5 points for a hint!',
     },
     plurals: {
       coins: (count) => `${count} ${count === 1 ? "coin" : "coins"}`,
@@ -86,6 +93,9 @@ export const Translations = {
   },
   ru: {
     ui: {
+      //loaded spinner
+      loader_spinner: 'Загрузка...',
+      ///////
       player_name_placeholder: "Игрок",
       ru_btn: "Русский",
       en_btn: "Английский",
@@ -163,6 +173,10 @@ export const Translations = {
       btn_game_restart_modal_cancel: 'Отмена',
       game_restart_modal_cancel_content: 'Уверены?',
       game_restart_modal_title: 'Новая игра!',
+
+      // для оповещений подсказок
+      hint_notif_nohints: 'Нет подсказок!',
+      hint_notif_nopoints: 'Нужно минимум 5 очков для подсказки!',
     },
     plurals: {
       coins: (count) => {
@@ -186,6 +200,9 @@ export const Translations = {
   },
   abaza: {
     ui: {
+      //loaded spinner
+      loader_spinner: 'Йг|алагьит|...',
+      ///////
       player_name_placeholder: "Ахъвмарраг|в",
       ru_btn: "Урышвбызшва",
       en_btn: "En",
@@ -264,6 +281,10 @@ export const Translations = {
       btn_game_restart_modal_cancel: 'Момо',
       game_restart_modal_cancel_content: 'У(б)ъувереннума?',
       game_restart_modal_title: 'Хъвмарра ш|ыц!',
+
+      // для оповещений подсказок
+      hint_notif_nohints: 'Подсказк|аква йгьаъам!',
+      hint_notif_nopoints: 'Йатахъыб минимум 5 очков аподск|азк|аква рыхъаз!',
     },
     plurals: {
       coins: (count) => {
@@ -288,6 +309,9 @@ export const Translations = {
   // Другие языки (например, турецкий)
   tr: {
     ui: {
+      //loaded spinner
+      loader_spinner: 'Yükleniyor...',
+      ///////
       player_name_placeholder: "Oyuncu",
       ru_btn: "Rus dili",
       en_btn: "Ingilizce dili",
@@ -365,6 +389,10 @@ export const Translations = {
       btn_game_restart_modal_cancel: 'Iptal',
       game_restart_modal_cancel_content: 'Elbette?',
       game_restart_modal_title: 'Yeni oyun!',
+
+      // для оповещений подсказок
+      hint_notif_nohints: 'Hiçbir ipucu yok!',
+      hint_notif_nopoints: 'İpucu için en az 5 puana ihtiyacınız var.!',
     },
     plurals: {
       coins: (count) => {
@@ -387,3 +415,34 @@ export const Translations = {
     },
   },
 };
+
+export const OtherTranslations = {
+  en: {
+    ui: {
+      h4_ach_start_text: 'Achievement',
+      h4_ach_end_text: 'unlocked!',
+      ach_info_span_red_start: 'Reward',
+    }
+  },
+  ru: {
+    ui: {
+      h4_ach_start_text: 'Достижение',
+      h4_ach_end_text: 'разблокировано!',
+      ach_info_span_red_start: 'Награда',
+    }
+  },
+  abaza: {
+    ui: {
+      h4_ach_start_text: 'Адостижение',
+      h4_ach_end_text: 'тшхънат|ыд!',
+      ach_info_span_red_start: 'Йг|ау(б)ынхад',
+    }
+  },
+  tr: {
+    ui: {
+      h4_ach_start_text: 'Başarı',
+      h4_ach_end_text: 'açıldı!',
+      ach_info_span_red_start: 'Ödül',
+    }
+  },
+}

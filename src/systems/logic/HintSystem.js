@@ -1,5 +1,7 @@
 import { AudioName } from "../../utils/Constants.js";
 import { GameEvents } from "../../utils/Constants.js";
+import { HintsOfObviousMoves } from "./hintsOfObviousMoves.js";
+import { UIConfig } from "../../configs/UIConfig.js";
 
 export class HintSystem {
   constructor(eventManager, stateManager, audioManager) {
@@ -7,16 +9,23 @@ export class HintSystem {
     this.stateManager = stateManager;
     this.state = this.stateManager.state;
     this.audioManager = audioManager;
-
     this.notifDiv = document.getElementById('notif-div')
+
+    this.setupComponents()
+  }
+
+  setupComponents() {
+    this.hintsOfObviousMoves = new HintsOfObviousMoves(this.eventManager, this.stateManager)
   }
 
   provide() {
+    console.log('this.hintsOfObviousMoves.getFaceUpCardsInTableaus: ', this.hintsOfObviousMoves.getFaceUpCardsInTableaus());
+    
     if (this.state.hintCounterState === 0 || this.state.hintCounterState < 0 || this.state.player.hintQuantity === 0) {
       this.audioManager.play(AudioName.INFO);
       this.eventManager.emit(
         GameEvents.HINT_NOTIF,
-        "Нет подсказок"
+        UIConfig.dataI18nValue.HINT_NOTIF_NOHINTS
       );
       return;
     }
@@ -24,7 +33,7 @@ export class HintSystem {
       this.audioManager.play(AudioName.INFO);
       this.eventManager.emit(
         GameEvents.HINT_NOTIF,
-        "Нужно минимум 5 очков для подсказки"
+        UIConfig.dataI18nValue.HINT_NOTIF_NOPOINTS
       );
       return;
     }

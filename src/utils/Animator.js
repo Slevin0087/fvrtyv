@@ -1,5 +1,7 @@
 import { GameEvents } from "./Constants.js";
 import { GameConfig } from "../configs/GameConfig.js";
+import { UIConfig } from "../configs/UIConfig.js";
+import { Helpers } from "./Helpers.js";
 
 export class Animator {
   constructor() {
@@ -330,7 +332,11 @@ export class Animator {
     domElement.append(h4, div)
     h4.className = 'ach-div-h4'
     h4.id = 'ach-div-h4'
-    h4.textContent = `Достижение ${icon} разблокировано!`
+    const keyH4Start = Helpers.tOther(UIConfig.keysForTranslations.H4_START)
+    const keyH4End = Helpers.tOther(UIConfig.keysForTranslations.H4_END)
+    const spanRedStart = Helpers.tOther(UIConfig.keysForTranslations.SPAN_RED_START)
+    Helpers.tOther()
+    h4.textContent = `${keyH4Start} ${icon} ${keyH4End}`
     div.className = 'info-ach'
     div.id = 'ach-info'
     // const container = document.getElementById("ach-info");
@@ -342,7 +348,7 @@ export class Animator {
       <span class="ach-info-span-title-description" id="ach-info-span">${description}</span>`;
     setTimeout(() => {
       div.innerHTML = `
-        <span class="ach-info-span-red">Награда:${" "}</span>
+        <span class="ach-info-span-red">${spanRedStart}:${" "}</span>
         <span class="ach-info-span-yellow" id="ach-info-span">${reward}${" "}</span>
         <span class="ach-info-span-title-description">${currency}</span>`;
       setTimeout(() => {

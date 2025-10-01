@@ -209,10 +209,6 @@ export class GameLogicSystem {
       for (const tableau of tableaus) {
         if (tableau.cards.length > 0) {
           const card = tableau.cards[tableau.cards.length - 1];
-          // const isMove = this.movementSystem.isCardMoveToFoundations(
-          //   topCard,
-          //   gameComponents
-          // );
           for (let i = 0; i < gameComponents.foundations.length; i++) {
             if (gameComponents.foundations[i].canAccept(card, gameComponents)) {
               // this.audioManager.play(AudioName.CLICK);

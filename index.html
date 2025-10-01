@@ -28,32 +28,11 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/gsap.min.js"></script>
   </head>
   <body>
-    <div
-      id="loader"
-      style="
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: white;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 9999;
-      "
-    >
+    <div class="loader-spinner" id="loader">
       <div class="spinner"></div>
+      <!-- <div class="loader-spinner-title" data-i18n="loader_spinner"></div> -->
     </div>
     <div id="app" class="app-container">
-      <!-- <div class="language-switcher">
-        <button type="button" id="ru-btn" data-i18n="ru_btn">Русский</button>
-        <button type="button" id="en-btn" data-i18n="en_btn">Английский</button>
-        <button type="button" id="tr-btn" data-i18n="tr_btn">Турецкий</button>
-        <button type="button" id="abaza-btn" data-i18n="abaza_btn">
-          Абаза
-        </button>
-      </div> -->
       <div id="notification-toast" class="toast hidden"></div>
 
       <button class="full-screen-button" id="full-screen-btn">[ ]</button>
@@ -290,8 +269,12 @@
         <!-- Модальное окно -->
         <div id="restart-game-modal" class="restart-game-modal hidden">
           <div class="restart-game-modal-header">
-            <div class="restart-game-modal-close" >
-              <span class="restart-game-modal-close-span" id="restart-game-modal-close">&times;</span>
+            <div class="restart-game-modal-close">
+              <span
+                class="restart-game-modal-close-span"
+                id="restart-game-modal-close"
+                >&times;</span
+              >
             </div>
             <div class="restart-game-modal-title">
               <span data-i18n="game_restart_modal_title">Новая игра!</span>
@@ -302,8 +285,20 @@
             <span data-i18n="game_restart_modal_cancel_content">Уверены?</span>
           </div>
           <div class="game-restart-modal-btns">
-            <button class="game-restart-modal-cancel-btn" id="game-restart-modal-cancel-btn" data-i18n="btn_game_restart_modal_cancel">Отмена</button>
-            <button class="game-restart-modal-again-btn" id="game-restart-modal-again-btn" data-i18n="btn_game_restart_modal_again">Уверен</button>
+            <button
+              class="game-restart-modal-cancel-btn"
+              id="game-restart-modal-cancel-btn"
+              data-i18n="btn_game_restart_modal_cancel"
+            >
+              Отмена
+            </button>
+            <button
+              class="game-restart-modal-again-btn"
+              id="game-restart-modal-again-btn"
+              data-i18n="btn_game_restart_modal_again"
+            >
+              Уверен
+            </button>
           </div>
         </div>
       </div>

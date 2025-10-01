@@ -1,33 +1,5 @@
-// export function autoCollectCards(cardsComponents, handleCardClick, check) {
-//   const { foundations, tableaus, stock, waste } = cardsComponents;
-//   if (check()) return;
-//   else {
-//     if (stock.cards.length > 0) {
-//       stock.cards.forEach((card) => (card.faceUp = true));
-//     }
-
-//     if (waste.cards.length > 0) {
-//       for (let i = 0; i < waste.cards.length; i++) {
-//         const topCard = waste.cards[waste.cards.length - 1];
-//         const isMove = handleCardClick(topCard);
-//         if (!isMove) return;
-//       }
-//     }
-
-//     tableaus.forEach((tableau) => {
-//       if (tableau.cards.length > 0) {
-//         const topCard = tableau.cards[tableau.cards.length - 1];
-//         const isMove = handleCardClick(topCard);
-//         if (!isMove) return;
-//       }
-//     });
-
-//     autoCollectCards(cardsComponents, handleCardClick, check);
-//   }
-// }
-
 export function autoCollectCards(cardsComponents, handleCardClick, check) {
-  const { foundations, tableaus, stock, waste } = cardsComponents;
+  const { tableaus, waste } = cardsComponents;
 
   // Проверяем условие выхода
   if (check) return true;

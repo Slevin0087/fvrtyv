@@ -32,6 +32,7 @@ export class StateManager {
         active: {},
       },
       cardsComponents: null,
+      faceDownCards: [],
       ui: this.storage.getUIStats(),
       game: this.storage.getGameStats(),
       player: this.storage.getPlayerStats(),

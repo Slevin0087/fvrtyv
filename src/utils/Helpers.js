@@ -1,4 +1,4 @@
-import { Translations } from "../locales/Translations.js";
+import { Translations, OtherTranslations } from "../locales/Translations.js";
 import { CardSuits, CardValues } from "./Constants.js";
 
 export class Helpers {
@@ -115,6 +115,15 @@ export class Helpers {
     ); // Если ключ не найден
   }
 
+    // Получение перевода для (динамического) UI-other-элемента, которого нет в Translations
+  static tOther(key) {
+    return (
+      OtherTranslations[this.#currentLang]?.ui?.[key] ||
+      OtherTranslations.en.ui[key] || // Fallback на английский
+      key
+    ); // Если ключ не найден
+  }
+
   // Плюрализация (склонение слов)
   static pluralize(word, count) {
     return (
@@ -151,8 +160,8 @@ export class Helpers {
 
   static updateLanUI() {
     // Обновляем все текстовые элементы на странице
-    document.querySelectorAll("[data-i18n]").forEach((el) => {
-      const key = el.getAttribute("data-i18n");
+    document.querySelectorAll("[data-i18n]").forEach((el) => {      
+      const key = el.getAttribute("data-i18n");      
       el.textContent = this.t(key);
     });
 
@@ -168,9 +177,15 @@ export class Helpers {
   }
 
   static updateLanOneUI(el) {
-    // Обновляем все текстовые элементы на странице
+    // Обновляем текстовые одного только элемент el
     const key = el.getAttribute("data-i18n");
     el.textContent = this.t(key);
+  }
+
+  static updateLanOneOther(el) {
+    // Обновляем текст одного только элемента el (динамического), которого нет в Translations
+    const key = el.getAttribute("data-i18n");
+    el.textContent = this.tOther(key);
   }
 
   static updateLanShopBalance(count) {

@@ -8,6 +8,16 @@ export const UIConfig = {
     UIPlayerStatePage: "UIPlayerStatePage",
     UINotificationPage: "UINotificationPage",
   },
+  dataI18nValue: {
+    HINT_NOTIF_NOHINTS: 'hint_notif_nohints',
+    HINT_NOTIF_NOPOINTS: 'hint_notif_nopoints',
+
+  },
+  keysForTranslations: {
+    H4_START: 'h4_ach_start_text',
+    H4_END: 'h4_ach_end_text',
+    SPAN_RED_START: 'ach_info_span_red_start',
+  },
   themes: {
     default: {
       colors: {

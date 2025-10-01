@@ -29,7 +29,9 @@
   --border-radius-btn-input: 0.3em;
   --full-screen-button-top-left: 1em;
   --full-screen-button-width: 2.5em;
-  --language-switcher-bottom: calc(var(--full-screen-button-top-left) + var(--full-screen-button-width));
+  --language-switcher-bottom: calc(
+    var(--full-screen-button-top-left) + var(--full-screen-button-width)
+  );
   --language-switcher-right: 1em;
 }
 
@@ -279,6 +281,21 @@ body {
     transparent 1px,
     transparent 5px
   ); */
+}
+
+.loader-spinner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  z-index: 9999;
+  color: black;
 }
 
 .spinner {

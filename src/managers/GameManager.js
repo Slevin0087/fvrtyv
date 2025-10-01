@@ -25,6 +25,7 @@ export class GameManager {
     this.eventManager = new EventManager();
     this.storage = new Storage(this.eventManager);
     this.stateManager = new StateManager(this.eventManager, this.storage);
+    Helpers.changeLanguage(this.stateManager.state.settings.language);
     this.achievementSystem = new AchievementSystem(this.eventManager, this.stateManager, this.storage);
     this.uiManager = new UIManager(this.eventManager, this.stateManager);
     this.audioManager = new AudioManager(this.eventManager, this.stateManager);
@@ -47,7 +48,6 @@ export class GameManager {
       this.cardsSystem
     );
     this.shopSystem = new ShopSystem(this.eventManager, this.stateManager);
-    Helpers.changeLanguage(this.stateManager.state.settings.language);
     this.eventManager.emit(GameEvents.SET_NAME_IN_INPUT);
     this.setupEventListeners();
   }

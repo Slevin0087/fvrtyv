@@ -59,5 +59,5 @@ export const GameConfig = {
     name: "[data-card-dnd]",
     setFAndTContainers: "fAndT",
     getFAndTContainers: "data-f-and-t",
-  }
+  },
 };

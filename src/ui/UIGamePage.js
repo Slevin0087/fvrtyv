@@ -2,6 +2,7 @@ import { UIPage } from "./UIPage.js";
 import { GameEvents } from "../utils/Constants.js";
 import { GameConfig } from "../configs/GameConfig.js";
 import { Animator } from "../utils/Animator.js";
+import { Helpers } from "../utils/Helpers.js";
 
 export class UIGamePage extends UIPage {
   constructor(eventManager, stateManager) {
@@ -33,6 +34,7 @@ export class UIGamePage extends UIPage {
       undoCounter: document.getElementById("undo-counter"),
     };
 
+    this.isRestartGameModalShow = false
     this.isHintNotifShow = false;
     this.hintNotifyShowTimerId = null;
   }
@@ -44,22 +46,27 @@ export class UIGamePage extends UIPage {
 
   setupEventListeners() {
     this.elements.restartGameBtn.addEventListener("click", () => {
+      if (this.isRestartGameModalShow) return
       this.elements.restartGameModal.classList.remove("hidden");
+      this.isRestartGameModalShow = true
       // setTimeout(() => this.eventManager.emit(GameEvents.UI_ANIMATE_DEAL_CARDS), 1000);
     });
 
     this.elements.restartGameModalAgainBtn.addEventListener("click", () => {
       this.elements.restartGameModal.classList.add("hidden");
+      this.isRestartGameModalShow = false
       this.eventManager.emit(GameEvents.GAME_RESTART);
       this.updateUI();
     });
 
     this.elements.restartGameModalCancelBtn.addEventListener("click", () => {
       this.elements.restartGameModal.classList.add("hidden");
+      this.isRestartGameModalShow = false
     });
 
     this.elements.restartGameModalClose.addEventListener("click", () => {
       this.elements.restartGameModal.classList.add("hidden");
+      this.isRestartGameModalShow = false
     });
 
     this.elements.hintBtn.addEventListener("click", () => {
@@ -128,7 +135,7 @@ export class UIGamePage extends UIPage {
       Animator.animateAchievementText2(span);
     });
 
-    this.eventManager.on(GameEvents.HINT_NOTIF, (text) => this.hintNotif(text));
+    this.eventManager.on(GameEvents.HINT_NOTIF, (dataI18n) => this.hintNotif(dataI18n));
     this.eventManager.on(GameEvents.HINT_USED, () => this.hintUsed());
   }
 
@@ -137,7 +144,6 @@ export class UIGamePage extends UIPage {
     this.updateTime(this.state.game.playTime);
     this.updateMoves(this.state.game.moves);
     this.upUndoCounter(this.state.game.lastMove.length);
-    // this.upHintCounter(this.state.game.hintsUsed);
     this.upHintCounter(this.state.hintCounterState || 0);
     this.upAchievementIcon(this.state.player.achievements.active.icon);
   }
@@ -177,13 +183,14 @@ export class UIGamePage extends UIPage {
     this.eventManager.emit(GameEvents.UP_HITUSED_STATE, 1);
   }
 
-  hintNotif(text) {
+  hintNotif(dataI18n) {
     if (this.hintNotifyShowTimerId) clearTimeout(this.hintNotifyShowTimerId);
     this.elements.notifDiv.innerHTML = "";
     const p = document.createElement("p");
     p.className = "hint-notif-p";
-    p.textContent = text;
+    p.setAttribute('data-i18n', dataI18n);
     this.elements.notifDiv.append(p);
+    Helpers.updateLanOneUI(p)
     this.elements.notifDiv.classList.remove("hidden");
     this.hintNotifyShowTimerId = setTimeout(() => {
       this.elements.notifDiv.classList.add("hidden");

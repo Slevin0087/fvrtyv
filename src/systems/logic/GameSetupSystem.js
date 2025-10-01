@@ -6,8 +6,9 @@ export class GameSetupSystem {
   constructor(eventManager, stateManager) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
+    this.state = this.stateManager.state
     this.cardMoveDuration = UIConfig.animations.cardMoveDuration;
-    this.faceDownCards = [];
+    // this.faceDownCards = this.stateManager.state.faceDownCards;
 
     this.setupEventListeners();
   }
@@ -35,7 +36,7 @@ export class GameSetupSystem {
   setCards(deck, stock) {
     deck.reset();
     const stockCards = [];
-    this.faceDownCards = [];
+    this.state.faceDownCards = [];
 
     while (!deck.isEmpty()) {
       const card = deck.deal();
@@ -124,9 +125,9 @@ export class GameSetupSystem {
   }
 
   isFaceDownCard(card) {
-    if (this.faceDownCards.length > 0) {
+    if (this.state.faceDownCards.length > 0) {
       this.filterFaceDownCards(card);
-      if (this.faceDownCards.length <= 0) {
+      if (this.state.faceDownCards.length <= 0) {
         // alert("Все карты открылись");
         this.eventManager.emit(GameEvents.COLLECT_BTN_SHOW);
         return;
@@ -137,14 +138,14 @@ export class GameSetupSystem {
   }
 
   filterFaceDownCards(card) {
-    const newC = this.faceDownCards.filter(
+    const newC = this.state.faceDownCards.filter(
       (cardFaceDoun) => cardFaceDoun !== card
     );
-    this.faceDownCards = newC;
+    this.state.faceDownCards = newC;
   }
 
   updateFaceDownCard(card) {
-    this.faceDownCards.push(card);
+    this.state.faceDownCards.push(card);
   }
 
   setDataAttribute(element, nameAttribite, valueAttribute = "") {
