@@ -49,6 +49,7 @@ export class CardsSystem {
     this.tableaus = Array.from({ length: 7 }, (_, i) => new Tableau(i));
     this.stock = new Stock();
     this.waste = new Waste();
+    
     this.eventManager.emit(GameEvents.SET_CARDS_COMPONENTS, {
       deck: this.deck,
       foundations: this.foundations,

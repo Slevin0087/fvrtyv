@@ -18,13 +18,11 @@ export class Tableau extends Pile {
   }
 
   canAccept(card) {
-    if (card.value === "A") false;
+    if (card.value === "A") return false;
     if (!card.faceUp) return false;
     if (this.isEmpty()) return card.value === "K";
 
-    const topCard = this.getTopCard();
-    console.log('topCard:', topCard);
-    
+    const topCard = this.getTopCard();    
     return card.isOppositeColor(topCard) && card.isNextInSequence(topCard);
   }
 

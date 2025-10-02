@@ -195,7 +195,7 @@ export class UIGamePage extends UIPage {
     this.hintNotifyShowTimerId = setTimeout(() => {
       this.elements.notifDiv.classList.add("hidden");
       this.hintNotifyShowTimerId = null;
-    }, 2000);
+    }, 3000);
   }
 
   updateTime(time) {

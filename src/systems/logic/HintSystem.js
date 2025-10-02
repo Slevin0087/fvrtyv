@@ -19,7 +19,7 @@ export class HintSystem {
   }
 
   provide() {
-    console.log('this.hintsOfObviousMoves.getFaceUpCardsInTableaus: ', this.hintsOfObviousMoves.getFaceUpCardsInTableaus());
+    console.log('this.hintsOfObviousMoves.testF: ', this.hintsOfObviousMoves.testF());
     
     if (this.state.hintCounterState === 0 || this.state.hintCounterState < 0 || this.state.player.hintQuantity === 0) {
       this.audioManager.play(AudioName.INFO);
@@ -39,17 +39,29 @@ export class HintSystem {
     }
 
     this.eventManager.emit(GameEvents.HINT_USED)
-    const hint = this.findBestHint();
-    // ... остальная логика
-    if (hint) {
-      this.stateManager.deductCoins(5);
-      this.state.game.hintsUsed =
-        (this.state.game.hintsUsed || 0) + 1;
-      this.eventManager.emit(GameEvents.HINT_SHOW, hint);
-    } else {
-      this.audioManager.play(AudioName.INFO);
-      this.eventManager.emit("ui:notification", "Нет доступных ходов");
-    }
+    const hints = this.hintsOfObviousMoves.testF()
+    this.hintShow(hints[0])
+    // const hint = this.findBestHint();
+    // // ... остальная логика
+    // if (hint) {
+    //   this.stateManager.deductCoins(5);
+    //   this.state.game.hintsUsed =
+    //     (this.state.game.hintsUsed || 0) + 1;
+    //   this.eventManager.emit(GameEvents.HINT_SHOW, hint);
+    // } else {
+    //   this.audioManager.play(AudioName.INFO);
+    //   this.eventManager.emit("ui:notification", "Нет доступных ходов");
+    // }
+  }
+
+  hintShow(hint) {
+    const { fromCard, toCard } = hint
+    fromCard.domElement.classList.add('hint-from-card')
+    toCard.domElement.classList.add('hint-to-card')
+    setTimeout(() => {
+      fromCard.domElement.classList.remove('hint-from-card')
+      toCard.domElement.classList.remove('hint-to-card')
+    }, 2000)
   }
 
   findBestHint() {
