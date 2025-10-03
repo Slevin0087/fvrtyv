@@ -313,7 +313,7 @@ export class AnimationSystem {
         card,
         () => {
           // Колбэк на середине анимации (90 градусов)
-          this.cardsSystem.removeHandleCard(card);
+          // this.cardsSystem.removeHandleCard(card);
 
           card.domElement.innerHTML = "";
           if (selectedFaces.bgType === "styles") card.domElement.classList.remove(faceStyle);

@@ -23,8 +23,7 @@ export class GameSetupSystem {
     );
 
     this.eventManager.on(GameEvents.ADD_CARD_CLICK, (card) => {
-      this.removeHandleCard(card);
-      this.handleCard(card);
+      card.domElement.addEventListener('click', this.handleCard(card))
     });
     this.eventManager.on(
       GameEvents.SET_CARD_DATA_ATTRIBUTE,
@@ -113,16 +112,16 @@ export class GameSetupSystem {
   }
 
   handleCard(card) {
-    card.domElement.addEventListener("click", () => {
+    // card.domElement.addEventListener("click", () => {
       this.eventManager.emit(GameEvents.CARD_CLICK, card);
-    });
+    // });
   }
 
-  removeHandleCard(card) {
-    card.domElement.removeEventListener("click", () => {
-      this.eventManager.emit(GameEvents.CARD_CLICK, card);
-    });
-  }
+  // removeHandleCard(card) {
+  //   card.domElement.removeEventListener("click", () => {
+  //     this.eventManager.emit(GameEvents.CARD_CLICK, card);
+  //   });
+  // }
 
   isFaceDownCard(card) {
     if (this.state.faceDownCards.length > 0) {

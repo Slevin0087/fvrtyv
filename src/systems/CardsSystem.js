@@ -163,16 +163,16 @@ export class CardsSystem {
   }
 
   handleCard(card) {
-    card.domElement.addEventListener("click", () => {
+    // card.domElement.addEventListener("click", () => {
       this.eventManager.emit(GameEvents.CARD_CLICK, card);
-    });
+    // });
   }
 
-  removeHandleCard(card) {
-    card.domElement.removeEventListener("click", () => {
-      this.eventManager.emit(GameEvents.CARD_CLICK, card);
-    });
-  }
+  // removeHandleCard(card) {
+  //   card.domElement.removeEventListener("click", () => {
+  //     this.eventManager.emit(GameEvents.CARD_CLICK, card);
+  //   });
+  // }
 
   // handleCardClick(card) {
   //   if (this.stateManager.state.game.isPaused) return;
