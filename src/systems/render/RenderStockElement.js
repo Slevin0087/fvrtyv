@@ -27,7 +27,7 @@ export class RenderStockElement {
     this.clickLimitTime =
       UIConfig.animations.cardMoveDuration +
       UIConfig.animations.cardFlipDuration * 1000;
-
+    this.addStockEventListeners = null;
     this.setupEventListeners();
   }
 
@@ -42,18 +42,11 @@ export class RenderStockElement {
     this.domElements.stockDivEl.innerHTML = "";
     this.domElements.stockDivEl.append(stock.element, waste.element);
     this.renderStockCards(stock);
-    this.addStockEventListeners(stock, waste);
-  }
-
-  addStockEventListeners(stock, waste) {
-    stock.element.removeEventListener(
-      "click",
-      async () => await this.handleStockElement(stock, waste)
-    );
-    stock.element.addEventListener(
-      "click",
-      async () => await this.handleStockElement(stock, waste)
-    );
+    if (!this.addStockEventListeners) {
+      this.addStockEventListeners = async () =>
+        await this.handleStockElement(stock, waste);
+    }
+    stock.element.addEventListener("click", this.addStockEventListeners);
   }
 
   async handleStockElement(stock, waste) {
@@ -128,9 +121,7 @@ export class RenderStockElement {
     cardElement.dataset.suit = card.suit;
     cardElement.dataset.value = card.value;
 
-    cardElement.classList.add(
-      this.state.player.selectedItems.backs.styleClass
-    );
+    cardElement.classList.add(this.state.player.selectedItems.backs.styleClass);
 
     // Сохраняем ссылку на DOM элемент в карте
     card.domElement = cardElement;

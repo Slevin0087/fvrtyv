@@ -18,7 +18,6 @@ export class RenderingSystem {
       foundationsDiv: document.getElementById("foundationsDiv"),
       tableausEl: document.getElementById("tableausDiv"),
       stockDivEl: document.getElementById("stockDiv"),
-      // wasteContainer: document.getElementById("waste"),
       wasteContainer: document.getElementById("waste"),
     };
 
@@ -190,33 +189,6 @@ export class RenderingSystem {
     span.classList.add("stock-span");
     element.append(span);
     return element;
-  }
-
-  addStockEventListeners(stock) {
-    stock.element.addEventListener("click", () => {
-      console.log("stock.element:", stock.element);
-      if (stock.index < 0) {
-        console.log("INDEX < 0");
-
-        stock.recycleWaste();
-        this.renderStockCards(stock);
-        stock.wasteElement.querySelectorAll(".card").forEach((el) => {
-          el.remove();
-        });
-        return;
-      }
-      console.log("INDEX >= 0");
-      const wasteCard = stock.getWasteCard();
-      console.log("WWWWWWWWWWWWWWWWWWWWWWW wasteCard:", wasteCard);
-
-      if (wasteCard) {
-        this.eventManager.emit(
-          GameEvents.ANIMATE_CARD_TO_WASTE,
-          wasteCard,
-          stock
-        );
-      }
-    });
   }
 
   clearAllCards() {
