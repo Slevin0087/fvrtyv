@@ -244,10 +244,12 @@
 
 .hint-from-card {
   border: 0.5vw solid rgb(84, 150, 68);
+  box-sizing: border-box;
 }
 
 .hint-to-card {
   border: 0.5vw solid rgb(50, 230, 6);
+  box-sizing: border-box;
 }
 
 @media (min-width: 900px) {

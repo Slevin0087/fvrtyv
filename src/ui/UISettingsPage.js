@@ -11,6 +11,8 @@ export class UISettingsPage extends UIPage {
       difficultySelect: document.getElementById("difficulty"),
       musicVolume: document.getElementById("music-volume"),
       languageSelected: document.getElementById("language-selected"),
+      dealingCardsOne: document.getElementById("dealing_cards-one"),
+      dealingCardsThree: document.getElementById("dealing_cards-three"),
     };
   }
 
@@ -36,6 +38,18 @@ export class UISettingsPage extends UIPage {
       this.eventManager.emit(GameEvents.SETTINGS_MUSIC_VOLUME);
       this.setPropertyStyleVolume(e.target);
     });
+
+    this.elements.dealingCardsOne.addEventListener("change", (e) => {
+      if (e.target.checked) {
+        this.stateManager.state.player.dealingCards = Number(e.target.value);
+      }
+    });
+
+    this.elements.dealingCardsThree.addEventListener("change", (e) => {
+      if (e.target.checked) {
+        this.stateManager.state.player.dealingCards = Number(e.target.value);
+      }
+    });
   }
 
   render() {
@@ -43,9 +57,14 @@ export class UISettingsPage extends UIPage {
     this.elements.soundToggle.checked = settings.soundEnabled;
     this.elements.difficultySelect.value = settings.difficulty;
     this.elements.languageSelected.value = settings.language;
-
     this.elements.musicVolume.value = settings.musicVolume * 100;
     this.setPropertyStyleVolume(this.elements.musicVolume);
+    this.elements.dealingCardsOne.checked =
+      this.elements.dealingCardsOne.value ===
+      String(this.stateManager.state.player.dealingCards);
+    this.elements.dealingCardsThree.checked =
+      this.elements.dealingCardsThree.value ===
+      String(this.stateManager.state.player.dealingCards);
   }
 
   show() {

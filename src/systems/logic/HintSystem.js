@@ -9,19 +9,29 @@ export class HintSystem {
     this.stateManager = stateManager;
     this.state = this.stateManager.state;
     this.audioManager = audioManager;
-    this.notifDiv = document.getElementById('notif-div')
+    this.notifDiv = document.getElementById("notif-div");
 
-    this.setupComponents()
+    this.setupComponents();
   }
 
   setupComponents() {
-    this.hintsOfObviousMoves = new HintsOfObviousMoves(this.eventManager, this.stateManager)
+    this.hintsOfObviousMoves = new HintsOfObviousMoves(
+      this.eventManager,
+      this.stateManager
+    );
   }
 
   provide() {
-    console.log('this.hintsOfObviousMoves.testF: ', this.hintsOfObviousMoves.testF());
-    
-    if (this.state.hintCounterState === 0 || this.state.hintCounterState < 0 || this.state.player.hintQuantity === 0) {
+    console.log(
+      "this.hintsOfObviousMoves.testF: ",
+      this.hintsOfObviousMoves.testF()
+    );
+
+    if (
+      this.state.hintCounterState === 0 ||
+      this.state.hintCounterState < 0 ||
+      this.state.player.hintQuantity === 0
+    ) {
       this.audioManager.play(AudioName.INFO);
       this.eventManager.emit(
         GameEvents.HINT_NOTIF,
@@ -38,9 +48,9 @@ export class HintSystem {
       return;
     }
 
-    this.eventManager.emit(GameEvents.HINT_USED)
-    const hints = this.hintsOfObviousMoves.testF()
-    this.hintShow(hints[0])
+    this.eventManager.emit(GameEvents.HINT_USED);
+    const hints = this.hintsOfObviousMoves.testF();
+    this.hintShow(hints[0]);
     // const hint = this.findBestHint();
     // // ... остальная логика
     // if (hint) {
@@ -55,13 +65,17 @@ export class HintSystem {
   }
 
   hintShow(hint) {
-    const { fromCard, toCard } = hint
-    fromCard.domElement.classList.add('hint-from-card')
-    toCard.domElement.classList.add('hint-to-card')
+    const { fromCard, toContainer, toCard } = hint;
+    fromCard.domElement.classList.add("hint-from-card");
+    toCard
+      ? toCard.domElement.classList.add("hint-to-card")
+      : toContainer.element.classList.add("hint-to-card");
     setTimeout(() => {
-      fromCard.domElement.classList.remove('hint-from-card')
-      toCard.domElement.classList.remove('hint-to-card')
-    }, 2000)
+      fromCard.domElement.classList.remove("hint-from-card");
+      toCard
+      ? toCard.domElement.classList.remove("hint-to-card")
+      : toContainer.element.classList.remove("hint-to-card");
+    }, 2000);
   }
 
   findBestHint() {
