@@ -5,6 +5,7 @@ import {
 } from "../../utils/Constants.js";
 import { GameConfig } from "../../configs/GameConfig.js";
 import { UIConfig } from "../../configs/UIConfig.js";
+import { Animator } from "../../utils/Animator.js";
 
 export class RenderStockElement {
   constructor(
@@ -82,6 +83,16 @@ export class RenderStockElement {
     const card = stock.getWasteCard();
     if (card) {
       this.eventManager.emit(GameEvents.AUDIO_CARD_CLICK);
+      const topThreeCards = waste.topThreeCards;
+      console.log('topThreeCards: ', topThreeCards);
+      
+      const oldOffsetsTopThreeCards = topThreeCards.map((card) => {
+        return {
+          card,
+          oldOffsetX: card.positionData.offsetX,
+          oldOffsetY: card.positionData.offsetY,
+        };
+      });
       await this.gameLogicSystem.handleCardMove({
         card,
         containerToIndex: 0,
@@ -89,6 +100,9 @@ export class RenderStockElement {
         containerToName: this.cardContainers.waste,
       });
       await this.flipCard(card);
+      if (oldOffsetsTopThreeCards) {
+        Animator.animateCardFomStockToWaste(oldOffsetsTopThreeCards)
+      }
       this.eventManager.emit(
         GameEvents.SET_CARD_DATA_ATTRIBUTE,
         card.domElement,

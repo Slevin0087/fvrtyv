@@ -19,11 +19,14 @@ export class Pile {
   }
 
   addCard(card) {
+    // this.cards.length, а не this.cards.length - 1, для определения z-index дочерних элементов
+    // у stock, foundations, tableaus, так как самый первый дочерний элимент у них span
+    // поэтому позиция у карт начинается с 1, а не с 0
     const position = this.cards.length;    
     card.positionData = this.getPositionData(position);
     this.cards.push(card);
     card.parentElement = this.element;
-    this.updateCardElement(card, position);
+    // this.updateCardElement(card, position);
   }
 
   getPositionData(position) {

@@ -1,3 +1,7 @@
+const defaultValues = {
+  tableauOverlapY: 20
+}
+
 export const UIConfig = {
   pages: {
     UINamePage: "UINamePage",
@@ -83,9 +87,12 @@ export const UIConfig = {
       width: 80,
       height: 120,
       borderRadius: 8,
-      tableauOverlapY: 20,
+      // tableauOverlapY: 20,
+      tableauOverlapY: defaultValues.tableauOverlapY,
       wasteOverlapX: 0.2,
       wasteOverlapY: -0.2,
+      wasteOneOverlapX: defaultValues.tableauOverlapY,
+      wasteMaxVisibleCards: 2,
       stockOverlapX: -0.2,
       stockOverlapY: -0.2,
     },

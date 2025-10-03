@@ -95,6 +95,11 @@ export class Animator {
         const oldOffsetY = card.positionData.offsetY;
         containerTo.addCard(card);
         containerTo.element.append(cardElement);
+
+        if (containerTo.type === GameConfig.cardContainers.waste) {
+          const topThreeCards = containerTo.topThreeCards;
+        }
+
         movementSystem.eventManager.emit(
           GameEvents.SET_CARD_DATA_ATTRIBUTE,
           cardElement,
@@ -106,6 +111,65 @@ export class Animator {
           cardElement,
           GameConfig.dataAttributes.cardDnd
         );
+        const newOffsetX = card.positionData.offsetX;
+        const newOffsetY = card.positionData.offsetY;
+
+        void cardElement.offsetHeight; // Это заставляет браузер применить стили
+
+        // Получаем конечную позицию
+        const lastRect = cardElement.getBoundingClientRect();
+        cardElement.style.zIndex = "100";
+
+        const deltaX = initialRect.left - lastRect.left + oldOffsetX;
+        const deltaY = initialRect.top - lastRect.top + oldOffsetY;
+
+        // Запускаем анимацию
+        const animation = cardElement.animate(
+          [
+            { transform: `translate(${deltaX}px, ${deltaY}px)` },
+            { transform: `translate(${newOffsetX}px, ${newOffsetY}px)` },
+          ],
+          {
+            duration,
+            easing: "linear",
+          }
+        );
+
+        // По завершении фиксируем результат
+        animation.onfinish = () => {
+          cardElement.style.transform = `translate(${newOffsetX}px, ${newOffsetY}px)`;
+          cardElement.style.zIndex = `${card.positionData.zIndex}`;
+          resolve();
+        };
+        animation.oncancel = () => {
+          reject(new Error("Animation was cancelled"));
+        };
+      });
+    });
+  }
+
+  static animateCardFomStockToWaste(arr) {
+    return new Promise((resolve, reject) => {
+      arr.forEach(({ card, oldOffsetX, oldOffsetY }, duration = 300) => {
+        const cardElement = card.domElement;
+
+        // Получаем начальные координаты карты
+        const initialRect = cardElement.getBoundingClientRect();
+
+        // const oldOffsetX = card.positionData.offsetX;
+        // const oldOffsetY = card.positionData.offsetY;
+        // const topThreeCards = containerTo.topThreeCards
+        // movementSystem.eventManager.emit(
+        //   GameEvents.SET_CARD_DATA_ATTRIBUTE,
+        //   cardElement,
+        //   GameConfig.dataAttributes.cardParent,
+        //   card.positionData.parent
+        // );
+        // movementSystem.eventManager.emit(
+        //   GameEvents.SET_CARD_DATA_ATTRIBUTE,
+        //   cardElement,
+        //   GameConfig.dataAttributes.cardDnd
+        // );
         const newOffsetX = card.positionData.offsetX;
         const newOffsetY = card.positionData.offsetY;
 
@@ -325,20 +389,22 @@ export class Animator {
     duration = 5000
   ) {
     const { title, description, icon, reward, currency } = achievement;
-    const h4 = document.createElement('h4')
-    const div = document.createElement('div')
-    domElement.innerHTML = ''
+    const h4 = document.createElement("h4");
+    const div = document.createElement("div");
+    domElement.innerHTML = "";
     domElement.classList.remove("hidden");
-    domElement.append(h4, div)
-    h4.className = 'ach-div-h4'
-    h4.id = 'ach-div-h4'
-    const keyH4Start = Helpers.tOther(UIConfig.keysForTranslations.H4_START)
-    const keyH4End = Helpers.tOther(UIConfig.keysForTranslations.H4_END)
-    const spanRedStart = Helpers.tOther(UIConfig.keysForTranslations.SPAN_RED_START)
-    Helpers.tOther()
-    h4.textContent = `${keyH4Start} ${icon} ${keyH4End}`
-    div.className = 'info-ach'
-    div.id = 'ach-info'
+    domElement.append(h4, div);
+    h4.className = "ach-div-h4";
+    h4.id = "ach-div-h4";
+    const keyH4Start = Helpers.tOther(UIConfig.keysForTranslations.H4_START);
+    const keyH4End = Helpers.tOther(UIConfig.keysForTranslations.H4_END);
+    const spanRedStart = Helpers.tOther(
+      UIConfig.keysForTranslations.SPAN_RED_START
+    );
+    Helpers.tOther();
+    h4.textContent = `${keyH4Start} ${icon} ${keyH4End}`;
+    div.className = "info-ach";
+    div.id = "ach-info";
     // const container = document.getElementById("ach-info");
     // const spanAnimateForCurrency = document.createElement("span");
     // const spanAnimateForIcon = document.createElement("span");
