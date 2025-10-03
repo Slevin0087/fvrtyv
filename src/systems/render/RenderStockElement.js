@@ -125,7 +125,7 @@ export class RenderStockElement {
 
     // Сохраняем ссылку на DOM элемент в карте
     card.domElement = cardElement;
-    this.cardsSystem.removeHandleCard(card);
+    // this.cardsSystem.removeHandleCard(card);
     container.append(cardElement);
   }
 
