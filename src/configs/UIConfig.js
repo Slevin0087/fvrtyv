@@ -92,7 +92,7 @@ export const UIConfig = {
       wasteOverlapX: 0.2,
       wasteOverlapY: -0.2,
       wasteOneOverlapX: defaultValues.tableauOverlapY,
-      wasteMaxVisibleCards: 2,
+      wasteMaxVisibleCards: 3,
       stockOverlapX: -0.2,
       stockOverlapY: -0.2,
     },
