@@ -28,7 +28,7 @@ export class RenderStockElement {
     this.clickLimitTime =
       UIConfig.animations.cardMoveDuration +
       UIConfig.animations.cardFlipDuration * 1000;
-    this.addStockEventListeners = null;
+    this.addStockEventListeners = false;
     this.setupEventListeners();
   }
 
@@ -43,11 +43,11 @@ export class RenderStockElement {
     this.domElements.stockDivEl.innerHTML = "";
     this.domElements.stockDivEl.append(stock.element, waste.element);
     this.renderStockCards(stock);
-    if (!this.addStockEventListeners) {
-      this.addStockEventListeners = async () =>
-        await this.handleStockElement(stock, waste);
-    }
-    stock.element.addEventListener("click", this.addStockEventListeners);
+    // if (!this.addStockEventListeners) {
+    stock.element.addEventListener("click", async () => {
+      await this.handleStockElement(stock, waste);
+    });
+    // }
   }
 
   async handleStockElement(stock, waste) {
@@ -84,8 +84,8 @@ export class RenderStockElement {
     if (card) {
       this.eventManager.emit(GameEvents.AUDIO_CARD_CLICK);
       const topThreeCards = waste.topThreeCards;
-      console.log('topThreeCards: ', topThreeCards);
-      
+      console.log("topThreeCards: ", topThreeCards);
+
       const oldOffsetsTopThreeCards = topThreeCards.map((card) => {
         return {
           card,
@@ -101,7 +101,7 @@ export class RenderStockElement {
       });
       await this.flipCard(card);
       if (oldOffsetsTopThreeCards) {
-        Animator.animateCardFomStockToWaste(oldOffsetsTopThreeCards)
+        Animator.animateCardFomStockToWaste(oldOffsetsTopThreeCards);
       }
       this.eventManager.emit(
         GameEvents.SET_CARD_DATA_ATTRIBUTE,
