@@ -21,7 +21,8 @@ export class Waste extends Pile {
     super.addCard(card);
     // у дом элемента waste нет первого дочернего элемента span,
     // поэтому можно позицию у карт начинать с 0
-    // card.positionData.offsetX = (this.cards.length - 1) * this.overlapX;
+    card.positionData.offsetX = 0;
+    card.positionData.offsetY = 0;
     this.uppp();
     console.log(
       "ПОСЛЕ addCard this.cards, this.topThreeCards: ",
@@ -77,6 +78,7 @@ export class Waste extends Pile {
         // Это последние 3 карты (или меньше, если карт мало)
         card.positionData.offsetX =
           positionFromEnd * this.oneOverlapX + this.overlapX;
+        card.positionData.offsetY = this.overlapY;
         topThreeCards.push(card);
       } else {
         // Остальные карты (те, что "под" видимыми)
