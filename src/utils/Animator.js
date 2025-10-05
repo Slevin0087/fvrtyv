@@ -77,15 +77,21 @@ export class Animator {
     elementFrom,
     containerTo,
     movementSystem,
-    duration = 300
+    duration = 3000
   ) {
     return new Promise((resolve, reject) => {
+      console.log('animateCardMove source: ', source);
+      
       const removedCards = movementSystem.removeCardFromSource(
         card,
         source,
         elementFrom
-      );
+      ); // removedCards УДАЛЯЕТ КАРТЫ ИЗ STOCK
+      console.log('removedCards: ', removedCards);
+      
       removedCards.forEach((card) => {
+      console.log('removedCards card: ', card);
+
         const cardElement = card.domElement;
 
         // Получаем начальные координаты карты
@@ -95,10 +101,6 @@ export class Animator {
         const oldOffsetY = card.positionData.offsetY;
         containerTo.addCard(card);
         containerTo.element.append(cardElement);
-
-        if (containerTo.type === GameConfig.cardContainers.waste) {
-          const topThreeCards = containerTo.topThreeCards;
-        }
 
         movementSystem.eventManager.emit(
           GameEvents.SET_CARD_DATA_ATTRIBUTE,
@@ -155,21 +157,6 @@ export class Animator {
 
         // Получаем начальные координаты карты
         const initialRect = cardElement.getBoundingClientRect();
-
-        // const oldOffsetX = card.positionData.offsetX;
-        // const oldOffsetY = card.positionData.offsetY;
-        // const topThreeCards = containerTo.topThreeCards
-        // movementSystem.eventManager.emit(
-        //   GameEvents.SET_CARD_DATA_ATTRIBUTE,
-        //   cardElement,
-        //   GameConfig.dataAttributes.cardParent,
-        //   card.positionData.parent
-        // );
-        // movementSystem.eventManager.emit(
-        //   GameEvents.SET_CARD_DATA_ATTRIBUTE,
-        //   cardElement,
-        //   GameConfig.dataAttributes.cardDnd
-        // );
         const newOffsetX = card.positionData.offsetX;
         const newOffsetY = card.positionData.offsetY;
 

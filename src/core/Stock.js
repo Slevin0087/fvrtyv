@@ -46,7 +46,7 @@ export class Stock extends Pile {
   getWasteCard() {
     const card = this.cards[this.stockCardPosition];
     if (card) {
-      card.faceUp = true; // Карты в стоке рубашкой вверх
+      card.faceUp = true;
       this.stockCardPosition--;
       return card;
     }
@@ -58,5 +58,23 @@ export class Stock extends Pile {
     this.addCards(waste.cards.reverse());
     this.stockCardPosition = this.cards.length - 1;
     waste.cards = [];
+  }
+
+  getNTopCards(n) {
+    if (this.isEmpty()) return null;
+    const lastNCards = this.cards.slice(-n);
+    console.log("lastNCards: ", lastNCards);
+
+    lastNCards.forEach((card) => {
+      card.faceUp = true;
+      // this.stockCardPosition--;
+    });
+    return lastNCards;
+  }
+
+  removeTopCard() {
+    if (this.isEmpty()) return null;
+    this.stockCardPosition--;
+    return this.cards.pop();
   }
 }

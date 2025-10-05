@@ -28,7 +28,6 @@ export class RenderStockElement {
     this.clickLimitTime =
       UIConfig.animations.cardMoveDuration +
       UIConfig.animations.cardFlipDuration * 1000;
-    this.addStockEventListeners = false;
     this.setupEventListeners();
   }
 
@@ -43,11 +42,9 @@ export class RenderStockElement {
     this.domElements.stockDivEl.innerHTML = "";
     this.domElements.stockDivEl.append(stock.element, waste.element);
     this.renderStockCards(stock);
-    // if (!this.addStockEventListeners) {
     stock.element.addEventListener("click", async () => {
       await this.handleStockElement(stock, waste);
     });
-    // }
   }
 
   async handleStockElement(stock, waste) {
@@ -80,41 +77,89 @@ export class RenderStockElement {
       return;
     }
     this.isClickAllowed = false;
-    const card = stock.getWasteCard();
-    if (card) {
+    const nOfCards = this.state.player.dealingCards; // СЕЙЧАС ЭТО РАВНО 3
+    const nTopCards = stock.getNTopCards(nOfCards);
+    console.log("nTopCards: ", nTopCards);
+    let topThreeCards = [];
+    let oldOffsetsTopThreeCards = [];
+    if (nTopCards) {
       this.eventManager.emit(GameEvents.AUDIO_CARD_CLICK);
-      const topThreeCards = waste.topThreeCards;
-      console.log("topThreeCards: ", topThreeCards);
-
-      const oldOffsetsTopThreeCards = topThreeCards.map((card) => {
-        return {
+      for (const card of nTopCards) {
+        console.log("nTopCards.forEach(async (card): ", card);
+        console.log("topThreeCards: ", topThreeCards);
+        topThreeCards = waste.topThreeCards;
+        oldOffsetsTopThreeCards = topThreeCards.map((card) => {
+          return {
+            card,
+            oldOffsetX: card.positionData.offsetX,
+            oldOffsetY: card.positionData.offsetY,
+          };
+        });
+        card.positionData.parent = stock.type;
+        // await this.delay(50)
+        await this.gameLogicSystem.handleCardMove({
           card,
-          oldOffsetX: card.positionData.offsetX,
-          oldOffsetY: card.positionData.offsetY,
-        };
-      });
-      await this.gameLogicSystem.handleCardMove({
-        card,
-        containerToIndex: 0,
-        containerTo: waste,
-        containerToName: this.cardContainers.waste,
-      });
-      await this.flipCard(card);
-      if (oldOffsetsTopThreeCards) {
-        Animator.animateCardFomStockToWaste(oldOffsetsTopThreeCards);
+          containerToIndex: 0,
+          containerTo: waste,
+          containerToName: this.cardContainers.waste,
+        });
+        // await this.delay(500);
+
+        await this.flipCard(card);
+        this.eventManager.emit(
+          GameEvents.SET_CARD_DATA_ATTRIBUTE,
+          card.domElement,
+          GameConfig.dataAttributes.cardParent,
+          card.positionData.parent
+        );
+        this.eventManager.emit(
+          GameEvents.SET_CARD_DATA_ATTRIBUTE,
+          card.domElement,
+          GameConfig.dataAttributes.cardDnd
+        );
       }
-      this.eventManager.emit(
-        GameEvents.SET_CARD_DATA_ATTRIBUTE,
-        card.domElement,
-        GameConfig.dataAttributes.cardParent,
-        card.positionData.parent
-      );
-      this.eventManager.emit(
-        GameEvents.SET_CARD_DATA_ATTRIBUTE,
-        card.domElement,
-        GameConfig.dataAttributes.cardDnd
-      );
     }
+    await this.delay(400);
+    if (oldOffsetsTopThreeCards) {
+      console.log("oldOffsetsTopThreeCards: ", oldOffsetsTopThreeCards);
+
+      await Animator.animateCardFomStockToWaste(oldOffsetsTopThreeCards);
+    }
+    // const card = stock.getWasteCard();
+    // if (card) {
+    //   this.eventManager.emit(GameEvents.AUDIO_CARD_CLICK);
+    //   const topThreeCards = waste.topThreeCards;
+    //   console.log("topThreeCards: ", topThreeCards);
+
+    //   const oldOffsetsTopThreeCards = topThreeCards.map((card) => {
+    //     return {
+    //       card,
+    //       oldOffsetX: card.positionData.offsetX,
+    //       oldOffsetY: card.positionData.offsetY,
+    //     };
+    //   });
+    //   await this.gameLogicSystem.handleCardMove({
+    //     card,
+    //     containerToIndex: 0,
+    //     containerTo: waste,
+    //     containerToName: this.cardContainers.waste,
+    //   });
+    //   await this.flipCard(card);
+    //   if (oldOffsetsTopThreeCards) {
+    //     Animator.animateCardFomStockToWaste(oldOffsetsTopThreeCards);
+    //   }
+    //   this.eventManager.emit(
+    //     GameEvents.SET_CARD_DATA_ATTRIBUTE,
+    //     card.domElement,
+    //     GameConfig.dataAttributes.cardParent,
+    //     card.positionData.parent
+    //   );
+    //   this.eventManager.emit(
+    //     GameEvents.SET_CARD_DATA_ATTRIBUTE,
+    //     card.domElement,
+    //     GameConfig.dataAttributes.cardDnd
+    //   );
+    // }
     await this.delay(this.clickLimitTime);
     this.isClickAllowed = true; // Разрешаем клики после задержки
     // this.cardsSystem.removeHandleCard(card);

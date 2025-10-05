@@ -18,59 +18,22 @@ export class Waste extends Pile {
   }
 
   addCard(card) {
+    console.log('addCard(card): ', card);
+    
     super.addCard(card);
     // у дом элемента waste нет первого дочернего элемента span,
     // поэтому можно позицию у карт начинать с 0
     card.positionData.offsetX = 0;
     card.positionData.offsetY = 0;
     this.uppp();
-    console.log(
-      "ПОСЛЕ addCard this.cards, this.topThreeCards: ",
-      this.cards,
-      this.topThreeCards
-    );
-  }
-
-  updatePositions(cardsLength, cardIndex) {
-    if (cardsLength <= 1) {
-      return { x: this.overlapX, y: this.overlapY };
-    }
-    if (cardIndex < this.maxVisibleCards) {
-      const offset = this.oneOverlapX * (this.maxVisibleCards - 1 - cardIndex);
-      return {
-        x: Math.min(offset, this.maxOverlapX),
-        y: this.overlapY,
-      };
-    } else {
-      return {
-        x: this.maxOverlapX + this.oneOverlapX,
-        y: this.overlapY,
-      };
-    }
-  }
-
-  uppp() {
-    const topThreeCards = [];
-    this.cards.forEach((card, index) => {
-      if (index <= this.maxVisibleCards) {
-        card.positionData.offsetX = index * this.oneOverlapX + this.overlapX;
-        topThreeCards.push(card);
-      } else if (index >= this.maxVisibleCards) {
-        console.log(
-          "else if (index => this.this.maxVisibleCards) card, index: ",
-          card,
-          index
-        );
-        card.positionData.offsetX = this.maxOverlapX;
-      }
-    });
-    this.topThreeCards = topThreeCards.reverse();
   }
 
   uppp() {
     const topThreeCards = [];
 
     this.cards.forEach((card, index) => {
+      console.log('uppp() card: ', card);
+      
       // Рассчитываем позицию от конца массива
       const positionFromEnd = this.cards.length - 1 - index;
 

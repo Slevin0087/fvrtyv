@@ -107,12 +107,18 @@ export class CardMovementSystem {
   }
 
   removeCardFromSource(card, source, elementFrom) {
+      console.log('removeCardFromSource source: ', source);
+
     if (source.startsWith(this.cardContainers.tableau)) {
       return elementFrom.removeCardsFrom(card);
     } else if (source.startsWith(this.cardContainers.foundation)) {
       return [elementFrom.removeTopCard()];
     } else if (source.startsWith(this.cardContainers.stock)) {
-      return [elementFrom.removeTopCard()];
+      const remove = elementFrom.removeTopCard()
+      console.log('remove: ', remove);
+      
+      // return [elementFrom.removeTopCard()];
+      return [remove]
     } else if (source.startsWith(this.cardContainers.waste)) {
       return [elementFrom.removeTopCard()];
     }
