@@ -1,8 +1,10 @@
 export class EventManager {
   constructor() {
     this.listeners = new Map();
+    this.asyncListeners = new Map();
   }
 
+  // Синхронная подписка
   on(event, callback) {
     console.log(`${event}: ${callback}`);
     if (!this.listeners.has(event)) {
@@ -11,8 +13,9 @@ export class EventManager {
     this.listeners.get(event).push(callback);
   }
 
+  // Синхронный вызов событий
   emit(event, ...args) {
-    console.log('event, ...args:', event, ...args);
+    console.log("event, ...args:", event, ...args);
 
     if (this.listeners.has(event)) {
       this.listeners.get(event).forEach((callback) => {
@@ -25,19 +28,44 @@ export class EventManager {
     }
   }
 
-  async emitAsync(event, ...args) {
-    console.log('event, ...args:', event, ...args);
-    
-    const handlers = this.listeners[event];
-    if (!handlers) return;
-
-    const promises = [];
-    for (const handler of handlers) {
-      promises.push(handler(...args));
+  // Асинхронная подписка
+  onAsync(event, callback) {
+    if (!this.asyncListeners.has(event)) {
+      this.asyncListeners.set(event, []);
     }
-
-    await Promise.all(promises);
+    this.asyncListeners.get(event).push(callback);
   }
+
+  // Асинхронный вызов событий
+  async emitAsync(event, ...args) {
+    const asyncCallbacks = [];
+    if (this.asyncListeners.has(event)) {
+      asyncCallbacks.push(...this.asyncListeners.get(event));
+    }
+    const promises = asyncCallbacks.map(async (callback) => {
+      try {
+        return await callback(...args);
+      } catch (error) {
+        console.error(`Error in async handler for ${event}:`, error);
+        throw error;
+      }
+    });
+    return await Promise.allSettled(promises);
+  }
+
+  // async emitAsync(event, ...args) {
+  //   console.log("event, ...args:", event, ...args);
+
+  //   const handlers = this.listeners[event];
+  //   if (!handlers) return;
+
+  //   const promises = [];
+  //   for (const handler of handlers) {
+  //     promises.push(handler(...args));
+  //   }
+
+  //   await Promise.all(promises);
+  // }
 
   off(event, callback) {
     if (this.listeners.has(event)) {

@@ -1,9 +1,10 @@
 import { GameConfig } from "../../configs/GameConfig.js";
 import { GameEvents } from "../../utils/Constants.js";
+import { gamePageElements } from "../../utils/gamePageElements.js";
 
 export class RenderStaticElements {
-  constructor(domElements, eventManager) {
-    this.domElements = domElements;
+  constructor(eventManager) {
+    this.gamePageElements = gamePageElements;
     this.eventManager = eventManager;
   }
 
@@ -13,13 +14,13 @@ export class RenderStaticElements {
   }
 
   addElementsInDom(foundations, tableaus) {
-    this.domElements.gameContainer.append(
-      this.domElements.rowElement,
-      this.domElements.tableausEl
+    this.gamePageElements.gameContainer.append(
+      this.gamePageElements.rowElement,
+      this.gamePageElements.tableausEl
     );
-    this.domElements.rowElement.append(
-      this.domElements.stockDivEl,
-      this.domElements.foundationsDiv
+    this.gamePageElements.rowElement.append(
+      this.gamePageElements.stockDivEl,
+      this.gamePageElements.foundationsDiv
     );
 
     foundations.forEach((foundation) => {
@@ -28,7 +29,7 @@ export class RenderStaticElements {
         foundation.element,
         GameConfig.dataAttributes.setFAndTContainers,
       );
-      this.domElements.foundationsDiv.append(foundation.element);
+      this.gamePageElements.foundationsDiv.append(foundation.element);
     });
 
     tableaus.forEach((tableau) => {
@@ -37,14 +38,14 @@ export class RenderStaticElements {
         tableau.element,
         GameConfig.dataAttributes.setFAndTContainers
       );
-      this.domElements.tableausEl.append(tableau.element);
+      this.gamePageElements.tableausEl.append(tableau.element);
     });
   }
 
   clearContainers() {
-    this.domElements.gameContainer.innerHTML = "";
-    this.domElements.rowElement.innerHTML = "";
-    this.domElements.tableausEl.innerHTML = "";
-    this.domElements.foundationsDiv.innerHTML = "";
+    this.gamePageElements.gameContainer.innerHTML = "";
+    this.gamePageElements.rowElement.innerHTML = "";
+    this.gamePageElements.tableausEl.innerHTML = "";
+    this.gamePageElements.foundationsDiv.innerHTML = "";
   }
 }

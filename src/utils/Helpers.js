@@ -1,4 +1,5 @@
-import { Translations, OtherTranslations } from "../locales/Translations.js";
+import { Translations } from "../locales/Translations.js";
+import { OtherTranslations } from "../locales/OtherTranslations.js";
 import { CardSuits, CardValues } from "./Constants.js";
 
 export class Helpers {

@@ -1,5 +1,5 @@
 import { GameEvents } from "../utils/Constants.js";
-import { CardsSystem } from "../systems/CardsSystem.js";
+import { CardsSystem } from "../systems/uiSystems/CardsSystem.js";
 import { Deck } from "../core/Deck.js";
 import { Foundation } from "../core/Foundation.js";
 import { Tableau } from "../core/Tableau.js";

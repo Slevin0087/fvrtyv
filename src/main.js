@@ -1,10 +1,10 @@
-import { GameManager } from "./managers/GameManager.js";
+import { GameInit } from "./core/GameInit.js";
 
 // Запуск приложения после загрузки DOM
 document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("contextmenu", function (e) {
     e.preventDefault();
   });
-  const gameManager = new GameManager();
-  gameManager.startApp();
+  const gameInit = new GameInit();
+  gameInit.init();
 });

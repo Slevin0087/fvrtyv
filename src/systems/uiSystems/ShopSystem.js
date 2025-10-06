@@ -1,14 +1,11 @@
-import { Storage } from "../utils/Storage.js";
-// import { Validator } from "../utils/Validator.js";
-import { ShopConfig } from "../configs/ShopConfig.js";
-import { GameEvents } from "../utils/Constants.js";
+import { GameEvents } from "../../utils/Constants.js";
 
 export class ShopSystem {
-  constructor(eventManager, stateManager) {
+  constructor(eventManager, storage, stateManager) {
     this.stateManager = stateManager;
     this.state = this.stateManager.state;
     this.eventManager = eventManager;
-    this.storage = new Storage();
+    this.storage = storage
     // this.validator = new Validator();
     this.init();
   }

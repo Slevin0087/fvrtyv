@@ -1,18 +1,21 @@
 import { GameEvents } from "../utils/Constants.js";
-import { EventManager } from "./EventManager.js";
-import { StateManager } from "./StateManager.js";
-import { UIManager } from "./UIManager.js";
-import { AudioManager } from "./AudioManager.js";
+import { EventManager } from "../managers/EventManager.js";
+import { StateManager } from "../managers/StateManager.js";
+import { UIManager } from "../managers/UIManager.js";
+import { AudioManager } from "../managers/AudioManager.js";
 import { Storage } from "../utils/Storage.js";
-import { CardsSystem } from "../systems/CardsSystem.js";
-import { GameLogicSystem } from "../systems/logic/GameLogicSystem.js";
-import { RenderingSystem } from "../systems/render/RenderingSystem.js";
-import { AnimationSystem } from "../systems/AnimationSystem.js";
-import { ShopSystem } from "../systems/ShopSystem.js";
+import { CardsSystem } from "../systems/uiSystems/CardsSystem.js";
+import { GameSetupSystem } from "../systems/logicSystems/GameSetupSystem.js";
+import { RenderStaticElements } from "../systems/renderSystems/RenderStaticElements.js";
+import { RenderStockElement } from "../systems/renderSystems/RenderStockElement.js";
+import { LogicSystemsInit } from "../systems/logicSystems/LogicSystemsInit.js";
+import { RenderingSystemsInit } from "../systems/renderSystems/RenderingSystemsInit.js";
+import { AnimationSystem } from "../systems/uiSystems/AnimationSystem.js";
+import { ShopSystem } from "../systems/uiSystems/ShopSystem.js";
 import { Helpers } from "../utils/Helpers.js";
-import { AchievementSystem } from "../systems/AchievementSystem.js";
+import { AchievementSystem } from "../systems/uiSystems/AchievementSystem.js";
 
-export class GameManager {
+export class GameInit {
   constructor() {
     this.timeInterval = null;
     this.startTime = 0;
@@ -20,13 +23,17 @@ export class GameManager {
     this.fullScreenBtn = document.getElementById("full-screen-btn");
   }
 
-  startApp() {
+  init() {
     // 1. Инициализация менеджеров
     this.eventManager = new EventManager();
     this.storage = new Storage(this.eventManager);
     this.stateManager = new StateManager(this.eventManager, this.storage);
     Helpers.changeLanguage(this.stateManager.state.settings.language);
-    this.achievementSystem = new AchievementSystem(this.eventManager, this.stateManager, this.storage);
+    this.achievementSystem = new AchievementSystem(
+      this.eventManager,
+      this.stateManager,
+      this.storage
+    );
     this.uiManager = new UIManager(this.eventManager, this.stateManager);
     this.audioManager = new AudioManager(this.eventManager, this.stateManager);
     this.cardsSystem = new CardsSystem(this.eventManager, this.stateManager);
@@ -35,19 +42,32 @@ export class GameManager {
       this.stateManager,
       this.cardsSystem
     );
-    this.gameLogicSystem = new GameLogicSystem(
+    this.gameSetupSystem = new GameSetupSystem(
+      this.eventManager,
+      this.stateManager
+    );
+    this.logicSystemsInit = new LogicSystemsInit(
       this.eventManager,
       this.stateManager,
       this.cardsSystem,
       this.audioManager
     );
-    this.renderingSystem = new RenderingSystem(
+    this.renderStaticElements = new RenderStaticElements(this.eventManager);
+    this.renderStockElement = new RenderStockElement(
       this.eventManager,
       this.stateManager,
-      this.gameLogicSystem,
+      this.logicSystemsInit
+    );
+    this.renderingSystem = new RenderingSystemsInit(
+      this.eventManager,
+      this.stateManager,
       this.cardsSystem
     );
-    this.shopSystem = new ShopSystem(this.eventManager, this.stateManager);
+    this.shopSystem = new ShopSystem(
+      this.eventManager,
+      this.storage,
+      this.stateManager
+    );
     this.eventManager.emit(GameEvents.SET_NAME_IN_INPUT);
     this.setupEventListeners();
   }
@@ -119,21 +139,21 @@ export class GameManager {
 
   async setGame() {
     this.cardsSystem.setCardsContainers();
-    this.gameLogicSystem.setCards(
+    this.gameSetupSystem.setCards(
       this.cardsSystem.deck,
       this.cardsSystem.stock
     );
 
-    this.renderingSystem.renderStaticElements(
+    this.renderStaticElements.render(
       this.cardsSystem.foundations,
       this.cardsSystem.tableaus
     );
 
-    this.renderingSystem.renderStockElement(
+    this.renderStockElement.render(
       this.cardsSystem.stock,
       this.cardsSystem.waste
     );
-    await this.gameLogicSystem.dealTableauCards(
+    await this.gameSetupSystem.dealTableauCards(
       this.cardsSystem.stock,
       this.cardsSystem.tableaus
     );

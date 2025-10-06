@@ -11,34 +11,32 @@ export class Animator {
   static animateStockCardMove(params, duration = 500) {
     return new Promise((resolve, reject) => {
       try {
-        const { card, tableau, onComplete, onError } = params;
+        const { card, tableau } = params;
 
         const cardElement = card.domElement;
         const oldOffsetX = card.positionData.offsetX;
         const oldOffsetY = card.positionData.offsetY;
-        // FLIP: First - запоминаем начальное положение
+
+        // Запоминаем начальное положение
         const initialRect = cardElement.getBoundingClientRect();
 
         tableau.addCard(card);
-        // void cardElement.offsetHeight; // Это заставляет браузер применить стили
 
         const newOffsetX = card.positionData.offsetX;
         const newOffsetY = card.positionData.offsetY;
-        // FLIP: Last - меняем родителя и устанавливаем конечное состояние
+        // Меняем родителя
         tableau.element.append(cardElement);
         void cardElement.offsetHeight; // Это заставляет браузер применить стили
 
-        // cardElement.style.transform = `translate(0, ${offset}px)`;
         const lastRect = cardElement.getBoundingClientRect();
         cardElement.style.zIndex = `100`;
 
-        // FLIP: Invert - получаем конечное положение и вычисляем разницу
+        // Получаем конечное положение и вычисляем разницу
         const deltaX = initialRect.left - lastRect.left + oldOffsetX;
         const deltaY = initialRect.top - lastRect.top + oldOffsetY;
 
-        // FLIP: Play - запускаем анимацию
         // Временно возвращаем элемент в начальную позицию с помощью transform
-        cardElement.style.transform = `translate(${oldOffsetX}px, ${oldOffsetY}px)`;
+        // cardElement.style.transform = `translate(${oldOffsetX}px, ${oldOffsetY}px)`;
 
         // Запускаем анимацию к конечному состоянию
         const animation = cardElement.animate(
@@ -57,12 +55,11 @@ export class Animator {
           // Убедимся, что конечное состояние зафиксировано
           cardElement.style.transform = `translate(${newOffsetX}px, ${newOffsetY}px)`;
           cardElement.style.zIndex = `${card.positionData.zIndex}`;
-          onComplete();
           resolve();
         };
 
         animation.oncancel = () => {
-          onError(new Error("Animation was cancelled"));
+          // onError(new Error("Animation was cancelled"));
           reject();
         };
       } catch (error) {
@@ -71,7 +68,7 @@ export class Animator {
     });
   }
 
-  static animateCardMove(
+  static async animateCardMove(
     card,
     source,
     elementFrom,
@@ -79,26 +76,22 @@ export class Animator {
     movementSystem,
     duration = 3000
   ) {
-    return new Promise((resolve, reject) => {
-      console.log('animateCardMove source: ', source);
-      
-      const removedCards = movementSystem.removeCardFromSource(
-        card,
-        source,
-        elementFrom
-      ); // removedCards УДАЛЯЕТ КАРТЫ ИЗ STOCK
-      console.log('removedCards: ', removedCards);
-      
-      removedCards.forEach((card) => {
-      console.log('removedCards card: ', card);
+    console.log("animateCardMove source: ", source);
+    const removedCards = movementSystem.removeCardFromSource(
+      card,
+      source,
+      elementFrom
+    );
+    console.log("removedCards: ", removedCards);
 
+    // Создаем массив промисов для всех анимаций
+    const animationPromises = await removedCards.map((card) => {
+      return new Promise((resolve, reject) => {
         const cardElement = card.domElement;
-
-        // Получаем начальные координаты карты
         const initialRect = cardElement.getBoundingClientRect();
-
         const oldOffsetX = card.positionData.offsetX;
         const oldOffsetY = card.positionData.offsetY;
+
         containerTo.addCard(card);
         containerTo.element.append(cardElement);
 
@@ -113,42 +106,119 @@ export class Animator {
           cardElement,
           GameConfig.dataAttributes.cardDnd
         );
+
         const newOffsetX = card.positionData.offsetX;
         const newOffsetY = card.positionData.offsetY;
+        void cardElement.offsetHeight;
 
-        void cardElement.offsetHeight; // Это заставляет браузер применить стили
-
-        // Получаем конечную позицию
         const lastRect = cardElement.getBoundingClientRect();
         cardElement.style.zIndex = "100";
 
         const deltaX = initialRect.left - lastRect.left + oldOffsetX;
         const deltaY = initialRect.top - lastRect.top + oldOffsetY;
 
-        // Запускаем анимацию
         const animation = cardElement.animate(
           [
             { transform: `translate(${deltaX}px, ${deltaY}px)` },
             { transform: `translate(${newOffsetX}px, ${newOffsetY}px)` },
           ],
-          {
-            duration,
-            easing: "linear",
-          }
+          { duration, easing: "linear" }
         );
 
-        // По завершении фиксируем результат
         animation.onfinish = () => {
           cardElement.style.transform = `translate(${newOffsetX}px, ${newOffsetY}px)`;
           cardElement.style.zIndex = `${card.positionData.zIndex}`;
           resolve();
         };
+
         animation.oncancel = () => {
           reject(new Error("Animation was cancelled"));
         };
       });
     });
+
+    // Ждем завершения ВСЕХ анимаций
+    await Promise.all(animationPromises);
   }
+
+  // static animateCardMove(
+  //   card,
+  //   source,
+  //   elementFrom,
+  //   containerTo,
+  //   movementSystem,
+  //   duration = 3000
+  // ) {
+  //   return new Promise((resolve, reject) => {
+  //     console.log('animateCardMove source: ', source);
+
+  //     const removedCards = movementSystem.removeCardFromSource(
+  //       card,
+  //       source,
+  //       elementFrom
+  //     ); // removedCards УДАЛЯЕТ КАРТЫ ИЗ STOCK
+  //     console.log('removedCards: ', removedCards);
+
+  //     removedCards.forEach((card) => {
+  //     console.log('removedCards card: ', card);
+
+  //       const cardElement = card.domElement;
+
+  //       // Получаем начальные координаты карты
+  //       const initialRect = cardElement.getBoundingClientRect();
+
+  //       const oldOffsetX = card.positionData.offsetX;
+  //       const oldOffsetY = card.positionData.offsetY;
+  //       containerTo.addCard(card);
+  //       containerTo.element.append(cardElement);
+
+  //       movementSystem.eventManager.emit(
+  //         GameEvents.SET_CARD_DATA_ATTRIBUTE,
+  //         cardElement,
+  //         GameConfig.dataAttributes.cardParent,
+  //         card.positionData.parent
+  //       );
+  //       movementSystem.eventManager.emit(
+  //         GameEvents.SET_CARD_DATA_ATTRIBUTE,
+  //         cardElement,
+  //         GameConfig.dataAttributes.cardDnd
+  //       );
+  //       const newOffsetX = card.positionData.offsetX;
+  //       const newOffsetY = card.positionData.offsetY;
+
+  //       void cardElement.offsetHeight; // Это заставляет браузер применить стили
+
+  //       // Получаем конечную позицию
+  //       const lastRect = cardElement.getBoundingClientRect();
+  //       cardElement.style.zIndex = "100";
+
+  //       const deltaX = initialRect.left - lastRect.left + oldOffsetX;
+  //       const deltaY = initialRect.top - lastRect.top + oldOffsetY;
+
+  //       // Запускаем анимацию
+  //       const animation = cardElement.animate(
+  //         [
+  //           { transform: `translate(${deltaX}px, ${deltaY}px)` },
+  //           { transform: `translate(${newOffsetX}px, ${newOffsetY}px)` },
+  //         ],
+  //         {
+  //           duration,
+  //           easing: "linear",
+  //         }
+  //       );
+
+  //       // По завершении фиксируем результат
+  //       animation.onfinish = () => {
+  //         cardElement.style.transform = `translate(${newOffsetX}px, ${newOffsetY}px)`;
+  //         cardElement.style.zIndex = `${card.positionData.zIndex}`;
+  //         resolve();
+  //       };
+  //       animation.oncancel = () => {
+  //         reject(new Error("Animation was cancelled"));
+  //       };
+  //     });
+  //   });
+  // }
 
   static animateCardFomStockToWaste(arr) {
     return new Promise((resolve, reject) => {
@@ -261,6 +331,8 @@ export class Animator {
 
   static flipCard(card, onHalfFlip, deg, eventManager, duration = 1) {
     return new Promise((resolve, reject) => {
+      console.log('static flipCard, card: ', card);
+      
       const tl = gsap.timeline({
         onComplete: () => {
           card.flipped = !card.flipped;

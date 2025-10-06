@@ -1,6 +1,6 @@
-import { GameEvents } from "../utils/Constants.js";
-import { currency, AchievementsConfig } from "../configs/AchievementsConfig.js";
-import { Animator } from "../utils/Animator.js";
+import { GameEvents } from "../../utils/Constants.js";
+import { currency, AchievementsConfig } from "../../configs/AchievementsConfig.js";
+import { Animator } from "../../utils/Animator.js";
 
 export class AchievementSystem {
   constructor(eventManager, stateManager, storage) {

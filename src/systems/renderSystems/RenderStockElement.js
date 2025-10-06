@@ -3,23 +3,18 @@ import {
   AnimationDurations,
   AnimationDegs,
 } from "../../utils/Constants.js";
+import { gamePageElements } from "../../utils/gamePageElements.js";
 import { GameConfig } from "../../configs/GameConfig.js";
 import { UIConfig } from "../../configs/UIConfig.js";
 import { Animator } from "../../utils/Animator.js";
 
 export class RenderStockElement {
-  constructor(
-    eventManager,
-    stateManager,
-    gameLogicSystem,
-    domElements,
-    cardsSystem
-  ) {
+  constructor(eventManager, stateManager, logicSystemsInit, cardsSystem) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
     this.state = this.stateManager.state;
-    this.gameLogicSystem = gameLogicSystem;
-    this.domElements = domElements;
+    this.logicSystemsInit = logicSystemsInit;
+    this.gamePageElements = gamePageElements;
     this.cardsSystem = cardsSystem;
     this.wasteCardFlip = AnimationDurations.WASTE_CARD_FLIP;
     this.degsCardFlip = AnimationDegs.CARD_FLIP;
@@ -39,8 +34,8 @@ export class RenderStockElement {
   }
 
   render(stock, waste) {
-    this.domElements.stockDivEl.innerHTML = "";
-    this.domElements.stockDivEl.append(stock.element, waste.element);
+    this.gamePageElements.stockDivEl.innerHTML = "";
+    this.gamePageElements.stockDivEl.append(stock.element, waste.element);
     this.renderStockCards(stock);
     stock.element.addEventListener("click", async () => {
       await this.handleStockElement(stock, waste);
@@ -96,16 +91,19 @@ export class RenderStockElement {
           };
         });
         card.positionData.parent = stock.type;
-        // await this.delay(50)
-        await this.gameLogicSystem.handleCardMove({
+        // await this.delay(500)
+        await this.logicSystemsInit.handleCardMove({
           card,
           containerToIndex: 0,
           containerTo: waste,
           containerToName: this.cardContainers.waste,
         });
         // await this.delay(500);
+        console.log('до await this.flipCard(card): ', card.positionData.parent);
 
         await this.flipCard(card);
+        console.log('после await this.flipCard(card): ', card.positionData.parent);
+        
         this.eventManager.emit(
           GameEvents.SET_CARD_DATA_ATTRIBUTE,
           card.domElement,
@@ -119,7 +117,7 @@ export class RenderStockElement {
         );
       }
     }
-    await this.delay(400);
+    // await this.delay(400);
     if (oldOffsetsTopThreeCards) {
       console.log("oldOffsetsTopThreeCards: ", oldOffsetsTopThreeCards);
 
@@ -184,7 +182,6 @@ export class RenderStockElement {
 
     // Сохраняем ссылку на DOM элемент в карте
     card.domElement = cardElement;
-    // this.cardsSystem.removeHandleCard(card);
     container.append(cardElement);
   }
 
@@ -197,12 +194,29 @@ export class RenderStockElement {
     card.domElement.style.zIndex = zIndex;
   }
 
+  // async flipCard(card) {
+  //   try {
+  //     await this.eventManager.emitAsync(GameEvents.CARD_FLIP, card);
+  //   } catch (error) {
+  //     console.log(error);
+  //     throw error;
+  //   }
+  // }
+
   async flipCard(card) {
     try {
-      this.eventManager.emit(GameEvents.CARD_FLIP, card);
+      console.log("1. Before emitAsync");
+
+      // Тест 1: Проверяем возвращаемое значение
+      const result = this.eventManager.emitAsync(GameEvents.CARD_FLIP, card);
+      console.log("2. After emitAsync, result:", result);
+      console.log("3. Is result a Promise?", result instanceof Promise);
+
+      // Тест 2: Проверяем асинхронность
+      await result;
+      console.log("4. After await");
     } catch (error) {
-      console.log(error);
-      throw error;
+      console.log("Error:", error);
     }
   }
 

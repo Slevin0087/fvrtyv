@@ -1,13 +1,15 @@
 import { GameEvents, AnimationDurations } from "../../utils/Constants.js";
 import { UIConfig } from "../../configs/UIConfig.js";
 import { GameConfig } from "../../configs/GameConfig.js";
+import { Animator } from "../../utils/Animator.js";
 
 export class GameSetupSystem {
   constructor(eventManager, stateManager) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
-    this.state = this.stateManager.state
+    this.state = this.stateManager.state;
     this.cardMoveDuration = UIConfig.animations.cardMoveDuration;
+    this.startMoveSpeed = UIConfig.animations.startMoveSpeed;
     // this.faceDownCards = this.stateManager.state.faceDownCards;
 
     this.setupEventListeners();
@@ -23,7 +25,7 @@ export class GameSetupSystem {
     );
 
     this.eventManager.on(GameEvents.ADD_CARD_CLICK, (card) => {
-      card.domElement.addEventListener('click', this.handleCard(card))
+      card.domElement.addEventListener("click", this.handleCard(card));
     });
     this.eventManager.on(
       GameEvents.SET_CARD_DATA_ATTRIBUTE,
@@ -45,26 +47,24 @@ export class GameSetupSystem {
   }
 
   async dealTableauCards(stock, tableaus) {
-    try {
-      for (let i = 0; i < 7; i++) {
-        for (let j = 0; j <= i; j++) {
-          await this.dealSingleCard(stock, tableaus[i], j === i);
-        }
+    const tableausCounts = 7; // Количество tableau(колонок)
+    for (let tableauCount = 0; tableauCount < tableausCounts; tableauCount++) {
+      for (let cardCount = 0; cardCount <= tableauCount; cardCount++) {
+        const isFaceUp = cardCount === tableauCount;
+        await this.dealSingleCard(stock, tableaus[tableauCount], isFaceUp);
       }
-    } catch (error) {
-      throw new Error(error);
     }
   }
 
-  async dealSingleCard(stock, tableau, shouldFaceUp) {
+  async dealSingleCard(stock, tableau, isFaceUp) {
     try {
       const card = stock.deal();
       if (!card) throw new Error("No cards left in stock");
-      card.faceUp = shouldFaceUp;
+      card.faceUp = isFaceUp;
       // tableau.addCard(card);
       // void card.domElement.offsetHeight
       await this.animateCardMove(card, tableau);
-      if (shouldFaceUp) {
+      if (isFaceUp) {
         await this.flipCard(card);
         this.setDataAttribute(
           card.domElement,
@@ -75,7 +75,7 @@ export class GameSetupSystem {
           card.domElement,
           GameConfig.dataAttributes.cardDnd
         );
-      } else if (!shouldFaceUp) this.updateFaceDownCard(card);
+      } else if (!isFaceUp) this.updateFaceDownCard(card);
       // this.removeHandleCard(card);
       // this.handleCard(card);
     } catch (error) {
@@ -85,35 +85,31 @@ export class GameSetupSystem {
 
   async animateCardMove(card, tableau) {
     try {
-      await new Promise((resolve, reject) => {
-        // console.log("в animateCardMove");
-        this.eventManager.emit(GameEvents.ANIMATE_STOCK_CARD_MOVE, {
+      await Animator.animateStockCardMove(
+        {
           card,
           tableau,
-          onComplete: resolve,
-          onError: reject,
-        });
-      });
+        },
+        this.startMoveSpeed
+      );
       this.eventManager.emit(GameEvents.AUDIO_CARD_MOVE);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async flipCard(card) {
-    try {
-      // return new Promise(() => {
-      this.eventManager.emit(GameEvents.CARD_FLIP, card);
-      // });
     } catch (error) {
       console.log(error);
       throw error;
     }
   }
 
+  async flipCard(card) {
+    try {
+      await this.eventManager.emitAsync(GameEvents.CARD_FLIP, card);
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  }
+
   handleCard(card) {
     // card.domElement.addEventListener("click", () => {
-      this.eventManager.emit(GameEvents.CARD_CLICK, card);
+    this.eventManager.emit(GameEvents.CARD_CLICK, card);
     // });
   }
 

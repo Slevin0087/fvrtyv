@@ -2,11 +2,11 @@ import {
   GameEvents,
   AnimationDurations,
   AnimationDegs,
-} from "../utils/Constants.js";
-import { Animator } from "../utils/Animator.js";
-import { UIConfig } from "../configs/UIConfig.js";
-import { CardSuits, CardValues } from "../utils/Constants.js";
-import { Helpers } from "../utils/Helpers.js";
+} from "../../utils/Constants.js";
+import { Animator } from "../../utils/Animator.js";
+import { UIConfig } from "../../configs/UIConfig.js";
+import { CardSuits, CardValues } from "../../utils/Constants.js";
+import { Helpers } from "../../utils/Helpers.js";
 
 export class AnimationSystem {
   constructor(eventManager, stateManager, cardsSystem) {
@@ -54,6 +54,14 @@ export class AnimationSystem {
     //   this.animateCardMove(card, from, to, callback)
     // );
 
+    this.eventManager.onAsync(GameEvents.CARD_FLIP, async (card) => {
+      await this.animateCardFlip(
+        card,
+        this.degsCardFlip,
+        this.cardFlipDuration
+      );
+    });
+
     this.eventManager.on(GameEvents.CARD_FLIP, async (card) => {
       await this.animateCardFlip(
         card,
@@ -84,10 +92,6 @@ export class AnimationSystem {
       }
     );
 
-    this.eventManager.on(GameEvents.ANIMATE_STOCK_CARD_MOVE, async (params) => {
-      await Animator.animateStockCardMove(params, this.startMoveSpeed);
-    });
-
     this.eventManager.on(
       GameEvents.ANIMATE_UNDO_TO_WASTE,
       (card, toElement) => {
@@ -115,23 +119,11 @@ export class AnimationSystem {
       }
     );
 
-    this.eventManager.on("ui:animate:return", (dragState) =>
-      this.animateReturnToSource(dragState)
-    );
-
-    this.eventManager.on("ui:animate:undo", (moveData, callback) =>
-      this.animateUndoMove(moveData, callback)
-    );
-
     // this.eventManager.on(GameEvents.UI_ANIMATE_DEAL_CARDS, () => this.dealCardsAnimation());
 
     this.eventManager.on(GameEvents.UI_ANIMATE_WIN, () =>
       this.playWinAnimation()
     );
-
-    this.eventManager.on("card:select", (card) => this.highlightCard(card));
-
-    this.eventManager.on("card:deselect", (card) => this.unhighlightCard(card));
   }
 
   // registerComponents() {
@@ -243,8 +235,6 @@ export class AnimationSystem {
       const cardDomElement = card.domElement;
       const cardSuit = card.suit;
       const { backStyle, faceStyle } = this.cardsSystem.getCardStyles();
-      console.log("this.state.player:", this.state.player);
-
       const selectedFaces = this.state.player.selectedItems.faces;
 
       card.isAnimating = true;
@@ -253,7 +243,6 @@ export class AnimationSystem {
         () => {
           // Колбэк на середине анимации (90 градусов)
           cardDomElement.innerHTML = "";
-          console.log("cardDomElement.innerHTML:", cardDomElement.innerHTML);
           cardDomElement.classList.remove(backStyle);
 
           if (selectedFaces.bgType === "styles") {
@@ -272,18 +261,15 @@ export class AnimationSystem {
             cardDomElement.classList.add(faceStyle);
             cardDomElement.append(topSymbol, centerSymbol, bottomSymbol);
           } else if (selectedFaces.bgType === "images") {
-            console.log("ifffffffffffffffffffffffffffffffffffffffffffff");
             const cardValue = card.value;
             cardDomElement.style.backgroundImage = `url(${selectedFaces.previewImage.img})`;
             const elementPositions = Helpers.calculatePosition(
               cardSuit,
               cardValue,
-              cardDomElement,
+              cardDomElement
             );
             cardDomElement.style.backgroundPosition = `${elementPositions.x}% ${elementPositions.y}%`;
             if (selectedFaces.previewImage.styles)
-              console.log('ВВВВВВВВВВВВВВВВВВВВВВВВВif (selectedFaces.previewImage.styles): ', selectedFaces.previewImage.styles);
-              
               Object.assign(
                 cardDomElement.style,
                 selectedFaces.previewImage.styles
@@ -316,8 +302,10 @@ export class AnimationSystem {
           // this.cardsSystem.removeHandleCard(card);
 
           card.domElement.innerHTML = "";
-          if (selectedFaces.bgType === "styles") card.domElement.classList.remove(faceStyle);
-          else if (selectedFaces.bgType === "images") card.domElement.style.backgroundImage = "";
+          if (selectedFaces.bgType === "styles")
+            card.domElement.classList.remove(faceStyle);
+          else if (selectedFaces.bgType === "images")
+            card.domElement.style.backgroundImage = "";
           card.domElement.classList.add(backStyle);
         },
         deg,
@@ -345,20 +333,6 @@ export class AnimationSystem {
         duration: 300,
         easing: "ease-out",
       });
-
-      this.isAnimating = false;
-      this.processQueue();
-    };
-
-    this.addToQueue(animation);
-  }
-
-  animateUndoMove(moveData, callback) {
-    const animation = async () => {
-      this.isAnimating = true;
-
-      const { card, from, to } = moveData;
-      await this.animateCardMove(card, to, from, callback);
 
       this.isAnimating = false;
       this.processQueue();

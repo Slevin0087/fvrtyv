@@ -1,25 +1,17 @@
 import { UIConfig } from "../../configs/UIConfig.js";
-import { Stock } from "../../core/Stock.js";
 import { GameEvents } from "../../utils/Constants.js";
-import { RenderStaticElements } from "./RenderStaticElements.js";
-import { RenderStockElement } from "./RenderStockElement.js";
+import { gamePageElements } from "../../utils/gamePageElements.js";
+// import { RenderStaticElements } from "./RenderStaticElements.js";
+// import { RenderStockElement } from "./RenderStockElement.js";
 
-export class RenderingSystem {
-  constructor(eventManager, stateManager, gameLogicSystem, cardsSystem) {
+export class RenderingSystemsInit {
+  constructor(eventManager, stateManager, cardsSystem) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
     this.state = this.stateManager.state;
-    this.gameLogicSystem = gameLogicSystem;
     this.cardsSystem = cardsSystem;
     this.components = {};
-    this.domElements = {
-      gameContainer: document.getElementById("game-container"),
-      rowElement: document.getElementById("row"),
-      foundationsDiv: document.getElementById("foundationsDiv"),
-      tableausEl: document.getElementById("tableausDiv"),
-      stockDivEl: document.getElementById("stockDiv"),
-      wasteContainer: document.getElementById("waste"),
-    };
+    this.gamePageElements = gamePageElements;
 
     this.init();
   }
@@ -30,29 +22,23 @@ export class RenderingSystem {
   }
 
   registerComponents() {
-    this.components = {
-      renderStaticElements: new RenderStaticElements(
-        this.domElements,
-        this.eventManager
-      ),
-      renderStockElement: new RenderStockElement(
-        this.eventManager,
-        this.stateManager,
-        this.gameLogicSystem,
-        this.domElements,
-        this.cardsSystem
-      ),
-    };
+    // this.components = {
+    //   renderStaticElements: new RenderStaticElements(
+    //     this.gamePageElements,
+    //     this.eventManager
+    //   ),
+    //   renderStockElement: new RenderStockElement(
+    //     this.eventManager,
+    //     this.stateManager,
+    //     this.gameLogicSystem,
+    //     this.gamePageElements,
+    //     this.cardsSystem
+    //   ),
+    // };
   }
 
   setupEventListeners() {
-    // this.eventManager.on("card:moved", (data) => this.animateCardMove(data));
-    // this.eventManager.on("card:flipped", (card) => this.animateCardFlip(card));
-    // this.eventManager.on("game:undo:move", (data) =>
-    //   this.animateUndoMove(data)
-    // );
     this.eventManager.on(GameEvents.HINT_SHOW, (hint) => this.showHint(hint));
-    // this.eventManager.on("ui:theme:change", (theme) => this.applyTheme(theme));
   }
 
   /////////////////////////////////
