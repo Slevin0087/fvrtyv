@@ -79,7 +79,9 @@ export class LogicSystemsInit {
     //   this.handleCardMove(data)
     // );
     this.eventManager.on(GameEvents.CARDS_COLLECT, () => this.cardsCollect());
-    this.eventManager.on(GameEvents.HINT_BTN_CLICK, () => this.hintSystem.provide());
+    this.eventManager.on(GameEvents.HINT_BTN_CLICK, () =>
+      this.hintSystem.provide()
+    );
     this.eventManager.on("game:undo", () => this.undoSystem.execute());
   }
 
@@ -99,8 +101,8 @@ export class LogicSystemsInit {
     containerToName,
   }) {
     const source = this.movementSystem.getCardSource(card);
-    console.log('const source: ', source);
-    
+    console.log("const source: ", source);
+
     const elementFrom = this.movementSystem.getElementFrom(source);
     this.undoSystem.updateLastMove({
       card,
@@ -116,6 +118,24 @@ export class LogicSystemsInit {
       this.movementSystem,
       this.cardMoveDuration
     );
+    if (source.startsWith(GameConfig.cardContainers.waste)) {
+      const waste = this.movementSystem.getElementFrom(source);
+      console.log('const waste: ', waste);
+      
+      const topThreeCards = waste.uppp();
+      const oldOffsetsTopThreeCards = topThreeCards.map((card) => {
+        return {
+          card,
+          oldOffsetX: card.positionData.offsetX,
+          oldOffsetY: card.positionData.offsetY,
+        };
+      });
+      if (oldOffsetsTopThreeCards.length > 0) {
+        console.log("oldOffsetsTopThreeCards в handleCardMove: ", oldOffsetsTopThreeCards);
+
+        await Animator.animateCardFomStockToWaste(oldOffsetsTopThreeCards);
+      }
+    }
     // setTimeout(() => {
     this.stateManager.updateMoves(this.numberMoves);
     this.eventManager.emit(GameEvents.UP_MOVES);
@@ -136,7 +156,6 @@ export class LogicSystemsInit {
           this.textToFoundationCheckAchievements,
           this.typeToFoundationCheckAchievements
         );
-
       } else if (source.startsWith(GameConfig.cardContainers.foundation)) {
         operator = this.subtraction;
         isSourceFromFoundation = !isSourceFromFoundation;

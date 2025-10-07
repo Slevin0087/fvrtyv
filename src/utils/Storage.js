@@ -22,7 +22,7 @@ export class Storage {
       cardsFlipped: 0,
       winsWithoutHints: 0,
       winsWithoutUndo: 0,
-      dealingCards: 3,
+      dealingCards: 1,
       // minPossibleMoves: 52, // Теоретический минимум для пасьянса
       minPossibleMoves: Infinity,
       purchasedItems: {

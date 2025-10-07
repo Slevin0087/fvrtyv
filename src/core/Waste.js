@@ -49,6 +49,6 @@ export class Waste extends Pile {
       }
     });
 
-    this.topThreeCards = topThreeCards;
+    return this.topThreeCards = topThreeCards;
   }
 }

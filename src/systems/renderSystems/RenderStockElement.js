@@ -43,7 +43,7 @@ export class RenderStockElement {
   }
 
   async handleStockElement(stock, waste) {
-    console.log("КЛИК ПО STOCK ЭЛЕМЕНТУ");
+    console.log("КЛИК ПО STOCK ЭЛЕМЕНТУ this.isClickAllowed: ", this.isClickAllowed);
     if (!this.isClickAllowed) {
       return; // Если клики запрещены, ничего не делаем
     }
@@ -118,48 +118,15 @@ export class RenderStockElement {
       }
     }
     // await this.delay(400);
-    if (oldOffsetsTopThreeCards) {
+    if (oldOffsetsTopThreeCards.length > 0) {
       console.log("oldOffsetsTopThreeCards: ", oldOffsetsTopThreeCards);
 
       await Animator.animateCardFomStockToWaste(oldOffsetsTopThreeCards);
     }
-    // const card = stock.getWasteCard();
-    // if (card) {
-    //   this.eventManager.emit(GameEvents.AUDIO_CARD_CLICK);
-    //   const topThreeCards = waste.topThreeCards;
-    //   console.log("topThreeCards: ", topThreeCards);
-
-    //   const oldOffsetsTopThreeCards = topThreeCards.map((card) => {
-    //     return {
-    //       card,
-    //       oldOffsetX: card.positionData.offsetX,
-    //       oldOffsetY: card.positionData.offsetY,
-    //     };
-    //   });
-    //   await this.gameLogicSystem.handleCardMove({
-    //     card,
-    //     containerToIndex: 0,
-    //     containerTo: waste,
-    //     containerToName: this.cardContainers.waste,
-    //   });
-    //   await this.flipCard(card);
-    //   if (oldOffsetsTopThreeCards) {
-    //     Animator.animateCardFomStockToWaste(oldOffsetsTopThreeCards);
-    //   }
-    //   this.eventManager.emit(
-    //     GameEvents.SET_CARD_DATA_ATTRIBUTE,
-    //     card.domElement,
-    //     GameConfig.dataAttributes.cardParent,
-    //     card.positionData.parent
-    //   );
-    //   this.eventManager.emit(
-    //     GameEvents.SET_CARD_DATA_ATTRIBUTE,
-    //     card.domElement,
-    //     GameConfig.dataAttributes.cardDnd
-    //   );
-    // }
+    console.log('this.isClickAllowed в конце: ', this.isClickAllowed);
     await this.delay(this.clickLimitTime);
     this.isClickAllowed = true; // Разрешаем клики после задержки
+    
     // this.cardsSystem.removeHandleCard(card);
     // this.cardsSystem.handleCard(card);
   }

@@ -221,8 +221,10 @@ export class Animator {
   // }
 
   static animateCardFomStockToWaste(arr) {
+    console.log('static animateCardFomStockToWaste arr: ', arr);
     return new Promise((resolve, reject) => {
       arr.forEach(({ card, oldOffsetX, oldOffsetY }, duration = 300) => {
+        
         const cardElement = card.domElement;
 
         // Получаем начальные координаты карты
