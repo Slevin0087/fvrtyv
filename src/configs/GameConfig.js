@@ -12,6 +12,7 @@ export const GameConfig = {
     winScoreBonus: 100,
     hintCost: 5,
     initialMove: 1,
+    defaultDealingCards: 1,
   },
 
   difficulties: {

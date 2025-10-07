@@ -62,6 +62,7 @@ export const GameEvents = {
   SET_NEW_GAME: "set:new:game",
   SET_CARDS_COMPONENTS: "set:cards:components",
   SET_CARD_DATA_ATTRIBUTE: "set:card:data:attribute",
+  SET_DEALING_CARDS: 'set:dealing:cards',
   GAME_NEW: "game:new",
   GAME_START: "game:start",
   GAME_CONTINUE: "game:continue",

@@ -72,7 +72,7 @@ export class RenderStockElement {
       return;
     }
     this.isClickAllowed = false;
-    const nOfCards = this.state.player.dealingCards; // СЕЙЧАС ЭТО РАВНО 3
+    const nOfCards = this.state.dealingCards; // СЕЙЧАС ЭТО РАВНО 3
     const nTopCards = stock.getNTopCards(nOfCards);
     console.log("nTopCards: ", nTopCards);
     let topThreeCards = [];

@@ -41,13 +41,17 @@ export class UISettingsPage extends UIPage {
 
     this.elements.dealingCardsOne.addEventListener("change", (e) => {
       if (e.target.checked) {
-        this.stateManager.state.player.dealingCards = Number(e.target.value);
+        const value = Number(e.target.value);
+        // this.stateManager.state.player.dealingCards = Number(e.target.value);
+        this.eventManager.emit(GameEvents.SET_DEALING_CARDS, value);
       }
     });
 
     this.elements.dealingCardsThree.addEventListener("change", (e) => {
       if (e.target.checked) {
-        this.stateManager.state.player.dealingCards = Number(e.target.value);
+        const value = Number(e.target.value);
+        // this.stateManager.state.player.dealingCards = Number(e.target.value);
+        this.eventManager.emit(GameEvents.SET_DEALING_CARDS, value);
       }
     });
   }

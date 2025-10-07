@@ -1,4 +1,5 @@
 import { GameEvents } from "../utils/Constants.js";
+import { GameConfig } from "../configs/GameConfig.js";
 import { achType, achCheckName } from "../configs/AchievementsConfig.js";
 
 export class StateManager {
@@ -12,9 +13,10 @@ export class StateManager {
 
   init() {
     this.state = this.getInitialState();
+    this.upDealingCardsValue(this.state.player.dealingCards);
     this.state.stateForAchievements.minPossibleMoves =
       this.state.player.minPossibleMoves;
-    this.state.hintCounterState = this.state.player.hintQuantity
+    this.state.hintCounterState = this.state.player.hintQuantity;
     this.setupEventListeners();
   }
 
@@ -33,6 +35,7 @@ export class StateManager {
       },
       cardsComponents: null,
       faceDownCards: [],
+      dealingCards: GameConfig.rules.defaultDealingCards,
       ui: this.storage.getUIStats(),
       game: this.storage.getGameStats(),
       player: this.storage.getPlayerStats(),
@@ -93,6 +96,7 @@ export class StateManager {
       this.resetLastMove();
       this.resetMoves(0);
       this.resetAchievementsActive();
+      this.getDealingCardsValue();
     });
 
     this.eventManager.on(GameEvents.SET_NEW_GAME, () => {
@@ -100,6 +104,7 @@ export class StateManager {
       this.resetTime(0);
       this.resetLastMove();
       this.resetMoves(0);
+      this.getDealingCardsValue();
     });
 
     this.eventManager.on(GameEvents.SET_DIFFICUTY_CHANGE, (value) => {
@@ -151,7 +156,14 @@ export class StateManager {
       this.resetLastMove()
     );
 
-    this.eventManager.on(GameEvents.UP_HITUSED_STATE, (count) => this.updateHintUsed(count))
+    this.eventManager.on(GameEvents.UP_HITUSED_STATE, (count) =>
+      this.updateHintUsed(count)
+    );
+
+    this.eventManager.on(GameEvents.SET_DEALING_CARDS, (value) => {
+      this.state.player.dealingCards = value;
+      this.savePlayerStats();
+    });
   }
 
   getAllData() {
@@ -304,6 +316,15 @@ export class StateManager {
     this.state.player.totalMoves += n;
   }
 
+  upDealingCardsValue(value) {
+    this.state.dealingCards = value;
+  }
+
+  getDealingCardsValue() {
+    const playerStats = this.storage.getPlayerStats();
+    this.upDealingCardsValue(playerStats.dealingCards);
+  }
+
   updateScore(points) {
     this.state.game.score += points;
     this.state.stateForAchievements.score += points;
@@ -319,7 +340,7 @@ export class StateManager {
   }
 
   updateHintUsed(count) {
-    this.state.game.hintUsed += count
+    this.state.game.hintUsed += count;
   }
 
   incrementGameStat(statName, amount = 1) {
