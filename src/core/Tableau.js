@@ -6,6 +6,7 @@ export class Tableau extends Pile {
     super("tableau", index);
     this.overlapY = UIConfig.layout.card.tableauOverlapY; // Каскадное смещение карт
     this.element = this.createPileElement();
+    this.setOverlapY();
   }
 
   createPileElement() {
@@ -22,7 +23,7 @@ export class Tableau extends Pile {
     if (!card.faceUp) return false;
     if (this.isEmpty()) return card.value === "K";
 
-    const topCard = this.getTopCard();    
+    const topCard = this.getTopCard();
     return card.isOppositeColor(topCard) && card.isNextInSequence(topCard);
   }
 
@@ -55,5 +56,16 @@ export class Tableau extends Pile {
       return topCards;
     }
     return [];
+  }
+
+  setOverlapY() {
+    const width = window.innerWidth;
+    console.log("width: ", width);
+
+    if (width < 768)
+      return (this.overlapY = UIConfig.layout.card.tableauOverlapY);
+    if (width > 768)
+      return (this.overlapY = UIConfig.layout.card.tableauOverlapY1024px);
+    return this.overlapY;
   }
 }

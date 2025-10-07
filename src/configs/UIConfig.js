@@ -1,5 +1,6 @@
 const defaultValues = {
-  tableauOverlapY: 20
+  tableauOverlapY: 20,
+  tableauOverlapY1024px: 30,
 }
 
 export const UIConfig = {
@@ -89,9 +90,11 @@ export const UIConfig = {
       borderRadius: 8,
       // tableauOverlapY: 20,
       tableauOverlapY: defaultValues.tableauOverlapY,
+      tableauOverlapY1024px: defaultValues.tableauOverlapY1024px,
       wasteOverlapX: 0.2,
       wasteOverlapY: -0.2,
       wasteOneOverlapX: defaultValues.tableauOverlapY,
+      wasteOneOverlapX1024px: defaultValues.tableauOverlapY1024px,
       wasteMaxVisibleCards: 3,
       stockOverlapX: -0.2,
       stockOverlapY: -0.2,

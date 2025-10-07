@@ -8,6 +8,7 @@ export class Waste extends Pile {
     this.overlapY = UIConfig.layout.card.wasteOverlapY; // Смещение для отображения веера карт
     this.oneOverlapX = UIConfig.layout.card.wasteOneOverlapX;
     this.maxVisibleCards = UIConfig.layout.card.wasteMaxVisibleCards;
+    this.setOverlapX();
     this.maxOverlapX = this.oneOverlapX * (this.maxVisibleCards - 1);
     this.element = super.createPileElement();
     this.topThreeCards = [];
@@ -18,8 +19,8 @@ export class Waste extends Pile {
   }
 
   addCard(card) {
-    console.log('addCard(card): ', card);
-    
+    console.log("addCard(card): ", card);
+
     super.addCard(card);
     // у дом элемента waste нет первого дочернего элемента span,
     // поэтому можно позицию у карт начинать с 0
@@ -32,8 +33,8 @@ export class Waste extends Pile {
     const topThreeCards = [];
 
     this.cards.forEach((card, index) => {
-      console.log('uppp() card: ', card);
-      
+      console.log("uppp() card: ", card);
+
       // Рассчитываем позицию от конца массива
       const positionFromEnd = this.cards.length - 1 - index;
 
@@ -49,6 +50,42 @@ export class Waste extends Pile {
       }
     });
 
-    return this.topThreeCards = topThreeCards;
+    return (this.topThreeCards = topThreeCards);
+  }
+
+  setOverlapX() {
+    const width = window.innerWidth;
+    const breakpoints = [
+      { max: 400, multiplier: 1.1, base: "wasteOneOverlapX" },
+      { max: 425, multiplier: 1.2, base: "wasteOneOverlapX" },
+      { max: 450, multiplier: 1, base: "wasteOneOverlapX" },
+      { max: 500, multiplier: 1.2, base: "wasteOneOverlapX" },
+      { max: 525, multiplier: 1.4, base: "wasteOneOverlapX" },
+      { max: 550, multiplier: 1.6, base: "wasteOneOverlapX" },
+      { max: 600, multiplier: 1.7, base: "wasteOneOverlapX" },
+      { max: 620, multiplier: 1.8, base: "wasteOneOverlapX" },
+      { max: 650, multiplier: 1.8, base: "wasteOneOverlapX" },
+      { max: 700, multiplier: 1.9, base: "wasteOneOverlapX" },
+      { max: 725, multiplier: 1.9, base: "wasteOneOverlapX" },
+      { max: 745, multiplier: 2, base: "wasteOneOverlapX" },
+      { max: 768, multiplier: 2.1, base: "wasteOneOverlapX" },
+      { max: 800, multiplier: 2.2, base: "wasteOneOverlapX" },
+      { max: 850, multiplier: 2.2, base: "wasteOneOverlapX" },
+      { max: 870, multiplier: 2.2, base: "wasteOneOverlapX" },
+      { max: 900, multiplier: 2.2, base: "wasteOneOverlapX" },
+      { max: 1000, multiplier: 2.4, base: "wasteOneOverlapX" },
+      { max: 1100, multiplier: 2.3, base: "wasteOneOverlapX" },
+      { max: 1150, multiplier: 2.3, base: "wasteOneOverlapX" },
+      { max: 1200, multiplier: 1.5, base: "wasteOneOverlapX1024px" },
+      { max: 1500, multiplier: 1.7, base: "wasteOneOverlapX1024px" },
+      { max: 1600, multiplier: 1.7, base: "wasteOneOverlapX1024px" },
+      { max: Infinity, multiplier: 2.2, base: "wasteOneOverlapX1024px" },
+    ];
+
+    const config = breakpoints.find((bp) => width <= bp.max);
+    this.oneOverlapX = UIConfig.layout.card[config.base] * config.multiplier;
+    console.log('this.oneOverlapX: ', this.oneOverlapX);
+    
+    return this.oneOverlapX;
   }
 }
