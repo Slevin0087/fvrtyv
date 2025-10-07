@@ -3,11 +3,19 @@
   --padding-top-p-state: 1em;
   --gap-for-pstate-head: 1em;
   --padding-psate-head: 0.5em;
-  --btn-pstate-left-bottom: 1em;
+  --btn-pstate-left-bottom: 2vw;
   --font-size-ps-350px: 1.3em;
+  --font-size-table-900px: 1.4em;
   --padding-table: 1em;
+  --padding-table-350: 2vw;
+  --padding-table-750px: 5vw;
   --p-state-table-width-1200: calc(100vw / 2);
   --p-state-table-width-1500: calc(100vw / 4);
+  --padding-player-state-content-left-right: 2vw;
+  --padding-player-state-content-left-right-750: 10vw;
+  --padding-player-state-content-left-right-900: 15vw;
+  --padding-player-state-content-left-right-1200: 20vw;
+  --padding-player-state-content-left-right-1500: 30vw;
 }
 
 .player-state {
@@ -40,13 +48,20 @@
   padding: var(--padding-psate-head);
 }
 
+.player-state-div {
+  width: 100vw;
+  height: 100vh;
+}
+
 .player-state-content {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
+  /* padding-left: var(--padding-player-state-content-left-right);
+  padding-right: var(--padding-player-state-content-left-right); */
 }
 
 .p-state-table {
@@ -54,10 +69,7 @@
   grid-template-columns: auto 1fr; /* Левая колонка по ширине контента */
   gap: 12px 20px;
   width: 100%;
-  padding: var(--padding-table);
-  /* max-width: 600px; Ограничиваем ширину */
-  /* padding: 0 calc(var(--padding-table) - var(--gap-for-pstate)); */
-  /* align-items: center; */
+  padding: var(--padding-table-350);
   font-size: var(--font-size-s-350px);
   border-collapse: separate; /*Важно! Должно быть 'separate' (по умолчанию)*/
   border-spacing: calc(var(--gap-for-pstate) * 4) 0; /* Горизонтальное, затем вертикальное */
@@ -91,44 +103,54 @@
 }
 
 @media (min-width: 350px) {
+  .p-state-table {
+    font-size: var(--font-size-s-350px-2);
+  }
   .player-state button {
     font-size: var(--font-size-ps-350px);
   }
 }
 
-@media (min-width: 600px) {
-  .p-state-table {
-    width: 60%;
+@media (min-width: 750px) {
+  .player-state-content {
+    padding-left: var(--padding-player-state-content-left-right-750);
+    padding-right: var(--padding-player-state-content-left-right-750);
+  }
+
+  .player-state button {
+    left: var(--padding-player-state-content-left-right-750);
   }
 }
 
 @media (min-width: 900px) {
-  .player-state button {
-    /* font-size: var(--font-size-s-350px); */
-    /* bottom: var(--btn-settings-left-bottom); */
-    left: calc(
-      var(--p-state-table-width-1200) / 2 + var(--btn-pstate-left-bottom)
-    );
+  .player-state-content {
+    padding-left: var(--padding-player-state-content-left-right-900);
+    padding-right: var(--padding-player-state-content-left-right-900);
   }
-
+  .player-state button {
+    left: var(--padding-player-state-content-left-right-900);
+  }
   .p-state-table {
-    width: 50%;
+    font-size: var(--font-size-table-900px);
   }
 }
 
 @media (min-width: 1200px) {
+  .player-state-content {
+    padding-left: var(--padding-player-state-content-left-right-1200);
+    padding-right: var(--padding-player-state-content-left-right-1200);
+  }
   .player-state button {
-    left: calc(
-      var(--p-state-table-width-1200) / 1.8 + var(--btn-pstate-left-bottom)
-    );
+    left: var(--padding-player-state-content-left-right-1200);
   }
 }
 
 @media (min-width: 1500px) {
+  .player-state-content {
+    padding-left: var(--padding-player-state-content-left-right-1500);
+    padding-right: var(--padding-player-state-content-left-right-1500);
+  }
   .player-state button {
-    left: calc(
-      100vw / 2 - (var(--p-state-table-width-1500) / 2) +
-        var(--btn-pstate-left-bottom)
-    );
+    left: var(--padding-player-state-content-left-right-1500);
   }
 }

@@ -13,6 +13,10 @@
   --btn-settings-left-bottom-1200: 50%;
   --setting-item-width-1200: calc(100vw / 2);
   --setting-item-width-1500: calc(100vw / 4);
+  --settings-padding-left-right: 2vw;
+  --settings-padding-left-right-650px: 15vw;
+  --settings-padding-left-right-900px: 20vw;
+  --settings-padding-left-right-1200px: 30vw;
 }
 
 .settings {
@@ -31,7 +35,8 @@
 .settings button {
   position: absolute;
   bottom: var(--btn-settings-left-bottom);
-  left: var(--btn-settings-left-bottom);
+  /* left: var(--btn-settings-left-bottom); */
+  left: var(--settings-padding-left-right);
 }
 
 .setting-head {
@@ -49,6 +54,12 @@
   color: black;
 }
 
+.setting-items {
+  padding-left: var(--settings-padding-left-right);
+  padding-right: var(--settings-padding-left-right);
+  width: 100vw;
+}
+
 .setting-item {
   display: flex;
   flex-direction: column;
@@ -56,7 +67,7 @@
   justify-content: center;
   color: black;
   width: 100%;
-  padding: 0 var(--padding-top-settings);
+  /* padding: 0 var(--padding-top-settings); */
 }
 
 .setting-label {
@@ -221,52 +232,56 @@ input[type="range"]::-moz-range-track {
   }
 }
 
-@media (min-width: 900px) {
-  /* .settings {
-    width: 50%;
-  } */
+/* @media (min-width: 550px) {
   .setting-item {
-    width: var(--setting-item-width-1200);
-    font-size: var(--font-size-s-350px);
+    width: 90vw;
   }
+} */
 
+@media (min-width: 650px) {
   .settings button {
-    font-size: var(--font-size-s-350px);
-    bottom: var(--btn-settings-left-bottom);
-    left: calc(var(--setting-item-width-1200) / 2 + var(--btn-settings-left-bottom));
+    left: var(--settings-padding-left-right-650px);
+  }
+  .setting-items {
+    padding-left: var(--settings-padding-left-right-650px);
+    padding-right: var(--settings-padding-left-right-650px);
+  }
+}
+
+@media (min-width: 900px) {
+  .settings button {
+    left: var(--settings-padding-left-right-900px);
+  }
+  .setting-items {
+    padding-left: var(--settings-padding-left-right-900px);
+    padding-right: var(--settings-padding-left-right-900px);
   }
 }
 
 @media (min-width: 1200px) {
-  /* .settings {
-    width: 50%;
-  } */
-  .setting-item {
-    width: var(--setting-item-width-1200);
+  .setting-items {
+    padding-left: var(--settings-padding-left-right-1200px);
+    padding-right: var(--settings-padding-left-right-1200px);
+  }
 
+  .setting-item {
     font-size: var(--font-size-s-350px);
   }
 
   .settings button {
     font-size: var(--font-size-s-350px);
     bottom: var(--btn-settings-left-bottom);
-    left: calc(var(--setting-item-width-1200) / 2 + var(--btn-settings-left-bottom));
+    left: var(--settings-padding-left-right-1200px);
   }
 }
 
 @media (min-width: 1500px) {
-  /* .settings {
-    width: 50%;
-  } */
   .setting-item {
-    width: var(--setting-item-width-1500);
-
     font-size: var(--font-size-s-350px);
   }
 
   .settings button {
     font-size: var(--font-size-s-350px);
     bottom: var(--btn-settings-left-bottom);
-    left: calc(100vw / 2 - (var(--setting-item-width-1500) / 2) + var(--btn-settings-left-bottom));
   }
 }

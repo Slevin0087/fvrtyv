@@ -82,83 +82,85 @@
         <div class="setting-head">
           <h2 class="setting-title" data-i18n="setting_title">Настройки</h2>
         </div>
-        <div class="setting-item">
-          <!-- <label for="music-volume">Громкость:</label>
-          <input type="text" id="music-volume" name="name" /> -->
-          <div class="volume-control container-setting-item">
-            <label for="music-volume" data-i18n="music_volume"
-              >Громкость:</label
-            >
-            <input
-              type="range"
-              id="music-volume"
-              min="0"
-              max="100"
-              step="20"
-              value="50"
-            />
-          </div>
-          <div class="setting-off-in-vol container-setting-item">
-            <!-- <label class="setting-label"
-              >Звуки: <input type="checkbox" id="sound-toggle" checked
-            /></label> -->
-            <label class="span-sound-off-in" data-i18n="span_sound_off_in"
-              >Звуки:</label
-            >
-            <label class="setting-label">
-              <input type="checkbox" id="sound-toggle" />
-              <span class="slider"></span>
-            </label>
-          </div>
-          <!-- <div class="c-setting-item">
-            <label data-i18n="c_setting_item">Сложность:</label>
-            <select id="difficulty">
-              <option value="easy" data-i18n="option_easy">Лёгкая</option>
-              <option value="medium" selected data-i18n="option_medium">
-                Средняя
-              </option>
-              <option value="hard" data-i18n="option_hard">Сложная</option>
-            </select>
-          </div> -->
-          <div class="c-setting-item">
-            <label data-i18n="dealing_cards">Раздача карт по:</label>
-            <div>
+        <div class="setting-items">
+          <div class="setting-item">
+            <!-- <label for="music-volume">Громкость:</label>
+            <input type="text" id="music-volume" name="name" /> -->
+            <div class="volume-control container-setting-item">
+              <label for="music-volume" data-i18n="music_volume"
+                >Громкость:</label
+              >
               <input
-                type="radio"
-                id="dealing_cards-one"
-                name="dealing_cards"
-                value="1"
+                type="range"
+                id="music-volume"
+                min="0"
+                max="100"
+                step="20"
+                value="50"
               />
-              <label for="dealing_cards-one">1</label>
+            </div>
+            <div class="setting-off-in-vol container-setting-item">
+              <!-- <label class="setting-label"
+                >Звуки: <input type="checkbox" id="sound-toggle" checked
+              /></label> -->
+              <label class="span-sound-off-in" data-i18n="span_sound_off_in"
+                >Звуки:</label
+              >
+              <label class="setting-label">
+                <input type="checkbox" id="sound-toggle" />
+                <span class="slider"></span>
+              </label>
+            </div>
+            <!-- <div class="c-setting-item">
+              <label data-i18n="c_setting_item">Сложность:</label>
+              <select id="difficulty">
+                <option value="easy" data-i18n="option_easy">Лёгкая</option>
+                <option value="medium" selected data-i18n="option_medium">
+                  Средняя
+                </option>
+                <option value="hard" data-i18n="option_hard">Сложная</option>
+              </select>
+            </div> -->
+            <div class="c-setting-item">
+              <label data-i18n="dealing_cards">Раздача карт по:</label>
+              <div>
+                <input
+                  type="radio"
+                  id="dealing_cards-one"
+                  name="dealing_cards"
+                  value="1"
+                />
+                <label for="dealing_cards-one">1</label>
 
-              <input
-                type="radio"
-                id="dealing_cards-three"
-                name="dealing_cards"
-                value="3"
-              />
-              <label for="dealing_cards-three">3</label>
+                <input
+                  type="radio"
+                  id="dealing_cards-three"
+                  name="dealing_cards"
+                  value="3"
+                />
+                <label for="dealing_cards-three">3</label>
+              </div>
+            </div>
+            <div class="c-setting-item">
+              <label data-i18n="ln_setting_item">Язык:</label>
+              <select id="language-selected">
+                <option value="ru" selected data-i18n="ru_btn">Русский</option>
+                <option value="en" data-i18n="en_btn">Английский</option>
+                <option value="tr" data-i18n="tr_btn">Турецкий</option>
+                <option value="abaza" data-i18n="abaza_btn">Абаза</option>
+              </select>
             </div>
           </div>
-          <div class="c-setting-item">
-            <label data-i18n="ln_setting_item">Язык:</label>
-            <select id="language-selected">
-              <option value="ru" selected data-i18n="ru_btn">Русский</option>
-              <option value="en" data-i18n="en_btn">Английский</option>
-              <option value="tr" data-i18n="tr_btn">Турецкий</option>
-              <option value="abaza" data-i18n="abaza_btn">Абаза</option>
-            </select>
-          </div>
+          <button
+            class="settings-back-btn"
+            id="back-to-menu"
+            data-i18n="btn_back_to_menu"
+          >
+            Назад в меню
+          </button>
         </div>
         <!-- <div class="setting-item"> -->
         <!-- </div> -->
-        <button
-          class="settings-back-btn"
-          id="back-to-menu"
-          data-i18n="btn_back_to_menu"
-        >
-          Назад в меню
-        </button>
       </div>
 
       <!-- Магазин -->
@@ -216,16 +218,18 @@
             Статистика игрока
           </h2>
         </div>
-        <div class="player-state-content" id="player-state-content">
-          <!-- Контент статистики здесь -->
-        </div>
-        <button
-          class="btn"
-          id="btn-back-st-player"
-          data-i18n="btn_back_to_menu"
-        >
-          Назад в меню
-        </button>
+        <!-- <div class="payer-state-div"> -->
+          <div class="player-state-content" id="player-state-content">
+            <!-- Контент статистики здесь -->
+          </div>
+          <button
+            class="btn"
+            id="btn-back-st-player"
+            data-i18n="btn_back_to_menu"
+          >
+            Назад в меню
+          </button>
+        <!-- </div> -->
       </div>
 
       <!-- Game интерфейс -->
