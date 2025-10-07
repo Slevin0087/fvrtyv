@@ -236,7 +236,8 @@ export class Animator {
 
         // Получаем конечную позицию
         const lastRect = cardElement.getBoundingClientRect();
-        cardElement.style.zIndex = "100";
+        // cardElement.style.zIndex = "100";
+        cardElement.style.zIndex = `${card.positionData.zIndex}`;
 
         const deltaX = initialRect.left - lastRect.left + oldOffsetX;
         const deltaY = initialRect.top - lastRect.top + oldOffsetY;
