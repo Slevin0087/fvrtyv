@@ -44,9 +44,52 @@
   .menu button {
     font-size: var(--font-size-menu-btn-350px);
     padding: 0.7em;
+    min-width: 70vw;
   }
 
   .menu h1 {
     font-size: var(--font-size-menu-h1-350px);
+  }
+}
+
+@media (min-width: 450px) {
+  .menu button {
+    min-width: 60vw;
+  }
+}
+
+@media (min-width: 650px) {
+  .menu button {
+    min-width: 50vw;
+  }
+}
+
+@media (min-width: 750px) {
+  .menu button {
+    min-width: 40vw;
+  }
+}
+
+@media (min-width: 900px) {
+  .menu button {
+    min-width: 30vw;
+  }
+}
+
+@media (min-width: 1000px) {
+  .menu button {
+    min-width: 30vw;
+  }
+}
+
+@media (min-width: 1200px) {
+  .menu button {
+    min-width: 20vw;
+  }
+}
+
+@media (min-width: 1500px) {
+  .menu button {
+    min-width: 15vw;
   }
 }

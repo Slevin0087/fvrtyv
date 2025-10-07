@@ -207,7 +207,7 @@ input[type="range"]::-moz-range-track {
   }
 
   .settings button {
-    font-size: var(--font-size-s-350px-2);
+    font-size: var(--font-size-s-350px);
   }
 }
 
