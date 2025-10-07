@@ -216,6 +216,10 @@
   text-align: center; /* Центрируем текст по горизонтали */
 }
 
+.shop-action-btn {
+  width: 100%;
+}
+
 .value-red {
   color: red;
 }
