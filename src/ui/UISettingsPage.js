@@ -8,7 +8,7 @@ export class UISettingsPage extends UIPage {
     this.elements = {
       backBtn: document.getElementById("back-to-menu"),
       soundToggle: document.getElementById("sound-toggle"),
-      difficultySelect: document.getElementById("difficulty"),
+      // difficultySelect: document.getElementById("difficulty"),
       musicVolume: document.getElementById("music-volume"),
       languageSelected: document.getElementById("language-selected"),
       dealingCardsOne: document.getElementById("dealing_cards-one"),
@@ -23,9 +23,9 @@ export class UISettingsPage extends UIPage {
       this.eventManager.emit(GameEvents.SET_SOUND_TOGGLE, e.target.checked);
     });
 
-    this.elements.difficultySelect.addEventListener("change", (e) => {
-      this.eventManager.emit(GameEvents.SET_DIFFICUTY_CHANGE, e.target.value);
-    });
+    // this.elements.difficultySelect.addEventListener("change", (e) => {
+    //   this.eventManager.emit(GameEvents.SET_DIFFICUTY_CHANGE, e.target.value);
+    // });
 
     this.elements.languageSelected.addEventListener("change", (e) => {
       Helpers.changeLanguage(e.target.value);
@@ -55,7 +55,7 @@ export class UISettingsPage extends UIPage {
   render() {
     const settings = this.state.settings;
     this.elements.soundToggle.checked = settings.soundEnabled;
-    this.elements.difficultySelect.value = settings.difficulty;
+    // this.elements.difficultySelect.value = settings.difficulty;
     this.elements.languageSelected.value = settings.language;
     this.elements.musicVolume.value = settings.musicVolume * 100;
     this.setPropertyStyleVolume(this.elements.musicVolume);
