@@ -190,6 +190,8 @@ export class Helpers {
   }
 
   static updateLanShopBalance(count) {
+    console.log('updateLanShopBalance count: ', count);
+    
     const balanceContainer = document.getElementById("balance-container");
     const key = balanceContainer.getAttribute("data-i18n");
     balanceContainer.textContent = this.t(key);

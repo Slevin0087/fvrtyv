@@ -66,7 +66,7 @@ export class UIShopPage extends UIPage {
 
     // Обновляем баланс
     this.updateBalance(this.state.player.coins);
-    Helpers.updateLanShopBalance(this.state.player.coins);
+    // Helpers.updateLanShopBalance(this.state.player.coins);
   }
 
   createShopItemElement(item, index) {
@@ -93,8 +93,8 @@ export class UIShopPage extends UIPage {
     itemName.textContent = item.name;
     itemDescription.textContent = item.description;
     itemHead.append(itemName, itemDescription);
-    console.log('item.category: ', item.category);
-    
+    console.log("item.category: ", item.category);
+
     if (item.category === "cardFace" || item.category === "cardBack") {
       const shopItem2 = document.createElement("div");
       shopItem.classList.add("shop-item-card");
@@ -172,12 +172,16 @@ export class UIShopPage extends UIPage {
       shopItemContainer.append(shopItem, shopItem2);
     } else if (item.category === "background") {
       shopItem.classList.add("shop-item-fon");
-      console.log('ВВВВВВВВВВВВ item.category === "background": ', shopItem.style, item.styles);
-      
+      console.log(
+        'ВВВВВВВВВВВВ item.category === "background": ',
+        shopItem.style,
+        item.styles
+      );
+
       if (item.styles) Object.assign(shopItem.style, item.styles);
       else if (item.previewImage) {
-        console.log('else if (item.previewImage)');
-        
+        console.log("else if (item.previewImage)");
+
         const img = document.createElement("img");
         img.src = item.previewImage;
         shopItem.append(img);
@@ -258,8 +262,12 @@ export class UIShopPage extends UIPage {
     this.elements.containers[category].style.display = "block";
   }
 
+  // updateBalance(balance) {
+  //   this.elements.balance.textContent = balance;
+  // }
+
   updateBalance(balance) {
-    this.elements.balance.textContent = balance;
+    Helpers.updateLanShopBalance(balance);
   }
 
   getTypeForCategory(category) {
