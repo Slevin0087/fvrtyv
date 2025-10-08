@@ -3,6 +3,7 @@ import { GameConfig } from "../../configs/GameConfig.js";
 import { GameSetupSystem } from "./GameSetupSystem.js";
 import { CardMovementSystem } from "./CardMovementSystem.js";
 import { ScoringSystem } from "./ScoringSystem.js";
+import { WasteSystem } from "./WasteSystem.js";
 import { WinConditionSystem } from "./WinConditionSystem.js";
 import { HintSystem } from "./HintSystem.js";
 import { UndoSystem } from "./UndoSystem.js";
@@ -57,12 +58,14 @@ export class LogicSystemsInit {
       this.stateManager,
       this.audioManager
     );
+    this.wasteSystem = new WasteSystem(this.eventManager, this.stateManager);
     this.dragAndDrop = new DragAndDrop(
       this.eventManager,
       this.stateManager,
       this.audioManager,
       this.movementSystem,
-      this.scoringSystem
+      this.scoringSystem,
+      this.wasteSystem
     );
   }
 
@@ -119,29 +122,7 @@ export class LogicSystemsInit {
       this.cardMoveDuration
     );
     if (source.startsWith(GameConfig.cardContainers.waste)) {
-      const waste = this.movementSystem.getElementFrom(source);
-      const stock = this.state.cardsComponents.stock;
-      if (stock.stockCardPosition < 0 && waste.isEmpty()) {
-        stock.element.querySelector(".stock-span").textContent = "";
-      }
-      console.log("const waste: ", waste);
-
-      const topThreeCards = waste.uppp();
-      const oldOffsetsTopThreeCards = topThreeCards.map((card) => {
-        return {
-          card,
-          oldOffsetX: card.positionData.offsetX,
-          oldOffsetY: card.positionData.offsetY,
-        };
-      });
-      if (oldOffsetsTopThreeCards.length > 0) {
-        console.log(
-          "oldOffsetsTopThreeCards в handleCardMove: ",
-          oldOffsetsTopThreeCards
-        );
-
-        await Animator.animateCardFomStockToWaste(oldOffsetsTopThreeCards);
-      }
+      await this.wasteSystem.upTopThreeCards();
     }
     // setTimeout(() => {
     this.stateManager.updateMoves(this.numberMoves);

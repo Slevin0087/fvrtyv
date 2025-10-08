@@ -315,6 +315,7 @@
 
   .row-1 {
     gap: var(--gap-row1-1500);
+    margin-bottom: 1vh;
   }
 
   /* .card,

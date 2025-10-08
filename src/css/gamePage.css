@@ -333,11 +333,15 @@
 }
 
 @media (min-width: 1500px) {
+    .game-interface {
+    gap: calc(var(--gap-for-flex) / 2);
+  }
+
   .status-bar {
     padding-left: 20vw;
     padding-right: 20vw;
     gap: 10vw;
-    font-size: 1.4em;
+    font-size: 1.2em;
     padding-top: 0.1em;
   }
 
@@ -346,11 +350,11 @@
     gap: calc(var(--gap-for-flex) / 10);
   }
   .notif-div h4 {
-    font-size: 1em;
+    font-size: 0.8em;
   }
 
   .notif-div div {
-    font-size: 0.8em;
+    font-size: 0.7em;
   }
 
   .controls-btn-container {

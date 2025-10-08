@@ -9,7 +9,8 @@ export class DragAndDrop {
     stateManager,
     audioManager,
     movementSystem,
-    scoringSystem
+    scoringSystem,
+    wasteSystem
   ) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
@@ -26,6 +27,7 @@ export class DragAndDrop {
     this.addition = AnimationOperators.ADDITION;
     this.subtraction = AnimationOperators.SUBTRACTION;
     this.gameComponents = null;
+    this.wasteSystem = wasteSystem;
 
     this.offsetX = null;
     this.offsetY = null;
@@ -82,11 +84,7 @@ export class DragAndDrop {
   }
 
   onPointerDown(event) {
-    if (
-      this.state.cardsComponents.foundations.every((f) =>
-        f.isComplete()
-      )
-    )
+    if (this.state.cardsComponents.foundations.every((f) => f.isComplete()))
       return;
     const { target, x, y } = event;
 
@@ -127,7 +125,7 @@ export class DragAndDrop {
     });
   }
 
-  onPointerUp(event) {
+  async onPointerUp(event) {
     if (!this.currentDraggingCard) return;
     if (!this.isDragging) {
       this.eventManager.emit(GameEvents.CARD_CLICK, this.cards[0]);
@@ -197,6 +195,13 @@ export class DragAndDrop {
             containerTo: this.gameComponents.tableaus[index],
             containerToName,
           });
+          if (
+            this.currentDraggingCardSource.startsWith(
+              GameConfig.cardContainers.waste
+            )
+          ) {
+            await this.wasteSystem.upTopThreeCards();
+          }
         }
         this.cards.forEach((card) => this.animate(card));
       } else if (source.startsWith(this.cardContainers.foundation)) {
@@ -220,6 +225,13 @@ export class DragAndDrop {
             containerTo: this.gameComponents.foundations[index],
             containerToName,
           });
+          if (
+            this.currentDraggingCardSource.startsWith(
+              GameConfig.cardContainers.waste
+            )
+          ) {
+            await this.wasteSystem.upTopThreeCards();
+          }
         }
         this.cards.forEach((card) => this.animate(card));
       }
@@ -242,6 +254,18 @@ export class DragAndDrop {
         console.log("ПЕРЕД АПОМ");
 
         this.moveFunction({ targetSource, containerTo, containerToName });
+        console.log(
+          "this.currentDraggingCardSource: ",
+          this.currentDraggingCardSource
+        );
+
+        if (
+          this.currentDraggingCardSource.startsWith(
+            GameConfig.cardContainers.waste
+          )
+        ) {
+          await this.wasteSystem.upTopThreeCards();
+        }
       } else if (!canAccept) {
         this.cards.forEach((card) => {
           this.animate(card);
@@ -470,11 +494,7 @@ export class DragAndDrop {
           this.scoringSystem.addPoints(-score);
       }
 
-      if (
-        this.state.cardsComponents.foundations.every((f) =>
-          f.isComplete()
-        )
-      ) {
+      if (this.state.cardsComponents.foundations.every((f) => f.isComplete())) {
         this.eventManager.on(GameEvents.HANDLE_WIN);
       }
 
