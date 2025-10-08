@@ -104,14 +104,14 @@
   word-break: break-word; /* Перенос длинных слов */
   overflow-wrap: anywhere;
   color: yellow;
-  line-height: 0.7;
+  line-height: 0.9;
 }
 
 .left-td {
   justify-self: start; /* Выравнивание по левому краю */
   min-width: 150px; /* Фиксированная ширина для терминов */
   color: black;
-  line-height: 0.7;
+  line-height: 0.9;
   /* color: white; */
 }
 
