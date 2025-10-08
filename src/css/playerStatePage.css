@@ -76,6 +76,13 @@
   background-color: brown;
 }
 
+.p-state-table dt,
+.p-state-table dd {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+}
+
 .right-td {
   justify-self: end; /* Выравнивание по правому краю */
   text-align: right;
@@ -88,6 +95,7 @@
   justify-self: start; /* Выравнивание по левому краю */
   min-width: 150px; /* Фиксированная ширина для терминов */
   color: black;
+  /* color: white; */
 }
 
 .sub-item {

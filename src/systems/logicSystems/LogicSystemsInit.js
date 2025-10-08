@@ -120,8 +120,12 @@ export class LogicSystemsInit {
     );
     if (source.startsWith(GameConfig.cardContainers.waste)) {
       const waste = this.movementSystem.getElementFrom(source);
-      console.log('const waste: ', waste);
-      
+      const stock = this.state.cardsComponents.stock;
+      if (stock.stockCardPosition < 0 && waste.isEmpty()) {
+        stock.element.querySelector(".stock-span").textContent = "";
+      }
+      console.log("const waste: ", waste);
+
       const topThreeCards = waste.uppp();
       const oldOffsetsTopThreeCards = topThreeCards.map((card) => {
         return {
@@ -131,7 +135,10 @@ export class LogicSystemsInit {
         };
       });
       if (oldOffsetsTopThreeCards.length > 0) {
-        console.log("oldOffsetsTopThreeCards в handleCardMove: ", oldOffsetsTopThreeCards);
+        console.log(
+          "oldOffsetsTopThreeCards в handleCardMove: ",
+          oldOffsetsTopThreeCards
+        );
 
         await Animator.animateCardFomStockToWaste(oldOffsetsTopThreeCards);
       }
