@@ -5,6 +5,7 @@ import {
 } from "../../utils/Constants.js";
 import { UIConfig } from "../../configs/UIConfig.js";
 import { GameConfig } from "../../configs/GameConfig.js";
+import { Animator } from "../../utils/Animator.js";
 
 export class UndoSystem {
   constructor(eventManager, stateManager, audioManager) {
@@ -60,14 +61,14 @@ export class UndoSystem {
         resolve();
       });
     }
-    this.reverseMove({
+    await this.reverseMove({
       card,
       from,
     });
     this.stateManager.incrementGameStat(this.textUndoUsed);
   }
 
-  reverseMove({ card, from }) {
+  async reverseMove({ card, from }) {
     const [fromType, fromIndex] = this.parseTargetId(from);
     const gameComponents = this.state.cardsComponents;
 
@@ -88,13 +89,29 @@ export class UndoSystem {
         containerToName: fromType,
       });
     } else if (fromType === this.cardContainers.waste) {
-      const containerTo = gameComponents.waste;
+      const waste = gameComponents.waste;
+      const stock = gameComponents.stock;
+      const stockSpanTextContent =
+        stock.stockCardPosition < 0 && waste.isEmpty() ? "" : "↺";
       this.eventManager.emit(GameEvents.CARD_MOVE, {
         card,
         containerToIndex: 0,
-        containerTo,
+        containerTo: waste,
         containerToName: fromType,
       });
+      stock.element.querySelector(".stock-span").textContent =
+        stockSpanTextContent;
+      const topThreeCards = waste.uppp();
+      const oldOffsetsTopThreeCards = topThreeCards.map((card) => {
+        return {
+          card,
+          oldOffsetX: card.positionData.offsetX,
+          oldOffsetY: card.positionData.offsetY,
+        };
+      });
+      if (oldOffsetsTopThreeCards.length > 0) {
+        await Animator.animateCardFomStockToWaste(oldOffsetsTopThreeCards);
+      }
     } else if (fromType === this.cardContainers.stock) {
       const containerTo = gameComponents.stock;
       this.eventManager.emit(GameEvents.BACK_CARD_FLIP, card);
@@ -134,10 +151,7 @@ export class UndoSystem {
   }
 
   isLastMove() {
-    return (
-      this.state.game.lastMove.length <
-      this.state.player.lastMoveQuantity
-    );
+    return this.state.game.lastMove.length < this.state.player.lastMoveQuantity;
   }
 
   parseTargetId(targetId) {
