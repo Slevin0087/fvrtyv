@@ -65,9 +65,13 @@
 }
 
 .p-state-table {
-  display: grid;
-  grid-template-columns: auto 1fr; /* Левая колонка по ширине контента */
-  gap: 12px 20px;
+  /* display: grid; */
+  /* grid-template-columns: auto 1fr; Левая колонка по ширине контента */
+  /* gap: 12px 20px; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
   width: 100%;
   padding: var(--padding-table-350);
   font-size: var(--font-size-s-350px);
@@ -76,11 +80,22 @@
   background-color: brown;
 }
 
-.p-state-table dt,
+/* .p-state-table dt,
 .p-state-table dd {
   border-bottom: 1px solid #ddd;
   padding-bottom: 8px;
   margin-bottom: 8px;
+} */
+
+.wrap-line {
+  border-bottom: 1px solid #c5b310;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+  display: flex; /* или другие стили для расположения */
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
 }
 
 .right-td {
