@@ -19,6 +19,7 @@ export class RenderStockElement {
     this.wasteCardFlip = AnimationDurations.WASTE_CARD_FLIP;
     this.degsCardFlip = AnimationDegs.CARD_FLIP;
     this.cardContainers = GameConfig.cardContainers;
+    this.numberMoves = GameConfig.rules.initialMove;
     this.isClickAllowed = true;
     this.clickLimitTime =
       UIConfig.animations.cardMoveDuration +
@@ -37,13 +38,24 @@ export class RenderStockElement {
     this.gamePageElements.stockDivEl.innerHTML = "";
     this.gamePageElements.stockDivEl.append(stock.element, waste.element);
     this.renderStockCards(stock);
-    stock.element.addEventListener("click", async () => {
+    // stock.element.addEventListener("click", async () => {
+    //   await this.handleStockElement(stock, waste);
+    // });
+
+    // Добавление элементу stock события onclick
+    stock.element.onclick = async () => {
       await this.handleStockElement(stock, waste);
-    });
+    };
+    ///////////////
+
   }
 
+  //////////// handleStockElement Срабатывает при клике по stock эелементу 
   async handleStockElement(stock, waste) {
-    console.log("КЛИК ПО STOCK ЭЛЕМЕНТУ this.isClickAllowed: ", this.isClickAllowed);
+    console.log(
+      "КЛИК ПО STOCK ЭЛЕМЕНТУ this.isClickAllowed: ",
+      this.isClickAllowed
+    );
     if (!this.isClickAllowed) {
       return; // Если клики запрещены, ничего не делаем
     }
@@ -80,6 +92,8 @@ export class RenderStockElement {
     if (nTopCards) {
       this.eventManager.emit(GameEvents.AUDIO_CARD_CLICK);
       for (const card of nTopCards) {
+        // console.log('getEventListeners(card.domElement): ', getEventListeners(card.domElement));
+
         console.log("nTopCards.forEach(async (card): ", card);
         console.log("topThreeCards: ", topThreeCards);
         topThreeCards = waste.topThreeCards;
@@ -99,11 +113,25 @@ export class RenderStockElement {
           containerToName: this.cardContainers.waste,
         });
         // await this.delay(500);
-        console.log('до await this.flipCard(card): ', card.positionData.parent);
+        console.log("до await this.flipCard(card): ", card.positionData.parent);
 
         await this.flipCard(card);
-        console.log('после await this.flipCard(card): ', card.positionData.parent);
-        
+
+        // Добавление картам событий: onpointerdown, onpointermove, onpointerup
+        this.eventManager.emit(
+          GameEvents.ADD_ONPOINTERDOWN_TO_CARD,
+          card.domElement
+        );
+        this.eventManager.emit(
+          GameEvents.ADD_ONPOINTERMOVE_TO_CARD,
+          card.domElement
+        );
+        this.eventManager.emit(
+          GameEvents.ADD_ONPOINTERUP_TO_CARD,
+          card.domElement
+        );
+        ///////////////////////////////////////////
+
         this.eventManager.emit(
           GameEvents.SET_CARD_DATA_ATTRIBUTE,
           card.domElement,
@@ -116,6 +144,8 @@ export class RenderStockElement {
           GameConfig.dataAttributes.cardDnd
         );
       }
+      this.stateManager.updateMoves(this.numberMoves);
+      this.eventManager.emit(GameEvents.UP_MOVES);
     }
     // await this.delay(400);
     if (oldOffsetsTopThreeCards.length > 0) {
@@ -123,10 +153,10 @@ export class RenderStockElement {
 
       await Animator.animateCardFomStockToWaste(oldOffsetsTopThreeCards);
     }
-    console.log('this.isClickAllowed в конце: ', this.isClickAllowed);
+    console.log("this.isClickAllowed в конце: ", this.isClickAllowed);
     await this.delay(this.clickLimitTime);
     this.isClickAllowed = true; // Разрешаем клики после задержки
-    
+
     // this.cardsSystem.removeHandleCard(card);
     // this.cardsSystem.handleCard(card);
   }
@@ -175,12 +205,12 @@ export class RenderStockElement {
       console.log("1. Before emitAsync");
 
       // Тест 1: Проверяем возвращаемое значение
-      const result = this.eventManager.emitAsync(GameEvents.CARD_FLIP, card);
-      console.log("2. After emitAsync, result:", result);
-      console.log("3. Is result a Promise?", result instanceof Promise);
+      const promiseEvent = this.eventManager.emitAsync(GameEvents.CARD_FLIP, card);
+      console.log("2. After emitAsync, promiseEvent:", promiseEvent);
+      console.log("3. Is promiseEvent a Promise?", promiseEvent instanceof Promise);
 
       // Тест 2: Проверяем асинхронность
-      await result;
+      await promiseEvent;
       console.log("4. After await");
     } catch (error) {
       console.log("Error:", error);

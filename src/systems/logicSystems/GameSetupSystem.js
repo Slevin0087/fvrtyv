@@ -66,6 +66,22 @@ export class GameSetupSystem {
       await this.animateCardMove(card, tableau);
       if (isFaceUp) {
         await this.flipCard(card);
+
+        // Добавление картам событий: onpointerdown, onpointermove, onpointerup
+        this.eventManager.emit(
+          GameEvents.ADD_ONPOINTERDOWN_TO_CARD,
+          card.domElement
+        );
+        this.eventManager.emit(
+          GameEvents.ADD_ONPOINTERMOVE_TO_CARD,
+          card.domElement
+        );
+        this.eventManager.emit(
+          GameEvents.ADD_ONPOINTERUP_TO_CARD,
+          card.domElement
+        );
+        ///////////////////////////////
+        
         this.setDataAttribute(
           card.domElement,
           GameConfig.dataAttributes.cardParent,

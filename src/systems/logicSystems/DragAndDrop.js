@@ -39,13 +39,34 @@ export class DragAndDrop {
   }
 
   setupEventListeners() {
-    document.addEventListener("pointerdown", (event) =>
-      this.onPointerDown(event)
+    this.eventManager.on(
+      GameEvents.ADD_ONPOINTERDOWN_TO_CARD,
+      (cardDomElement) => {
+        console.log('в ADD_ONPOINTERDOWN_TO_CARD: ', cardDomElement);
+        
+        cardDomElement.onpointerdown = (event) => this.onPointerDown(event);
+      }
     );
-    document.addEventListener("pointermove", (event) =>
-      this.onPointerMove(event)
+    this.eventManager.on(
+      GameEvents.ADD_ONPOINTERMOVE_TO_CARD,
+      (cardDomElement) => {
+        cardDomElement.onpointermove = (event) => this.onPointerMove(event);
+      }
     );
-    document.addEventListener("pointerup", (event) => this.onPointerUp(event));
+    this.eventManager.on(
+      GameEvents.ADD_ONPOINTERUP_TO_CARD,
+      (cardDomElement) => {
+        cardDomElement.onpointerup = async (event) =>
+          await this.onPointerUp(event);
+      }
+    );
+    // document.addEventListener("pointerdown", (event) =>
+    //   this.onPointerDown(event)
+    // );
+    // document.addEventListener("pointermove", (event) =>
+    //   this.onPointerMove(event)
+    // );
+    // document.addEventListener("pointerup", (event) => this.onPointerUp(event));
 
     // Для мобильных устройств
     // document.addEventListener("touchstart", (event) =>
@@ -406,7 +427,7 @@ export class DragAndDrop {
   }
 
   getCards(source, gameComponents) {
-    console.log("source:", source);
+    console.log("getCards source:", source);
 
     // let cardElement = [];
     if (source.startsWith(this.cardContainers.tableau)) {

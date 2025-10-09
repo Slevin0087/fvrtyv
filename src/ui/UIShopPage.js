@@ -30,10 +30,10 @@ export class UIShopPage extends UIPage {
   setupEventListeners() {
     super.setupEventListeners();
     Object.entries(this.elements.categoryButtons).forEach(([category, btn]) => {
-      btn.addEventListener("click", () => {
+      btn.onclick = () => {
         this.eventManager.emit(GameEvents.SHOP_CATEGORY_CHANGE, category);
         this.render(this.state.shop, ShopConfig);
-      });
+      };
     });
 
     // this.eventManager.on("shop:render", (shopState) => this.render(shopState));
@@ -230,10 +230,7 @@ export class UIShopPage extends UIPage {
       Helpers.updateLanOneUI(btn);
     }
 
-    btn.addEventListener("click", (e) =>
-      this.handleBtnClick(item, isOwned, isItemBuy)
-    );
-
+    btn.onclick = (e) => this.handleBtnClick(item, isOwned, isItemBuy);
     return btn;
   }
 

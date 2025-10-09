@@ -13,26 +13,28 @@ export class UINamePage extends UIPage {
       skipBtn: document.getElementById("skip-name"),
       errorMsg: document.getElementById("name-error"),
     };
-
   }
 
   setupEventListeners() {
-    this.elements.form.addEventListener("submit", (e) => this.handleSubmit(e));
-    this.elements.skipBtn.addEventListener("click", () => this.handleSkip());
-    this.eventManager.on(GameEvents.SET_NAME_IN_INPUT, () => this.setNameInInput());
+    this.elements.form.onsubmit = (e) => this.handleSubmit(e);
+    this.elements.skipBtn.onclick = () => this.handleSkip();
+    this.eventManager.on(GameEvents.SET_NAME_IN_INPUT, () =>
+      this.setNameInInput()
+    );
   }
 
   setNameInInput() {
-    const value = this.state.player.name === ""
-    ? this.elements.input.placeholder
-    : this.state.player.name    
+    const value =
+      this.state.player.name === ""
+        ? this.elements.input.placeholder
+        : this.state.player.name;
     this.elements.input.value = value;
   }
 
   handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
-    const name = formData.get(this.elements.input.name).trim();   
+    const name = formData.get(this.elements.input.name).trim();
     this.eventManager.emit(GameEvents.PLAYER_NAME_SET, name);
     this.eventManager.emit(GameEvents.UI_NAME_HIDE);
   }

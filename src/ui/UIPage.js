@@ -27,7 +27,7 @@ export class UIPage {
   setupEventListeners() {
     // Базовые слушатели (можно переопределить)
     if (this.elements.backBtn) {
-      this.elements.backBtn.addEventListener("click", () => this.handleBack());
+      this.elements.backBtn.onclick = () => this.handleBack();
     }
   }
 

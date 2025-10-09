@@ -15,16 +15,13 @@ export class CardMovementSystem {
     this.setupEventListeners();
   }
 
-  setupEventListeners() {
-    
-  }
+  setupEventListeners() {}
 
   handleCardClick(card) {
     if (!card.faceUp || this.state.game.isPaused) return false;
 
     const gameComponents = this.state.cardsComponents;
-    const usedAutoCollectCards =
-      this.state.game.usedAutoCollectCards;
+    const usedAutoCollectCards = this.state.game.usedAutoCollectCards;
 
     // Проверка foundation
     for (let i = 0; i < gameComponents.foundations.length; i++) {
@@ -107,24 +104,24 @@ export class CardMovementSystem {
   }
 
   removeCardFromSource(card, source, elementFrom) {
-      console.log('removeCardFromSource source: ', source);
+    console.log("removeCardFromSource source: ", source);
 
     if (source.startsWith(this.cardContainers.tableau)) {
       return elementFrom.removeCardsFrom(card);
     } else if (source.startsWith(this.cardContainers.foundation)) {
       return [elementFrom.removeTopCard()];
     } else if (source.startsWith(this.cardContainers.stock)) {
-      const remove = elementFrom.removeTopCard()
-      console.log('remove: ', remove);
-      
+      const remove = elementFrom.removeTopCard();
+      console.log("remove: ", remove);
+
       // return [elementFrom.removeTopCard()];
-      return [remove]
+      return [remove];
     } else if (source.startsWith(this.cardContainers.waste)) {
       return [elementFrom.removeTopCard()];
     }
   }
 
-  openNextCardIfNeeded(source) {
+  async openNextCardIfNeeded(source) {
     if (!source.startsWith(this.cardContainers.tableau)) return null;
 
     const index = parseInt(source.split("-")[1]);
@@ -133,10 +130,33 @@ export class CardMovementSystem {
     const card = tableau.getTopCard();
     if (card && !card.faceUp) {
       card.flip();
-      this.eventManager.emit(GameEvents.CARD_FLIP, card);
-      this.stateManager.incrementStat(this.textCardsFlipped, this.typeCardFlipCheckAchievements);
-      console.log('this.state:', this.state);
+      const promiseEventCardFlip = this.eventManager.emitAsync(
+        GameEvents.CARD_FLIP,
+        card
+      );
+      await promiseEventCardFlip;
+
+        // Добавление картам событий: onpointerdown, onpointermove, onpointerup
+      this.eventManager.emit(
+        GameEvents.ADD_ONPOINTERDOWN_TO_CARD,
+        card.domElement
+      );
+      this.eventManager.emit(
+        GameEvents.ADD_ONPOINTERMOVE_TO_CARD,
+        card.domElement
+      );
+      this.eventManager.emit(
+        GameEvents.ADD_ONPOINTERUP_TO_CARD,
+        card.domElement
+      );
+      /////////////////////
       
+      this.stateManager.incrementStat(
+        this.textCardsFlipped,
+        this.typeCardFlipCheckAchievements
+      );
+      console.log("this.state:", this.state);
+
       return card;
     }
     return null;

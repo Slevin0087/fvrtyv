@@ -19,41 +19,41 @@ export class UISettingsPage extends UIPage {
   setupEventListeners() {
     super.setupEventListeners();
 
-    this.elements.soundToggle.addEventListener("change", (e) => {
+    this.elements.soundToggle.onchange = (e) => {
       this.eventManager.emit(GameEvents.SET_SOUND_TOGGLE, e.target.checked);
-    });
+    };
 
-    // this.elements.difficultySelect.addEventListener("change", (e) => {
+    // this.elements.difficultySelect.onchange = (e) => {
     //   this.eventManager.emit(GameEvents.SET_DIFFICUTY_CHANGE, e.target.value);
-    // });
+    // };
 
-    this.elements.languageSelected.addEventListener("change", (e) => {
+    this.elements.languageSelected.onchange = (e) => {
       Helpers.changeLanguage(e.target.value);
       this.eventManager.emit(GameEvents.SET_LANGUAGE_CHANGE, e.target.value);
-    });
+    };
 
-    this.elements.musicVolume.addEventListener("input", (e) => {
+    this.elements.musicVolume.oninput = (e) => {
       const volume = Math.max(0, Math.min(1, e.target.value / 100));
       this.eventManager.emit(GameEvents.SET_MUSIC_VOLUME, parseFloat(volume));
       this.eventManager.emit(GameEvents.SETTINGS_MUSIC_VOLUME);
       this.setPropertyStyleVolume(e.target);
-    });
+    };
 
-    this.elements.dealingCardsOne.addEventListener("change", (e) => {
+    this.elements.dealingCardsOne.onchange = (e) => {
       if (e.target.checked) {
         const value = Number(e.target.value);
         // this.stateManager.state.player.dealingCards = Number(e.target.value);
         this.eventManager.emit(GameEvents.SET_DEALING_CARDS, value);
       }
-    });
+    };
 
-    this.elements.dealingCardsThree.addEventListener("change", (e) => {
+    this.elements.dealingCardsThree.onchange = (e) => {
       if (e.target.checked) {
         const value = Number(e.target.value);
         // this.stateManager.state.player.dealingCards = Number(e.target.value);
         this.eventManager.emit(GameEvents.SET_DEALING_CARDS, value);
       }
-    });
+    };
   }
 
   render() {

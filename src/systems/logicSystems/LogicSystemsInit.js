@@ -125,8 +125,12 @@ export class LogicSystemsInit {
       await this.wasteSystem.upTopThreeCards();
     }
     // setTimeout(() => {
-    this.stateManager.updateMoves(this.numberMoves);
-    this.eventManager.emit(GameEvents.UP_MOVES);
+    if (!source.startsWith(GameConfig.cardContainers.stock)) {
+      console.log('if (!source.startsWith(GameConfig.cardContainers.stock)): ');
+      
+      this.stateManager.updateMoves(this.numberMoves);
+      this.eventManager.emit(GameEvents.UP_MOVES);
+    }
     // }, UIConfig.animations.cardMoveDuration);
     if (
       containerToName === GameConfig.cardContainers.foundation ||
@@ -164,7 +168,7 @@ export class LogicSystemsInit {
       await this.winSystem.handleWin();
     }
 
-    const openCard = this.movementSystem.openNextCardIfNeeded(source);
+    const openCard = await this.movementSystem.openNextCardIfNeeded(source);
 
     card.openCard = openCard;
     if (openCard) {
