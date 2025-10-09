@@ -15,7 +15,8 @@ export class ScoringSystem {
   }
 
   addPoints(points) {
-    const calculated = this.calculatePoints(points);
+    // const calculated = this.calculatePoints(points);
+    const calculated = this.calculatePointsWithDealingCards(points);
     this.stateManager.updateScore(calculated);
     return calculated;
   }
@@ -28,5 +29,11 @@ export class ScoringSystem {
       hard: 0.8,
     }[difficulty];
     return Math.round(score * multiplier);
+  }
+
+    calculatePointsWithDealingCards(score) {
+    const dealingCards = this.stateManager.state.dealingCards;
+
+    return Math.round(score * dealingCards);
   }
 }

@@ -157,7 +157,7 @@ export class LogicSystemsInit {
         this.eventManager.emit(GameEvents.AUDIO_UP_SCORE);
       Animator.showPointsAnimation(
         card,
-        score,
+        this.scoringSystem.calculatePointsWithDealingCards(score),
         operator,
         isSourceFromFoundation,
         cardParentFoundationElForUndo
@@ -178,7 +178,7 @@ export class LogicSystemsInit {
           this.eventManager.emit(
             GameEvents.UI_ANIMATION_POINTS_EARNED,
             openCard,
-            score,
+            this.scoringSystem.calculatePointsWithDealingCards(score),
             this.addition
           );
           this.scoringSystem.addPoints(score);

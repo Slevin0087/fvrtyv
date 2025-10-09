@@ -38,9 +38,6 @@ export class RenderStockElement {
     this.gamePageElements.stockDivEl.innerHTML = "";
     this.gamePageElements.stockDivEl.append(stock.element, waste.element);
     this.renderStockCards(stock);
-    // stock.element.addEventListener("click", async () => {
-    //   await this.handleStockElement(stock, waste);
-    // });
 
     // Добавление элементу stock события onclick
     stock.element.onclick = async () => {
