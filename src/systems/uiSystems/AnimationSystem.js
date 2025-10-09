@@ -70,8 +70,16 @@ export class AnimationSystem {
       );
     });
 
-    this.eventManager.on(GameEvents.BACK_CARD_FLIP, (card) => {
-      this.animateBackCardFlip(
+    this.eventManager.on(GameEvents.BACK_CARD_FLIP, async (card) => {
+      await this.animateBackCardFlip(
+        card,
+        this.degsBackCardFlip,
+        this.cardFlipDuration
+      );
+    });
+
+    this.eventManager.onAsync(GameEvents.BACK_CARD_FLIP, async (card) => {
+      await this.animateBackCardFlip(
         card,
         this.degsBackCardFlip,
         this.cardFlipDuration

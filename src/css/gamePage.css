@@ -30,8 +30,12 @@
   font-size: clamp(0.8em, 2.5vw, 1.2em);
 }
 
-.status-bar .score-x-span {
-  color: #caec08;
+.status-bar .score-x1-span {
+  color: yellow;
+}
+
+.status-bar .score-x3-span {
+  color: red;
 }
 
 .status-bar span {

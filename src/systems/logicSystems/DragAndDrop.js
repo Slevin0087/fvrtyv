@@ -39,11 +39,12 @@ export class DragAndDrop {
   }
 
   setupEventListeners() {
+    ///////////////// ADD /////////////////////////////////
     this.eventManager.on(
       GameEvents.ADD_ONPOINTERDOWN_TO_CARD,
       (cardDomElement) => {
-        console.log('в ADD_ONPOINTERDOWN_TO_CARD: ', cardDomElement);
-        
+        console.log("в ADD_ONPOINTERDOWN_TO_CARD: ", cardDomElement);
+
         cardDomElement.onpointerdown = (event) => this.onPointerDown(event);
       }
     );
@@ -60,6 +61,31 @@ export class DragAndDrop {
           await this.onPointerUp(event);
       }
     );
+    ///////////////////////////////
+
+    //////////RESET ////////////////////////
+    this.eventManager.on(
+      GameEvents.RESET_ONPOINTERDOWN_TO_CARD,
+      (cardDomElement) => {
+        console.log("в RESET_ONPOINTERDOWN_TO_CARD: ", cardDomElement);
+
+        cardDomElement.onpointerdown = null;
+      }
+    );
+    this.eventManager.on(
+      GameEvents.RESET_ONPOINTERMOVE_TO_CARD,
+      (cardDomElement) => {
+        cardDomElement.onpointermove = null;
+      }
+    );
+    this.eventManager.on(
+      GameEvents.RESET_ONPOINTERUP_TO_CARD,
+      (cardDomElement) => {
+        cardDomElement.onpointerup = null;
+      }
+    );
+    /////////////////////////////////////
+
     // document.addEventListener("pointerdown", (event) =>
     //   this.onPointerDown(event)
     // );

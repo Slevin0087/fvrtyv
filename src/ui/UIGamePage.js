@@ -155,7 +155,10 @@ export class UIGamePage extends UIPage {
   }
 
   updateScore(score) {
-    this.elements.scoreEl.innerHTML = `🌟 <span class='score-x-span'>
+    let spanClass
+    if (this.state.dealingCards === 1) spanClass = 'score-x1-span'
+    else if (this.state.dealingCards === 3) spanClass = 'score-x3-span'
+    this.elements.scoreEl.innerHTML = `🌟 <span class=${spanClass}>
     x${this.state.dealingCards}</span>: ${score}`;
   }
 

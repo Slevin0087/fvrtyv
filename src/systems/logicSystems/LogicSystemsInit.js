@@ -78,6 +78,10 @@ export class LogicSystemsInit {
       await this.handleCardMove(data);
     });
 
+    this.eventManager.onAsync(GameEvents.CARD_MOVE, async (data) => {
+      await this.handleCardMove(data);
+    });
+
     // this.eventManager.on(GameEvents.CARD_TO_TABLEAU, (data) =>
     //   this.handleCardMove(data)
     // );
@@ -126,8 +130,8 @@ export class LogicSystemsInit {
     }
     // setTimeout(() => {
     if (!source.startsWith(GameConfig.cardContainers.stock)) {
-      console.log('if (!source.startsWith(GameConfig.cardContainers.stock)): ');
-      
+      console.log("if (!source.startsWith(GameConfig.cardContainers.stock)): ");
+
       this.stateManager.updateMoves(this.numberMoves);
       this.eventManager.emit(GameEvents.UP_MOVES);
     }
