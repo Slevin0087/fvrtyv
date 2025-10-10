@@ -81,15 +81,10 @@ export class LogicSystemsInit {
     this.eventManager.onAsync(GameEvents.CARD_MOVE, async (data) => {
       await this.handleCardMove(data);
     });
-
-    // this.eventManager.on(GameEvents.CARD_TO_TABLEAU, (data) =>
-    //   this.handleCardMove(data)
-    // );
     this.eventManager.on(GameEvents.CARDS_COLLECT, () => this.cardsCollect());
     this.eventManager.on(GameEvents.HINT_BTN_CLICK, () =>
       this.hintSystem.provide()
     );
-    this.eventManager.on("game:undo", () => this.undoSystem.execute());
   }
 
   handleCardClick(card) {
@@ -128,20 +123,14 @@ export class LogicSystemsInit {
     if (source.startsWith(GameConfig.cardContainers.waste)) {
       await this.wasteSystem.upTopThreeCards();
     }
-    // setTimeout(() => {
     if (!source.startsWith(GameConfig.cardContainers.stock)) {
-      console.log("if (!source.startsWith(GameConfig.cardContainers.stock)): ");
-
       this.stateManager.updateMoves(this.numberMoves);
       this.eventManager.emit(GameEvents.UP_MOVES);
     }
-    // }, UIConfig.animations.cardMoveDuration);
     if (
       containerToName === GameConfig.cardContainers.foundation ||
       source.startsWith(GameConfig.cardContainers.foundation)
     ) {
-      // await new Promise((resolve) => {
-      //   setTimeout(() => {
       const score = GameConfig.rules.scoreForFoundation;
       let operator = "";
       let isSourceFromFoundation = false;
@@ -177,8 +166,6 @@ export class LogicSystemsInit {
     card.openCard = openCard;
     if (openCard) {
       const score = GameConfig.rules.scoreForCardFlip;
-      await new Promise((resolve) => {
-        setTimeout(() => {
           this.eventManager.emit(
             GameEvents.UI_ANIMATION_POINTS_EARNED,
             openCard,
@@ -196,9 +183,6 @@ export class LogicSystemsInit {
             GameConfig.dataAttributes.cardDnd
           );
           this.eventManager.emit(GameEvents.IS_FACE_DOWN_CARD, openCard);
-        }, UIConfig.animations.cardFlipDuration * 1000);
-        resolve();
-      });
     }
   }
 
@@ -219,7 +203,6 @@ export class LogicSystemsInit {
           const card = tableau.cards[tableau.cards.length - 1];
           for (let i = 0; i < gameComponents.foundations.length; i++) {
             if (gameComponents.foundations[i].canAccept(card, gameComponents)) {
-              // this.audioManager.play(AudioName.CLICK);
               const containerTo = gameComponents.foundations[i];
               const containerToName = GameConfig.cardContainers.foundation;
               this.eventManager.emit(GameEvents.CARD_MOVE, {
@@ -233,9 +216,6 @@ export class LogicSystemsInit {
               await this.autoCollectCards(tableaus, stock, waste);
             }
           }
-          // if (isMove) {
-          // }
-          // await this.autoCollectCards(tableaus, stock, waste);
         }
       }
       if (waste.cards.length > 0) {

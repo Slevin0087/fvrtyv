@@ -1,7 +1,6 @@
 import { GameConfig } from "../../configs/GameConfig.js";
 import { GameEvents, AnimationOperators } from "../../utils/Constants.js";
 import { Animator } from "../../utils/Animator.js";
-import { UIConfig } from "../../configs/UIConfig.js";
 
 export class DragAndDrop {
   constructor(
@@ -85,49 +84,6 @@ export class DragAndDrop {
       }
     );
     /////////////////////////////////////
-
-    // document.addEventListener("pointerdown", (event) =>
-    //   this.onPointerDown(event)
-    // );
-    // document.addEventListener("pointermove", (event) =>
-    //   this.onPointerMove(event)
-    // );
-    // document.addEventListener("pointerup", (event) => this.onPointerUp(event));
-
-    // Для мобильных устройств
-    // document.addEventListener("touchstart", (event) =>
-    //   this.onTouchStart(event)
-    // );
-    // document.addEventListener("touchmove", (event) => this.onTouchMove(event));
-    // document.addEventListener("touchend", (event) => this.onTouchEnd(event));
-  }
-
-  onTouchStart(event) {
-    event.preventDefault(); // Предотвращаем скролл страницы
-    const touch = event.touches[0];
-    this.onPointerDown({
-      target: touch.target,
-      x: touch.clientX,
-      y: touch.clientY,
-    });
-  }
-
-  onTouchMove(event) {
-    event.preventDefault(); // Предотвращаем скролл страницы
-    const touch = event.touches[0];
-    this.onPointerMove({
-      clientX: touch.clientX,
-      clientY: touch.clientY,
-    });
-  }
-
-  onTouchEnd(event) {
-    event.preventDefault();
-    const touch = event.changedTouches[0];
-    this.onPointerUp({
-      clientX: touch.clientX,
-      clientY: touch.clientY,
-    });
   }
 
   onPointerDown(event) {
@@ -198,24 +154,6 @@ export class DragAndDrop {
     const fAndT = this.isTAndF(fromPoint);
 
     const target = this.getDropTarget(fromPoint);
-    // const marker = document.createElement("div");
-    // marker.textContent = `${target === null ? "null" : target.textContent}`;
-    // marker.style.cssText = `
-    //     position: fixed;
-    //     left: ${event.clientX}px;
-    //     top: ${event.clientY}px;
-    //     width: 50px;
-    //     height: 50px;
-    //     background: red;
-    //     border-radius: 50%;
-    //     z-index: 9999;
-    //     pointer-events: none;
-    //     display: flex;
-    //     justify-content: center;
-    //     align-items: center;
-    // `;
-    // document.body.appendChild(marker);
-    // setTimeout(() => marker.remove(), 3000);
     console.log("fAndT, target:", fAndT, target);
 
     if (target === null && fAndT === null) {
@@ -237,7 +175,7 @@ export class DragAndDrop {
           const [containerToName, containerToIndex] = this.parseTargetId(
             fAndT.id
           );
-          this.moveFunction({
+          await this.moveFunction({
             targetSource,
             containerTo: this.gameComponents.tableaus[index],
             containerToName,
@@ -261,13 +199,11 @@ export class DragAndDrop {
           )
         ) {
           const targetSource = fAndT.dataset[this.dataCardParent];
-          // console.log('');
-
           const [containerToName, containerToIndex] = this.parseTargetId(
             fAndT.id
           );
 
-          this.moveFunction({
+          await this.moveFunction({
             targetSource,
             containerTo: this.gameComponents.foundations[index],
             containerToName,
@@ -282,7 +218,6 @@ export class DragAndDrop {
         }
         this.cards.forEach((card) => this.animate(card));
       }
-      // } else if (target && fAndT === null) {
     } else if (target) {
       const targetSource = target.dataset[this.dataCardParent];
       console.log("targetSource:", targetSource);
@@ -300,12 +235,7 @@ export class DragAndDrop {
       if (canAccept) {
         console.log("ПЕРЕД АПОМ");
 
-        this.moveFunction({ targetSource, containerTo, containerToName });
-        console.log(
-          "this.currentDraggingCardSource: ",
-          this.currentDraggingCardSource
-        );
-
+        await this.moveFunction({ targetSource, containerTo, containerToName });
         if (
           this.currentDraggingCardSource.startsWith(
             GameConfig.cardContainers.waste
@@ -363,16 +293,6 @@ export class DragAndDrop {
   }
 
   getDropTarget(fromPoint) {
-    // Временное скрытие
-    // this.cards.forEach((card) => {
-    //   card.domElement.style.pointerEvents = "none";
-    // });
-    // // this.currentDraggingCard.style.pointerEvents = "none";
-
-    // this.cards.forEach((card) => {
-    //   card.domElement.style.pointerEvents = "";
-    // });
-    // this.currentDraggingCard.style.pointerEvents = "";
     const isDraggable = fromPoint.closest(
       `[${GameConfig.dataAttributes.dataAttributeDND}]`
     );
@@ -386,12 +306,6 @@ export class DragAndDrop {
   }
 
   isTAndF(fromPoint) {
-    // this.cards.forEach((card) => {
-    //   card.domElement.style.pointerEvents = "none";
-    // });
-    // this.cards.forEach((card) => {
-    //   card.domElement.style.pointerEvents = "";
-    // });
     const isDraggable = fromPoint.closest(
       `[${GameConfig.dataAttributes.getFAndTContainers}]`
     );
@@ -485,7 +399,7 @@ export class DragAndDrop {
     // return cardElement;
   }
 
-  moveFunction({ targetSource, containerTo, containerToName }) {
+  async moveFunction({ targetSource, containerTo, containerToName }) {
     this.eventManager.emit(GameEvents.UP_LAST_MOVE, {
       card: this.cards[0],
       from: this.currentDraggingCardSource,
@@ -497,7 +411,7 @@ export class DragAndDrop {
       this.currentDraggingCardSource,
       this.getGameComponent(this.currentDraggingCardSource)
     );
-    this.cards.forEach((card) => {
+    this.cards.forEach(async (card) => {
       containerTo.addCard(card);
       containerTo.element.append(card.domElement);
       this.eventManager.emit(
@@ -545,38 +459,33 @@ export class DragAndDrop {
         this.eventManager.on(GameEvents.HANDLE_WIN);
       }
 
-      const openCard = this.movementSystem.openNextCardIfNeeded(
+      const openCard = await this.movementSystem.openNextCardIfNeeded(
         this.currentDraggingCardSource
       );
 
       card.openCard = openCard;
       if (openCard) {
         const score = GameConfig.rules.scoreForCardFlip;
-        new Promise((resolve) => {
-          setTimeout(() => {
-            this.eventManager.emit(
-              GameEvents.UI_ANIMATION_POINTS_EARNED,
-              openCard,
-              score,
-              this.addition
-            );
-            console.log("SCORE:", score);
-            this.scoringSystem.addPoints(score);
-            this.eventManager.emit(
-              GameEvents.SET_CARD_DATA_ATTRIBUTE,
-              openCard.domElement,
-              GameConfig.dataAttributes.cardParent,
-              openCard.positionData.parent
-            );
-            this.eventManager.emit(
-              GameEvents.SET_CARD_DATA_ATTRIBUTE,
-              openCard.domElement,
-              GameConfig.dataAttributes.cardDnd
-            );
-            this.eventManager.emit(GameEvents.IS_FACE_DOWN_CARD, openCard);
-          }, UIConfig.animations.cardFlipDuration * 1000);
-          resolve();
-        });
+        this.eventManager.emit(
+          GameEvents.UI_ANIMATION_POINTS_EARNED,
+          openCard,
+          this.scoringSystem.calculatePointsWithDealingCards(score),
+          this.addition
+        );
+        console.log("SCORE:", score);
+        this.scoringSystem.addPoints(score);
+        this.eventManager.emit(
+          GameEvents.SET_CARD_DATA_ATTRIBUTE,
+          openCard.domElement,
+          GameConfig.dataAttributes.cardParent,
+          openCard.positionData.parent
+        );
+        this.eventManager.emit(
+          GameEvents.SET_CARD_DATA_ATTRIBUTE,
+          openCard.domElement,
+          GameConfig.dataAttributes.cardDnd
+        );
+        this.eventManager.emit(GameEvents.IS_FACE_DOWN_CARD, openCard);
       }
     });
     this.stateManager.updateMoves(this.numberMoves);
