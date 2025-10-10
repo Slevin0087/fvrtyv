@@ -3,6 +3,7 @@
   --card-overlap: 3vw; /*Перекрытие карт в tableau */
   --card-overlap: calc(var(--card-height) * 0.3);
   --gap: 0.1vw; /* Отступы между элементами */
+  --gap-row1-350px: 1.5vw;
   --border-c: 0.1vw;
   --padding-c: 0.07em;
   --padding-c-900: 0.09em;
@@ -207,10 +208,6 @@
 .row-a,
 .row-b {
   display: flex;
-}
-
-.row-a,
-.row-b {
   gap: var(--gap);
 }
 
@@ -250,6 +247,12 @@
 .hint-to-card {
   border: 0.5vw solid rgb(50, 230, 6);
   box-sizing: border-box;
+}
+
+@media (min-width: 350px) {
+  .row-a {
+    gap: var(--gap-row1-350px);
+  }
 }
 
 @media (min-width: 900px) {

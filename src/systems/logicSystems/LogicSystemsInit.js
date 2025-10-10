@@ -95,11 +95,11 @@ export class LogicSystemsInit {
     }
     const source = this.movementSystem.getCardSource(card);
     if (source.startsWith(GameConfig.cardContainers.waste)) {
-      this.state.isCardMoveFromWaste = true;
+      this.state.isClikedCardFromWaste = true;
     }
     this.movementSystem.handleCardClick(card);
     if (source.startsWith(GameConfig.cardContainers.waste)) {
-      this.state.isCardMoveFromWaste = false;
+      this.state.isClikedCardFromWaste = false;
     }
   }
 

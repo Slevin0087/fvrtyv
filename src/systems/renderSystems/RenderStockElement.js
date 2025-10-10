@@ -53,7 +53,7 @@ export class RenderStockElement {
       "КЛИК ПО STOCK ЭЛЕМЕНТУ this.isClickAllowed: ",
       this.isClickAllowed
     );
-    if (!this.isClickAllowed || this.state.isCardMoveFromWaste) {
+    if (!this.isClickAllowed || this.state.isClikedCardFromWaste) {
       return; // Если клики запрещены или выполняется перемещение карты из waste,
       //  то ничего не делаем
     }
