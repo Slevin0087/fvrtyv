@@ -53,8 +53,9 @@ export class RenderStockElement {
       "КЛИК ПО STOCK ЭЛЕМЕНТУ this.isClickAllowed: ",
       this.isClickAllowed
     );
-    if (!this.isClickAllowed) {
-      return; // Если клики запрещены, ничего не делаем
+    if (!this.isClickAllowed || this.state.isCardMoveFromWaste) {
+      return; // Если клики запрещены или выполняется перемещение карты из waste,
+      //  то ничего не делаем
     }
     if (!this.state.game.playerFirstCardClick) {
       this.state.game.playerFirstCardClick = true;

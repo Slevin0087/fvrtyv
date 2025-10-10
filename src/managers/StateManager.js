@@ -35,6 +35,7 @@ export class StateManager {
       },
       cardsComponents: null,
       faceDownCards: [],
+      isCardMoveFromWaste: false,
       dealingCards: GameConfig.rules.defaultDealingCards,
       ui: this.storage.getUIStats(),
       game: this.storage.getGameStats(),

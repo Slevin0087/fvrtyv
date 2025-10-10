@@ -93,7 +93,14 @@ export class LogicSystemsInit {
       this.eventManager.emit(GameEvents.FIRST_CARD_CLICK);
       this.eventManager.emit(GameEvents.START_PLAY_TIME, 0);
     }
+    const source = this.movementSystem.getCardSource(card);
+    if (source.startsWith(GameConfig.cardContainers.waste)) {
+      this.state.isCardMoveFromWaste = true;
+    }
     this.movementSystem.handleCardClick(card);
+    if (source.startsWith(GameConfig.cardContainers.waste)) {
+      this.state.isCardMoveFromWaste = false;
+    }
   }
 
   async handleCardMove({
@@ -166,23 +173,23 @@ export class LogicSystemsInit {
     card.openCard = openCard;
     if (openCard) {
       const score = GameConfig.rules.scoreForCardFlip;
-          this.eventManager.emit(
-            GameEvents.UI_ANIMATION_POINTS_EARNED,
-            openCard,
-            this.scoringSystem.calculatePointsWithDealingCards(score),
-            this.addition
-          );
-          this.scoringSystem.addPoints(score);
-          this.setupSystem.setDataAttribute(
-            openCard.domElement,
-            GameConfig.dataAttributes.cardParent,
-            openCard.positionData.parent
-          );
-          this.setupSystem.setDataAttribute(
-            openCard.domElement,
-            GameConfig.dataAttributes.cardDnd
-          );
-          this.eventManager.emit(GameEvents.IS_FACE_DOWN_CARD, openCard);
+      this.eventManager.emit(
+        GameEvents.UI_ANIMATION_POINTS_EARNED,
+        openCard,
+        this.scoringSystem.calculatePointsWithDealingCards(score),
+        this.addition
+      );
+      this.scoringSystem.addPoints(score);
+      this.setupSystem.setDataAttribute(
+        openCard.domElement,
+        GameConfig.dataAttributes.cardParent,
+        openCard.positionData.parent
+      );
+      this.setupSystem.setDataAttribute(
+        openCard.domElement,
+        GameConfig.dataAttributes.cardDnd
+      );
+      this.eventManager.emit(GameEvents.IS_FACE_DOWN_CARD, openCard);
     }
   }
 
