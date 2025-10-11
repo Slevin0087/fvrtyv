@@ -84,7 +84,7 @@ export class Animator {
     );
     console.log("removedCards: ", removedCards);
 
-    // Звук перемещения карты, даже если перемещает одновременно много карт, это бывавет только в tableau
+    // Звук перемещения карты, даже если перемещаются одновременно много карт, это бывавет только в tableau
     // должен быть только один раз звук перемещения, за одно перемещение
     movementSystem.eventManager.emit(GameEvents.AUDIO_CARD_MOVE)
 

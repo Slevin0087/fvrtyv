@@ -124,7 +124,11 @@ export class Storage {
       playTime: 0,
       hintsUsed: 0,
       undoUsed: 0,
-      lastMove: [],
+      lastMoves: [],
+      // lastMoves: {
+      //   stockLastMoves: [],
+      //   otherLastMoves: [],
+      // },
       difficulty: "normal",
       faceDownCards: 28,
     };

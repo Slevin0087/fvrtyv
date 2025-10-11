@@ -117,7 +117,7 @@ export class UIGamePage extends UIPage {
 
     this.elements.undoBtn.onclick = () => {
       this.eventManager.emit(GameEvents.UNDO_MOVE);
-      this.upUndoCounter(this.state.game.lastMove.length);
+      this.upUndoCounter(this.stateManager.getLastMovesLengths());
     };
 
     this.eventManager.on(GameEvents.UP_ACHIEVENT_ICON, (boolean) =>
@@ -146,7 +146,7 @@ export class UIGamePage extends UIPage {
     this.updateScore(this.state.game.score);
     this.updateTime(this.state.game.playTime);
     this.updateMoves(this.state.game.moves);
-    this.upUndoCounter(this.state.game.lastMove.length);
+    this.upUndoCounter(this.stateManager.getLastMovesLengths());
     this.upHintCounter(this.state.hintCounterState || 0);
     this.upAchievementIcon(this.state.player.achievements.active.icon);
   }

@@ -13,13 +13,19 @@ import { Animator } from "../../utils/Animator.js";
 import { achType, achCheckName } from "../../configs/AchievementsConfig.js";
 
 export class LogicSystemsInit {
-  constructor(eventManager, stateManager, cardsSystem, audioManager, translator) {
+  constructor(
+    eventManager,
+    stateManager,
+    cardsSystem,
+    audioManager,
+    translator
+  ) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
     this.state = this.stateManager.state;
     this.cardsSystem = cardsSystem;
     this.audioManager = audioManager;
-    this.translator = translator
+    this.translator = translator;
     this.addition = AnimationOperators.ADDITION;
     this.subtraction = AnimationOperators.SUBTRACTION;
     this.numberMoves = GameConfig.rules.initialMove;
@@ -39,7 +45,7 @@ export class LogicSystemsInit {
       this.eventManager,
       this.stateManager,
       this.audioManager,
-      this.translator,
+      this.translator
     );
     this.movementSystem = new CardMovementSystem(
       this.eventManager,
@@ -108,11 +114,14 @@ export class LogicSystemsInit {
     console.log("const source: ", source);
 
     const elementFrom = this.movementSystem.getElementFrom(source);
-    this.undoSystem.updateLastMove({
-      card,
-      from: source,
-      to: `${containerToName}-${containerToIndex}`,
-    });
+    if (!source.startsWith(GameConfig.cardContainers.stock)) {
+      const lastMove = [{
+        card,
+        from: source,
+        to: `${containerToName}-${containerToIndex}`,
+      }];
+      this.undoSystem.updateLastMoves({ source, lastMove });
+    }
     const cardParentFoundationElForUndo = card.parentElement;
     await Animator.animateCardMove(
       card,

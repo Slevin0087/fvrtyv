@@ -69,7 +69,7 @@ export class Stock extends Pile {
       card.faceUp = true;
       // this.stockCardPosition--;
     });
-    return lastNCards.reverse();
+    return lastNCards;
   }
 
   removeTopCard() {

@@ -44,10 +44,9 @@ export class RenderStockElement {
       await this.handleStockElement(stock, waste);
     };
     ///////////////
-
   }
 
-  //////////// handleStockElement Срабатывает при клике по stock эелементу 
+  //////////// handleStockElement Срабатывает при клике по stock эелементу
   async handleStockElement(stock, waste) {
     console.log(
       "КЛИК ПО STOCK ЭЛЕМЕНТУ this.isClickAllowed: ",
@@ -88,11 +87,16 @@ export class RenderStockElement {
     let topThreeCards = [];
     let oldOffsetsTopThreeCards = [];
     if (nTopCards) {
+      let lastMovesForStock = []; // Массив для дальнейшего использования в отменах хода, где карты были перемещены из stock в waste
       this.eventManager.emit(GameEvents.AUDIO_CARD_CLICK);
-      for (const card of nTopCards) {
+      const nTopCardsReverse = nTopCards.toReversed()
+      // const nTopCardsReverse = nTopCards
+      console.log('nTopCardsReverse: ', nTopCardsReverse);
+      
+      for (const card of nTopCardsReverse) {
         // console.log('getEventListeners(card.domElement): ', getEventListeners(card.domElement));
 
-        console.log("nTopCards.forEach(async (card): ", card);
+        console.log("for (const card of nTopCardsReverse): ", card);
         console.log("topThreeCards: ", topThreeCards);
         topThreeCards = waste.topThreeCards;
         oldOffsetsTopThreeCards = topThreeCards.map((card) => {
@@ -103,15 +107,21 @@ export class RenderStockElement {
           };
         });
         card.positionData.parent = stock.type;
-        // await this.delay(500)
+
+        // Добавление каждой карты в массив lastMovesForStock,
+        // чтобы в дальнейшем использовать отдельно для UndoSystem(отмена хода)
+        lastMovesForStock.push({
+          card,
+          from: stock.type,
+          to: waste.type,
+        });
+
         await this.logicSystemsInit.handleCardMove({
           card,
           containerToIndex: 0,
           containerTo: waste,
           containerToName: this.cardContainers.waste,
         });
-        // await this.delay(500);
-        console.log("до await this.flipCard(card): ", card.positionData.parent);
 
         await this.flipCard(card);
 
@@ -142,16 +152,18 @@ export class RenderStockElement {
           GameConfig.dataAttributes.cardDnd
         );
       }
+
+      console.log("lastMovesForStock: ", lastMovesForStock);
+      this.logicSystemsInit.undoSystem.updateLastMoves({
+        source: stock.type,
+        lastMove: lastMovesForStock.toReversed(),
+      });
       this.stateManager.updateMoves(this.numberMoves);
       this.eventManager.emit(GameEvents.UP_MOVES);
     }
-    // await this.delay(400);
     if (oldOffsetsTopThreeCards.length > 0) {
-      console.log("oldOffsetsTopThreeCards: ", oldOffsetsTopThreeCards);
-
       await Animator.animateCardFomStockToWaste(oldOffsetsTopThreeCards);
     }
-    console.log("this.isClickAllowed в конце: ", this.isClickAllowed);
     await this.delay(this.clickLimitTime);
     this.isClickAllowed = true; // Разрешаем клики после задержки
 
@@ -203,9 +215,15 @@ export class RenderStockElement {
       console.log("1. Before emitAsync");
 
       // Тест 1: Проверяем возвращаемое значение
-      const promiseEvent = this.eventManager.emitAsync(GameEvents.CARD_FLIP, card);
+      const promiseEvent = this.eventManager.emitAsync(
+        GameEvents.CARD_FLIP,
+        card
+      );
       console.log("2. After emitAsync, promiseEvent:", promiseEvent);
-      console.log("3. Is promiseEvent a Promise?", promiseEvent instanceof Promise);
+      console.log(
+        "3. Is promiseEvent a Promise?",
+        promiseEvent instanceof Promise
+      );
 
       // Тест 2: Проверяем асинхронность
       await promiseEvent;

@@ -7,6 +7,7 @@ export class StateManager {
     this.eventManager = eventManager;
     this.storage = storage;
     this.state = null;
+    this.cardContainers = GameConfig.cardContainers;
     this.typeScoreCheckAchievements = "inGame";
     this.init();
   }
@@ -87,13 +88,15 @@ export class StateManager {
     this.eventManager.on(GameEvents.END_SET_NEW_GAME, () => {
       this.resetScore(0);
       this.resetTime(0);
-      this.resetLastMove();
+      // this.resetLastMove()
+      this.resetLastMoves();
     });
 
     this.eventManager.on(GameEvents.GAME_RESTART, () => {
       this.resetScore(0);
       this.resetTime(0);
-      this.resetLastMove();
+      // this.resetLastMove()
+      this.resetLastMoves();
       this.resetMoves(0);
       this.resetAchievementsActive();
       this.getDealingCardsValue();
@@ -102,7 +105,8 @@ export class StateManager {
     this.eventManager.on(GameEvents.SET_NEW_GAME, () => {
       this.resetScore(0);
       this.resetTime(0);
-      this.resetLastMove();
+      // this.resetLastMove()
+      this.resetLastMoves();
       this.resetMoves(0);
       this.getDealingCardsValue();
     });
@@ -119,7 +123,8 @@ export class StateManager {
 
     this.eventManager.on(GameEvents.GAME_END, () => {
       this.state.game.isRunning = false;
-      this.resetLastMove();
+      // this.resetLastMove()
+      this.resetLastMoves();
       this.saveAllData();
     });
 
@@ -153,7 +158,8 @@ export class StateManager {
 
     this.eventManager.on(GameEvents.SET_SHOP_STATS, () => this.saveShopStats());
     this.eventManager.on(GameEvents.RESET_LAST_MOVES, () =>
-      this.resetLastMove()
+      // this.resetLastMove()
+      this.resetLastMoves()
     );
 
     this.eventManager.on(GameEvents.UP_HITUSED_STATE, (count) =>
@@ -295,19 +301,54 @@ export class StateManager {
     return false;
   }
 
-  updateLastMove(moveData) {
-    console.log("moveData:", moveData);
+  // updateLastMove(moveData) {
+  //   console.log("moveData:", moveData);
 
-    this.state.game.lastMove = [
-      ...(this.state.game.lastMove.length >= this.state.player.lastMoveQuantity
-        ? this.state.game.lastMove.slice(1)
-        : this.state.game.lastMove),
-      moveData,
-    ];
+  //   this.state.game.lastMove = [
+  //     ...(this.state.game.lastMove.length >= this.state.player.lastMoveQuantity
+  //       ? this.state.game.lastMove.slice(1)
+  //       : this.state.game.lastMove),
+  //     moveData,
+  //   ];
+  //   console.log("this.state.game.lastMove:", this.state.game.lastMove);
+
+  // }
+
+  updateLastMoves(params) {
+    const { source, lastMove } = params;
+    console.log("source, moveData:", source, lastMove);
+
+    const lastMovesLengths = this.getLastMovesLengths();
+
+    // if (source.startsWith(this.cardContainers.stock)) {
+    //   this.state.game.lastMoves.stockLastMoves = [
+    //     ...(lastMovesLengths >= this.state.player.lastMoveQuantity
+    //       ? this.state.game.lastMoves.stockLastMoves.slice(1)
+    //       : this.state.game.lastMoves.stockLastMoves),
+    //     lastMove,
+    //   ];
+    // } else {
+      this.state.game.lastMoves = [
+        ...(lastMovesLengths >= this.state.player.lastMoveQuantity
+          ? this.state.game.lastMoves.slice(1)
+          : this.state.game.lastMoves),
+        lastMove,
+      ];
+    // }
+    console.log("this.state.game.lastMoves:", this.state.game.lastMoves);
   }
 
-  resetLastMove() {
-    this.state.game.lastMove = [];
+  resetLastMoves() {
+    this.state.game.lastMoves = [];
+  }
+
+  // resetLastMoves() {
+  //   this.state.game.lastMoves.otherLastMoves = [];
+  //   this.state.game.lastMoves.stockLastMoves = [];
+  // }
+
+  getLastMovesLengths() {
+    return this.state.game.lastMoves.length;
   }
 
   updateMoves(n) {
