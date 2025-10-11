@@ -29,8 +29,8 @@ export class UndoSystem {
       GameEvents.UNDO_MOVE,
       async () => await this.handleUndo()
     );
-    this.eventManager.on(GameEvents.UP_LAST_MOVE, (params) =>
-      this.updateLastMoves(params)
+    this.eventManager.on(GameEvents.UP_LAST_MOVE, (lastMove) =>
+      this.updateLastMoves(lastMove)
     );
   }
 
@@ -208,8 +208,8 @@ export class UndoSystem {
   //   );
   // }
 
-  updateLastMoves(params) {
-    const { source, lastMove } = params;
+  updateLastMoves(lastMove) {
+    // const { source, lastMove } = params;
     const cards = lastMove.map(({ card }) => card);
 
     const isUndoCards = cards.every((card) => {
@@ -219,7 +219,7 @@ export class UndoSystem {
       cards.forEach((card) => (card.isUndo = false));
       return;
     }
-    this.stateManager.updateLastMoves(params);
+    this.stateManager.updateLastMoves(lastMove);
     this.eventManager.emit(
       GameEvents.UP_UNDO_CONTAINER,
       this.stateManager.getLastMovesLengths()

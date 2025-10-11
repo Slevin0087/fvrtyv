@@ -120,7 +120,7 @@ export class LogicSystemsInit {
         from: source,
         to: `${containerToName}-${containerToIndex}`,
       }];
-      this.undoSystem.updateLastMoves({ source, lastMove });
+      this.undoSystem.updateLastMoves(lastMove);
     }
     const cardParentFoundationElForUndo = card.parentElement;
     await Animator.animateCardMove(

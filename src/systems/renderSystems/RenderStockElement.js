@@ -154,10 +154,9 @@ export class RenderStockElement {
       }
 
       console.log("lastMovesForStock: ", lastMovesForStock);
-      this.logicSystemsInit.undoSystem.updateLastMoves({
-        source: stock.type,
-        lastMove: lastMovesForStock.toReversed(),
-      });
+      const lastMove = lastMovesForStock.toReversed()
+      this.logicSystemsInit.undoSystem.updateLastMoves(lastMove);
+      
       this.stateManager.updateMoves(this.numberMoves);
       this.eventManager.emit(GameEvents.UP_MOVES);
     }

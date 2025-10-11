@@ -314,9 +314,9 @@ export class StateManager {
 
   // }
 
-  updateLastMoves(params) {
-    const { source, lastMove } = params;
-    console.log("source, moveData:", source, lastMove);
+  updateLastMoves(lastMove) {
+    // const { source, lastMove } = params;
+    // console.log("source, moveData:", source, lastMove);
 
     const lastMovesLengths = this.getLastMovesLengths();
 

@@ -400,11 +400,14 @@ export class DragAndDrop {
   }
 
   async moveFunction({ targetSource, containerTo, containerToName }) {
-    this.eventManager.emit(GameEvents.UP_LAST_MOVE, {
-      card: this.cards[0],
-      from: this.currentDraggingCardSource,
-      to: targetSource,
-    });
+    const lastMove = [
+      {
+        card: this.cards[0],
+        from: this.currentDraggingCardSource,
+        to: targetSource,
+      },
+    ];
+    this.eventManager.emit(GameEvents.UP_LAST_MOVE, lastMove);
 
     this.cards = this.movementSystem.removeCardFromSource(
       this.cards[0],
