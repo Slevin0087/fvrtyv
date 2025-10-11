@@ -244,8 +244,8 @@ export const ShopItemsTranslations = {
       description: "Чвгьата йприятнаб астиль",
     },
     liquid_metal_faces: {
-      name: "Жидкий металл",
-      description: "Ускользающий стиль",
+      name: "Айха ц|агъа",
+      description: "Йыг|взуа астиль",
     },
     vintage_faces: {
       name: "Винтажнаб",
@@ -266,12 +266,12 @@ export const ShopItemsTranslations = {
       description: "Хьапщ рубашка",
     },
     treeB_back: {
-      name: "Мтшы стиль",
-      description: "Мтшы стиль рубашек",
+      name: "Мш|ы стиль",
+      description: "Мш|ы стиль рубашек",
     },
     elegantRed_back: {
-      name: "Элегантно-к|ъапщы стиль",
-      description: "Элегантно-к|ъапщы стиль",
+      name: "Элегантно-къапщы стиль",
+      description: "Элегантно-къапщы стиль",
     },
     elegantBlue_back: {
       name: "Элегантно-ч|ыхв стиль",
