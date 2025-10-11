@@ -1,7 +1,7 @@
 import { GameEvents } from "./Constants.js";
 import { GameConfig } from "../configs/GameConfig.js";
 import { UIConfig } from "../configs/UIConfig.js";
-import { Helpers } from "./Helpers.js";
+import { Translator } from "./Translator.js";
 
 export class Animator {
   constructor() {
@@ -450,7 +450,7 @@ export class Animator {
     achievement = {},
     duration = 5000
   ) {
-    const { title, description, icon, reward, currency } = achievement;
+    const { h4TextContent, spanRedStart, title, description, icon, reward, currency } = achievement;
     const h4 = document.createElement("h4");
     const div = document.createElement("div");
     domElement.innerHTML = "";
@@ -458,13 +458,14 @@ export class Animator {
     domElement.append(h4, div);
     h4.className = "ach-div-h4";
     h4.id = "ach-div-h4";
-    const keyH4Start = Helpers.tOther(UIConfig.keysForTranslations.H4_START);
-    const keyH4End = Helpers.tOther(UIConfig.keysForTranslations.H4_END);
-    const spanRedStart = Helpers.tOther(
-      UIConfig.keysForTranslations.SPAN_RED_START
-    );
-    Helpers.tOther();
-    h4.textContent = `${keyH4Start} ${icon} ${keyH4End}`;
+    // const keyH4Start = Translator.tOther(UIConfig.keysForTranslations.H4_START);
+    // const keyH4End = Translator.tOther(UIConfig.keysForTranslations.H4_END);
+    // const spanRedStart = Translator.tOther(
+    //   UIConfig.keysForTranslations.SPAN_RED_START
+    // );
+    // Translator.tOther();
+    // h4.textContent = `${keyH4Start} ${icon} ${keyH4End}`;
+    h4.textContent = h4TextContent;
     div.className = "info-ach";
     div.id = "ach-info";
     // const container = document.getElementById("ach-info");

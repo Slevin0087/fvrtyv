@@ -111,11 +111,7 @@ export class CardMovementSystem {
     } else if (source.startsWith(this.cardContainers.foundation)) {
       return [elementFrom.removeTopCard()];
     } else if (source.startsWith(this.cardContainers.stock)) {
-      const remove = elementFrom.removeTopCard();
-      console.log("remove: ", remove);
-
-      // return [elementFrom.removeTopCard()];
-      return [remove];
+      return [elementFrom.removeTopCard()];
     } else if (source.startsWith(this.cardContainers.waste)) {
       return [elementFrom.removeTopCard()];
     }
@@ -155,8 +151,6 @@ export class CardMovementSystem {
         this.textCardsFlipped,
         this.typeCardFlipCheckAchievements
       );
-      console.log("this.state:", this.state);
-
       return card;
     }
     return null;

@@ -9,10 +9,11 @@ import { UINotificationPage } from "../ui/UINotificationPage.js";
 import { UIConfig } from "../configs/UIConfig.js";
 
 export class UIManager {
-  constructor(eventManager, stateManager) {
+  constructor(eventManager, stateManager, translator) {
     this.components = {};
     this.eventManager = eventManager;
     this.stateManager = stateManager;
+    this.translator = translator;
     this.pages = new Map();
     this.activePage = this.stateManager.state.ui.activePage;
     this.spinner = document.getElementById("loader");
@@ -31,17 +32,25 @@ export class UIManager {
     // Автоматическая регистрация всех страниц
     this.registerPage(UIConfig.pages.UINamePage, UINamePage);
     this.registerPage(UIConfig.pages.UIMenuPage, UIMenuPage);
-    this.registerPage(UIConfig.pages.UIGamePage, UIGamePage);
-    this.registerPage(UIConfig.pages.UISettingsPage, UISettingsPage);
-    this.registerPage(UIConfig.pages.UIShopPage, UIShopPage);
-    this.registerPage(UIConfig.pages.UIPlayerStatePage, UIPlayerStatePage);
+    this.registerPageForTranslation(UIConfig.pages.UIGamePage, UIGamePage);
+    this.registerPageForTranslation(UIConfig.pages.UISettingsPage, UISettingsPage);
+    this.registerPageForTranslation(UIConfig.pages.UIShopPage, UIShopPage);
+    this.registerPageForTranslation(UIConfig.pages.UIPlayerStatePage, UIPlayerStatePage);
     this.registerPage(UIConfig.pages.UINotificationPage, UINotificationPage);
   }
 
   registerPage(name, PageClass) {
     const page = new PageClass(this.eventManager, this.stateManager);
     this.pages.set(name, page);
+    // Автоматическая инициализация
+    if (typeof page.init === "function") {
+      page.init();
+    }
+  }
 
+  registerPageForTranslation(name, PageClass) {
+    const page = new PageClass(this.eventManager, this.stateManager, this.translator)
+    this.pages.set(name, page);
     // Автоматическая инициализация
     if (typeof page.init === "function") {
       page.init();

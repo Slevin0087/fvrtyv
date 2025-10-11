@@ -4,9 +4,10 @@ import { GameEvents, CardSuits, CardValues } from "../utils/Constants.js";
 import { Helpers } from "../utils/Helpers.js";
 
 export class UIShopPage extends UIPage {
-  constructor(eventManager, stateManager) {
+  constructor(eventManager, stateManager, translator) {
     super(eventManager, stateManager, "shop");
     this.state = stateManager.state;
+    this.translator = translator
     this.elements = {
       backBtn: document.getElementById("shop-back"),
       balance: document.getElementById("coins"),
@@ -90,8 +91,14 @@ export class UIShopPage extends UIPage {
     const shopItem = document.createElement("div");
     itemHead.classList.add("item-head");
     shopItemContainer.classList.add("shop-item-container");
-    itemName.textContent = item.name;
-    itemDescription.textContent = item.description;
+    const itemNameTranslation = this.translator.tShop(item.id, 'name')
+    const itemDescriptionTranslation = this.translator.tShop(item.id, 'description')
+    console.log('itemNameTranslation: ', itemNameTranslation);
+    
+    // itemName.textContent = item.name;
+    itemName.textContent = itemNameTranslation;
+    // itemDescription.textContent = item.description;
+    itemDescription.textContent = itemDescriptionTranslation;
     itemHead.append(itemName, itemDescription);
     console.log("item.category: ", item.category);
 
@@ -223,11 +230,11 @@ export class UIShopPage extends UIPage {
     btn.id = `btn-buy-${index}`;
     if (!isOwned && !isItemBuy) {
       btn.setAttribute("data-i18n", "shop_btn_buy");
-      Helpers.updateLanOneUI(btn);
+      this.translator.updateLanOneUI(btn);
       btn.textContent = `${btn.textContent}(${item.price})`;
     } else if (isItemBuy) {
       btn.setAttribute("data-i18n", "shop_btn_apply");
-      Helpers.updateLanOneUI(btn);
+      this.translator.updateLanOneUI(btn);
     }
 
     btn.onclick = (e) => this.handleBtnClick(item, isOwned, isItemBuy);
@@ -264,7 +271,7 @@ export class UIShopPage extends UIPage {
   // }
 
   updateBalance(balance) {
-    Helpers.updateLanShopBalance(balance);
+    this.translator.updateLanShopBalance(balance);
   }
 
   getTypeForCategory(category) {

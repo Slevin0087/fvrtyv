@@ -2,16 +2,16 @@ import { GameEvents, AnimationOperators } from "../../utils/Constants.js";
 import { GameConfig } from "../../configs/GameConfig.js";
 import { AudioName } from "../../utils/Constants.js";
 import { UIConfig } from "../../configs/UIConfig.js";
-import { Helpers } from "../../utils/Helpers.js";
 import { Animator } from "../../utils/Animator.js";
 
 export class WinConditionSystem {
-  constructor(eventManager, stateManager, audioManager) {
+  constructor(eventManager, stateManager, audioManager, translator) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
     this.state = this.stateManager.state;
     this.audioManager = audioManager;
     this.addition = AnimationOperators.ADDITION;
+    this.translator = translator
     this.translateWinBonusKey = "win_bonus";
     this.translateWinEarnedBonusKey = "you_have_earned";
     this.typeWinCheckAchievements = "win";
@@ -47,9 +47,9 @@ export class WinConditionSystem {
       GameConfig.earnedCoins.win
     );
 
-    const textWinBonus = Helpers.t(this.translateWinBonusKey);
-    const textEarned = Helpers.t(this.translateWinEarnedBonusKey);
-    const textCoins = Helpers.pluralize("coins", GameConfig.earnedCoins.win);
+    const textWinBonus = this.translator.t(this.translateWinBonusKey);
+    const textEarned = this.translator.t(this.translateWinEarnedBonusKey);
+    const textCoins = this.translator.pluralize("coins", GameConfig.earnedCoins.win);
 
     await Animator.animationCoinsEarned(
       `${textWinBonus}: ${this.addition}${GameConfig.rules.winScoreBonus}`

@@ -1,13 +1,14 @@
 import { UIPage } from "./UIPage.js";
 import { GameEvents } from "../utils/Constants.js";
+import { UIConfig } from "../configs/UIConfig.js";
 import { GameConfig } from "../configs/GameConfig.js";
 import { Animator } from "../utils/Animator.js";
-import { Helpers } from "../utils/Helpers.js";
 
 export class UIGamePage extends UIPage {
-  constructor(eventManager, stateManager) {
+  constructor(eventManager, stateManager, translator) {
     super(eventManager, stateManager, "game-interface");
     this.state = stateManager.state;
+    this.translator = translator
     this.elements = {
       messageEl: document.getElementById("message"),
       scoreEl: document.getElementById("points-in-game"),
@@ -183,6 +184,20 @@ export class UIGamePage extends UIPage {
     // }
   }
 
+  creatElementForHighestScore() {
+    const dataI18n = UIConfig.dataI18nValue.STATUS_BAR_RECORD_WORD
+    const div = document.createElement('div')
+    const span = document.createElement('span')
+    span.className = 'span-highest-score'
+    // span.setAttribute("data-i18n", dataI18n);
+    const recordWord = this.translator.t(dataI18n)
+    span.textContent = `${recordWord} 🌟: ${this.state.player.highestScore}`
+    div.append(span)
+    this.elements.notifDiv.innerHTML = "";
+    this.elements.notifDiv.append(div)
+    this.elements.notifDiv.classList.remove('hidden')
+  }
+
   hintUsed() {
     this.state.hintCounterState -= 1;
     this.upHintCounter(this.state.hintCounterState);
@@ -196,7 +211,7 @@ export class UIGamePage extends UIPage {
     p.className = "hint-notif-p";
     p.setAttribute("data-i18n", dataI18n);
     this.elements.notifDiv.append(p);
-    Helpers.updateLanOneUI(p);
+    this.translator.updateLanOneUI(p);
     this.elements.notifDiv.classList.remove("hidden");
     this.hintNotifyShowTimerId = setTimeout(() => {
       this.elements.notifDiv.classList.add("hidden");
@@ -226,5 +241,6 @@ export class UIGamePage extends UIPage {
     const styleClass = this.state.player.selectedItems.backgrounds.styleClass;
     this.page.classList.add("game-interface", styleClass);
     this.updateUI();
+    this.creatElementForHighestScore()
   }
 }

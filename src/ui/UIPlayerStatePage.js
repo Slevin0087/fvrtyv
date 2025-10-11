@@ -1,10 +1,10 @@
 import { UIPage } from "./UIPage.js";
-import { Helpers } from "../utils/Helpers.js";
 
 export class UIPlayerStatePage extends UIPage {
-  constructor(eventManager, stateManager) {
+  constructor(eventManager, stateManager, translator) {
     super(eventManager, stateManager, "player-state");
     this.state = stateManager.state;
+    this.translator = translator
     this.elements = {
       backBtn: document.getElementById("btn-back-st-player"),
     };
@@ -73,6 +73,6 @@ export class UIPlayerStatePage extends UIPage {
   show() {
     super.show();
     this.render();
-    Helpers.updateLanUI();
+    this.translator.updateLanUI();
   }
 }

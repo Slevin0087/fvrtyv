@@ -1,6 +1,5 @@
 import { UIPage } from "./UIPage.js";
 import { GameEvents } from "../utils/Constants.js";
-import { Helpers } from "../utils/Helpers.js";
 
 export class UINamePage extends UIPage {
   constructor(eventManager, stateManager) {

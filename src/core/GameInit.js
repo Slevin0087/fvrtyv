@@ -12,7 +12,7 @@ import { LogicSystemsInit } from "../systems/logicSystems/LogicSystemsInit.js";
 import { RenderingSystemsInit } from "../systems/renderSystems/RenderingSystemsInit.js";
 import { AnimationSystem } from "../systems/uiSystems/AnimationSystem.js";
 import { ShopSystem } from "../systems/uiSystems/ShopSystem.js";
-import { Helpers } from "../utils/Helpers.js";
+import { Translator } from "../utils/Translator.js";
 import { AchievementSystem } from "../systems/uiSystems/AchievementSystem.js";
 
 export class GameInit {
@@ -28,13 +28,19 @@ export class GameInit {
     this.eventManager = new EventManager();
     this.storage = new Storage(this.eventManager);
     this.stateManager = new StateManager(this.eventManager, this.storage);
-    Helpers.changeLanguage(this.stateManager.state.settings.language);
+    this.translator = new Translator()
+    this.translator.changeLanguage(this.stateManager.state.settings.language);
     this.achievementSystem = new AchievementSystem(
       this.eventManager,
       this.stateManager,
-      this.storage
+      this.storage,
+      this.translator,
     );
-    this.uiManager = new UIManager(this.eventManager, this.stateManager);
+    this.uiManager = new UIManager(
+      this.eventManager,
+      this.stateManager,
+      this.translator,
+    );
     this.audioManager = new AudioManager(this.eventManager, this.stateManager);
     this.cardsSystem = new CardsSystem(this.eventManager, this.stateManager);
     this.animationSystem = new AnimationSystem(
@@ -50,7 +56,8 @@ export class GameInit {
       this.eventManager,
       this.stateManager,
       this.cardsSystem,
-      this.audioManager
+      this.audioManager,
+      this.translator,
     );
     this.renderStaticElements = new RenderStaticElements(this.eventManager);
     this.renderStockElement = new RenderStockElement(

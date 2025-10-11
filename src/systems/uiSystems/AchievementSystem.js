@@ -3,12 +3,13 @@ import { currency, AchievementsConfig } from "../../configs/AchievementsConfig.j
 import { Animator } from "../../utils/Animator.js";
 
 export class AchievementSystem {
-  constructor(eventManager, stateManager, storage) {
+  constructor(eventManager, stateManager, storage, translator) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
     this.state = this.stateManager.state;
     this.storage = storage;
     // this.achievements = this.loadAchievements();
+    this.translator = translator
     this.achievements = AchievementsConfig;
     this.isAchShow = false;
     this.showAchsQueue = [];
@@ -199,7 +200,24 @@ export class AchievementSystem {
       const shows = [];
       shows.push(
         new Promise((resolve) => {
-          Animator.animationTextAchievement(notifDiv, a);
+          const { h4TextContent, spanRedStart } = this.translator.tAchOther(a.icon)
+          const titleTranslation = this.translator.tAch(a.id, 'title')
+          const descriptionTranslation = this.translator.tAch(a.id, 'description')
+          const currency = this.translator.tAch(a.id, 'currency')
+          // Animator.animationTextAchievement(notifDiv, a);
+          Animator.animationTextAchievement(
+            notifDiv,
+            {
+              h4TextContent,
+              spanRedStart,
+              title: titleTranslation,
+              description: descriptionTranslation,
+              icon: a.icon,
+              reward: a.reward,
+              currency,
+            }
+          );
+
           // Таймаут на duration анимации + немного
           setTimeout(resolve, 5500); // 5000ms + 500ms buffer
         })

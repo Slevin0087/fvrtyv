@@ -58,6 +58,7 @@ export const Translations = {
 
       //   },
       //   gameInterface: {
+      status_bar_record_word: 'Record',
       blinking_text: "Collect cards",
       undo_btn_aria_title: "Undo move",
       new_game_ctr_btn: "New Game",
@@ -88,7 +89,7 @@ export const Translations = {
       hint_notif_nopoints: 'You need at least 5 points for a hint!',
     },
     plurals: {
-      coins: (count) => `${count} ${count === 1 ? "coin" : "coins"}`,
+      coins: (count) => `${count} ${count === 1 ? "khusynka" : "khusynks"}`,
       // ... другие слова с плюрализацией
     },
   },
@@ -151,6 +152,7 @@ export const Translations = {
       player_state_achievement: "Достижение:",
       //   },
       //   gameInterface: {
+      status_bar_record_word: 'Рекорд',
       blinking_text: "Собрать карты",
       undo_btn_aria_title: "Отменить ход",
       new_game_ctr_btn: "Новая игра",
@@ -259,6 +261,7 @@ export const Translations = {
       player_state_achievement: "Аг|атгараква:",
       //   },
       //   gameInterface: {
+      status_bar_record_word: 'Арекорд',
       blinking_text: "Ак|артква азк|к|ра",
       undo_btn_aria_title: "Аход аныххра",
       new_game_ctr_btn: "Къвмарра ш|ыц",
@@ -367,6 +370,7 @@ export const Translations = {
       player_state_achievement: "Başarı:",
       //   },
       //   gameInterface: {
+      status_bar_record_word: 'Kayıt',
       blinking_text: "Kartları topla",
       undo_btn_aria_title: "Geri alma hareketi",
       new_game_ctr_btn: "Yeni oyun",

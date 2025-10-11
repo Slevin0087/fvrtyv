@@ -64,6 +64,10 @@
   flex-shrink: 1;
 }
 
+.status-bar .span-highest-score {
+  color: #caec08;
+}
+
 .notif-div h4 {
   margin-block-start: 0%;
   margin-block-end: 0%;

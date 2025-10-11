@@ -16,7 +16,7 @@ export const UIConfig = {
   dataI18nValue: {
     HINT_NOTIF_NOHINTS: 'hint_notif_nohints',
     HINT_NOTIF_NOPOINTS: 'hint_notif_nopoints',
-
+    STATUS_BAR_RECORD_WORD: 'status_bar_record_word',
   },
   keysForTranslations: {
     H4_START: 'h4_ach_start_text',

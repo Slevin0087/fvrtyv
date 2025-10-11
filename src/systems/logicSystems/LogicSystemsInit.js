@@ -13,12 +13,13 @@ import { Animator } from "../../utils/Animator.js";
 import { achType, achCheckName } from "../../configs/AchievementsConfig.js";
 
 export class LogicSystemsInit {
-  constructor(eventManager, stateManager, cardsSystem, audioManager) {
+  constructor(eventManager, stateManager, cardsSystem, audioManager, translator) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
     this.state = this.stateManager.state;
     this.cardsSystem = cardsSystem;
     this.audioManager = audioManager;
+    this.translator = translator
     this.addition = AnimationOperators.ADDITION;
     this.subtraction = AnimationOperators.SUBTRACTION;
     this.numberMoves = GameConfig.rules.initialMove;
@@ -37,7 +38,8 @@ export class LogicSystemsInit {
     this.winSystem = new WinConditionSystem(
       this.eventManager,
       this.stateManager,
-      this.audioManager
+      this.audioManager,
+      this.translator,
     );
     this.movementSystem = new CardMovementSystem(
       this.eventManager,
@@ -93,14 +95,7 @@ export class LogicSystemsInit {
       this.eventManager.emit(GameEvents.FIRST_CARD_CLICK);
       this.eventManager.emit(GameEvents.START_PLAY_TIME, 0);
     }
-    const source = this.movementSystem.getCardSource(card);
-    if (source.startsWith(GameConfig.cardContainers.waste)) {
-      this.state.isClikedCardFromWaste = true;
-    }
     this.movementSystem.handleCardClick(card);
-    if (source.startsWith(GameConfig.cardContainers.waste)) {
-      this.state.isClikedCardFromWaste = false;
-    }
   }
 
   async handleCardMove({

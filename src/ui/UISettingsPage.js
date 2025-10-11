@@ -1,10 +1,10 @@
 import { UIPage } from "./UIPage.js";
 import { GameEvents } from "../utils/Constants.js";
-import { Helpers } from "../utils/Helpers.js";
 
 export class UISettingsPage extends UIPage {
-  constructor(eventManager, stateManager) {
+  constructor(eventManager, stateManager, translator) {
     super(eventManager, stateManager, "settings");
+    this.translator = translator
     this.elements = {
       backBtn: document.getElementById("back-to-menu"),
       soundToggle: document.getElementById("sound-toggle"),
@@ -28,7 +28,7 @@ export class UISettingsPage extends UIPage {
     // };
 
     this.elements.languageSelected.onchange = (e) => {
-      Helpers.changeLanguage(e.target.value);
+      this.translator.changeLanguage(e.target.value);
       this.eventManager.emit(GameEvents.SET_LANGUAGE_CHANGE, e.target.value);
     };
 
