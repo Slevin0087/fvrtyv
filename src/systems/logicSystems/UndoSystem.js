@@ -43,12 +43,10 @@ export class UndoSystem {
 
     const lastMove = this.state.game.lastMoves.pop();
     for (const { card, from } of lastMove) {
-      // lastMove.forEach(async ({ card, from }) => {
       card.isUndo = true;
       if (card.openCard) {
         const openCard = card.openCard;
         const score = GameConfig.rules.scoreForCardFlip;
-        // this.eventManager.emit(GameEvents.BACK_CARD_FLIP, openCard);
         const asyncBackCardFlip = this.eventManager.emitAsync(
           GameEvents.BACK_CARD_FLIP,
           openCard
@@ -85,12 +83,10 @@ export class UndoSystem {
           resolve();
         });
       }
-      // const { card, from } = this.state.game.lastMove.pop();
       await this.reverseMove({
         card,
         from,
       });
-      // });
     }
     this.stateManager.incrementGameStat(this.textUndoUsed);
   }
@@ -101,31 +97,38 @@ export class UndoSystem {
 
     if (fromType === this.cardContainers.tableau) {
       const containerTo = gameComponents.tableaus[fromIndex];
-      this.eventManager.emit(GameEvents.CARD_MOVE, {
+      const moveToTableau = this.eventManager.emitAsync(GameEvents.CARD_MOVE, {
         card,
         containerToIndex: fromIndex,
         containerTo,
         containerToName: fromType,
       });
+      await moveToTableau;
     } else if (fromType === this.cardContainers.foundation) {
       const containerTo = gameComponents.foundations[fromIndex];
-      this.eventManager.emit(GameEvents.CARD_MOVE, {
-        card,
-        containerToIndex: fromIndex,
-        containerTo,
-        containerToName: fromType,
-      });
+      const moveToFoundation = this.eventManager.emitAsync(
+        GameEvents.CARD_MOVE,
+        {
+          card,
+          containerToIndex: fromIndex,
+          containerTo,
+          containerToName: fromType,
+        }
+      );
+      await moveToFoundation;
     } else if (fromType === this.cardContainers.waste) {
       const waste = gameComponents.waste;
       const stock = gameComponents.stock;
       const stockSpanTextContent =
         stock.stockCardPosition < 0 && waste.isEmpty() ? "" : "↺";
-      this.eventManager.emit(GameEvents.CARD_MOVE, {
+      const moveToWaste = this.eventManager.emitAsync(GameEvents.CARD_MOVE, {
         card,
         containerToIndex: 0,
         containerTo: waste,
         containerToName: fromType,
       });
+      await moveToWaste;
+
       stock.element.querySelector(".stock-span").textContent =
         stockSpanTextContent;
       const topThreeCards = waste.uppp();
@@ -195,21 +198,7 @@ export class UndoSystem {
     // card.isUndo = false;
   }
 
-  // updateLastMove(params) {
-  //   const { card } = params;
-  //   if (card.isUndo) {
-  //     card.isUndo = false;
-  //     return;
-  //   }
-  //   this.stateManager.updateLastMove(params);
-  //   this.eventManager.emit(
-  //     GameEvents.UP_UNDO_CONTAINER,
-  //     this.state.game.lastMove.length
-  //   );
-  // }
-
   updateLastMoves(lastMove) {
-    // const { source, lastMove } = params;
     const cards = lastMove.map(({ card }) => card);
 
     const isUndoCards = cards.every((card) => {
