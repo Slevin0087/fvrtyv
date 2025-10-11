@@ -84,7 +84,11 @@ export class Animator {
     );
     console.log("removedCards: ", removedCards);
 
-    // Создаем массив промисов для всех анимаций
+    // Звук перемещения карты, даже если перемещает одновременно много карт, это бывавет только в tableau
+    // должен быть только один раз звук перемещения, за одно перемещение
+    movementSystem.eventManager.emit(GameEvents.AUDIO_CARD_MOVE)
+
+    // Создаем массив промисов для всех анимаций   
     const animationPromises = await removedCards.map((card) => {
       return new Promise((resolve, reject) => {
         const cardElement = card.domElement;

@@ -116,6 +116,8 @@ export class AudioManager {
   }
 
   play(name) {
+    console.log('play(name): ', name);
+    
     if (
       // !this.stateManager.state.settings.soundEnabled ||
       !this.sounds.has(name)
