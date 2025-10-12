@@ -31,12 +31,8 @@
   font-size: clamp(0.8em, 2.5vw, 1.2em);
 }
 
-.status-bar .score-x1-span {
+.status-bar .score-span {
   color: yellow;
-}
-
-.status-bar .score-x3-span {
-  color: red;
 }
 
 .status-bar span {

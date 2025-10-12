@@ -4,7 +4,7 @@ import { GameEvents } from "../utils/Constants.js";
 export class UISettingsPage extends UIPage {
   constructor(eventManager, stateManager, translator) {
     super(eventManager, stateManager, "settings");
-    this.translator = translator
+    this.translator = translator;
     this.elements = {
       backBtn: document.getElementById("back-to-menu"),
       soundToggle: document.getElementById("sound-toggle"),
@@ -13,6 +13,16 @@ export class UISettingsPage extends UIPage {
       languageSelected: document.getElementById("language-selected"),
       dealingCardsOne: document.getElementById("dealing_cards-one"),
       dealingCardsThree: document.getElementById("dealing_cards-three"),
+      dealingCardsModal: document.getElementById("dealing-cards-modal"),
+      dealingCardsModalClose: document.getElementById(
+        "dealing-cards-modal-close"
+      ),
+      dealingCardsModalDontShowAgain: document.getElementById(
+        "dealing-cards-modal-dont-show-again-btn"
+      ),
+      dealingCardsModalItsClear: document.getElementById(
+        "dealing-cards-modal-its-clear-btn"
+      ),
     };
   }
 
@@ -27,33 +37,52 @@ export class UISettingsPage extends UIPage {
     //   this.eventManager.emit(GameEvents.SET_DIFFICUTY_CHANGE, e.target.value);
     // };
 
-    this.elements.languageSelected.onchange = (e) => {
-      this.translator.changeLanguage(e.target.value);
-      this.eventManager.emit(GameEvents.SET_LANGUAGE_CHANGE, e.target.value);
-    };
+    this.elements.languageSelected.onchange = (e) => this.onChangeLanguage(e);
 
-    this.elements.musicVolume.oninput = (e) => {
-      const volume = Math.max(0, Math.min(1, e.target.value / 100));
-      this.eventManager.emit(GameEvents.SET_MUSIC_VOLUME, parseFloat(volume));
-      this.eventManager.emit(GameEvents.SETTINGS_MUSIC_VOLUME);
-      this.setPropertyStyleVolume(e.target);
-    };
+    this.elements.musicVolume.oninput = (e) => this.onInputMusicVolume(e);
 
-    this.elements.dealingCardsOne.onchange = (e) => {
-      if (e.target.checked) {
-        const value = Number(e.target.value);
-        // this.stateManager.state.player.dealingCards = Number(e.target.value);
-        this.eventManager.emit(GameEvents.SET_DEALING_CARDS, value);
-      }
-    };
+    this.elements.dealingCardsOne.onchange = (e) =>
+      this.onChangeDealingCards(e);
 
-    this.elements.dealingCardsThree.onchange = (e) => {
-      if (e.target.checked) {
-        const value = Number(e.target.value);
-        // this.stateManager.state.player.dealingCards = Number(e.target.value);
-        this.eventManager.emit(GameEvents.SET_DEALING_CARDS, value);
-      }
-    };
+    this.elements.dealingCardsThree.onchange = (e) =>
+      this.onChangeDealingCards(e);
+    this.elements.dealingCardsModalDontShowAgain.onclick = () =>
+      this.onClickDealingCardsModalDontShowAgain(true);
+    this.elements.dealingCardsModalItsClear.onclick = () => this.onClickDealingCardsModalItsClear();
+  }
+
+  onChangeLanguage(e) {
+    const volume = Math.max(0, Math.min(1, e.target.value / 100));
+    this.eventManager.emit(GameEvents.SET_MUSIC_VOLUME, parseFloat(volume));
+    this.eventManager.emit(GameEvents.SETTINGS_MUSIC_VOLUME);
+    this.setPropertyStyleVolume(e.target);
+  }
+
+  onChangeDealingCards(e) {
+    if (!this.stateManager.state.player.isDontShowAgainDealingCardsModal) {
+      console.log("Больше не показывать модуль dealingCardsModal");
+      this.elements.dealingCardsModal.classList.remove("hidden");
+    }
+    if (e.target.checked) {
+      const value = Number(e.target.value);
+      this.eventManager.emit(GameEvents.SET_DEALING_CARDS, value);
+    }
+  }
+
+  onInputMusicVolume(e) {
+    const volume = Math.max(0, Math.min(1, e.target.value / 100));
+    this.eventManager.emit(GameEvents.SET_MUSIC_VOLUME, parseFloat(volume));
+    this.eventManager.emit(GameEvents.SETTINGS_MUSIC_VOLUME);
+    this.setPropertyStyleVolume(e.target);
+  }
+
+  onClickDealingCardsModalDontShowAgain(boolean) {
+    this.stateManager.setdontShowAgainDealingCardsModal(boolean);
+    this.elements.dealingCardsModal.classList.add("hidden");
+  }
+
+  onClickDealingCardsModalItsClear() {
+    this.elements.dealingCardsModal.classList.add("hidden");
   }
 
   render() {
@@ -74,7 +103,6 @@ export class UISettingsPage extends UIPage {
   show() {
     super.show();
     this.render();
-    // await Animator.fadeIn(this.page, this.displayPage);
   }
 
   setPropertyStyleVolume(element) {

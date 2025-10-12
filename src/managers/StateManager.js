@@ -36,6 +36,11 @@ export class StateManager {
       },
       cardsComponents: null,
       faceDownCards: [],
+      modalsState: {
+        restartGameModal: {
+          created: false,
+        },
+      },
       dealingCards: GameConfig.rules.defaultDealingCards,
       ui: this.storage.getUIStats(),
       game: this.storage.getGameStats(),
@@ -214,6 +219,11 @@ export class StateManager {
     // }
   }
 
+  setdontShowAgainDealingCardsModal(boolean) {
+    this.state.player.isDontShowAgainDealingCardsModal = boolean
+    this.savePlayerStats()
+  }
+
   saveAllData() {
     this.saveGameState();
     this.savePlayerStats();
@@ -221,8 +231,6 @@ export class StateManager {
   }
 
   saveGameState() {
-    console.log("this.state.game:", this.state.game);
-
     this.storage.setGameStats(this.state.game);
   }
 
@@ -328,12 +336,12 @@ export class StateManager {
     //     lastMove,
     //   ];
     // } else {
-      this.state.game.lastMoves = [
-        ...(lastMovesLengths >= this.state.player.lastMoveQuantity
-          ? this.state.game.lastMoves.slice(1)
-          : this.state.game.lastMoves),
-        lastMove,
-      ];
+    this.state.game.lastMoves = [
+      ...(lastMovesLengths >= this.state.player.lastMoveQuantity
+        ? this.state.game.lastMoves.slice(1)
+        : this.state.game.lastMoves),
+      lastMove,
+    ];
     // }
     console.log("this.state.game.lastMoves:", this.state.game.lastMoves);
   }
@@ -364,6 +372,14 @@ export class StateManager {
   getDealingCardsValue() {
     const playerStats = this.storage.getPlayerStats();
     this.upDealingCardsValue(playerStats.dealingCards);
+  }
+
+  isRestartGameModalCreated() {
+    return this.state.modalsState.restartGameModal.created;
+  }
+
+  setIsRestartGameModalCreated(boolen) { // установка true или false
+    this.state.modalsState.restartGameModal.created = boolen;
   }
 
   updateScore(points) {

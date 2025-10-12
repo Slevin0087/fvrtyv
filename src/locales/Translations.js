@@ -2,7 +2,7 @@ export const Translations = {
   en: {
     ui: {
       //loader spinner
-      loader_spinner: 'Loading...',
+      loader_spinner: "Loading...",
       ///////
       player_name_placeholder: "Player",
       ru_btn: "Russian",
@@ -30,7 +30,7 @@ export const Translations = {
       option_medium: "Average",
       option_hard: "Complex",
       ln_setting_item: "Language",
-      dealing_cards: 'Distribution of cards by:',
+      dealing_cards: "Distribution of cards by:",
       //   },
       //   shopGame: {
       shop_title: "Shop",
@@ -58,7 +58,7 @@ export const Translations = {
 
       //   },
       //   gameInterface: {
-      status_bar_record_word: 'Record',
+      status_bar_record_word: "Record",
       blinking_text: "Collect cards",
       undo_btn_aria_title: "Undo move",
       new_game_ctr_btn: "New Game",
@@ -79,14 +79,20 @@ export const Translations = {
       game_name: "Khusynka",
 
       // модальное окно restart game
-      btn_game_restart_modal_again: 'Sure',
-      btn_game_restart_modal_cancel: 'Cancel',
-      game_restart_modal_cancel_content: 'Sure?',
-      game_restart_modal_title: 'New game!',
+      btn_game_restart_modal_again: "Sure",
+      btn_game_restart_modal_cancel: "Cancel",
+      game_restart_modal_cancel_content: "Sure?",
+      game_restart_modal_title: "New game!",
+
+      // модальное окно при смене количества раздачи карт в settings странице
+      dealing_cards_modal_title: "Dealing cards",
+      btn_dealing_cards_modal_dont_show_again: "Don't show this again!",
+      dealing_cards_modal_cancel_content: "body",
+      btn_dealing_cards_modal_its_clear: "It's clear",
 
       // для оповещений подсказок
-      hint_notif_nohints: 'No hints!',
-      hint_notif_nopoints: 'You need at least 5 points for a hint!',
+      hint_notif_nohints: "No hints!",
+      hint_notif_nopoints: "You need at least 5 points for a hint!",
     },
     plurals: {
       coins: (count) => `${count} ${count === 1 ? "khusynka" : "khusynks"}`,
@@ -96,7 +102,7 @@ export const Translations = {
   ru: {
     ui: {
       //loaded spinner
-      loader_spinner: 'Загрузка...',
+      loader_spinner: "Загрузка...",
       ///////
       player_name_placeholder: "Игрок",
       ru_btn: "Русский",
@@ -125,7 +131,7 @@ export const Translations = {
       option_medium: "Средняя",
       option_hard: "Сложная",
       ln_setting_item: "Язык",
-      dealing_cards: 'Раздача карт по:',
+      dealing_cards: "Раздача карт по:",
       //   },
       //   shopGame: {
       shop_title: "Магазин",
@@ -152,7 +158,7 @@ export const Translations = {
       player_state_achievement: "Достижение:",
       //   },
       //   gameInterface: {
-      status_bar_record_word: 'Рекорд',
+      status_bar_record_word: "Рекорд",
       blinking_text: "Собрать карты",
       undo_btn_aria_title: "Отменить ход",
       new_game_ctr_btn: "Новая игра",
@@ -172,15 +178,21 @@ export const Translations = {
       game_name: "Хусынка",
       // ... другие UI-тексты
 
-            // модальное окно restart game
-      btn_game_restart_modal_again: 'Уверен',
-      btn_game_restart_modal_cancel: 'Отмена',
-      game_restart_modal_cancel_content: 'Уверены?',
-      game_restart_modal_title: 'Новая игра!',
+      // модальное окно restart game
+      btn_game_restart_modal_again: "Уверен",
+      btn_game_restart_modal_cancel: "Отмена",
+      game_restart_modal_cancel_content: "Уверены?",
+      game_restart_modal_title: "Новая игра!",
+
+      // модальное окно при смене количества раздачи карт в settings странице
+      dealing_cards_modal_title: "Раздача карт",
+      btn_dealing_cards_modal_dont_show_again: "Больше не показывать!",
+      dealing_cards_modal_cancel_content: "тело модального окна",
+      btn_dealing_cards_modal_its_clear: "Понятно",
 
       // для оповещений подсказок
-      hint_notif_nohints: 'Нет подсказок!',
-      hint_notif_nopoints: 'Нужно минимум 5 очков для подсказки!',
+      hint_notif_nohints: "Нет подсказок!",
+      hint_notif_nopoints: "Нужно минимум 5 очков для подсказки!",
     },
     plurals: {
       coins: (count) => {
@@ -205,7 +217,7 @@ export const Translations = {
   abaza: {
     ui: {
       //loaded spinner
-      loader_spinner: 'Йг|алагьит|...',
+      loader_spinner: "Йг|алагьит|...",
       ///////
       player_name_placeholder: "Ахъвмарраг|в",
       ru_btn: "Урышвбызшва",
@@ -234,7 +246,7 @@ export const Translations = {
       option_medium: "Йыгьбаргвым",
       option_hard: "Баргвы",
       ln_setting_item: "Абызшва",
-      dealing_cards: 'К|ард щт|ацара зъару:',
+      dealing_cards: "К|ард щт|ацара зъару:",
       //   },
       //   shopGame: {
       shop_title: "Аткван",
@@ -261,7 +273,7 @@ export const Translations = {
       player_state_achievement: "Аг|атгараква:",
       //   },
       //   gameInterface: {
-      status_bar_record_word: 'Арекорд',
+      status_bar_record_word: "Арекорд",
       blinking_text: "Ак|артква азк|к|ра",
       undo_btn_aria_title: "Аход аныххра",
       new_game_ctr_btn: "Къвмарра ш|ыц",
@@ -281,15 +293,21 @@ export const Translations = {
       game_name: "Х|вусынка",
       // ... другие UI-тексты
 
-                  // модальное окно restart game
-      btn_game_restart_modal_again: 'Съувереннап|',
-      btn_game_restart_modal_cancel: 'Момо',
-      game_restart_modal_cancel_content: 'У(б)ъувереннума?',
-      game_restart_modal_title: 'Хъвмарра ш|ыц!',
+      // модальное окно restart game
+      btn_game_restart_modal_again: "Съувереннап|",
+      btn_game_restart_modal_cancel: "Момо",
+      game_restart_modal_cancel_content: "У(б)ъувереннума?",
+      game_restart_modal_title: "Хъвмарра ш|ыц!",
+
+      // модальное окно при смене количества раздачи карт в settings странице
+      dealing_cards_modal_title: "Раздача карт",
+      btn_dealing_cards_modal_dont_show_again: "Йыщбаныс йыгьстахъым датша!",
+      dealing_cards_modal_cancel_content: "тело модального окна",
+      btn_dealing_cards_modal_its_clear: "Йг|асгвынг|выд",
 
       // для оповещений подсказок
-      hint_notif_nohints: 'Подсказк|аква йгьаъам!',
-      hint_notif_nopoints: 'Йатахъыб минимум 5 очков аподск|азк|аква рыхъаз!',
+      hint_notif_nohints: "Подсказк|аква йгьаъам!",
+      hint_notif_nopoints: "Йатахъыб минимум 5 очков аподск|азк|аква рыхъаз!",
     },
     plurals: {
       coins: (count) => {
@@ -315,7 +333,7 @@ export const Translations = {
   tr: {
     ui: {
       //loaded spinner
-      loader_spinner: 'Yükleniyor...',
+      loader_spinner: "Yükleniyor...",
       ///////
       player_name_placeholder: "Oyuncu",
       ru_btn: "Rus dili",
@@ -343,7 +361,7 @@ export const Translations = {
       option_medium: "Ortalama",
       option_hard: "Karmaşık",
       ln_setting_item: "Dil",
-      dealing_cards: 'kartların dağıtımı:',
+      dealing_cards: "kartların dağıtımı:",
       //   },
       //   shopGame: {
       shop_title: "Mağaza",
@@ -370,7 +388,7 @@ export const Translations = {
       player_state_achievement: "Başarı:",
       //   },
       //   gameInterface: {
-      status_bar_record_word: 'Kayıt',
+      status_bar_record_word: "Kayıt",
       blinking_text: "Kartları topla",
       undo_btn_aria_title: "Geri alma hareketi",
       new_game_ctr_btn: "Yeni oyun",
@@ -390,15 +408,21 @@ export const Translations = {
       game_name: "Khusynka",
       // ... другие UI-тексты
 
-                        // модальное окно restart game
-      btn_game_restart_modal_again: 'Elbette',
-      btn_game_restart_modal_cancel: 'Iptal',
-      game_restart_modal_cancel_content: 'Elbette?',
-      game_restart_modal_title: 'Yeni oyun!',
+      // модальное окно restart game
+      btn_game_restart_modal_again: "Elbette",
+      btn_game_restart_modal_cancel: "Iptal",
+      game_restart_modal_cancel_content: "Elbette?",
+      game_restart_modal_title: "Yeni oyun!",
+
+      // модальное окно при смене количества раздачи карт в settings странице
+      dealing_cards_modal_title: "Kart dağıtma",
+      btn_dealing_cards_modal_dont_show_again: "Bunu bir daha gösterme!",
+      dealing_cards_modal_cancel_content: "modal pencerenin gövdesi",
+      btn_dealing_cards_modal_its_clear: "Apaçık",
 
       // для оповещений подсказок
-      hint_notif_nohints: 'Hiçbir ipucu yok!',
-      hint_notif_nopoints: 'İpucu için en az 5 puana ihtiyacınız var.!',
+      hint_notif_nohints: "Hiçbir ipucu yok!",
+      hint_notif_nopoints: "İpucu için en az 5 puana ihtiyacınız var.!",
     },
     plurals: {
       coins: (count) => {

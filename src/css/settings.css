@@ -212,6 +212,55 @@ input[type="range"]::-moz-range-track {
   background: transparent;
 }
 
+.dealing-cards-modal {
+  position: fixed;
+  background-color: #caec08;
+  padding: 1rem;
+  z-index: 1000;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  gap: 1rem;
+  border-radius: 1rem;
+  border: 0.5rem solid rgba(128, 98, 0);
+}
+
+.dealing-cards-modal-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+  color: black;
+}
+
+.dealing-cards-modal-close {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  text-align: center;
+}
+
+.dealing-cards-modal-close-span {
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.dealing-cards-modal-btns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  text-align: center;
+  gap: 1rem;
+}
+
+.dealing-cards-modal-btns button {
+  display: block;
+}
+
 @media (min-width: 350px) {
   .setting-item {
     font-size: var(--font-size-s-350px-2);

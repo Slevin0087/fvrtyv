@@ -67,12 +67,6 @@ export class AchievementSystem {
   }
 
   checkAchievements(type) {
-    console.log(
-      "ВВВВВВВВВВВВВВВВВВВВВВВВ this.isAchShow, this.showAchsQueue:",
-      this.isAchShow,
-      this.showAchsQueue
-    );
-
     const playerState = this.storage.getPlayerStats();
     const { unlocked } = playerState.achievements;
     const { unlockedMany } = this.state.stateForAchievements;
@@ -92,12 +86,6 @@ export class AchievementSystem {
           this.setActiveAchievement(a);
           this.storage.setPlayerStats(state);
           this.showAchievements(a);
-          // this.eventManager.emit(GameEvents.UP_ACHIEVENT_DIV, a);
-          // this.eventManager.emit(GameEvents.UP_ACHIEVENT_ICON, true);
-          // if (a.currency === currency.SCORE) {
-          //   this.eventManager.emit(GameEvents.ADD_POINTS, a.reward);
-          //   this.eventManager.emit(GameEvents.UP_ACHIEVENT_SCORE_DIV);
-          // }
         }
       } else if (a.life === "many") {
         if (a.condition(state)) {
@@ -105,16 +93,6 @@ export class AchievementSystem {
           this.setActiveAchievement(a, true);
           this.storage.setPlayerStats(state);
           this.showAchievements(a);
-          console.log("ПОСЛЕ this.showAchievements(a)");
-
-          // this.eventManager.emit(GameEvents.UP_ACHIEVENT_DIV, a);
-          // this.eventManager.emit(GameEvents.UP_ACHIEVENT_ICON, true);
-          // if (a.currency === currency.SCORE) {
-          //   this.eventManager.emit(GameEvents.ADD_POINTS, a.reward);
-          //   setTimeout(() => {
-          //     this.eventManager.emit(GameEvents.UP_ACHIEVENT_SCORE_DIV);
-          //   }, 2000);
-          // }
         }
       }
     });
@@ -202,18 +180,14 @@ export class AchievementSystem {
       shows.push(
         new Promise((resolve) => {
           const { h4TextContent, spanRedStart } = this.translator.tAchOther(a.icon)
-          const titleTranslation = this.translator.tAch(a.id, 'title')
-          const descriptionTranslation = this.translator.tAch(a.id, 'description')
           const currency = this.translator.tAch(a.id, 'currency')
           Animator.animationTextAchievement(
             notifDivTop,
             notifDivBottom,
+            this.state.dealingCards,
             {
               h4TextContent,
               spanRedStart,
-              title: titleTranslation,
-              description: descriptionTranslation,
-              icon: a.icon,
               reward: a.reward,
               currency,
             }

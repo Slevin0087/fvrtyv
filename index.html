@@ -28,14 +28,20 @@
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/gsap.min.js"></script>
   </head>
   <body>
+    <!-- Спиннер при загрузке html: начало -->
     <div class="loader-spinner" id="loader">
       <div class="spinner"></div>
       <!-- <div class="loader-spinner-title" data-i18n="loader_spinner"></div> -->
     </div>
+    <!-- Спиннер при загрузке html: конец -->
+
+    <!-- Самый главный контейнер: начало -->
     <div id="app" class="app-container">
       <div id="notification-toast" class="toast hidden"></div>
 
+      <!-- Кнопка развернуть/свернуть окно -->
       <button class="full-screen-button" id="full-screen-btn">[ ]</button>
+
       <div id="player-page" class="name-page hidden">
         <form id="player-form" class="player-form">
           <div class="page-content">
@@ -58,8 +64,8 @@
           </div>
         </form>
       </div>
-      <!-- Главное меню -->
-      <!-- Меню игры -->
+
+      <!-- Главное меню: начало -->
       <div id="game-menu" class="menu hidden">
         <h1 data-i18n="game_name">Хусынка</h1>
         <button id="new-game-btn" data-i18n="menu_btn_new_game">
@@ -77,7 +83,9 @@
         <button id="shop-btn" data-i18n="menu_btn_shop">Магазин</button>
         <button id="exit-btn" data-i18n="menu_btn_exit_game">Выход</button>
       </div>
-      <!-- Настройки -->
+      <!-- Главное меню: конец -->
+
+      <!-- Настройки: начало -->
       <div id="settings" class="settings hidden">
         <div class="setting-head">
           <h2 class="setting-title" data-i18n="setting_title">Настройки</h2>
@@ -161,9 +169,49 @@
         </div>
         <!-- <div class="setting-item"> -->
         <!-- </div> -->
-      </div>
 
-      <!-- Магазин -->
+        <!-- Модальное окно: начало -->
+        <div id="dealing-cards-modal" class="dealing-cards-modal hidden">
+          <div class="dealing-cards-modal-header">
+            <div class="dealing-cards-modal-close">
+              <span
+                class="dealing-cards-modal-close-span"
+                id="dealing-cards-modal-close"
+                >&times;</span
+              >
+            </div>
+            <div class="dealing-cards-modal-title">
+              <span data-i18n="dealing_cards_modal_title"
+                >Раздача карт по:</span
+              >
+            </div>
+          </div>
+          <div class="dealing-cards-modal-content">
+            <!-- <span class="dealing-cards-modal-p">Уверены?</span> -->
+            <span data-i18n="dealing_cards_modal_cancel_content">Уверены?</span>
+          </div>
+          <div class="dealing-cards-modal-btns">
+            <button
+              class="dealing-cards-modal-dont-show-again-btn"
+              id="dealing-cards-modal-dont-show-again-btn"
+              data-i18n="btn_dealing_cards_modal_dont_show_again"
+            >
+              Больше не показывать
+            </button>
+            <button
+              class="dealing-cards-modal-its_clear-btn"
+              id="dealing-cards-modal-its-clear-btn"
+              data-i18n="btn_dealing_cards_modal_its_clear"
+            >
+              Понятно
+            </button>
+          </div>
+        </div>
+        <!-- Модальное окно: конец -->
+      </div>
+      <!-- Настройки: конец -->
+
+      <!-- Магазин: начало -->
       <div id="shop" class="shop hidden">
         <div class="shop-head">
           <button
@@ -210,8 +258,9 @@
           <div class="all-items-container" id="fon-container"></div>
         </div>
       </div>
+      <!-- Магазин: конец -->
 
-      <!-- Статистика игрока -->
+      <!-- Статистика игрока: начало -->
       <div class="player-state hidden" id="player-state">
         <div class="player-state-head">
           <h2 class="player-state-title" data-i18n="player_state_title">
@@ -231,8 +280,9 @@
         </button>
         <!-- </div> -->
       </div>
+      <!-- Статистика игрока: конец -->
 
-      <!-- Game интерфейс -->
+      <!-- Game интерфейс: начало -->
       <div id="game-interface" class="game-interface hidden">
         <div class="status-bar info-container" id="info-top">
           <div class="status-bar-row-top">
@@ -289,7 +339,8 @@
             </button>
           </div>
         </div>
-        <!-- Модальное окно -->
+
+        <!-- Модальное окно: начало -->
         <div id="restart-game-modal" class="restart-game-modal hidden">
           <div class="restart-game-modal-header">
             <div class="restart-game-modal-close">
@@ -324,8 +375,11 @@
             </button>
           </div>
         </div>
+        <!-- Модальное окно: конец -->
       </div>
+      <!-- Game интерфейс: конец -->
     </div>
+    <!-- Самый главный контейнер: конец -->
 
     <script type="module" src="./src/main.js"></script>
   </body>

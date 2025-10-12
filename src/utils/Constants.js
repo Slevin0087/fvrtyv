@@ -130,6 +130,7 @@ export const GameEvents = {
   UP_UNDO_CONTAINER: "up:undo:container",
   CHECK_GET_ACHIEVEMENTS: "check:get:achievements",
   CREAT_ELEMENT_FOR_HIGHEST_SCORE: 'creat:element:for:highest:score',
+  CREAT_GAME_RESTART_MODAL: 'creat:game:restart:modal',
 };
 
 export const AnimationDurations = {

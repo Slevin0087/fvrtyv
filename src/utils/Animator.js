@@ -451,15 +451,13 @@ export class Animator {
   static animationTextAchievement(
     domElementTop,
     domElementBottom,
+    dealingCards,
     achievement = {},
     duration = 5000
   ) {
     const {
       h4TextContent,
       spanRedStart,
-      title,
-      description,
-      icon,
       reward,
       currency,
     } = achievement;
@@ -474,19 +472,19 @@ export class Animator {
     h4.textContent = h4TextContent;
     div.className = "info-ach";
     div.id = "ach-info";
-    div.innerHTML = `
-      <span class="ach-info-span-black">${title}:${" "}</span>
-      <span class="ach-info-span-title-description" id="ach-info-span">${description}</span>`;
-    setTimeout(() => {
+    // div.innerHTML = `
+    //   <span class="ach-info-span-black">${title}:${" "}</span>
+    //   <span class="ach-info-span-title-description" id="ach-info-span">${description}</span>`;
+    // setTimeout(() => {
       div.innerHTML = `
         <span class="ach-info-span-black">${spanRedStart}:${" "}</span>
-        <span class="ach-info-span-yellow" id="ach-info-span">${reward}${" "}</span>
+        <span class="ach-info-span-yellow" id="ach-info-span">${reward}x${dealingCards}${" "}</span>
         <span class="ach-info-span-title-description">${currency}</span>`;
       setTimeout(() => {
         domElementTop.innerHTML = "";
         domElementBottom.innerHTML = "";
       }, duration / 2);
-    }, duration / 2);
+    // }, duration / 2);
   }
 
   static animationSpansAch(spanElement, deltaX, deltaY, duration, n = 3) {

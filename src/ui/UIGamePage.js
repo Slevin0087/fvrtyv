@@ -8,7 +8,7 @@ export class UIGamePage extends UIPage {
   constructor(eventManager, stateManager, translator) {
     super(eventManager, stateManager, "game-interface");
     this.state = stateManager.state;
-    this.translator = translator
+    this.translator = translator;
     this.elements = {
       messageEl: document.getElementById("message"),
       scoreEl: document.getElementById("points-in-game"),
@@ -48,29 +48,16 @@ export class UIGamePage extends UIPage {
   }
 
   setupEventListeners() {
-    this.elements.restartGameBtn.onclick = () => {
-      if (this.isRestartGameModalShow) return;
-      this.elements.restartGameModal.classList.remove("hidden");
-      this.isRestartGameModalShow = true;
-      // setTimeout(() => this.eventManager.emit(GameEvents.UI_ANIMATE_DEAL_CARDS), 1000);
-    };
+    this.elements.restartGameBtn.onclick = () => this.onClickRestartGame();
 
-    this.elements.restartGameModalAgainBtn.onclick = () => {
-      this.elements.restartGameModal.classList.add("hidden");
-      this.isRestartGameModalShow = false;
-      this.eventManager.emit(GameEvents.GAME_RESTART);
-      this.updateUI();
-    };
+    this.elements.restartGameModalAgainBtn.onclick = () =>
+      this.onClickRestartGameModalAgain();
 
-    this.elements.restartGameModalCancelBtn.onclick = () => {
-      this.elements.restartGameModal.classList.add("hidden");
-      this.isRestartGameModalShow = false;
-    };
+    this.elements.restartGameModalCancelBtn.onclick = () =>
+      this.onClickRestartGameModalCancel();
 
-    this.elements.restartGameModalClose.onclick = () => {
-      this.elements.restartGameModal.classList.add("hidden");
-      this.isRestartGameModalShow = false;
-    };
+    this.elements.restartGameModalClose.onclick = () =>
+      this.onClickRestartGameModalClose();
 
     this.elements.hintBtn.onclick = () => {
       this.eventManager.emit(GameEvents.HINT_BTN_CLICK);
@@ -142,7 +129,33 @@ export class UIGamePage extends UIPage {
       this.hintNotif(dataI18n)
     );
     this.eventManager.on(GameEvents.HINT_USED, () => this.hintUsed());
-    this.eventManager.on(GameEvents.CREAT_ELEMENT_FOR_HIGHEST_SCORE, () => this.creatElementForHighestScore())
+    this.eventManager.on(GameEvents.CREAT_ELEMENT_FOR_HIGHEST_SCORE, () =>
+      this.creatElementForHighestScore()
+    );
+  }
+
+  onClickRestartGame() {
+    if (this.isRestartGameModalShow) return;
+    this.elements.restartGameModal.classList.remove("hidden");
+    this.isRestartGameModalShow = true;
+    // setTimeout(() => this.eventManager.emit(GameEvents.UI_ANIMATE_DEAL_CARDS), 1000);
+  }
+
+  onClickRestartGameModalAgain() {
+    this.elements.restartGameModal.classList.add("hidden");
+    this.isRestartGameModalShow = false;
+    this.eventManager.emit(GameEvents.GAME_RESTART);
+    this.updateUI();
+  }
+
+  onClickRestartGameModalCancel() {
+    this.elements.restartGameModal.classList.add("hidden");
+    this.isRestartGameModalShow = false;
+  }
+
+  onClickRestartGameModalClose() {
+    this.elements.restartGameModal.classList.add("hidden");
+    this.isRestartGameModalShow = false;
   }
 
   updateUI() {
@@ -159,10 +172,7 @@ export class UIGamePage extends UIPage {
   }
 
   updateScore(score) {
-    // let spanClass
-    // if (this.state.dealingCards === 1) spanClass = 'score-x1-span'
-    // else if (this.state.dealingCards === 3) spanClass = 'score-x3-span'
-    this.elements.scoreEl.innerHTML = `🌟 <span class='score-x1-span'>
+    this.elements.scoreEl.innerHTML = `🌟 <span class='score-span'>
     x${this.state.dealingCards}</span>: ${score}`;
   }
 
@@ -188,16 +198,22 @@ export class UIGamePage extends UIPage {
   }
 
   creatElementForHighestScore() {
-    const dataI18n = UIConfig.dataI18nValue.STATUS_BAR_RECORD_WORD
-    const div = document.createElement('div')
-    const span = document.createElement('span')
-    div.className = 'div-highest-score'
-    span.className = 'span-highest-score'
-    const recordWord = this.translator.t(dataI18n)
-    span.textContent = `${recordWord} 🌟: ${this.state.player.highestScore}`
-    div.append(span)
+    const dataI18n = UIConfig.dataI18nValue.STATUS_BAR_RECORD_WORD;
+    const div = document.createElement("div");
+    const span = document.createElement("span");
+    div.className = "div-highest-score";
+    span.className = "span-highest-score";
+    const recordWord = this.translator.t(dataI18n);
+    span.textContent = `${recordWord} 🌟: ${this.state.player.highestScore}`;
+    div.append(span);
     this.elements.notifDivTop.innerHTML = "";
-    this.elements.notifDivTop.append(div)
+    this.elements.notifDivTop.append(div);
+  }
+
+  getModalData(data) {
+    console.log("в getModalData(data): ", data);
+
+    return data;
   }
 
   hintUsed() {
@@ -242,6 +258,6 @@ export class UIGamePage extends UIPage {
     const styleClass = this.state.player.selectedItems.backgrounds.styleClass;
     this.page.classList.add("game-interface", styleClass);
     this.updateUI();
-    this.creatElementForHighestScore()
+    this.creatElementForHighestScore();
   }
 }
