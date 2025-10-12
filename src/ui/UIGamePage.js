@@ -208,15 +208,14 @@ export class UIGamePage extends UIPage {
 
   hintNotif(dataI18n) {
     if (this.hintNotifyShowTimerId) clearTimeout(this.hintNotifyShowTimerId);
-    this.elements.notifDiv.innerHTML = "";
+    this.elements.notifDivBottom.innerHTML = "";
     const p = document.createElement("p");
     p.className = "hint-notif-p";
     p.setAttribute("data-i18n", dataI18n);
-    this.elements.notifDiv.append(p);
+    this.elements.notifDivBottom.append(p);
     this.translator.updateLanOneUI(p);
-    this.elements.notifDiv.classList.remove("hidden");
     this.hintNotifyShowTimerId = setTimeout(() => {
-      this.elements.notifDiv.classList.add("hidden");
+      this.elements.notifDivBottom.innerHTML = "";
       this.hintNotifyShowTimerId = null;
     }, 3000);
   }

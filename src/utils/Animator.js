@@ -475,11 +475,11 @@ export class Animator {
     div.className = "info-ach";
     div.id = "ach-info";
     div.innerHTML = `
-      <span class="ach-info-span-red">${title}:${" "}</span>
+      <span class="ach-info-span-black">${title}:${" "}</span>
       <span class="ach-info-span-title-description" id="ach-info-span">${description}</span>`;
     setTimeout(() => {
       div.innerHTML = `
-        <span class="ach-info-span-red">${spanRedStart}:${" "}</span>
+        <span class="ach-info-span-black">${spanRedStart}:${" "}</span>
         <span class="ach-info-span-yellow" id="ach-info-span">${reward}${" "}</span>
         <span class="ach-info-span-title-description">${currency}</span>`;
       setTimeout(() => {
