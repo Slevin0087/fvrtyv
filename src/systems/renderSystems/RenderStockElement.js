@@ -68,7 +68,7 @@ export class RenderStockElement {
       this.eventManager.emit(GameEvents.RESET_LAST_MOVES);
       this.eventManager.emit(
         GameEvents.UP_UNDO_CONTAINER,
-        this.state.game.lastMove.length
+        this.stateManager.getLastMovesLengths()
       );
       this.isClickAllowed = false;
       stock.recycleWaste(waste);
