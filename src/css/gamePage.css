@@ -65,10 +65,7 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-
-  gap: 5px;
-  flex-shrink: 0;
-  overflow: hidden;
+  gap: 2px;
 }
 
 .status-bar-row-top .moves,
