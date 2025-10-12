@@ -195,7 +195,8 @@ export class AchievementSystem {
       // this.setActiveAchievement(state, a, statePlayer);
       // this.storage.setPlayerStats(state);
       const scoreEl = document.getElementById("points-in-game");
-      const notifDiv = document.getElementById("notif-div");
+      const notifDivTop = document.getElementById("notif-div-top");
+      const notifDivBottom = document.getElementById("notif-div-bottom");
       const achievementsIconEl = document.getElementById("achievements_span");
       const shows = [];
       shows.push(
@@ -204,9 +205,9 @@ export class AchievementSystem {
           const titleTranslation = this.translator.tAch(a.id, 'title')
           const descriptionTranslation = this.translator.tAch(a.id, 'description')
           const currency = this.translator.tAch(a.id, 'currency')
-          // Animator.animationTextAchievement(notifDiv, a);
           Animator.animationTextAchievement(
-            notifDiv,
+            notifDivTop,
+            notifDivBottom,
             {
               h4TextContent,
               spanRedStart,
@@ -244,8 +245,8 @@ export class AchievementSystem {
       console.log("до промисолл");
 
       await Promise.all(shows);
-      console.log("после промисолл");
-
+      console.log("после промисОлл");
+      this.eventManager.emit(GameEvents.CREAT_ELEMENT_FOR_HIGHEST_SCORE)
       this.isAchShow = false;
       this.processQueue();
     };

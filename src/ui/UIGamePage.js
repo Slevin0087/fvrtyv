@@ -15,6 +15,8 @@ export class UIGamePage extends UIPage {
       timeEl: document.getElementById("time-display"),
       movesEl: document.getElementById("moves_span"),
       notifDiv: document.getElementById("notif-div"),
+      notifDivTop: document.getElementById("notif-div-top"),
+      notifDivBottom: document.getElementById("notif-div-bottom"),
       achievementsIconEl: document.getElementById("achievements_span"),
       restartGameBtn: document.getElementById("new-game-ctr-btn"),
       restartGameModal: document.getElementById("restart-game-modal"),
@@ -140,6 +142,7 @@ export class UIGamePage extends UIPage {
       this.hintNotif(dataI18n)
     );
     this.eventManager.on(GameEvents.HINT_USED, () => this.hintUsed());
+    this.eventManager.on(GameEvents.CREAT_ELEMENT_FOR_HIGHEST_SCORE, () => this.creatElementForHighestScore())
   }
 
   updateUI() {
@@ -188,14 +191,13 @@ export class UIGamePage extends UIPage {
     const dataI18n = UIConfig.dataI18nValue.STATUS_BAR_RECORD_WORD
     const div = document.createElement('div')
     const span = document.createElement('span')
+    div.className = 'div-highest-score'
     span.className = 'span-highest-score'
-    // span.setAttribute("data-i18n", dataI18n);
     const recordWord = this.translator.t(dataI18n)
     span.textContent = `${recordWord} 🌟: ${this.state.player.highestScore}`
     div.append(span)
-    this.elements.notifDiv.innerHTML = "";
-    this.elements.notifDiv.append(div)
-    this.elements.notifDiv.classList.remove('hidden')
+    this.elements.notifDivTop.innerHTML = "";
+    this.elements.notifDivTop.append(div)
   }
 
   hintUsed() {

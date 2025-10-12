@@ -19,6 +19,7 @@
 
 .status-bar {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   width: 100%;
@@ -42,7 +43,6 @@
   color: white;
 }
 
-
 .points-timer {
   display: flex;
   flex-direction: column;
@@ -54,7 +54,8 @@
 .notif-div {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
+  justify-content: space-between;
   align-items: center;
   max-width: max-content;
   color: #ffeb3b;
@@ -62,6 +63,26 @@
   margin: 0;
   padding: 0;
   flex-shrink: 1;
+}
+
+.notif-div .div-highest-score {
+  text-align: center;
+  align-items: center;
+  line-height: 1.3;
+}
+
+.status-bar-row-top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.status-bar-row-bottom {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .status-bar .span-highest-score {

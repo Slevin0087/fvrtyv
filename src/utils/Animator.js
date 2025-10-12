@@ -86,9 +86,9 @@ export class Animator {
 
     // Звук перемещения карты, даже если перемещаются одновременно много карт, это бывавет только в tableau
     // должен быть только один раз звук перемещения, за одно перемещение
-    movementSystem.eventManager.emit(GameEvents.AUDIO_CARD_MOVE)
+    movementSystem.eventManager.emit(GameEvents.AUDIO_CARD_MOVE);
 
-    // Создаем массив промисов для всех анимаций   
+    // Создаем массив промисов для всех анимаций
     const animationPromises = await removedCards.map((card) => {
       return new Promise((resolve, reject) => {
         const cardElement = card.domElement;
@@ -225,10 +225,9 @@ export class Animator {
   // }
 
   static animateCardFomStockToWaste(arr) {
-    console.log('static animateCardFomStockToWaste arr: ', arr);
+    console.log("static animateCardFomStockToWaste arr: ", arr);
     return new Promise((resolve, reject) => {
       arr.forEach(({ card, oldOffsetX, oldOffsetY }, duration = 300) => {
-        
         const cardElement = card.domElement;
 
         // Получаем начальные координаты карты
@@ -338,8 +337,8 @@ export class Animator {
 
   static flipCard(card, onHalfFlip, deg, eventManager, duration = 1) {
     return new Promise((resolve, reject) => {
-      console.log('static flipCard, card: ', card);
-      
+      console.log("static flipCard, card: ", card);
+
       const tl = gsap.timeline({
         onComplete: () => {
           card.flipped = !card.flipped;
@@ -450,32 +449,31 @@ export class Animator {
   }
 
   static animationTextAchievement(
-    domElement,
+    domElementTop,
+    domElementBottom,
     achievement = {},
     duration = 5000
   ) {
-    const { h4TextContent, spanRedStart, title, description, icon, reward, currency } = achievement;
+    const {
+      h4TextContent,
+      spanRedStart,
+      title,
+      description,
+      icon,
+      reward,
+      currency,
+    } = achievement;
     const h4 = document.createElement("h4");
     const div = document.createElement("div");
-    domElement.innerHTML = "";
-    domElement.classList.remove("hidden");
-    domElement.append(h4, div);
+    domElementTop.innerHTML = "";
+    domElementBottom.innerHTML = "";
+    domElementTop.append(h4);
+    domElementBottom.append(div);
     h4.className = "ach-div-h4";
     h4.id = "ach-div-h4";
-    // const keyH4Start = Translator.tOther(UIConfig.keysForTranslations.H4_START);
-    // const keyH4End = Translator.tOther(UIConfig.keysForTranslations.H4_END);
-    // const spanRedStart = Translator.tOther(
-    //   UIConfig.keysForTranslations.SPAN_RED_START
-    // );
-    // Translator.tOther();
-    // h4.textContent = `${keyH4Start} ${icon} ${keyH4End}`;
     h4.textContent = h4TextContent;
     div.className = "info-ach";
     div.id = "ach-info";
-    // const container = document.getElementById("ach-info");
-    // const spanAnimateForCurrency = document.createElement("span");
-    // const spanAnimateForIcon = document.createElement("span");
-
     div.innerHTML = `
       <span class="ach-info-span-red">${title}:${" "}</span>
       <span class="ach-info-span-title-description" id="ach-info-span">${description}</span>`;
@@ -485,30 +483,8 @@ export class Animator {
         <span class="ach-info-span-yellow" id="ach-info-span">${reward}${" "}</span>
         <span class="ach-info-span-title-description">${currency}</span>`;
       setTimeout(() => {
-        // spanAnimateForCurrency.classList.add("hidden");
-        // spanAnimateForIcon.classList.add("hidden");
-        // spanAnimateForCurrency.textContent = `${reward}`;
-        // spanAnimateForIcon.textContent = `${icon}`;
-        // container.append(spanAnimateForCurrency, spanAnimateForIcon);
-        // const startRect = container.getBoundingClientRect();
-        // const toElementCurrency = document.getElementById("points-in-game");
-        // const toElementIcon = document.getElementById("achievements_span");
-        // toElementCurrency.append(spanAnimateForCurrency);
-        // toElementIcon.append(spanAnimateForIcon);
-        // spanAnimateForCurrency.classList.add("span-animate-for-ach");
-        // spanAnimateForIcon.classList.add("span-animate-for-ach");
-        // const currencyLastRect = toElementCurrency.getBoundingClientRect();
-        // const iconLastRect = toElementIcon.getBoundingClientRect();
-        // const deltaXCurrency = startRect.left - currencyLastRect.left;
-        // const deltaYCurrency = startRect.top - currencyLastRect.top;
-
-        // const deltaXIcon = startRect.left - iconLastRect.left;
-        // const deltaYIcon = startRect.top - iconLastRect.top;
-        // spanAnimateForCurrency.classList.remove("hidden");
-        // spanAnimateForIcon.classList.remove("hidden");
-        // this.animationSpansAch(spanAnimateForCurrency, deltaXCurrency, deltaYCurrency, duration);
-        // this.animationSpansAch(spanAnimateForIcon, deltaXIcon, deltaYIcon, duration);
-        domElement.classList.add("hidden");
+        domElementTop.innerHTML = "";
+        domElementBottom.innerHTML = "";
       }, duration / 2);
     }, duration / 2);
   }

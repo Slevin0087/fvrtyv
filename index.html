@@ -219,34 +219,33 @@
           </h2>
         </div>
         <!-- <div class="payer-state-div"> -->
-          <div class="player-state-content" id="player-state-content">
-            <!-- Контент статистики здесь -->
-          </div>
-          <button
-            class="btn"
-            id="btn-back-st-player"
-            data-i18n="btn_back_to_menu"
-          >
-            Назад в меню
-          </button>
+        <div class="player-state-content" id="player-state-content">
+          <!-- Контент статистики здесь -->
+        </div>
+        <button
+          class="btn"
+          id="btn-back-st-player"
+          data-i18n="btn_back_to_menu"
+        >
+          Назад в меню
+        </button>
         <!-- </div> -->
       </div>
 
       <!-- Game интерфейс -->
       <div id="game-interface" class="game-interface hidden">
         <div class="status-bar info-container" id="info-top">
-          <div class="points-timer">
+          <div class="status-bar-row-top">
             <div class="points points-game">
               <span id="points-in-game">0</span>
             </div>
-            <div class="timer">🕰️ <span id="time-display">00:00</span></div>
-          </div>
-          <div class="notif-div hidden" id="notif-div">
-            <!-- <h4 class="ach-div-h4" id="ach-div-h4"></h4>
-            <p class="info-ach" id="ach-info"></p> -->
-          </div>
-          <div class="achievements-container" id="achievements_container">
+            <div class="notif-div-top" id="notif-div-top"></div>
             <span class="moves" id="moves_span"></span>
+          </div>
+
+          <div class="status-bar-row-bottom">
+            <div class="timer">🕰️ <span id="time-display">00:00</span></div>
+            <div class="notif-div-bottom" id="notif-div-bottom"></div>
             <span class="achievements-span" id="achievements_span"></span>
           </div>
         </div>
