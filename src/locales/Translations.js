@@ -85,10 +85,11 @@ export const Translations = {
       game_restart_modal_title: "New game!",
 
       // модальное окно при смене количества раздачи карт в settings странице
-      dealing_cards_modal_title: "Dealing cards",
+      dealing_cards_modal_title: "Distribution of cards by:",
       btn_dealing_cards_modal_dont_show_again: "Don't show this again!",
       dealing_cards_modal_cancel_content: "body",
       btn_dealing_cards_modal_its_clear: "It's clear",
+      dealing_cards_modal_score: 'Score:',
 
       // для оповещений подсказок
       hint_notif_nohints: "No hints!",
@@ -185,10 +186,11 @@ export const Translations = {
       game_restart_modal_title: "Новая игра!",
 
       // модальное окно при смене количества раздачи карт в settings странице
-      dealing_cards_modal_title: "Раздача карт",
+      dealing_cards_modal_title: "Раздача карт по:",
       btn_dealing_cards_modal_dont_show_again: "Больше не показывать!",
       dealing_cards_modal_cancel_content: "тело модального окна",
       btn_dealing_cards_modal_its_clear: "Понятно",
+      dealing_cards_modal_score: 'Очки:',
 
       // для оповещений подсказок
       hint_notif_nohints: "Нет подсказок!",
@@ -300,10 +302,11 @@ export const Translations = {
       game_restart_modal_title: "Хъвмарра ш|ыц!",
 
       // модальное окно при смене количества раздачи карт в settings странице
-      dealing_cards_modal_title: "Раздача карт",
-      btn_dealing_cards_modal_dont_show_again: "Йыщбаныс йыгьстахъым датша!",
+      dealing_cards_modal_title: "Раздача карт по:",
+      btn_dealing_cards_modal_dont_show_again: "Йызбаныс йыгьстахъым датша!",
       dealing_cards_modal_cancel_content: "тело модального окна",
       btn_dealing_cards_modal_its_clear: "Йг|асгвынг|выд",
+      dealing_cards_modal_score: 'Апхьадзараква:',
 
       // для оповещений подсказок
       hint_notif_nohints: "Подсказк|аква йгьаъам!",
@@ -361,7 +364,7 @@ export const Translations = {
       option_medium: "Ortalama",
       option_hard: "Karmaşık",
       ln_setting_item: "Dil",
-      dealing_cards: "kartların dağıtımı:",
+      dealing_cards: "Kartların dağıtımı:",
       //   },
       //   shopGame: {
       shop_title: "Mağaza",
@@ -415,10 +418,11 @@ export const Translations = {
       game_restart_modal_title: "Yeni oyun!",
 
       // модальное окно при смене количества раздачи карт в settings странице
-      dealing_cards_modal_title: "Kart dağıtma",
+      dealing_cards_modal_title: "Kartların dağıtımı:",
       btn_dealing_cards_modal_dont_show_again: "Bunu bir daha gösterme!",
       dealing_cards_modal_cancel_content: "modal pencerenin gövdesi",
       btn_dealing_cards_modal_its_clear: "Apaçık",
+      dealing_cards_modal_score: 'Gözlük:',
 
       // для оповещений подсказок
       hint_notif_nohints: "Hiçbir ipucu yok!",

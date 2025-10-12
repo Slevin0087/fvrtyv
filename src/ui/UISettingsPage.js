@@ -48,14 +48,13 @@ export class UISettingsPage extends UIPage {
       this.onChangeDealingCards(e);
     this.elements.dealingCardsModalDontShowAgain.onclick = () =>
       this.onClickDealingCardsModalDontShowAgain(true);
-    this.elements.dealingCardsModalItsClear.onclick = () => this.onClickDealingCardsModalItsClear();
+    this.elements.dealingCardsModalItsClear.onclick = () =>
+      this.onClickDealingCardsModalItsClear();
   }
 
   onChangeLanguage(e) {
-    const volume = Math.max(0, Math.min(1, e.target.value / 100));
-    this.eventManager.emit(GameEvents.SET_MUSIC_VOLUME, parseFloat(volume));
-    this.eventManager.emit(GameEvents.SETTINGS_MUSIC_VOLUME);
-    this.setPropertyStyleVolume(e.target);
+    this.translator.changeLanguage(e.target.value);
+    this.eventManager.emit(GameEvents.SET_LANGUAGE_CHANGE, e.target.value);
   }
 
   onChangeDealingCards(e) {
@@ -83,6 +82,10 @@ export class UISettingsPage extends UIPage {
 
   onClickDealingCardsModalItsClear() {
     this.elements.dealingCardsModal.classList.add("hidden");
+  }
+
+  createDealingCardsModalBody() {
+    return ``
   }
 
   render() {

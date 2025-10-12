@@ -32,12 +32,11 @@
   /* padding-top: var(--padding-top-settings); */
 }
 
-.settings button {
+/* .settings button {
   position: absolute;
   bottom: var(--btn-settings-left-bottom);
-  /* left: var(--btn-settings-left-bottom); */
   left: var(--settings-padding-left-right);
-}
+} */
 
 .setting-head {
   display: flex;
@@ -75,6 +74,10 @@
 }
 
 .settings-back-btn {
+  position: absolute;
+  bottom: var(--btn-settings-left-bottom);
+  /* left: var(--btn-settings-left-bottom); */
+  left: var(--settings-padding-left-right);
   width: max-content;
 }
 
@@ -259,6 +262,47 @@ input[type="range"]::-moz-range-track {
 
 .dealing-cards-modal-btns button {
   display: block;
+}
+
+.dealing-cards-modal-table {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  padding: var(--padding-table-350);
+  font-size: var(--font-size-s-350px);
+  border-collapse: separate; /*Важно! Должно быть 'separate' (по умолчанию)*/
+  border-spacing: calc(var(--gap-for-pstate) * 4) 0; /* Горизонтальное, затем вертикальное */
+  background-color: brown;
+}
+
+.dealing-cards-modal-wrap-line {
+  border-bottom: 1px solid #c5b310;
+  /* padding-bottom: 8px; */
+  margin-bottom: 1rem;
+  display: flex; /* или другие стили для расположения */
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: flex-end;
+  width: 100%;
+}
+
+.dealing-cards-modal-left-td {
+  justify-self: start; /* Выравнивание по левому краю */
+  min-width: 150px; /* Фиксированная ширина для терминов */
+  color: black;
+  line-height: 0.9;
+  /* color: white; */
+}
+
+.dealing-cards-modal-right-td {
+  justify-self: end; /* Выравнивание по правому краю */
+  text-align: right;
+  word-break: break-word; /* Перенос длинных слов */
+  overflow-wrap: anywhere;
+  color: yellow;
+  line-height: 0.9;
 }
 
 @media (min-width: 350px) {
