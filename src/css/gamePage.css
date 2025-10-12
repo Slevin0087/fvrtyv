@@ -76,6 +76,7 @@
   flex-direction: row;
   justify-content: space-between;
   flex-shrink: 0;
+  align-items: center;
 }
 
 .notif-div-bottom {
