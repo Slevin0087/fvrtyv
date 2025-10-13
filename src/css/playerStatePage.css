@@ -110,9 +110,9 @@
 .left-td {
   justify-self: start; /* Выравнивание по левому краю */
   min-width: 150px; /* Фиксированная ширина для терминов */
-  color: black;
+  /* color: black; */
   line-height: 0.9;
-  /* color: white; */
+  color: green;
 }
 
 .p-state-table .wrap-line:last-child {

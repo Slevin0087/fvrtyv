@@ -321,9 +321,9 @@ input[type="range"]::-moz-range-track {
 .dealing-cards-modal-left-td {
   justify-self: start; /* Выравнивание по левому краю */
   /* min-width: 150px; Фиксированная ширина для терминов */
-  color: black;
+  /* color: black; */
   line-height: 0.9;
-  /* color: white; */
+  color: green;
 }
 
 .dealing-cards-modal-right-td {
