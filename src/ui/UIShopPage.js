@@ -86,20 +86,22 @@ export class UIShopPage extends UIPage {
     itemElement.id = `shop-item-${index}`;
     const itemHead = document.createElement("div");
     const itemName = document.createElement("h3");
-    const itemDescription = document.createElement("p");
+    // const itemDescription = document.createElement("p");
     const shopItemContainer = document.createElement("div");
     const shopItem = document.createElement("div");
     itemHead.classList.add("item-head");
     shopItemContainer.classList.add("shop-item-container");
     const itemNameTranslation = this.translator.tShop(item.id, 'name')
-    const itemDescriptionTranslation = this.translator.tShop(item.id, 'description')
+    // const itemDescriptionTranslation = this.translator.tShop(item.id, 'description')
     console.log('itemNameTranslation: ', itemNameTranslation);
     
     // itemName.textContent = item.name;
     itemName.textContent = itemNameTranslation;
     // itemDescription.textContent = item.description;
-    itemDescription.textContent = itemDescriptionTranslation;
-    itemHead.append(itemName, itemDescription);
+    // itemDescription.textContent = itemDescriptionTranslation;
+    // itemHead.append(itemName, itemDescription);
+    itemHead.append(itemName);
+    
     console.log("item.category: ", item.category);
 
     if (item.category === "cardFace" || item.category === "cardBack") {

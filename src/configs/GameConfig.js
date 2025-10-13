@@ -13,6 +13,7 @@ export const GameConfig = {
     hintCost: 5,
     initialMove: 1,
     defaultDealingCards: 1,
+    defaultDealingCardsThree: 3,
   },
 
   difficulties: {

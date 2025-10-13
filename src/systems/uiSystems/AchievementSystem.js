@@ -194,7 +194,7 @@ export class AchievementSystem {
           );
 
           // Таймаут на duration анимации + немного
-          setTimeout(resolve, 5500); // 5000ms + 500ms buffer
+          setTimeout(resolve, 3000); // 5000ms + 500ms buffer
         })
       );
       shows.push(

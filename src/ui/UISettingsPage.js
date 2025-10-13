@@ -1,5 +1,6 @@
 import { UIPage } from "./UIPage.js";
 import { GameEvents } from "../utils/Constants.js";
+import { GameConfig } from "../configs/GameConfig.js";
 
 export class UISettingsPage extends UIPage {
   constructor(eventManager, stateManager, translator) {
@@ -157,8 +158,25 @@ export class UISettingsPage extends UIPage {
         </dt>
         <dd class="dealing-cards-modal-right-td">x${value}</dd>
       </div>
+      ${this.createShufflingCardsElement(value)}
     </dl>`;
   }
+
+  createShufflingCardsElement(value) {
+    const shufflingCards = this.translator.t('dealing_cards_modal_shuffling_cards')
+    return value === GameConfig.rules.defaultDealingCardsThree
+    ? `
+        <div class="dealing-cards-modal-wrap-line">
+          <dt 
+            class="dealing-cards-modal-left-td"
+            data-i18n="dealing_cards_modal_shuffling_cards"
+          >
+            ${shufflingCards}
+          </dt>
+          <dd class="dealing-cards-modal-right-td">за просмотр видео</dd>
+        </div>`
+    : ''
+    }
 
   render() {
     const settings = this.state.settings;
