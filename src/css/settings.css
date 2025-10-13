@@ -296,6 +296,13 @@ input[type="range"]::-moz-range-track {
   flex-direction: row;
   align-items: flex-end;
   width: 100%;
+  font-size: 1rem;
+
+  white-space: nowrap;
+  /* overflow: hidden; */
+  /* text-overflow: ellipsis; */
+
+  /* max-width: fit-content; */
 }
 
 .dealing-cards-modal-left-td {
@@ -309,7 +316,7 @@ input[type="range"]::-moz-range-track {
 .dealing-cards-modal-right-td {
   justify-self: end; /* Выравнивание по правому краю */
   text-align: right;
-  word-break: break-word; /* Перенос длинных слов */
+  /* word-break: break-word; Перенос длинных слов */
   overflow-wrap: anywhere;
   color: yellow;
   line-height: 0.9;
@@ -324,9 +331,17 @@ input[type="range"]::-moz-range-track {
     font-size: var(--font-size-s-350px);
   }
 
+  .dealing-cards-modal {
+    min-width: min-content;
+  }
+
+  .dealing-cards-modal-wrap-line {
+    font-size: 0.8rem;
+  }
+
   .dealing-cards-modal-dont-show-again-btn,
   .dealing-cards-modal-its_clear-btn {
-    font-size: 1em;
+    font-size: 0.8rem;
   }
 }
 
@@ -353,6 +368,15 @@ input[type="range"]::-moz-range-track {
   .setting-items {
     padding-left: var(--settings-padding-left-right-650px);
     padding-right: var(--settings-padding-left-right-650px);
+  }
+
+  .dealing-cards-modal-wrap-line {
+    font-size: 1rem;
+  }
+
+  .dealing-cards-modal-dont-show-again-btn,
+  .dealing-cards-modal-its_clear-btn {
+    font-size: 1rem;
   }
 }
 
@@ -391,6 +415,10 @@ input[type="range"]::-moz-range-track {
   .settings-back-btn {
     font-size: var(--font-size-s-350px);
     bottom: var(--btn-settings-left-bottom);
+  }
+
+  .dealing-cards-modal-wrap-line {
+    font-size: 1.5rem;
   }
 
   .dealing-cards-modal-title {
