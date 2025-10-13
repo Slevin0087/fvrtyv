@@ -65,7 +65,9 @@ export class UISettingsPage extends UIPage {
 
   onChangeDealingCards(e) {
     console.log("click по кнопке e.target: ", e.target);
-
+    if (e.target.value === String(this.stateManager.state.player.dealingCards)) {
+      return
+    }
     if (!this.stateManager.state.player.isDontShowAgainDealingCardsModal) {
       if (e.target) {
         console.log("Больше не показывать модуль dealingCardsModal IF");
@@ -223,8 +225,10 @@ export class UISettingsPage extends UIPage {
     Object.values(this.elements.dealingCardsBtns).forEach((btn) => {
       if (btn.value === String(this.stateManager.state.player.dealingCards)) {
         btn.classList.add("active-dealing-cards-btn");
+        btn.disabled = true
       } else {
         btn.classList.remove("active-dealing-cards-btn");
+        btn.disabled = false
       }
     });
   }
