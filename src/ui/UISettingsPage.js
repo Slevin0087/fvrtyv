@@ -53,6 +53,8 @@ export class UISettingsPage extends UIPage {
       this.onChangeDealingCards(e);
     this.elements.dealingCardsModalDontShowAgain.onclick = () =>
       this.onClickDealingCardsModalDontShowAgain(true);
+
+    this.elements.dealingCardsModalClose.onclick = () => this.onClickDealingCardsModalClose()
     this.elements.dealingCardsModalItsClear.onclick = () =>
       this.onClickDealingCardsModalItsClear();
   }
@@ -89,6 +91,10 @@ export class UISettingsPage extends UIPage {
 
   onClickDealingCardsModalDontShowAgain(boolean) {
     this.stateManager.setdontShowAgainDealingCardsModal(boolean);
+    this.elements.dealingCardsModal.classList.add("hidden");
+  }
+
+ onClickDealingCardsModalClose() {
     this.elements.dealingCardsModal.classList.add("hidden");
   }
 
