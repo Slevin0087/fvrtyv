@@ -228,8 +228,9 @@ input[type="range"]::-moz-range-track {
   justify-content: center;
   text-align: center;
   gap: 1rem;
-  border-radius: 1rem;
-  border: 0.5rem solid rgba(128, 98, 0);
+  border-radius: var(--modal-border-radius);
+  /* border: 0.5rem solid rgba(128, 98, 0); */
+  border: var(--modal-border);
 }
 
 .dealing-cards-modal-header {
@@ -264,6 +265,13 @@ input[type="range"]::-moz-range-track {
   display: block;
 }
 
+.dealing-cards-modal-content {
+  /* border: 0.2em solid green; */
+  /* border-radius: 0.2em; */
+  /* border-radius: calc(var(--modal-border-radius) / 2); */
+  background-color: #caec08;
+}
+
 .dealing-cards-modal-table {
   display: flex;
   justify-content: space-between;
@@ -274,7 +282,9 @@ input[type="range"]::-moz-range-track {
   font-size: var(--font-size-s-350px);
   border-collapse: separate; /*Важно! Должно быть 'separate' (по умолчанию)*/
   border-spacing: calc(var(--gap-for-pstate) * 4) 0; /* Горизонтальное, затем вертикальное */
-  background-color: brown;
+  background-color: rgb(190, 61, 61);
+  /* border-radius: var(--modal-border-radius); */
+  border-radius: calc(var(--modal-border-radius) / 2);
 }
 
 .dealing-cards-modal-wrap-line {
@@ -290,7 +300,7 @@ input[type="range"]::-moz-range-track {
 
 .dealing-cards-modal-left-td {
   justify-self: start; /* Выравнивание по левому краю */
-  min-width: 150px; /* Фиксированная ширина для терминов */
+  /* min-width: 150px; Фиксированная ширина для терминов */
   color: black;
   line-height: 0.9;
   /* color: white; */
@@ -380,5 +390,9 @@ input[type="range"]::-moz-range-track {
   .settings-back-btn {
     font-size: var(--font-size-s-350px);
     bottom: var(--btn-settings-left-bottom);
+  }
+
+  .dealing-cards-modal-title {
+    font-size: 2rem;
   }
 }

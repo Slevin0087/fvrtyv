@@ -14,6 +14,10 @@ export class UISettingsPage extends UIPage {
       dealingCardsOne: document.getElementById("dealing_cards-one"),
       dealingCardsThree: document.getElementById("dealing_cards-three"),
       dealingCardsModal: document.getElementById("dealing-cards-modal"),
+      dealingCardsModalTitle: document.getElementById('dealing_cards_modal_title'),
+      dealingCardsModalBody: document.getElementById(
+        "dealing-cards-modal-content"
+      ),
       dealingCardsModalClose: document.getElementById(
         "dealing-cards-modal-close"
       ),
@@ -60,7 +64,14 @@ export class UISettingsPage extends UIPage {
   onChangeDealingCards(e) {
     if (!this.stateManager.state.player.isDontShowAgainDealingCardsModal) {
       console.log("Больше не показывать модуль dealingCardsModal");
-      this.elements.dealingCardsModal.classList.remove("hidden");
+      if (e.target.checked) {
+        const value = Number(e.target.value);
+        const modalBody = this.createDealingCardsModalBody(value)
+        const titlePathFirst = this.translator.t('dealing_cards_modal_title')
+        this.elements.dealingCardsModalTitle.textContent = `${titlePathFirst} ${value}`
+        this.elements.dealingCardsModalBody.innerHTML = modalBody
+        this.elements.dealingCardsModal.classList.remove("hidden");
+      }
     }
     if (e.target.checked) {
       const value = Number(e.target.value);
@@ -84,8 +95,69 @@ export class UISettingsPage extends UIPage {
     this.elements.dealingCardsModal.classList.add("hidden");
   }
 
-  createDealingCardsModalBody() {
-    return ``
+  // createDealingCardsModalBody() {
+
+  //   return `<div id="dealing-cards-modal" class="dealing-cards-modal hidden">
+  //     <div class="dealing-cards-modal-header">
+  //       <div class="dealing-cards-modal-close">
+  //         <span
+  //           class="dealing-cards-modal-close-span"
+  //           id="dealing-cards-modal-close"
+  //           >&times;</span
+  //         >
+  //       </div>
+  //       <div class="dealing-cards-modal-title">
+  //         <span data-i18n="dealing_cards_modal_title"
+  //           >Раздача карт по:</span
+  //         >
+  //       </div>
+  //     </div>
+  //     <div class="dealing-cards-modal-content">
+  //       <dl class="dealing-cards-modal-table table">
+  //         <div class="dealing-cards-modal-wrap-line">
+  //           <!-- <span class="dealing-cards-modal-body-span"></span> -->
+  //           <dt
+  //             class="dealing-cards-modal-left-td"
+  //             data-i18n="dealing_cards_modal_score"
+  //           >
+  //             Очки:
+  //           </dt>
+  //           <dd class="dealing-cards-modal-right-td">x</dd>
+  //         </div>
+  //       </dl>
+  //     </div>
+  //     <div class="dealing-cards-modal-btns">
+  //       <button
+  //         class="dealing-cards-modal-dont-show-again-btn"
+  //         id="dealing-cards-modal-dont-show-again-btn"
+  //         data-i18n="btn_dealing_cards_modal_dont_show_again"
+  //       >
+  //         Больше не показывать
+  //       </button>
+  //       <button
+  //         class="dealing-cards-modal-its_clear-btn"
+  //         id="dealing-cards-modal-its-clear-btn"
+  //         data-i18n="btn_dealing_cards_modal_its_clear"
+  //       >
+  //         Понятно
+  //       </button>
+  //     </div>
+  //   </div>`;
+  // }
+
+  createDealingCardsModalBody(value) {
+    const score = this.translator.t('dealing_cards_modal_score')
+    return `<dl class="dealing-cards-modal-table table">
+      <div class="dealing-cards-modal-wrap-line">
+        <dt
+          class="dealing-cards-modal-left-td"
+          data-i18n="dealing_cards_modal_score"
+        >
+          ${score}
+        </dt>
+        <dd class="dealing-cards-modal-right-td">x${value}</dd>
+      </div>
+    </dl>`;
   }
 
   render() {

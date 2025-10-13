@@ -22,6 +22,11 @@
   --minHeight-messageContainer-1600px: 20px;
   --modal-content-width: 15.62em;
   --modal-content-height: 9.37em;
+  --modal-border-radius: 1rem;
+  --modal-border-bold: 0.5rem;
+  --modal0border-type: solid;
+  --modal-border-color: rgba(128, 98, 0);
+  --modal-border: 0.5rem solid rgba(128, 98, 0);
   --game-container-height: 40%;
   --info-container-height: 10%;
   --blinking-text-br: 0.7em;

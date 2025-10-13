@@ -266,8 +266,9 @@
   justify-content: center;
   text-align: center;
   gap: 1rem;
-  border-radius: 1rem;
-  border: 0.5rem solid rgba(128, 98, 0);
+  border-radius: var(--modal-border-radius);
+  /* border: 1rem solid rgba(128, 98, 0); */
+  border: var(--modal-border);
 }
 
 .restart-game-modal-header {
@@ -312,13 +313,6 @@
   .controls-btn-container {
     font-size: 2.6em;
   }
-  /* .notif-div {
-    font-size: 14px;
-  } */
-
-  /* .notif-div div {
-    font-size: .9em;
-  } */
 
   .controls-btn-container button {
     background-color: rgba(255, 255, 255, 0);
@@ -356,7 +350,7 @@
     /* justify-content: center; */
     padding-left: 5vw;
     padding-right: 5vw;
-    gap: 5vw;
+    gap: 0.5vw;
   }
 
   .controls-btn-container {
@@ -373,7 +367,6 @@
   .status-bar {
     padding-left: 20vw;
     padding-right: 20vw;
-    gap: 10vw;
     font-size: 1.2em;
     padding-top: 0.1em;
   }
