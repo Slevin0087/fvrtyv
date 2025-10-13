@@ -69,8 +69,12 @@
   padding: var(--padding-shop-head);
   gap: var(--gap-for-flex-shop);
   width: 100%;
-  color: black;
   background-color: rgb(155, 60, 112);
+}
+
+.shop-title {
+  /* color: black; */
+  color: yellow;
 }
 
 .shop-head h2 {

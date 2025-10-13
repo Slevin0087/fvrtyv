@@ -25,7 +25,8 @@
   /* justify-content: center; */
   align-items: center;
   /* gap: var(--gap-for-pstate); */
-  background-color: rgb(73, 73, 189);
+  /* background-color: rgb(73, 73, 189); */
+  background-color: rgb(112, 112, 168);
   width: 100%;
   height: 100%;
   /* padding-top: var(--padding-top-p-state); */
@@ -43,7 +44,8 @@
   align-items: center;
   gap: var(--gap-for-pstate-head);
   width: 100%;
-  color: black;
+  /* color: black; */
+  color: yellow;
   background-color: rgb(155, 60, 112);
   padding: var(--padding-psate-head);
 }
@@ -112,7 +114,7 @@
   min-width: 150px; /* Фиксированная ширина для терминов */
   /* color: black; */
   line-height: 0.9;
-  color: green;
+  color: rgb(0, 196, 0);
 }
 
 .p-state-table .wrap-line:last-child {

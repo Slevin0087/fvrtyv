@@ -311,8 +311,8 @@ export const Translations = {
       dealing_cards_modal_cancel_content: "тело модального окна",
       btn_dealing_cards_modal_its_clear: "Аргылра!",
       dealing_cards_modal_score: "Апхьадзараква:",
-      dealing_cards_modal_shuffling_cards: "Ак|артква рперетасовать чпара:",
-      dealing_cards_modal_title_bottom: '*йапхъахауа ахъмарра апны тшаргылуашт|',
+      dealing_cards_modal_shuffling_cards: "Ак|артква перетасовать чпара:",
+      dealing_cards_modal_title_bottom: '*йапхъахауа ахъвмарра апны тшаргылуашт|',
 
       // для оповещений подсказок
       hint_notif_nohints: "Подсказк|аква йгьаъам!",
