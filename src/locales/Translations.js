@@ -91,6 +91,7 @@ export const Translations = {
       btn_dealing_cards_modal_its_clear: "It's clear",
       dealing_cards_modal_score: "Score:",
       dealing_cards_modal_shuffling_cards: "Shuffling cards in a pile:",
+      dealing_cards_modal_title_bottom: '*will be applied in the next game',
 
       // для оповещений подсказок
       hint_notif_nohints: "No hints!",
@@ -193,6 +194,7 @@ export const Translations = {
       btn_dealing_cards_modal_its_clear: "Понятно",
       dealing_cards_modal_score: "Очки:",
       dealing_cards_modal_shuffling_cards: "Перетасовка карт в стопке:",
+      dealing_cards_modal_title_bottom: '*применится в следующей игре',
 
       // для оповещений подсказок
       hint_notif_nohints: "Нет подсказок!",
@@ -310,6 +312,7 @@ export const Translations = {
       btn_dealing_cards_modal_its_clear: "Йг|асгвынг|выд",
       dealing_cards_modal_score: "Апхьадзараква:",
       dealing_cards_modal_shuffling_cards: "Ак|артква рперетасовать чпара:",
+      dealing_cards_modal_title_bottom: '*йапхъахауа ахъмарра апны тшаргылуашт|',
 
       // для оповещений подсказок
       hint_notif_nohints: "Подсказк|аква йгьаъам!",
@@ -427,6 +430,7 @@ export const Translations = {
       btn_dealing_cards_modal_its_clear: "Apaçık",
       dealing_cards_modal_score: "Gözlük:",
       dealing_cards_modal_shuffling_cards: "Bir destedeki kartların karıştırılması:",
+      dealing_cards_modal_title_bottom: '*bir sonraki oyunda uygulanacak',
 
       // для оповещений подсказок
       hint_notif_nohints: "Hiçbir ipucu yok!",

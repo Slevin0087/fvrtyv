@@ -253,6 +253,18 @@ input[type="range"]::-moz-range-track {
   cursor: pointer;
 }
 
+.dealing-cards-modal-title {
+  display: flex;
+  flex-direction: column;
+}
+
+.dealing_cards_modal_title_bottom {
+  white-space: nowrap;
+
+  font-size: 0.8rem;
+}
+
+
 .dealing-cards-modal-btns {
   display: flex;
   flex-direction: row;
