@@ -115,6 +115,10 @@
   /* color: white; */
 }
 
+.p-state-table .wrap-line:last-child {
+  margin-bottom: 0;
+}
+
 .sub-item {
   font-size: 0.9em;
   color: #666;

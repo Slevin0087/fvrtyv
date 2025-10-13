@@ -301,7 +301,6 @@ input[type="range"]::-moz-range-track {
 
 .dealing-cards-modal-wrap-line {
   border-bottom: 1px solid #c5b310;
-  /* padding-bottom: 8px; */
   margin-bottom: 1rem;
   display: flex; /* или другие стили для расположения */
   justify-content: space-between;
@@ -311,10 +310,6 @@ input[type="range"]::-moz-range-track {
   font-size: 1rem;
 
   white-space: nowrap;
-  /* overflow: hidden; */
-  /* text-overflow: ellipsis; */
-
-  /* max-width: fit-content; */
 }
 
 .dealing-cards-modal-left-td {
@@ -332,6 +327,10 @@ input[type="range"]::-moz-range-track {
   overflow-wrap: anywhere;
   color: yellow;
   line-height: 0.9;
+}
+
+.dealing-cards-modal-table .dealing-cards-modal-wrap-line:last-child {
+  margin-bottom: 0;
 }
 
 @media (min-width: 350px) {
