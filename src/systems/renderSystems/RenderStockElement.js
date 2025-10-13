@@ -239,18 +239,66 @@ export class RenderStockElement {
 
     if (stock.isEmpty() && waste.isEmpty()) return;
     if (stock.isEmpty() && !waste.isEmpty()) {
-      for (const card of waste.cards) {
-        this.eventManager.emitAsync(GameEvents.CARD_MOVE, {
+  const cards = waste.cards.toReversed();
+      for (const card of cards) {
+        const move = await this.eventManager.emitAsync(
+          GameEvents.BACK_MOVE_CARDS_TO_STOCK,
+          stock,
           card,
-          containerToIndex: 0,
-          containerTo: stock,
-          containerToName: "stock",
-        });
+          "stock",
+          this.backMoveCardsToStockDuration
+        );
+        await move;
       }
-      // waste.cards.forEach(async (card) => {});
+
+      const shCards = Helpers.shuffleArray(stock.cards);
+      stock.cards = [];
+      stock.addCards(shCards);
+      // let cardsDomElements = [];
+      // stock.cards.forEach((card) => {
+      //   cardsDomElements.push(card.domElement);
+      // });
+      // // Создаем анимации для всех карт
+      const animations = stock.cards.map((card, index) => {
+        return new Promise((resolve, reject) => {
+          const cardElement = card.domElement;
+
+          const animate = cardElement.animate(
+            [
+              { transform: "translate(0, 0) rotate(0deg)", offset: 0 },
+              {
+                transform: `translate(${(Math.random() - 0.5) * 25}px, ${
+                  (Math.random() - 0.5) * 15
+                }px) rotate(${(Math.random() - 0.5) * 40}deg)`,
+                offset: 0.5,
+              },
+              { transform: "translate(0, 0) rotate(0deg)", offset: 1 },
+            ],
+
+            {
+              duration: 600 + Math.random() * 400,
+              delay: index * 80,
+              easing: "cubic-bezier(0.4, 0, 0.2, 1)",
+            }
+          );
+
+          animate.onfinish = () => {
+            cardElement.style.transform = `translate(${card.positionData.offsetX}px, ${card.positionData.offsetY}px)`;
+            cardElement.style.zIndex = `${card.positionData.zIndex}`;
+            resolve();
+          };
+
+          animate.oncancel = () => {
+            reject(new Error("Animation was cancelled"));
+          };
+        });
+      });
+
+      // Ждем завершения всех анимаций
+      await Promise.all(animations);
     }
     if (!stock.isEmpty() && waste.isEmpty()) {
-      Helpers.shuffleArray(stock.cards);
+      // Helpers.shuffleArray(stock.cards);
     }
     if (!stock.isEmpty() && !waste.isEmpty()) {
       const cards = waste.cards.toReversed();
