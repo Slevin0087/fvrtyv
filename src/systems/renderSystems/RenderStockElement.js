@@ -21,6 +21,9 @@ export class RenderStockElement {
     this.degsCardFlip = AnimationDegs.CARD_FLIP;
     this.cardContainers = GameConfig.cardContainers;
     this.numberMoves = GameConfig.rules.initialMove;
+    this.cardMoveDuration = UIConfig.animations.cardMoveDuration;
+    this.backMoveCardsToStockDuration =
+      UIConfig.animations.backMoveCardsToStockDuration;
     this.isClickAllowed = true;
     this.clickLimitTime =
       UIConfig.animations.cardMoveDuration +
@@ -29,9 +32,15 @@ export class RenderStockElement {
   }
 
   setupEventListeners() {
-    this.eventManager.on(
-      GameEvents.ADD_STOCK_EVENTS,
-      async (stock, waste) => await this.handleStockElement(stock, waste)
+    this.eventManager.on(GameEvents.ADD_STOCK_EVENTS, async (stock, waste) => {
+      await this.handleStockElement(stock, waste);
+    });
+
+    this.eventManager.onAsync(
+      GameEvents.SHUFFLE_CARDS_TO_STOCK,
+      async (stock, waste) => {
+        await this.shuffleCardsToStock(stock, waste);
+      }
     );
   }
 
@@ -90,10 +99,10 @@ export class RenderStockElement {
     if (nTopCards) {
       let lastMovesForStock = []; // Массив для дальнейшего использования в отменах хода, где карты были перемещены из stock в waste
       this.eventManager.emit(GameEvents.AUDIO_CARD_CLICK);
-      const nTopCardsReverse = nTopCards.toReversed()
+      const nTopCardsReverse = nTopCards.toReversed();
       // const nTopCardsReverse = nTopCards
-      console.log('nTopCardsReverse: ', nTopCardsReverse);
-      
+      console.log("nTopCardsReverse: ", nTopCardsReverse);
+
       for (const card of nTopCardsReverse) {
         // console.log('getEventListeners(card.domElement): ', getEventListeners(card.domElement));
 
@@ -122,6 +131,7 @@ export class RenderStockElement {
           containerToIndex: 0,
           containerTo: waste,
           containerToName: this.cardContainers.waste,
+          cardMoveDuration: this.cardMoveDuration,
         });
 
         await this.flipCard(card);
@@ -155,9 +165,9 @@ export class RenderStockElement {
       }
 
       console.log("lastMovesForStock: ", lastMovesForStock);
-      const lastMove = lastMovesForStock.toReversed()
+      const lastMove = lastMovesForStock.toReversed();
       this.logicSystemsInit.undoSystem.updateLastMoves(lastMove);
-      
+
       this.stateManager.updateMoves(this.numberMoves);
       this.eventManager.emit(GameEvents.UP_MOVES);
     }
@@ -201,15 +211,6 @@ export class RenderStockElement {
     card.domElement.style.zIndex = zIndex;
   }
 
-  // async flipCard(card) {
-  //   try {
-  //     await this.eventManager.emitAsync(GameEvents.CARD_FLIP, card);
-  //   } catch (error) {
-  //     console.log(error);
-  //     throw error;
-  //   }
-  // }
-
   async flipCard(card) {
     try {
       console.log("1. Before emitAsync");
@@ -234,19 +235,35 @@ export class RenderStockElement {
   }
 
   async shuffleCardsToStock(stock, waste) {
-    if (stock.isEmpty() && waste.isEmpty()) return
-    if (stock.isEmpty() && !waste.isEmpty()) {
-      waste.cards.forEach((card) => {
+    console.log("cccccccccccc");
 
-      })
+    if (stock.isEmpty() && waste.isEmpty()) return;
+    if (stock.isEmpty() && !waste.isEmpty()) {
+      for (const card of waste.cards) {
+        this.eventManager.emitAsync(GameEvents.CARD_MOVE, {
+          card,
+          containerToIndex: 0,
+          containerTo: stock,
+          containerToName: "stock",
+        });
+      }
+      // waste.cards.forEach(async (card) => {});
     }
     if (!stock.isEmpty() && waste.isEmpty()) {
-      Helpers.shuffleArray(stock.cards)
+      Helpers.shuffleArray(stock.cards);
     }
     if (!stock.isEmpty() && !waste.isEmpty()) {
-      waste.cards.forEach((card) => {
-
-      })
+      const cards = waste.cards.toReversed();
+      for (const card of cards) {
+        const move = await this.eventManager.emitAsync(
+          GameEvents.BACK_MOVE_CARDS_TO_STOCK,
+          stock,
+          card,
+          "stock",
+          this.backMoveCardsToStockDuration,
+        );
+        await move;
+      }
     }
   }
 

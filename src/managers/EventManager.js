@@ -53,20 +53,6 @@ export class EventManager {
     return await Promise.allSettled(promises);
   }
 
-  // async emitAsync(event, ...args) {
-  //   console.log("event, ...args:", event, ...args);
-
-  //   const handlers = this.listeners[event];
-  //   if (!handlers) return;
-
-  //   const promises = [];
-  //   for (const handler of handlers) {
-  //     promises.push(handler(...args));
-  //   }
-
-  //   await Promise.all(promises);
-  // }
-
   off(event, callback) {
     if (this.listeners.has(event)) {
       const callbacks = this.listeners

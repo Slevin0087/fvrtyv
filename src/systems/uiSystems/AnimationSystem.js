@@ -88,12 +88,12 @@ export class AnimationSystem {
 
     this.eventManager.on(
       GameEvents.ANIMATE_CARD_MOVE,
-      (card, source, elementFrom, containetTo, movementSystem) => {
+      (card, source, elementFrom, containerTo, movementSystem) => {
         Animator.animateCardMove(
           card,
           source,
           elementFrom,
-          containetTo,
+          containerTo,
           movementSystem,
           this.cardMoveDuration
         );

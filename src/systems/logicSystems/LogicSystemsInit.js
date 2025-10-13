@@ -109,6 +109,7 @@ export class LogicSystemsInit {
     containerToIndex,
     containerTo,
     containerToName,
+    cardMoveDuration,
   }) {
     const source = this.movementSystem.getCardSource(card);
     console.log("const source: ", source);
@@ -129,7 +130,7 @@ export class LogicSystemsInit {
       elementFrom,
       containerTo,
       this.movementSystem,
-      this.cardMoveDuration
+      cardMoveDuration
     );
     if (source.startsWith(GameConfig.cardContainers.waste)) {
       await this.wasteSystem.upTopThreeCards();

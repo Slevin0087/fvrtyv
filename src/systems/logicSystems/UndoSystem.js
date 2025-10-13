@@ -16,6 +16,7 @@ export class UndoSystem {
     this.cardContainers = GameConfig.cardContainers;
     this.subtraction = AnimationOperators.SUBTRACTION;
     this.textUndoUsed = "undoUsed";
+    this.cardMoveDuration = UIConfig.animations.cardMoveDuration;
 
     this.setupEventListeners();
   }
@@ -31,6 +32,13 @@ export class UndoSystem {
     );
     this.eventManager.on(GameEvents.UP_LAST_MOVE, (lastMove) =>
       this.updateLastMoves(lastMove)
+    );
+
+    this.eventManager.onAsync(
+      GameEvents.BACK_MOVE_CARDS_TO_STOCK,
+      async (stock, card, fromType, backMoveDuration) => {
+        await this.backMoveCardsToStock(stock, card, fromType, backMoveDuration);
+      }
     );
   }
 
@@ -102,6 +110,7 @@ export class UndoSystem {
         containerToIndex: fromIndex,
         containerTo,
         containerToName: fromType,
+        cardMoveDuration: this.cardMoveDuration,
       });
       await moveToTableau;
     } else if (fromType === this.cardContainers.foundation) {
@@ -113,6 +122,7 @@ export class UndoSystem {
           containerToIndex: fromIndex,
           containerTo,
           containerToName: fromType,
+          cardMoveDuration: this.cardMoveDuration,
         }
       );
       await moveToFoundation;
@@ -126,6 +136,7 @@ export class UndoSystem {
         containerToIndex: 0,
         containerTo: waste,
         containerToName: fromType,
+        cardMoveDuration: this.cardMoveDuration,
       });
       await moveToWaste;
 
@@ -144,7 +155,7 @@ export class UndoSystem {
       }
     } else if (fromType === this.cardContainers.stock) {
       const containerTo = gameComponents.stock;
-      await this.backMoveCardsToStock(containerTo, card, fromType);
+      await this.backMoveCardsToStock(containerTo, card, fromType, this.cardMoveDuration);
       // // this.eventManager.emit(GameEvents.BACK_CARD_FLIP, card);
       // const asyncBackCardFlip = this.eventManager.emitAsync(
       //   GameEvents.BACK_CARD_FLIP,
@@ -199,7 +210,7 @@ export class UndoSystem {
     // card.isUndo = false;
   }
 
-  async backMoveCardsToStock(stock, card, fromType) {
+  async backMoveCardsToStock(stock, card, fromType, cardMoveDuration) {
     const containerTo = stock;
     const asyncBackCardFlip = this.eventManager.emitAsync(
       GameEvents.BACK_CARD_FLIP,
@@ -212,6 +223,7 @@ export class UndoSystem {
       containerToIndex: 0,
       containerTo,
       containerToName: fromType,
+      cardMoveDuration,
     });
 
     await moveToStock;

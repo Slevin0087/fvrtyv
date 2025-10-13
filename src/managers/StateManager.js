@@ -93,14 +93,12 @@ export class StateManager {
     this.eventManager.on(GameEvents.END_SET_NEW_GAME, () => {
       this.resetScore(0);
       this.resetTime(0);
-      // this.resetLastMove()
       this.resetLastMoves();
     });
 
     this.eventManager.on(GameEvents.GAME_RESTART, () => {
       this.resetScore(0);
       this.resetTime(0);
-      // this.resetLastMove()
       this.resetLastMoves();
       this.resetMoves(0);
       this.resetAchievementsActive();
@@ -110,7 +108,6 @@ export class StateManager {
     this.eventManager.on(GameEvents.SET_NEW_GAME, () => {
       this.resetScore(0);
       this.resetTime(0);
-      // this.resetLastMove()
       this.resetLastMoves();
       this.resetMoves(0);
       this.getDealingCardsValue();
@@ -162,7 +159,6 @@ export class StateManager {
 
     this.eventManager.on(GameEvents.SET_SHOP_STATS, () => this.saveShopStats());
     this.eventManager.on(GameEvents.RESET_LAST_MOVES, () =>
-      // this.resetLastMove()
       this.resetLastMoves()
     );
 

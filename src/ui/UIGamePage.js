@@ -35,6 +35,7 @@ export class UIGamePage extends UIPage {
       collectBtn: document.getElementById("collect-cards"),
       undoBtn: document.getElementById("undo-btn"),
       undoCounter: document.getElementById("undo-counter"),
+      shuffleBtn: document.getElementById('shuffle-btn')
     };
 
     this.isRestartGameModalShow = false;
@@ -132,6 +133,11 @@ export class UIGamePage extends UIPage {
     this.eventManager.on(GameEvents.CREAT_ELEMENT_FOR_HIGHEST_SCORE, () =>
       this.creatElementForHighestScore()
     );
+
+    this.elements.shuffleBtn.onclick = () => {
+      const { stock, waste } = this.state.cardsComponents
+      this.eventManager.emitAsync(GameEvents.SHUFFLE_CARDS_TO_STOCK, stock, waste)
+    }
   }
 
   onClickRestartGame() {

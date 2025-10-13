@@ -131,6 +131,8 @@ export const GameEvents = {
   CHECK_GET_ACHIEVEMENTS: "check:get:achievements",
   CREAT_ELEMENT_FOR_HIGHEST_SCORE: 'creat:element:for:highest:score',
   CREAT_GAME_RESTART_MODAL: 'creat:game:restart:modal',
+  BACK_MOVE_CARDS_TO_STOCK: 'back:move:cards:to:stock',
+  SHUFFLE_CARDS_TO_STOCK: 'shuffle:cards:to:stock',
 };
 
 export const AnimationDurations = {

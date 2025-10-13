@@ -1,6 +1,7 @@
 import { GameEvents, AudioName } from "../../utils/Constants.js";
 import { GameConfig } from "../../configs/GameConfig.js";
 import { achType, achCheckName } from "../../configs/AchievementsConfig.js";
+import { UIConfig } from "../../configs/UIConfig.js";
 
 export class CardMovementSystem {
   constructor(eventManager, stateManager, audioManager) {
@@ -11,7 +12,7 @@ export class CardMovementSystem {
     this.cardContainers = GameConfig.cardContainers;
     this.textCardsFlipped = achCheckName.CARDS_FLIPPED;
     this.typeCardFlipCheckAchievements = achType.IN_GAME;
-
+    this.cardMoveDuration = UIConfig.animations.cardMoveDuration
     this.setupEventListeners();
   }
 
@@ -34,6 +35,7 @@ export class CardMovementSystem {
           containerToIndex: i,
           containerTo,
           containerToName,
+          cardMoveDuration: this.cardMoveDuration,
         });
         return true;
       }
@@ -50,6 +52,7 @@ export class CardMovementSystem {
           containerToIndex: i,
           containerTo,
           containerToName,
+          cardMoveDuration: this.cardMoveDuration,
         });
         return true;
       }
@@ -70,6 +73,7 @@ export class CardMovementSystem {
           containerToIndex: i,
           containerTo,
           containerToName,
+          cardMoveDuration: this.cardMoveDuration,
         });
         return true;
       }
