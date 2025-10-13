@@ -337,11 +337,8 @@ export class Animator {
 
   static flipCard(card, onHalfFlip, deg, eventManager, duration = 1) {
     return new Promise((resolve, reject) => {
-      console.log("static flipCard, card: ", card);
-
       const tl = gsap.timeline({
         onComplete: () => {
-          card.flipped = !card.flipped;
           eventManager.emit(GameEvents.AUDIO_CARD_FLIP);
           resolve();
         },

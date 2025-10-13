@@ -260,10 +260,56 @@ export class RenderStockElement {
           stock,
           card,
           "stock",
-          this.backMoveCardsToStockDuration,
+          this.backMoveCardsToStockDuration
         );
         await move;
       }
+
+      const shCards = Helpers.shuffleArray(stock.cards);
+      stock.cards = [];
+      stock.addCards(shCards);
+      // let cardsDomElements = [];
+      // stock.cards.forEach((card) => {
+      //   cardsDomElements.push(card.domElement);
+      // });
+      // // Создаем анимации для всех карт
+      const animations = stock.cards.map((card, index) => {
+        return new Promise((resolve, reject) => {
+          const cardElement = card.domElement;
+
+          const animate = cardElement.animate(
+            [
+              { transform: "translate(0, 0) rotate(0deg)", offset: 0 },
+              {
+                transform: `translate(${(Math.random() - 0.5) * 25}px, ${
+                  (Math.random() - 0.5) * 15
+                }px) rotate(${(Math.random() - 0.5) * 40}deg)`,
+                offset: 0.5,
+              },
+              { transform: "translate(0, 0) rotate(0deg)", offset: 1 },
+            ],
+
+            {
+              duration: 600 + Math.random() * 400,
+              delay: index * 80,
+              easing: "cubic-bezier(0.4, 0, 0.2, 1)",
+            }
+          );
+
+          animate.onfinish = () => {
+            cardElement.style.transform = `translate(${card.positionData.offsetX}px, ${card.positionData.offsetY}px)`;
+            cardElement.style.zIndex = `${card.positionData.zIndex}`;
+            resolve();
+          };
+
+          animate.oncancel = () => {
+            reject(new Error("Animation was cancelled"));
+          };
+        });
+      });
+
+      // Ждем завершения всех анимаций
+      await Promise.all(animations);
     }
   }
 

@@ -30,8 +30,11 @@ export class Stock extends Pile {
   }
 
   addCards(cards) {
+    console.log('addCards(cards) cards: ', cards);
     super.addCards(cards);
     this.stockCardPosition = this.cards.length - 1;
+    console.log('addCards(cards) this.cards: ', this.cards);
+    
   }
 
   addCard(card) {
