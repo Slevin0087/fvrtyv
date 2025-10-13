@@ -87,7 +87,7 @@ export class StateManager {
     );
 
     this.eventManager.on(GameEvents.GAME_NEW, () => {
-      this.state.game.isRunning = true;
+      this.setIsRunning(true)
     });
 
     this.eventManager.on(GameEvents.END_SET_NEW_GAME, () => {
@@ -127,8 +127,7 @@ export class StateManager {
     });
 
     this.eventManager.on(GameEvents.GAME_END, () => {
-      this.state.game.isRunning = false;
-      // this.resetLastMove()
+      this.setIsRunning(false)
       this.resetLastMoves();
       this.saveAllData();
     });
@@ -177,6 +176,10 @@ export class StateManager {
     });
   }
 
+  setIsRunning(boolean) {
+    this.state.game.isRunning = boolean;
+  }
+
   getAllData() {
     // Загрузка сохраненных данных
     this.getGameStats();
@@ -220,8 +223,8 @@ export class StateManager {
   }
 
   setdontShowAgainDealingCardsModal(boolean) {
-    this.state.player.isDontShowAgainDealingCardsModal = boolean
-    this.savePlayerStats()
+    this.state.player.isDontShowAgainDealingCardsModal = boolean;
+    this.savePlayerStats();
   }
 
   saveAllData() {
@@ -378,7 +381,8 @@ export class StateManager {
     return this.state.modalsState.restartGameModal.created;
   }
 
-  setIsRestartGameModalCreated(boolen) { // установка true или false
+  setIsRestartGameModalCreated(boolen) {
+    // установка true или false
     this.state.modalsState.restartGameModal.created = boolen;
   }
 

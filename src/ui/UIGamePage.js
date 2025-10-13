@@ -144,6 +144,7 @@ export class UIGamePage extends UIPage {
   onClickRestartGameModalAgain() {
     this.elements.restartGameModal.classList.add("hidden");
     this.isRestartGameModalShow = false;
+    this.stateManager.setIsRunning(false)
     this.eventManager.emit(GameEvents.GAME_RESTART);
     this.updateUI();
   }

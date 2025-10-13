@@ -7,6 +7,7 @@ import { gamePageElements } from "../../utils/gamePageElements.js";
 import { GameConfig } from "../../configs/GameConfig.js";
 import { UIConfig } from "../../configs/UIConfig.js";
 import { Animator } from "../../utils/Animator.js";
+import { Helpers } from "../../utils/Helpers.js";
 
 export class RenderStockElement {
   constructor(eventManager, stateManager, logicSystemsInit, cardsSystem) {
@@ -52,7 +53,7 @@ export class RenderStockElement {
       "КЛИК ПО STOCK ЭЛЕМЕНТУ this.isClickAllowed: ",
       this.isClickAllowed
     );
-    if (!this.isClickAllowed) {
+    if (!this.isClickAllowed || !this.state.game.isRunning) {
       return; // Если клики запрещены или выполняется перемещение карты из waste,
       //  то ничего не делаем
     }
@@ -229,6 +230,23 @@ export class RenderStockElement {
       console.log("4. After await");
     } catch (error) {
       console.log("Error:", error);
+    }
+  }
+
+  async shuffleCardsToStock(stock, waste) {
+    if (stock.isEmpty() && waste.isEmpty()) return
+    if (stock.isEmpty() && !waste.isEmpty()) {
+      waste.cards.forEach((card) => {
+
+      })
+    }
+    if (!stock.isEmpty() && waste.isEmpty()) {
+      Helpers.shuffleArray(stock.cards)
+    }
+    if (!stock.isEmpty() && !waste.isEmpty()) {
+      waste.cards.forEach((card) => {
+
+      })
     }
   }
 

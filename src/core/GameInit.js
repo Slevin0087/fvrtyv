@@ -163,7 +163,7 @@ export class GameInit {
       this.cardsSystem.stock,
       this.cardsSystem.tableaus
     );
-    this.stateManager.state.game.isRunning = true;
+    this.stateManager.setIsRunning(true);
   }
 
   update(deltaTime) {

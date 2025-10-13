@@ -144,35 +144,36 @@ export class UndoSystem {
       }
     } else if (fromType === this.cardContainers.stock) {
       const containerTo = gameComponents.stock;
-      // this.eventManager.emit(GameEvents.BACK_CARD_FLIP, card);
-      const asyncBackCardFlip = this.eventManager.emitAsync(
-        GameEvents.BACK_CARD_FLIP,
-        card
-      );
-      await asyncBackCardFlip;
+      await this.backMoveCardsToStock(containerTo, card, fromType);
+      // // this.eventManager.emit(GameEvents.BACK_CARD_FLIP, card);
+      // const asyncBackCardFlip = this.eventManager.emitAsync(
+      //   GameEvents.BACK_CARD_FLIP,
+      //   card
+      // );
+      // await asyncBackCardFlip;
 
-      const moveToStock = this.eventManager.emitAsync(GameEvents.CARD_MOVE, {
-        card,
-        containerToIndex: 0,
-        containerTo,
-        containerToName: fromType,
-      });
+      // const moveToStock = this.eventManager.emitAsync(GameEvents.CARD_MOVE, {
+      //   card,
+      //   containerToIndex: 0,
+      //   containerTo,
+      //   containerToName: fromType,
+      // });
 
-      await moveToStock;
+      // await moveToStock;
 
-      //////////////////// RESET подписок на события /////////////////////////
-      this.eventManager.emit(
-        GameEvents.RESET_ONPOINTERDOWN_TO_CARD,
-        card.domElement
-      );
-      this.eventManager.emit(
-        GameEvents.RESET_ONPOINTERMOVE_TO_CARD,
-        card.domElement
-      );
-      this.eventManager.emit(
-        GameEvents.RESET_ONPOINTERUP_TO_CARD,
-        card.domElement
-      );
+      // //////////////////// RESET подписок на события /////////////////////////
+      // this.eventManager.emit(
+      //   GameEvents.RESET_ONPOINTERDOWN_TO_CARD,
+      //   card.domElement
+      // );
+      // this.eventManager.emit(
+      //   GameEvents.RESET_ONPOINTERMOVE_TO_CARD,
+      //   card.domElement
+      // );
+      // this.eventManager.emit(
+      //   GameEvents.RESET_ONPOINTERUP_TO_CARD,
+      //   card.domElement
+      // );
       ////////////////////////////////////
 
       // setTimeout(() => {
@@ -196,6 +197,39 @@ export class UndoSystem {
       // );
     }
     // card.isUndo = false;
+  }
+
+  async backMoveCardsToStock(stock, card, fromType) {
+    const containerTo = stock;
+    const asyncBackCardFlip = this.eventManager.emitAsync(
+      GameEvents.BACK_CARD_FLIP,
+      card
+    );
+    await asyncBackCardFlip;
+
+    const moveToStock = this.eventManager.emitAsync(GameEvents.CARD_MOVE, {
+      card,
+      containerToIndex: 0,
+      containerTo,
+      containerToName: fromType,
+    });
+
+    await moveToStock;
+
+    //////////////////// RESET подписок на события /////////////////////////
+    this.eventManager.emit(
+      GameEvents.RESET_ONPOINTERDOWN_TO_CARD,
+      card.domElement
+    );
+    this.eventManager.emit(
+      GameEvents.RESET_ONPOINTERMOVE_TO_CARD,
+      card.domElement
+    );
+    this.eventManager.emit(
+      GameEvents.RESET_ONPOINTERUP_TO_CARD,
+      card.domElement
+    );
+    ////////////////////////////////////
   }
 
   updateLastMoves(lastMove) {
