@@ -294,6 +294,11 @@
 
 .restart-game-modal-content {
   color: #000;
+  border-radius: calc(var(--modal-border-radius) / 2);
+  background-color: rgb(190, 61, 61);
+  padding: var(--padding-table-350);
+  width: 100%;
+
 }
 
 .game-restart-modal-btns {
