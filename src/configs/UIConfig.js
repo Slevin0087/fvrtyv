@@ -4,9 +4,9 @@ const defaultValues = {
 };
 
 const UIModalFooterBtnsEventIds = {
-  cancel: 'cancel',
-  again:'again'
-}
+  cancel: "cancel",
+  again: "again",
+};
 
 const UIConfig = {
   pages: {
@@ -23,6 +23,7 @@ const UIConfig = {
     HINT_NOTIF_NOHINTS: "hint_notif_nohints",
     HINT_NOTIF_NOPOINTS: "hint_notif_nopoints",
     STATUS_BAR_RECORD_WORD: "status_bar_record_word",
+    NOTIF_SHUFFLED_CARDS_TO_STOCK: "notif_shuffled_cards_to_stock",
   },
   keysForTranslations: {
     H4_START: "h4_ach_start_text",
@@ -74,6 +75,10 @@ const UIConfig = {
   degs: {
     cardFlip: 90,
     backCardFlip: -90,
+  },
+
+  delays: {
+    delayForCreateHighestScore: 2500,
   },
 
   animations: {
@@ -195,8 +200,6 @@ const UIGameRestartModalFooterData = {
     },
   ],
 };
-
-
 
 export {
   UIConfig,

@@ -129,6 +129,7 @@ export class DragAndDrop {
   }
 
   async onPointerUp(event) {
+    if (this.state.isDealingCardsAnimation) return;
     if (!this.currentDraggingCard) return;
     if (!this.isDragging) {
       this.eventManager.emit(GameEvents.CARD_CLICK, this.cards[0]);

@@ -58,11 +58,7 @@ export class RenderStockElement {
 
   //////////// handleStockElement Срабатывает при клике по stock эелементу
   async handleStockElement(stock, waste) {
-    console.log(
-      "КЛИК ПО STOCK ЭЛЕМЕНТУ this.isClickAllowed: ",
-      this.isClickAllowed
-    );
-    if (!this.isClickAllowed || !this.state.game.isRunning) {
+    if (!this.isClickAllowed || !this.state.game.isRunning || this.state.isDealingCardsAnimation) {
       return; // Если клики запрещены или выполняется перемещение карты из waste,
       //  то ничего не делаем
     }
@@ -232,10 +228,11 @@ export class RenderStockElement {
   }
 
   async shuffleCardsToStock(stock, waste) {
-    console.log("cccccccccccc");
-
     if (stock.isEmpty() && waste.isEmpty()) return;
+    
+    this.stateManager.setIsDealingCardsAnimation(true)
     if (stock.isEmpty() && !waste.isEmpty()) {
+      console.log('stock.isEmpty() && !waste.isEmpty()');
       const cards = waste.cards.toReversed();
       for (const card of cards) {
         const move = await this.eventManager.emitAsync(
@@ -252,14 +249,16 @@ export class RenderStockElement {
       stock.cards = [];
       stock.addCards(shCards);
       await Animator.animateShuffleCardsToStock(stock.cards);
-    }
-    if (!stock.isEmpty() && waste.isEmpty()) {
+    } else if (!stock.isEmpty() && waste.isEmpty()) {
+      console.log('!stock.isEmpty() && waste.isEmpty()');
+
       const shCards = Helpers.shuffleArray(stock.cards);
       stock.cards = [];
       stock.addCards(shCards);
       await Animator.animateShuffleCardsToStock(stock.cards);
-    }
-    if (!stock.isEmpty() && !waste.isEmpty()) {
+    } else if (!stock.isEmpty() && !waste.isEmpty()) {
+      console.log('!stock.isEmpty() && !waste.isEmpty()');
+
       const cards = waste.cards.toReversed();
       for (const card of cards) {
         await this.eventManager.emitAsync(
@@ -276,6 +275,11 @@ export class RenderStockElement {
       stock.addCards(shCards);
       await Animator.animateShuffleCardsToStock(stock.cards);
     }
+    this.stateManager.setIsDealingCardsAnimation(false)
+    this.eventManager.on(GameEvents.AUDIO_UP_ACH)
+    this.eventManager.emit(GameEvents.CREAT_ELEMENT_FOR_NOTIF_SHUFFLED_CARDS)
+    await this.delay(UIConfig.delays.delayForCreateHighestScore)
+    this.eventManager.emit(GameEvents.CREAT_ELEMENT_FOR_HIGHEST_SCORE)
   }
 
   delay(ms) {

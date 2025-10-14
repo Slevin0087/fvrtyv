@@ -42,6 +42,7 @@ export class StateManager {
         },
       },
       dealingCards: GameConfig.rules.defaultDealingCards,
+      isDealingCardsAnimation: false,
       ui: this.storage.getUIStats(),
       game: this.storage.getGameStats(),
       player: this.storage.getPlayerStats(),
@@ -368,6 +369,10 @@ export class StateManager {
     this.state.dealingCards = value;
   }
 
+  setIsDealingCardsAnimation(boolean) {
+    this.state.isDealingCardsAnimation = boolean
+  }
+  
   getDealingCardsValue() {
     const playerStats = this.storage.getPlayerStats();
     this.upDealingCardsValue(playerStats.dealingCards);

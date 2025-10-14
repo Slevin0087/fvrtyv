@@ -133,6 +133,7 @@ export const GameEvents = {
   CREAT_GAME_RESTART_MODAL: 'creat:game:restart:modal',
   BACK_MOVE_CARDS_TO_STOCK: 'back:move:cards:to:stock',
   SHUFFLE_CARDS_TO_STOCK: 'shuffle:cards:to:stock',
+  CREAT_ELEMENT_FOR_NOTIF_SHUFFLED_CARDS: 'creat:element:for:notif:shuffled:cards',
 };
 
 export const AnimationDurations = {

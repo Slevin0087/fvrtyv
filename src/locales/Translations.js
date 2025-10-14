@@ -58,6 +58,7 @@ export const Translations = {
 
       //   },
       //   gameInterface: {
+      notif_shuffled_cards_to_stock: 'The cards are shuffled!',
       status_bar_record_word: "Record",
       blinking_text: "Collect cards",
       undo_btn_aria_title: "Undo move",
@@ -162,6 +163,7 @@ export const Translations = {
       player_state_achievement: "Достижение:",
       //   },
       //   gameInterface: {
+      notif_shuffled_cards_to_stock: 'Карты перетасованы!',
       status_bar_record_word: "Рекорд",
       blinking_text: "Собрать карты",
       undo_btn_aria_title: "Отменить ход",
@@ -281,6 +283,7 @@ export const Translations = {
       player_state_achievement: "Аг|атгараква:",
       //   },
       //   gameInterface: {
+      notif_shuffled_cards_to_stock: 'Ак|арт|ква перетасованаб!',
       status_bar_record_word: "Арекорд",
       blinking_text: "Ак|артква азк|к|ра",
       undo_btn_aria_title: "Аход аныххра",
@@ -401,6 +404,7 @@ export const Translations = {
       player_state_achievement: "Başarı:",
       //   },
       //   gameInterface: {
+      notif_shuffled_cards_to_stock: 'Kartlar karıştırıldı!',
       status_bar_record_word: "Kayıt",
       blinking_text: "Kartları topla",
       undo_btn_aria_title: "Geri alma hareketi",

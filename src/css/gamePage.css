@@ -102,6 +102,10 @@
   color: #caec08;
 }
 
+.status-bar .span-notif-shuffled-cards {
+  color: blue;
+}
+
 .notif-div-bottom {
   max-width: fit-content;
   /* flex-shrink: 0; */
@@ -142,6 +146,7 @@
   color: yellow !important;
   font-size: 2em !important;
 }
+
 
 /* .blinking-text {
   position: absolute;

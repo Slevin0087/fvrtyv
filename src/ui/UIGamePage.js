@@ -35,7 +35,7 @@ export class UIGamePage extends UIPage {
       collectBtn: document.getElementById("collect-cards"),
       undoBtn: document.getElementById("undo-btn"),
       undoCounter: document.getElementById("undo-counter"),
-      shuffleBtn: document.getElementById('shuffle-btn')
+      shuffleBtn: document.getElementById("shuffle-btn"),
     };
 
     this.isRestartGameModalShow = false;
@@ -134,10 +134,18 @@ export class UIGamePage extends UIPage {
       this.creatElementForHighestScore()
     );
 
+    this.eventManager.on(GameEvents.CREAT_ELEMENT_FOR_NOTIF_SHUFFLED_CARDS, () =>
+      this.creatNotifShuffly()
+    );
+
     this.elements.shuffleBtn.onclick = () => {
-      const { stock, waste } = this.state.cardsComponents
-      this.eventManager.emitAsync(GameEvents.SHUFFLE_CARDS_TO_STOCK, stock, waste)
-    }
+      const { stock, waste } = this.state.cardsComponents;
+      this.eventManager.emitAsync(
+        GameEvents.SHUFFLE_CARDS_TO_STOCK,
+        stock,
+        waste
+      );
+    };
   }
 
   onClickRestartGame() {
@@ -150,7 +158,7 @@ export class UIGamePage extends UIPage {
   onClickRestartGameModalAgain() {
     this.elements.restartGameModal.classList.add("hidden");
     this.isRestartGameModalShow = false;
-    this.stateManager.setIsRunning(false)
+    this.stateManager.setIsRunning(false);
     this.eventManager.emit(GameEvents.GAME_RESTART);
     this.updateUI();
   }
@@ -212,6 +220,19 @@ export class UIGamePage extends UIPage {
     span.className = "span-highest-score";
     const recordWord = this.translator.t(dataI18n);
     span.textContent = `${recordWord} 🌟: ${this.state.player.highestScore}`;
+    div.append(span);
+    this.elements.notifDivTop.innerHTML = "";
+    this.elements.notifDivTop.append(div);
+  }
+
+  creatNotifShuffly() {
+    const dataI18n = UIConfig.dataI18nValue.NOTIF_SHUFFLED_CARDS_TO_STOCK;
+    const div = document.createElement("div");
+    const span = document.createElement("span");
+    div.className = "div-notif-shuffled-cards";
+    span.className = "span-notif-shuffled-cards";
+    const shuffledCardsWord = this.translator.t(dataI18n);
+    span.textContent = `${shuffledCardsWord}`;
     div.append(span);
     this.elements.notifDivTop.innerHTML = "";
     this.elements.notifDivTop.append(div);
