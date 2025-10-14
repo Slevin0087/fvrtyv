@@ -452,12 +452,7 @@ export class Animator {
     achievement = {},
     duration = 5000
   ) {
-    const {
-      h4TextContent,
-      spanRedStart,
-      reward,
-      currency,
-    } = achievement;
+    const { h4TextContent, spanRedStart, reward, currency } = achievement;
     const h4 = document.createElement("h4");
     const div = document.createElement("div");
     domElementTop.innerHTML = "";
@@ -473,14 +468,14 @@ export class Animator {
     //   <span class="ach-info-span-black">${title}:${" "}</span>
     //   <span class="ach-info-span-title-description" id="ach-info-span">${description}</span>`;
     // setTimeout(() => {
-      div.innerHTML = `
+    div.innerHTML = `
         <span class="ach-info-span-black">${spanRedStart}:${" "}</span>
         <span class="ach-info-span-yellow" id="ach-info-span">${reward}x${dealingCards}${" "}</span>
         <span class="ach-info-span-title-description">${currency}</span>`;
-      setTimeout(() => {
-        domElementTop.innerHTML = "";
-        domElementBottom.innerHTML = "";
-      }, duration / 2);
+    setTimeout(() => {
+      domElementTop.innerHTML = "";
+      domElementBottom.innerHTML = "";
+    }, duration / 2);
     // }, duration / 2);
   }
 
@@ -677,5 +672,45 @@ export class Animator {
     if (!this.isAnimating) {
       this.processQueue();
     }
+  }
+
+  static async animateShuffleCardsToStock(cards) {
+    const animations = cards.map((card, index) => {
+      return new Promise((resolve, reject) => {
+        const cardElement = card.domElement;
+
+        const animate = cardElement.animate(
+          [
+            { transform: "translate(0, 0) rotate(0deg)", offset: 0 },
+            {
+              transform: `translate(${(Math.random() - 0.5) * 25}px, ${
+                (Math.random() - 0.5) * 15
+              }px) rotate(${(Math.random() - 0.5) * 40}deg)`,
+              offset: 0.5,
+            },
+            { transform: "translate(0, 0) rotate(0deg)", offset: 1 },
+          ],
+
+          {
+            duration: 600 + Math.random() * 400,
+            delay: index * 80,
+            easing: "cubic-bezier(0.4, 0, 0.2, 1)",
+          }
+        );
+
+        animate.onfinish = () => {
+          cardElement.style.transform = `translate(${card.positionData.offsetX}px, ${card.positionData.offsetY}px)`;
+          cardElement.style.zIndex = `${card.positionData.zIndex}`;
+          resolve();
+        };
+
+        animate.oncancel = () => {
+          reject(new Error("Animation was cancelled"));
+        };
+      });
+    });
+
+    // Ждем завершения всех анимаций
+    await Promise.all(animations);
   }
 }

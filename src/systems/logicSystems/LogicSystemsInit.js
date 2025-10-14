@@ -222,6 +222,7 @@ export class LogicSystemsInit {
                 containerToIndex: i,
                 containerTo,
                 containerToName,
+                cardMoveDuration: this.cardMoveDuration,
               });
               // return true;
               await this.delay(this.cardMoveDuration + 100);

@@ -87,7 +87,7 @@ const UIConfig = {
     clickLimitTime: 500,
     animationCoinsEarned: 3,
     animationWinPointsEarned: 2,
-    backMoveCardsToStockDuration: 50,
+    backMoveCardsToStockDuration: 25,
   },
 
   layout: {

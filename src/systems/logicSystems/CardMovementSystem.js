@@ -12,13 +12,13 @@ export class CardMovementSystem {
     this.cardContainers = GameConfig.cardContainers;
     this.textCardsFlipped = achCheckName.CARDS_FLIPPED;
     this.typeCardFlipCheckAchievements = achType.IN_GAME;
-    this.cardMoveDuration = UIConfig.animations.cardMoveDuration
+    this.cardMoveDuration = UIConfig.animations.cardMoveDuration;
     this.setupEventListeners();
   }
 
   setupEventListeners() {}
 
-  handleCardClick(card) {
+  async handleCardClick(card) {
     if (!card.faceUp || this.state.game.isPaused) return false;
 
     const gameComponents = this.state.cardsComponents;
@@ -30,7 +30,7 @@ export class CardMovementSystem {
         if (!usedAutoCollectCards) this.audioManager.play(AudioName.CLICK);
         const containerTo = gameComponents.foundations[i];
         const containerToName = this.cardContainers.foundation;
-        this.eventManager.emit(GameEvents.CARD_MOVE, {
+        await this.eventManager.emitAsync(GameEvents.CARD_MOVE, {
           card,
           containerToIndex: i,
           containerTo,
@@ -47,7 +47,7 @@ export class CardMovementSystem {
         if (!usedAutoCollectCards) this.audioManager.play(AudioName.CLICK);
         const containerTo = gameComponents.tableaus[i];
         const containerToName = this.cardContainers.tableau;
-        this.eventManager.emit(GameEvents.CARD_MOVE, {
+        await this.eventManager.emitAsync(GameEvents.CARD_MOVE, {
           card,
           containerToIndex: i,
           containerTo,
@@ -62,13 +62,13 @@ export class CardMovementSystem {
     return false;
   }
 
-  isCardMoveToFoundations(card, gameComponents) {
+  async isCardMoveToFoundations(card, gameComponents) {
     for (let i = 0; i < gameComponents.foundations.length; i++) {
       if (gameComponents.foundations[i].canAccept(card, gameComponents)) {
         this.audioManager.play(AudioName.CLICK);
         const containerTo = gameComponents.foundations[i];
         const containerToName = this.cardContainers.foundation;
-        this.eventManager.emit(GameEvents.CARD_MOVE, {
+        await this.eventManager.emitAsync(GameEvents.CARD_MOVE, {
           card,
           containerToIndex: i,
           containerTo,
@@ -136,7 +136,7 @@ export class CardMovementSystem {
       );
       await promiseEventCardFlip;
 
-        // Добавление картам событий: onpointerdown, onpointermove, onpointerup
+      // Добавление картам событий: onpointerdown, onpointermove, onpointerup
       this.eventManager.emit(
         GameEvents.ADD_ONPOINTERDOWN_TO_CARD,
         card.domElement
@@ -150,7 +150,7 @@ export class CardMovementSystem {
         card.domElement
       );
       /////////////////////
-      
+
       this.stateManager.incrementStat(
         this.textCardsFlipped,
         this.typeCardFlipCheckAchievements
