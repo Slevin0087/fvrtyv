@@ -91,7 +91,8 @@ export const Translations = {
       btn_dealing_cards_modal_its_clear: "Apply!",
       dealing_cards_modal_score: "Score:",
       dealing_cards_modal_shuffling_cards: "Shuffling cards in a pile:",
-      dealing_cards_modal_title_bottom: '*will be applied in the next game',
+      dealing_cards_modal_title_bottom: "*will be applied in the next game",
+      dealing_cards_modal_right_td: "for watching 🎬",
 
       // для оповещений подсказок
       hint_notif_nohints: "No hints!",
@@ -194,7 +195,8 @@ export const Translations = {
       btn_dealing_cards_modal_its_clear: "Применить!",
       dealing_cards_modal_score: "Очки:",
       dealing_cards_modal_shuffling_cards: "Перетасовка карт в стопке:",
-      dealing_cards_modal_title_bottom: '*применится в следующей игре',
+      dealing_cards_modal_title_bottom: "*применится в следующей игре",
+      dealing_cards_modal_right_td: "за просмотр 🎬",
 
       // для оповещений подсказок
       hint_notif_nohints: "Нет подсказок!",
@@ -312,7 +314,9 @@ export const Translations = {
       btn_dealing_cards_modal_its_clear: "Аргылра!",
       dealing_cards_modal_score: "Апхьадзараква:",
       dealing_cards_modal_shuffling_cards: "Ак|артква перетасовать чпара:",
-      dealing_cards_modal_title_bottom: '*йапхъахауа ахъвмарра апны тшаргылуашт|',
+      dealing_cards_modal_title_bottom:
+        "*йапхъахауа ахъвмарра апны тшаргылуашт|",
+      dealing_cards_modal_right_td: "уапшрык|вын 🎬",
 
       // для оповещений подсказок
       hint_notif_nohints: "Подсказк|аква йгьаъам!",
@@ -429,8 +433,10 @@ export const Translations = {
       dealing_cards_modal_cancel_content: "modal pencerenin gövdesi",
       btn_dealing_cards_modal_its_clear: "Uygula!",
       dealing_cards_modal_score: "Gözlük:",
-      dealing_cards_modal_shuffling_cards: "Bir destedeki kartların karıştırılması:",
-      dealing_cards_modal_title_bottom: '*bir sonraki oyunda uygulanacak',
+      dealing_cards_modal_shuffling_cards:
+        "Bir destedeki kartların karıştırılması:",
+      dealing_cards_modal_title_bottom: "*bir sonraki oyunda uygulanacak",
+      dealing_cards_modal_right_td: "görüntüleme için 🎬",
 
       // для оповещений подсказок
       hint_notif_nohints: "Hiçbir ipucu yok!",

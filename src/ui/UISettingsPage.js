@@ -192,6 +192,7 @@ export class UISettingsPage extends UIPage {
     const shufflingCards = this.translator.t(
       "dealing_cards_modal_shuffling_cards"
     );
+    const forViewing = this.translator.t('dealing_cards_modal_right_td')
     return value === GameConfig.rules.defaultDealingCardsThree
       ? `
         <div class="dealing-cards-modal-wrap-line">
@@ -201,7 +202,12 @@ export class UISettingsPage extends UIPage {
           >
             ${shufflingCards}
           </dt>
-          <dd class="dealing-cards-modal-right-td">🎬</dd>
+          <dd
+            class="dealing-cards-modal-right-td"
+            data-i18n="dealing_cards_modal_right_td"
+            >
+            ${forViewing}
+          </dd>
         </div>`
       : "";
   }
