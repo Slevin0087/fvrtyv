@@ -201,7 +201,7 @@ export class UISettingsPage extends UIPage {
           >
             ${shufflingCards}
           </dt>
-          <dd class="dealing-cards-modal-right-td">за просмотр видео</dd>
+          <dd class="dealing-cards-modal-right-td">🎬</dd>
         </div>`
       : "";
   }

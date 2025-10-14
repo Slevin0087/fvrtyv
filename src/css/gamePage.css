@@ -298,7 +298,6 @@
   background-color: rgb(190, 61, 61);
   padding: var(--padding-table-350);
   width: 100%;
-
 }
 
 .game-restart-modal-btns {
@@ -319,6 +318,10 @@
     font-size: 2.6em;
   }
 
+  .controls-btn-container {
+    gap: 1rem;
+  }
+
   .controls-btn-container button {
     background-color: rgba(255, 255, 255, 0);
     border: 0.1em solid rgba(128, 98, 0, 0);
@@ -327,9 +330,9 @@
 }
 
 @media (min-width: 450px) {
-  /* .notif-div {
-    font-size: 0.8em;
-  } */
+  .controls-btn-container {
+    gap: 2rem;
+  }
 
   .restart-game-modal-close-span {
     font-size: 2rem;
@@ -361,6 +364,7 @@
   .controls-btn-container {
     left: 50%;
     right: 50%;
+    gap: 3rem;
   }
 }
 
