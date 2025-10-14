@@ -93,6 +93,7 @@ export class RenderStockElement {
     let topThreeCards = [];
     let oldOffsetsTopThreeCards = [];
     if (nTopCards) {
+      this.stateManager.setIsAnimateCardFomStockToWaste(true)
       let lastMovesForStock = []; // Массив для дальнейшего использования в отменах хода, где карты были перемещены из stock в waste
       this.eventManager.emit(GameEvents.AUDIO_CARD_CLICK);
       const nTopCardsReverse = nTopCards.toReversed();
@@ -169,6 +170,7 @@ export class RenderStockElement {
     }
     if (oldOffsetsTopThreeCards.length > 0) {
       await Animator.animateCardFomStockToWaste(oldOffsetsTopThreeCards);
+      this.stateManager.setIsAnimateCardFomStockToWaste(false)
     }
     await this.delay(this.clickLimitTime);
     this.isClickAllowed = true; // Разрешаем клики после задержки

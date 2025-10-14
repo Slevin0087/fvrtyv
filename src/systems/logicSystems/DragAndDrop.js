@@ -89,6 +89,7 @@ export class DragAndDrop {
   onPointerDown(event) {
     if (this.state.cardsComponents.foundations.every((f) => f.isComplete()))
       return;
+    if (this.state.isAnimateCardFomStockToWaste) return
     const { target, x, y } = event;
 
     const isDraggable = target.closest(
@@ -129,7 +130,7 @@ export class DragAndDrop {
   }
 
   async onPointerUp(event) {
-    if (this.state.isDealingCardsAnimation) return;
+    if (this.state.isDealingCardsAnimation || this.state.isAnimateCardFomStockToWaste) return;
     if (!this.currentDraggingCard) return;
     if (!this.isDragging) {
       this.eventManager.emit(GameEvents.CARD_CLICK, this.cards[0]);

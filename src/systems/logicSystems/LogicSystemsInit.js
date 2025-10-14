@@ -97,7 +97,7 @@ export class LogicSystemsInit {
 
   handleCardClick(card) {
     if (this.winSystem.check()) return;
-    if (this.state.isDealingCardsAnimation) return
+    if (this.state.isDealingCardsAnimation || this.state.isAnimateCardFomStockToWaste) return
     if (!this.state.game.playerFirstCardClick) {
       this.eventManager.emit(GameEvents.FIRST_CARD_CLICK);
       this.eventManager.emit(GameEvents.START_PLAY_TIME, 0);
