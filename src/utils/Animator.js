@@ -12,8 +12,8 @@ export class Animator {
     return new Promise((resolve, reject) => {
       try {
         const { card, tableau } = params;
-        console.log('card animateStockCardMove: ', card, card.faceUp);
-        
+        console.log("card animateStockCardMove: ", card, card.faceUp);
+
         const cardElement = card.domElement;
         const oldOffsetX = card.positionData.offsetX;
         const oldOffsetY = card.positionData.offsetY;
@@ -134,12 +134,11 @@ export class Animator {
     await Promise.all(animationPromises);
   }
 
-
   static animateCardFomStockToWaste(arr) {
     console.log("static animateCardFomStockToWaste arr: ", arr);
     return new Promise((resolve, reject) => {
       arr.forEach(({ card, oldOffsetX, oldOffsetY }) => {
-        const duration = 3
+        const duration = 3;
         const cardElement = card.domElement;
 
         // Получаем начальные координаты карты
@@ -248,7 +247,6 @@ export class Animator {
   }
 
   static flipCard(card, onHalfFlip, deg, eventManager, duration = 1) {
-    
     return new Promise((resolve, reject) => {
       const tl = gsap.timeline({
         onComplete: () => {
@@ -259,14 +257,14 @@ export class Animator {
           reject(new Error("Card flip animation failed"));
         },
       });
-      
+
       // Первая половина анимации - поворот на 90 градусов
       tl.to(card.domElement, {
         rotationY: deg,
         duration: duration / 2,
         ease: "power1.out",
         onComplete: () => {
-          console.log('flipCard card: ', card);
+          console.log("flipCard card: ", card);
           if (onHalfFlip) onHalfFlip();
         },
       });
@@ -419,58 +417,28 @@ export class Animator {
       // Параметры по умолчанию
       const {
         duration = 3, // Продолжительность в секундах (GSAP использует секунды)
-        fontSize = "24px",
-        targetFontSize = "32px",
-        color = "#ffeb3b",
-        position = "bottom",
+        fontSize = "0.7rem",
+        targetFontSize = "0.9rem",
         fadeInDuration = 0.3,
         fadeOutDuration = 1,
       } = options;
 
       // Создаем элемент для текста
-      const textElement = document.createElement("div");
-      textElement.className = "animated-text";
+      // const textElement = document.createElement("div");
+      // textElement.className = "animation-win-coins-score-earned";
+      // textElement.textContent = text;
+
+      const textElement = document.getElementById("notification-toasts");
       textElement.textContent = text;
-      textElement.style.position = "fixed";
-      textElement.style.color = color;
-      textElement.style.fontSize = fontSize;
-      textElement.style.fontWeight = "bold";
-      textElement.style.textShadow = "0 0 5px rgba(0,0,0,0.5)";
-      textElement.style.pointerEvents = "none";
-      textElement.style.zIndex = "2000";
-      textElement.style.opacity = "0";
-      textElement.style.whiteSpace = "nowrap"; // Предотвращаем перенос текста
 
-      // Позиционирование
-      switch (position) {
-        case "center":
-          textElement.style.left = "50%";
-          textElement.style.top = "50%";
-          textElement.style.transform = "translate(-50%, -50%)";
-          break;
-        case "top":
-          textElement.style.left = "50%";
-          textElement.style.top = "20%";
-          textElement.style.transform = "translateX(-50%)";
-          break;
-        case "bottom":
-          textElement.style.left = "50%";
-          textElement.style.bottom = "20%";
-          textElement.style.transform = "translateX(-50%)";
-          break;
-        default:
-          if (position.x !== undefined && position.y !== undefined) {
-            textElement.style.left = `${position.x}px`;
-            textElement.style.top = `${position.y}px`;
-          }
-      }
-
-      document.body.appendChild(textElement);
+      // document.body.appendChild(textElement);
+      // document.getElementById("notification-toasts").append(textElement);
 
       // GSAP анимация
       const timeline = gsap.timeline({
         onComplete: () => {
           // textElement.remove(); // Расскоментировать, для теста скрыл
+          textElement.textContent = ''
           resolve();
         },
       });

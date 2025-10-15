@@ -34,11 +34,10 @@
       <!-- <div class="loader-spinner-title" data-i18n="loader_spinner"></div> -->
     </div>
     <!-- Спиннер при загрузке html: конец -->
+    <div id="notification-toast"></div>
 
     <!-- Самый главный контейнер: начало -->
     <div id="app" class="app-container">
-      <div id="notification-toast" class="toast hidden"></div>
-
       <!-- Кнопка развернуть/свернуть окно -->
       <button class="full-screen-button" id="full-screen-btn">[ ]</button>
 
@@ -334,11 +333,10 @@
           </div>
           <div class="row-2" id="tableausDiv"></div>
         </div>
+        <div id="notification-toasts" class="notification-toast"></div>
         <div class="controls-container" id="controls">
-          <!-- class="blinking-text hidden" -->
           <span
-            class="blinking-text"
-
+            class="blinking-text hidden"
             id="collect-cards"
             data-i18n="blinking_text"
             >Собрать карты</span
