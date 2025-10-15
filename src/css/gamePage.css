@@ -226,7 +226,7 @@
   cursor: pointer;
   font-size: 24px;
   font-weight: bold;
-  animation: blink 1.2s ease-in-out infinite;
+  animation: blink 1.2s linear infinite;
   z-index: 1000;
 }
 
