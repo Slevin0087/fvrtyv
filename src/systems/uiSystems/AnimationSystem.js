@@ -244,7 +244,7 @@ export class AnimationSystem {
       const cardSuit = card.suit;
       const { backStyle, faceStyle } = this.cardsSystem.getCardStyles();
       const selectedFaces = this.state.player.selectedItems.faces;
-
+      
       card.isAnimating = true;
       await Animator.flipCard(
         card,
@@ -303,6 +303,7 @@ export class AnimationSystem {
       const { backStyle, faceStyle } = this.cardsSystem.getCardStyles();
       const selectedFaces = this.state.player.selectedItems.faces;
       card.isAnimating = true;
+      
       await Animator.flipCard(
         card,
         () => {
@@ -320,7 +321,7 @@ export class AnimationSystem {
         this.eventManager,
         duration
       );
-      card.faceUp = false;
+      card.flip(false);
       card.isAnimating = false;
     } catch (error) {
       throw new Error(error);

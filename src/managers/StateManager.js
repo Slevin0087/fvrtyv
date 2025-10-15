@@ -44,6 +44,7 @@ export class StateManager {
       dealingCards: GameConfig.rules.defaultDealingCards,
       isDealingCardsAnimation: false,
       isAnimateCardFomStockToWaste: false,
+      isUndoCardAnimation: false,
       ui: this.storage.getUIStats(),
       game: this.storage.getGameStats(),
       player: this.storage.getPlayerStats(),
@@ -98,7 +99,7 @@ export class StateManager {
       this.resetLastMoves();
     });
 
-    this.eventManager.on(GameEvents.GAME_RESTART, () => {
+    this.eventManager.onAsync(GameEvents.GAME_RESTART, () => {
       this.resetScore(0);
       this.resetTime(0);
       this.resetLastMoves();
@@ -107,7 +108,7 @@ export class StateManager {
       this.getDealingCardsValue();
     });
 
-    this.eventManager.on(GameEvents.SET_NEW_GAME, () => {
+    this.eventManager.onAsync(GameEvents.SET_NEW_GAME, () => {
       this.resetScore(0);
       this.resetTime(0);
       this.resetLastMoves();
@@ -376,6 +377,10 @@ export class StateManager {
 
   setIsAnimateCardFomStockToWaste(boolean) {
     this.state.isAnimateCardFomStockToWaste = boolean
+  }
+
+  setIsUndoCardAnimation(boolean) {
+    this.state.isUndoCardAnimation = boolean
   }
 
   getDealingCardsValue() {

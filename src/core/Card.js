@@ -11,6 +11,7 @@ export class Card {
     this.isUndo = false;
     this.parentElement = null;
     this.openCard = null;
+    this.domElement = null;
     this.positionData = {
       parent: null, // 'stock', 'waste', 'tableau-#', 'foundation-#'
       position: null,
@@ -28,10 +29,10 @@ export class Card {
       : "black";
   }
 
-  flip() {
-    this.faceUp = !this.faceUp;
-    this.flipped = !this.flipped;
-    console.log("this.flipped:", this.flipped);
+  flip(boolean) {
+    console.log('flip в Card boolean: ', boolean);
+    
+    this.faceUp = boolean;
   }
 
   getSymbol() {
@@ -58,19 +59,29 @@ export class Card {
     return this.color !== otherCard.color;
   }
 
-  serialize() {
-    return {
-      suit: this.suit,
-      value: this.value,
-      faceUp: this.faceUp,
-      positionData: { ...this.positionData },
-    };
+  // serialize() {
+  //   return {
+  //     suit: this.suit,
+  //     value: this.value,
+  //     faceUp: this.faceUp,
+  //     positionData: { ...this.positionData },
+  //   };
+  // }
+
+  // static deserialize(data) {
+  //   const card = new Card(data.suit, data.value);
+  //   card.faceUp = data.faceUp;
+  //   card.positionData = data.positionData;
+  //   return card;
+  // }
+
+  setDataAttribute(nameAttribite, valueAttribute = "") {
+    if (!this.domElement) return;
+    this.domElement.setAttribute(nameAttribite, valueAttribute);
   }
 
-  static deserialize(data) {
-    const card = new Card(data.suit, data.value);
-    card.faceUp = data.faceUp;
-    card.positionData = data.positionData;
-    return card;
+  removeDataAttribute(nameAttribite) {
+    if (!this.domElement) return;
+    this.domElement.removeAttribute(nameAttribite);
   }
 }

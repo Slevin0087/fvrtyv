@@ -186,15 +186,10 @@ export class LogicSystemsInit {
         this.addition
       );
       this.scoringSystem.addPoints(score);
-      this.setupSystem.setDataAttribute(
-        openCard.domElement,
-        GameConfig.dataAttributes.cardParent,
-        openCard.positionData.parent
-      );
-      this.setupSystem.setDataAttribute(
-        openCard.domElement,
-        GameConfig.dataAttributes.cardDnd
-      );
+      
+      openCard.setDataAttribute(GameConfig.dataAttributes.cardParent, openCard.positionData.parent)
+      openCard.setDataAttribute(GameConfig.dataAttributes.dataAttributeDND)
+
       this.eventManager.emit(GameEvents.IS_FACE_DOWN_CARD, openCard);
     }
   }

@@ -1,5 +1,6 @@
 import { Pile } from "./Pile.js";
 import { UIConfig } from "../configs/UIConfig.js";
+import { GameConfig } from "../configs/GameConfig.js";
 
 export class Waste extends Pile {
   constructor() {
@@ -19,38 +20,48 @@ export class Waste extends Pile {
   }
 
   addCard(card) {
-    console.log("addCard(card): ", card);
+    console.log("addCard(card) this.cards: ", this.cards);
 
     super.addCard(card);
+    if (card.domElement) {
+      card.removeDataAttribute(GameConfig.dataAttributes.cardParent);
+      card.removeDataAttribute(GameConfig.dataAttributes.dataAttributeDND);
+    }
+    card.setDataAttribute(
+      GameConfig.dataAttributes.cardParent,
+      card.positionData.parent
+    );
     // у дом элемента waste нет первого дочернего элемента span,
     // поэтому можно позицию у карт начинать с 0
     card.positionData.offsetX = 0;
     card.positionData.offsetY = 0;
     this.uppp();
+    console.log('card.positionData.offsetX: ', card);
+    
   }
 
   uppp() {
-    const topThreeCards = [];
+    this.topThreeCards = [];
 
     this.cards.forEach((card, index) => {
       console.log("uppp() card: ", card);
 
       // Рассчитываем позицию от конца массива
       const positionFromEnd = this.cards.length - 1 - index;
+      console.log("positionFromEnd: ", positionFromEnd);
 
       if (positionFromEnd < this.maxVisibleCards) {
         // Это последние 3 карты (или меньше, если карт мало)
-        card.positionData.offsetX =
-          positionFromEnd * this.oneOverlapX + this.overlapX;
-        card.positionData.offsetY = this.overlapY;
-        topThreeCards.push(card);
+        card.positionData.offsetX = positionFromEnd * this.oneOverlapX
+
+        card.positionData.offsetY = this.overlapY * 20 * positionFromEnd;
+        this.topThreeCards.push(card);
       } else {
         // Остальные карты (те, что "под" видимыми)
         card.positionData.offsetX = this.maxOverlapX;
       }
     });
-
-    return (this.topThreeCards = topThreeCards);
+    return this.topThreeCards
   }
 
   setOverlapX() {
@@ -84,8 +95,8 @@ export class Waste extends Pile {
 
     const config = breakpoints.find((bp) => width <= bp.max);
     this.oneOverlapX = UIConfig.layout.card[config.base] * config.multiplier;
-    console.log('this.oneOverlapX: ', this.oneOverlapX);
-    
+    console.log("this.oneOverlapX: ", this.oneOverlapX);
+
     return this.oneOverlapX;
   }
 }

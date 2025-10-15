@@ -26,7 +26,7 @@ export class UndoSystem {
       this.parseTargetId(from)
     );
 
-    this.eventManager.on(
+    this.eventManager.onAsync(
       GameEvents.UNDO_MOVE,
       async () => await this.handleUndo()
     );
@@ -37,7 +37,12 @@ export class UndoSystem {
     this.eventManager.onAsync(
       GameEvents.BACK_MOVE_CARDS_TO_STOCK,
       async (stock, card, fromType, backMoveDuration) => {
-        await this.backMoveCardsToStock(stock, card, fromType, backMoveDuration);
+        await this.backMoveCardsToStock(
+          stock,
+          card,
+          fromType,
+          backMoveDuration
+        );
       }
     );
   }
@@ -49,17 +54,15 @@ export class UndoSystem {
       return;
     }
 
+    this.stateManager.setIsAnimateCardFomStockToWaste(true);
+
     const lastMove = this.state.game.lastMoves.pop();
     for (const { card, from } of lastMove) {
       card.isUndo = true;
       if (card.openCard) {
         const openCard = card.openCard;
         const score = GameConfig.rules.scoreForCardFlip;
-        const asyncBackCardFlip = this.eventManager.emitAsync(
-          GameEvents.BACK_CARD_FLIP,
-          openCard
-        );
-        await asyncBackCardFlip;
+        await this.eventManager.emitAsync(GameEvents.BACK_CARD_FLIP, openCard);
 
         //////////////////// RESET подписок на события /////////////////////////
         this.eventManager.emit(
@@ -97,6 +100,7 @@ export class UndoSystem {
       });
     }
     this.stateManager.incrementGameStat(this.textUndoUsed);
+    this.stateManager.setIsAnimateCardFomStockToWaste(false);
   }
 
   async reverseMove({ card, from }) {
@@ -115,22 +119,36 @@ export class UndoSystem {
       await moveToTableau;
     } else if (fromType === this.cardContainers.foundation) {
       const containerTo = gameComponents.foundations[fromIndex];
-      const moveToFoundation = this.eventManager.emitAsync(
-        GameEvents.CARD_MOVE,
-        {
-          card,
-          containerToIndex: fromIndex,
-          containerTo,
-          containerToName: fromType,
-          cardMoveDuration: this.cardMoveDuration,
-        }
-      );
-      await moveToFoundation;
+      await this.eventManager.emitAsync(GameEvents.CARD_MOVE, {
+        card,
+        containerToIndex: fromIndex,
+        containerTo,
+        containerToName: fromType,
+        cardMoveDuration: this.cardMoveDuration,
+      });
     } else if (fromType === this.cardContainers.waste) {
       const waste = gameComponents.waste;
       const stock = gameComponents.stock;
-      const stockSpanTextContent =
-        stock.stockCardPosition < 0 && waste.isEmpty() ? "" : "↺";
+      const wasteTopCard = waste.getTopCard();
+      if (wasteTopCard) {
+        wasteTopCard.removeDataAttribute(
+          GameConfig.dataAttributes.dataAttributeDND
+        );
+
+        // Удаление картам событий: onpointerdown, onpointermove, onpointerup
+        this.eventManager.emit(
+          GameEvents.RESET_ONPOINTERDOWN_TO_CARD,
+          wasteTopCard.domElement
+        );
+        this.eventManager.emit(
+          GameEvents.RESET_ONPOINTERMOVE_TO_CARD,
+          wasteTopCard.domElement
+        );
+        this.eventManager.emit(
+          GameEvents.RESET_ONPOINTERUP_TO_CARD,
+          wasteTopCard.domElement
+        );
+      }
       const moveToWaste = this.eventManager.emitAsync(GameEvents.CARD_MOVE, {
         card,
         containerToIndex: 0,
@@ -140,9 +158,12 @@ export class UndoSystem {
       });
       await moveToWaste;
 
+      const stockSpanTextContent =
+        stock.stockCardPosition < 0 && waste.isEmpty() ? "" : "↺";
+
       stock.element.querySelector(".stock-span").textContent =
         stockSpanTextContent;
-      const topThreeCards = waste.uppp();
+      const topThreeCards = waste.topThreeCards;
       const oldOffsetsTopThreeCards = topThreeCards.map((card) => {
         return {
           card,
@@ -155,7 +176,12 @@ export class UndoSystem {
       }
     } else if (fromType === this.cardContainers.stock) {
       const containerTo = gameComponents.stock;
-      await this.backMoveCardsToStock(containerTo, card, fromType, this.cardMoveDuration);
+      await this.backMoveCardsToStock(
+        containerTo,
+        card,
+        fromType,
+        this.cardMoveDuration
+      );
       // // this.eventManager.emit(GameEvents.BACK_CARD_FLIP, card);
       // const asyncBackCardFlip = this.eventManager.emitAsync(
       //   GameEvents.BACK_CARD_FLIP,

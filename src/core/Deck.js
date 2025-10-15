@@ -11,7 +11,10 @@ export class Deck {
     this.cards = [];
     for (const suit of Object.values(CardSuits)) {
       for (const value of CardValues) {
-        this.cards.push(new Card(suit, value));
+        const card = new Card(suit, value)
+        console.log('createDeck card: ', card);
+        
+        this.cards.push(card);
       }
     }
   }
@@ -22,7 +25,8 @@ export class Deck {
 
   deal() {
     if (this.isEmpty()) return null;
-    return this.cards.pop();
+    const card = this.cards.pop()    
+    return card;
   }
 
   isEmpty() {

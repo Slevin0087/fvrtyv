@@ -129,7 +129,7 @@ export class CardMovementSystem {
     const tableau = this.state.cardsComponents.tableaus[index];
     const card = tableau.getTopCard();
     if (card && !card.faceUp) {
-      card.flip();
+      card.flip(true);
       const promiseEventCardFlip = this.eventManager.emitAsync(
         GameEvents.CARD_FLIP,
         card

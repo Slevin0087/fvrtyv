@@ -27,7 +27,7 @@ export class Tableau extends Pile {
     return card.isOppositeColor(topCard) && card.isNextInSequence(topCard);
   }
 
-  flipTopCard() {
+  flipTopCard() {   
     const topCard = this.getTopCard();
     if (topCard && !topCard.faceUp) {
       topCard.flip();

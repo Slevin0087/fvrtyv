@@ -58,7 +58,11 @@ export class RenderStockElement {
 
   //////////// handleStockElement Срабатывает при клике по stock эелементу
   async handleStockElement(stock, waste) {
-    if (!this.isClickAllowed || !this.state.game.isRunning || this.state.isDealingCardsAnimation) {
+    if (
+      !this.isClickAllowed ||
+      !this.state.game.isRunning ||
+      this.state.isDealingCardsAnimation
+    ) {
       return; // Если клики запрещены или выполняется перемещение карты из waste,
       //  то ничего не делаем
     }
@@ -93,27 +97,45 @@ export class RenderStockElement {
     let topThreeCards = [];
     let oldOffsetsTopThreeCards = [];
     if (nTopCards) {
-      this.stateManager.setIsAnimateCardFomStockToWaste(true)
+      this.stateManager.setIsAnimateCardFomStockToWaste(true);
       let lastMovesForStock = []; // Массив для дальнейшего использования в отменах хода, где карты были перемещены из stock в waste
       this.eventManager.emit(GameEvents.AUDIO_CARD_CLICK);
       const nTopCardsReverse = nTopCards.toReversed();
-      // const nTopCardsReverse = nTopCards
-      console.log("nTopCardsReverse: ", nTopCardsReverse);
 
       for (const card of nTopCardsReverse) {
-        // console.log('getEventListeners(card.domElement): ', getEventListeners(card.domElement));
-
-        console.log("for (const card of nTopCardsReverse): ", card);
-        console.log("topThreeCards: ", topThreeCards);
         topThreeCards = waste.topThreeCards;
-        oldOffsetsTopThreeCards = topThreeCards.map((card) => {
-          return {
-            card,
-            oldOffsetX: card.positionData.offsetX,
-            oldOffsetY: card.positionData.offsetY,
-          };
-        });
-        card.positionData.parent = stock.type;
+        console.log("topThreeCards = waste.topThreeCards: ", topThreeCards);
+
+        if (topThreeCards.length > 0) {
+          oldOffsetsTopThreeCards = topThreeCards.map((card) => {
+            if (card === waste.getTopCard()) {
+              card.removeDataAttribute(
+                GameConfig.dataAttributes.dataAttributeDND
+              );
+              // Удаление картам событий: onpointerdown, onpointermove, onpointerup
+              this.eventManager.emit(
+                GameEvents.RESET_ONPOINTERDOWN_TO_CARD,
+                card.domElement
+              );
+              this.eventManager.emit(
+                GameEvents.RESET_ONPOINTERMOVE_TO_CARD,
+                card.domElement
+              );
+              this.eventManager.emit(
+                GameEvents.RESET_ONPOINTERUP_TO_CARD,
+                card.domElement
+              );
+              ///////////////////////////////////////////
+            }
+            return {
+              card,
+              oldOffsetX: card.positionData.offsetX,
+              oldOffsetY: card.positionData.offsetY,
+            };
+          });
+        }
+
+        // card.positionData.parent = stock.type;
 
         // Добавление каждой карты в массив lastMovesForStock,
         // чтобы в дальнейшем использовать отдельно для UndoSystem(отмена хода)
@@ -133,32 +155,10 @@ export class RenderStockElement {
 
         await this.flipCard(card);
 
-        // Добавление картам событий: onpointerdown, onpointermove, onpointerup
-        this.eventManager.emit(
-          GameEvents.ADD_ONPOINTERDOWN_TO_CARD,
-          card.domElement
-        );
-        this.eventManager.emit(
-          GameEvents.ADD_ONPOINTERMOVE_TO_CARD,
-          card.domElement
-        );
-        this.eventManager.emit(
-          GameEvents.ADD_ONPOINTERUP_TO_CARD,
-          card.domElement
-        );
-        ///////////////////////////////////////////
-
-        this.eventManager.emit(
-          GameEvents.SET_CARD_DATA_ATTRIBUTE,
-          card.domElement,
-          GameConfig.dataAttributes.cardParent,
-          card.positionData.parent
-        );
-        this.eventManager.emit(
-          GameEvents.SET_CARD_DATA_ATTRIBUTE,
-          card.domElement,
-          GameConfig.dataAttributes.cardDnd
-        );
+        console.log("oldOffsetsTopThreeCards: ", oldOffsetsTopThreeCards);
+        if (oldOffsetsTopThreeCards.length > 0) {
+          await Animator.animateCardFomStockToWaste(oldOffsetsTopThreeCards);
+        }
       }
 
       console.log("lastMovesForStock: ", lastMovesForStock);
@@ -167,16 +167,33 @@ export class RenderStockElement {
 
       this.stateManager.updateMoves(this.numberMoves);
       this.eventManager.emit(GameEvents.UP_MOVES);
+      const wasteTopCard = waste.getTopCard();
+
+      if (wasteTopCard) {
+        wasteTopCard.setDataAttribute(
+          GameConfig.dataAttributes.dataAttributeDND
+        );
+
+        // Добавление картам событий: onpointerdown, onpointermove, onpointerup
+        this.eventManager.emit(
+          GameEvents.ADD_ONPOINTERDOWN_TO_CARD,
+          wasteTopCard.domElement
+        );
+        this.eventManager.emit(
+          GameEvents.ADD_ONPOINTERMOVE_TO_CARD,
+          wasteTopCard.domElement
+        );
+        this.eventManager.emit(
+          GameEvents.ADD_ONPOINTERUP_TO_CARD,
+          wasteTopCard.domElement
+        );
+        ///////////////////////////////////////////
+      }
     }
-    if (oldOffsetsTopThreeCards.length > 0) {
-      await Animator.animateCardFomStockToWaste(oldOffsetsTopThreeCards);
-      this.stateManager.setIsAnimateCardFomStockToWaste(false)
-    }
+
+    this.stateManager.setIsAnimateCardFomStockToWaste(false);
     await this.delay(this.clickLimitTime);
     this.isClickAllowed = true; // Разрешаем клики после задержки
-
-    // this.cardsSystem.removeHandleCard(card);
-    // this.cardsSystem.handleCard(card);
   }
 
   renderStockCards(stock) {
@@ -211,19 +228,7 @@ export class RenderStockElement {
 
   async flipCard(card) {
     try {
-      console.log("1. Before emitAsync");
-
-      // Тест 1: Проверяем возвращаемое значение
       await this.eventManager.emitAsync(GameEvents.CARD_FLIP, card);
-      // console.log("2. After emitAsync, promiseEvent:", promiseEvent);
-      // console.log(
-      //   "3. Is promiseEvent a Promise?",
-      //   promiseEvent instanceof Promise
-      // );
-
-      // Тест 2: Проверяем асинхронность
-      // await promiseEvent;
-      console.log("4. After await");
     } catch (error) {
       console.log("Error:", error);
     }
@@ -231,10 +236,10 @@ export class RenderStockElement {
 
   async shuffleCardsToStock(stock, waste) {
     if (stock.isEmpty() && waste.isEmpty()) return;
-    
-    this.stateManager.setIsDealingCardsAnimation(true)
+
+    this.stateManager.setIsDealingCardsAnimation(true);
     if (stock.isEmpty() && !waste.isEmpty()) {
-      console.log('stock.isEmpty() && !waste.isEmpty()');
+      console.log("stock.isEmpty() && !waste.isEmpty()");
       const cards = waste.cards.toReversed();
       for (const card of cards) {
         const move = await this.eventManager.emitAsync(
@@ -252,14 +257,14 @@ export class RenderStockElement {
       stock.addCards(shCards);
       await Animator.animateShuffleCardsToStock(stock.cards);
     } else if (!stock.isEmpty() && waste.isEmpty()) {
-      console.log('!stock.isEmpty() && waste.isEmpty()');
+      console.log("!stock.isEmpty() && waste.isEmpty()");
 
       const shCards = Helpers.shuffleArray(stock.cards);
       stock.cards = [];
       stock.addCards(shCards);
       await Animator.animateShuffleCardsToStock(stock.cards);
     } else if (!stock.isEmpty() && !waste.isEmpty()) {
-      console.log('!stock.isEmpty() && !waste.isEmpty()');
+      console.log("!stock.isEmpty() && !waste.isEmpty()");
 
       const cards = waste.cards.toReversed();
       for (const card of cards) {
@@ -277,11 +282,11 @@ export class RenderStockElement {
       stock.addCards(shCards);
       await Animator.animateShuffleCardsToStock(stock.cards);
     }
-    this.stateManager.setIsDealingCardsAnimation(false)
-    this.eventManager.on(GameEvents.AUDIO_UP_ACH)
-    this.eventManager.emit(GameEvents.CREAT_ELEMENT_FOR_NOTIF_SHUFFLED_CARDS)
-    await this.delay(UIConfig.delays.delayForCreateHighestScore)
-    this.eventManager.emit(GameEvents.CREAT_ELEMENT_FOR_HIGHEST_SCORE)
+    this.stateManager.setIsDealingCardsAnimation(false);
+    this.eventManager.on(GameEvents.AUDIO_UP_ACH);
+    this.eventManager.emit(GameEvents.CREAT_ELEMENT_FOR_NOTIF_SHUFFLED_CARDS);
+    await this.delay(UIConfig.delays.delayForCreateHighestScore);
+    this.eventManager.emit(GameEvents.CREAT_ELEMENT_FOR_HIGHEST_SCORE);
   }
 
   delay(ms) {

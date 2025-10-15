@@ -41,6 +41,8 @@ export class GameSetupSystem {
 
     while (!deck.isEmpty()) {
       const card = deck.deal();
+      console.log('while card: ', card);
+      
       stockCards.push(card);
     }
     stock.addCards(stockCards);
@@ -59,13 +61,14 @@ export class GameSetupSystem {
   async dealSingleCard(stock, tableau, isFaceUp) {
     try {
       const card = stock.deal();
+      console.log('stock.deal(), card.faceUp: ', card.faceUp);
       if (!card) throw new Error("No cards left in stock");
-      card.faceUp = isFaceUp;
-      // tableau.addCard(card);
-      // void card.domElement.offsetHeight
+      if (isFaceUp) card.flip(true);
       await this.animateCardMove(card, tableau);
       if (isFaceUp) {
+
         await this.flipCard(card);
+        console.log('card.flip(true), card.faceUp: ', card.faceUp);
 
         // Добавление картам событий: onpointerdown, onpointermove, onpointerup
         this.eventManager.emit(
@@ -81,19 +84,9 @@ export class GameSetupSystem {
           card.domElement
         );
         ///////////////////////////////
-        
-        this.setDataAttribute(
-          card.domElement,
-          GameConfig.dataAttributes.cardParent,
-          card.positionData.parent
-        );
-        this.setDataAttribute(
-          card.domElement,
-          GameConfig.dataAttributes.cardDnd
-        );
-      } else if (!isFaceUp) this.updateFaceDownCard(card);
-      // this.removeHandleCard(card);
-      // this.handleCard(card);
+      } else if (!isFaceUp) {
+        this.updateFaceDownCard(card);
+      }
     } catch (error) {
       throw new Error(error);
     }

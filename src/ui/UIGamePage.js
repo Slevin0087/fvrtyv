@@ -51,8 +51,8 @@ export class UIGamePage extends UIPage {
   setupEventListeners() {
     this.elements.restartGameBtn.onclick = () => this.onClickRestartGame();
 
-    this.elements.restartGameModalAgainBtn.onclick = () =>
-      this.onClickRestartGameModalAgain();
+    this.elements.restartGameModalAgainBtn.onclick = async () =>
+      await this.onClickRestartGameModalAgain();
 
     this.elements.restartGameModalCancelBtn.onclick = () =>
       this.onClickRestartGameModalCancel();
@@ -105,8 +105,9 @@ export class UIGamePage extends UIPage {
       Animator.animateAchievementText(this.elements.notifDiv, a)
     );
 
-    this.elements.undoBtn.onclick = () => {
-      this.eventManager.emit(GameEvents.UNDO_MOVE);
+    this.elements.undoBtn.onclick = async () => {
+      if (this.state.isUndoCardAnimation) return
+      await this.eventManager.emitAsync(GameEvents.UNDO_MOVE);
       this.upUndoCounter(this.stateManager.getLastMovesLengths());
     };
 
@@ -155,11 +156,11 @@ export class UIGamePage extends UIPage {
     // setTimeout(() => this.eventManager.emit(GameEvents.UI_ANIMATE_DEAL_CARDS), 1000);
   }
 
-  onClickRestartGameModalAgain() {
+  async onClickRestartGameModalAgain() {
     this.elements.restartGameModal.classList.add("hidden");
     this.isRestartGameModalShow = false;
     this.stateManager.setIsRunning(false);
-    this.eventManager.emit(GameEvents.GAME_RESTART);
+    await this.eventManager.emitAsync(GameEvents.GAME_RESTART);
     this.updateUI();
   }
 

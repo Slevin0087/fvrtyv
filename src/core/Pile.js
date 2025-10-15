@@ -1,4 +1,5 @@
 import { Card } from "./Card.js";
+import { GameConfig } from "../configs/GameConfig.js";
 
 export class Pile {
   constructor(type, index = 0) {
@@ -22,8 +23,19 @@ export class Pile {
     // this.cards.length, а не this.cards.length - 1, для определения z-index дочерних элементов
     // у stock, foundations, tableaus, так как самый первый дочерний элимент у них span
     // поэтому позиция у карт начинается с 1, а не с 0
-    const position = this.cards.length;    
+    console.log('в Pile, cards.faceUp: ', card, card.faceUp);
+    const position = this.cards.length;
     card.positionData = this.getPositionData(position);
+    card.removeDataAttribute(GameConfig.dataAttributes.cardParent);
+    card.removeDataAttribute(GameConfig.dataAttributes.dataAttributeDND);
+    card.setDataAttribute(
+      GameConfig.dataAttributes.cardParent,
+      card.positionData.parent
+    );
+    if (card.faceUp) {
+      
+      card.setDataAttribute(GameConfig.dataAttributes.dataAttributeDND);
+    }
     this.cards.push(card);
     card.parentElement = this.element;
     // this.updateCardElement(card, position);
@@ -68,7 +80,10 @@ export class Pile {
 
   removeTopCard() {
     if (this.isEmpty()) return null;
-    return this.cards.pop();
+    const topCard = this.cards.pop();
+    topCard.removeDataAttribute(GameConfig.dataAttributes.cardParent);
+    topCard.removeDataAttribute(GameConfig.dataAttributes.cardDnd);
+    return topCard;
   }
 
   canAccept(card) {
@@ -88,17 +103,17 @@ export class Pile {
     });
   }
 
-  serialize() {
-    return {
-      type: this.type,
-      index: this.index,
-      cards: this.cards.map((card) => card.serialize()),
-    };
-  }
+  // serialize() {
+  //   return {
+  //     type: this.type,
+  //     index: this.index,
+  //     cards: this.cards.map((card) => card.serialize()),
+  //   };
+  // }
 
-  static deserialize(data, cardClass = Card) {
-    const pile = new this(data.index);
-    pile.cards = data.cards.map((cardData) => cardClass.deserialize(cardData));
-    return pile;
-  }
+  // static deserialize(data, cardClass = Card) {
+  //   const pile = new this(data.index);
+  //   pile.cards = data.cards.map((cardData) => cardClass.deserialize(cardData));
+  //   return pile;
+  // }
 }

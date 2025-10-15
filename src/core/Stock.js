@@ -1,6 +1,7 @@
 import { Pile } from "./Pile.js";
 import { Waste } from "./Waste.js";
 import { UIConfig } from "../configs/UIConfig.js";
+import { GameConfig } from "../configs/GameConfig.js";
 
 export class Stock extends Pile {
   constructor() {
@@ -24,32 +25,41 @@ export class Stock extends Pile {
   deal() {
     if (this.isEmpty()) return null;
     const card = this.cards.pop();
-    card.faceUp = true;
+    // card.flip(true);
     this.stockCardPosition--;
     return card;
   }
 
   addCards(cards) {
-    console.log('addCards(cards) cards: ', cards);
+    console.log("addCards(cards) cards: ", cards);
     super.addCards(cards);
     this.stockCardPosition = this.cards.length - 1;
-    console.log('addCards(cards) this.cards: ', this.cards);
-    
+    console.log("addCards(cards) this.cards: ", this.cards);
   }
 
   addCard(card) {
     const position = this.cards.length - 1;
     card.positionData = this.getPositionData(position);
-    this.cards.push(card);
     card.parentElement = this.element;
-    card.faceUp = false;
+    console.log('card.faceUp ДОООО: ', card.faceUp);
+    
+    card.flip(false);
+    console.log('card.faceUp ПОСЛЕ: ', card.faceUp);
+
+    card.removeDataAttribute(GameConfig.dataAttributes.cardParent);
+    card.removeDataAttribute(GameConfig.dataAttributes.dataAttributeDND);
+    card.setDataAttribute(
+      GameConfig.dataAttributes.cardParent,
+      card.positionData.parent
+    );
+    this.cards.push(card);
     this.stockCardPosition++;
   }
 
   getWasteCard() {
     const card = this.cards[this.stockCardPosition];
     if (card) {
-      card.faceUp = true;
+      card.flip(true);
       this.stockCardPosition--;
       return card;
     }
@@ -69,7 +79,7 @@ export class Stock extends Pile {
     console.log("lastNCards: ", lastNCards);
 
     lastNCards.forEach((card) => {
-      card.faceUp = true;
+      card.flip(true);
       // this.stockCardPosition--;
     });
     return lastNCards;
@@ -77,7 +87,8 @@ export class Stock extends Pile {
 
   removeTopCard() {
     if (this.isEmpty()) return null;
+    // return this.cards.pop();
     this.stockCardPosition--;
-    return this.cards.pop();
+    return super.removeTopCard();
   }
 }

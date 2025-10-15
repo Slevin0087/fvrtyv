@@ -21,7 +21,7 @@ export class DragAndDrop {
     this.currentDraggingCard = null;
     this.currentDraggingCardSource = null;
     this.cardDataAdttributes = GameConfig.dataAttributes.dataAttributeDND;
-    this.dataCardParent = GameConfig.dataAttributes.cardParent;
+    this.dataCardParent = GameConfig.dataAttributes.cardParentL;
     this.numberMoves = GameConfig.rules.initialMove;
     this.addition = AnimationOperators.ADDITION;
     this.subtraction = AnimationOperators.SUBTRACTION;
@@ -87,18 +87,23 @@ export class DragAndDrop {
   }
 
   onPointerDown(event) {
+    console.log("ЗАХОД В onPointerDown");
+
     if (this.state.cardsComponents.foundations.every((f) => f.isComplete()))
       return;
-    if (this.state.isAnimateCardFomStockToWaste) return
+    if (this.state.isAnimateCardFomStockToWaste) return;
     const { target, x, y } = event;
 
-    const isDraggable = target.closest(
-      `[${GameConfig.dataAttributes.dataAttributeDND}]`
-    );
-    console.log("isDraggable:", isDraggable);
+    // const isDraggable = target.closest(
+    //   `[${GameConfig.dataAttributes.dataAttributeDND}]`
+    // );
+    // console.log("isDraggable:", isDraggable);
 
-    if (isDraggable === null) return;
-    this.currentDraggingCard = isDraggable;
+    // if (isDraggable === null) return;
+
+    if (!target) return;
+    // this.currentDraggingCard = isDraggable;
+    this.currentDraggingCard = target;
     this.currentDraggingCardSource =
       this.currentDraggingCard.dataset[this.dataCardParent];
     this.gameComponents = this.state.cardsComponents;
@@ -113,6 +118,7 @@ export class DragAndDrop {
   }
 
   onPointerMove(event) {
+    console.log("ЗАХОД В onPointerMove event: ", event);
     if (!this.currentDraggingCard) return;
     this.cards.forEach((card, index) => {
       this.currentDraggingCard = card.domElement;
@@ -130,7 +136,13 @@ export class DragAndDrop {
   }
 
   async onPointerUp(event) {
-    if (this.state.isDealingCardsAnimation || this.state.isAnimateCardFomStockToWaste) return;
+    console.log("ЗАХОД В onPointerUp");
+
+    if (
+      this.state.isDealingCardsAnimation ||
+      this.state.isAnimateCardFomStockToWaste
+    )
+      return;
     if (!this.currentDraggingCard) return;
     if (!this.isDragging) {
       this.eventManager.emit(GameEvents.CARD_CLICK, this.cards[0]);
@@ -419,17 +431,6 @@ export class DragAndDrop {
     this.cards.forEach(async (card) => {
       containerTo.addCard(card);
       containerTo.element.append(card.domElement);
-      this.eventManager.emit(
-        GameEvents.SET_CARD_DATA_ATTRIBUTE,
-        card.domElement,
-        GameConfig.dataAttributes.cardParent,
-        card.positionData.parent
-      );
-      this.eventManager.emit(
-        GameEvents.SET_CARD_DATA_ATTRIBUTE,
-        card.domElement,
-        GameConfig.dataAttributes.cardDnd
-      );
       this.animateTo(card);
       if (
         containerToName === GameConfig.cardContainers.foundation ||
@@ -479,17 +480,11 @@ export class DragAndDrop {
         );
         console.log("SCORE:", score);
         this.scoringSystem.addPoints(score);
-        this.eventManager.emit(
-          GameEvents.SET_CARD_DATA_ATTRIBUTE,
-          openCard.domElement,
+        openCard.setDataAttribute(
           GameConfig.dataAttributes.cardParent,
           openCard.positionData.parent
         );
-        this.eventManager.emit(
-          GameEvents.SET_CARD_DATA_ATTRIBUTE,
-          openCard.domElement,
-          GameConfig.dataAttributes.cardDnd
-        );
+        openCard.setDataAttribute(GameConfig.dataAttributes.dataAttributeDND);
         this.eventManager.emit(GameEvents.IS_FACE_DOWN_CARD, openCard);
       }
     });

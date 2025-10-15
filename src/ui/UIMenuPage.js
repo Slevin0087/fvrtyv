@@ -15,8 +15,8 @@ export class UIMenuPage extends UIPage {
   }
 
   setupEventListeners() {
-    this.elements.newGameBtn.onclick = () => {
-      this.eventManager.emit(GameEvents.SET_NEW_GAME);
+    this.elements.newGameBtn.onclick = async () => {
+      await this.eventManager.emitAsync(GameEvents.SET_NEW_GAME);
       // this.eventManager.emit("game:start");
     };
 

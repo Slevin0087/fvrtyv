@@ -99,7 +99,7 @@ export class UIManager {
       this.pageShow(UIConfig.pages.UISettingsPage);
     });
 
-    this.eventManager.on(GameEvents.SET_NEW_GAME, () => {
+    this.eventManager.onAsync(GameEvents.SET_NEW_GAME, async () => {
       this.pageShow(UIConfig.pages.UIGamePage);
       // this.eventManager.emit(
       //   GameEvents.SET_ACTIV_PAGE,

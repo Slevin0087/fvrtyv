@@ -82,10 +82,10 @@ export class GameInit {
   setupEventListeners() {
     this.fullScreenBtn.onclick = (e) =>
       this.eventManager.emit(GameEvents.FULL_SCREEN_BTN, e);
-    this.eventManager.on(GameEvents.SET_NEW_GAME, async () => {
+    this.eventManager.onAsync(GameEvents.SET_NEW_GAME, async () => {
       await this.setGame();
     });
-    this.eventManager.on(
+    this.eventManager.onAsync(
       GameEvents.GAME_RESTART,
       async () => await this.gameRestart()
     );

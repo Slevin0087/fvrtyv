@@ -57,7 +57,8 @@ export const GameConfig = {
   dataAttributes: {
     dataAttributeDND: "data-card-dnd",
     cardDnd: "cardDnd",
-    cardParent: "cardParent",
+    cardParentL: "cardParent",
+    cardParent: "data-card-parent",
     name: "[data-card-dnd]",
     setFAndTContainers: "fAndT",
     getFAndTContainers: "data-f-and-t",
