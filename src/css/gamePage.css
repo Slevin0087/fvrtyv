@@ -227,6 +227,7 @@
   font-size: 24px;
   font-weight: bold;
   animation: blink 1.2s linear infinite;
+  will-change: opacity;
   z-index: 1000;
 }
 
