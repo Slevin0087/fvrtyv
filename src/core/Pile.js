@@ -23,7 +23,6 @@ export class Pile {
     // this.cards.length, а не this.cards.length - 1, для определения z-index дочерних элементов
     // у stock, foundations, tableaus, так как самый первый дочерний элимент у них span
     // поэтому позиция у карт начинается с 1, а не с 0
-    console.log('в Pile, cards.faceUp: ', card, card.faceUp);
     const position = this.cards.length;
     card.positionData = this.getPositionData(position);
     card.removeDataAttribute(GameConfig.dataAttributes.cardParent);

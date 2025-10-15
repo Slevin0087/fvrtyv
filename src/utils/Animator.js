@@ -470,7 +470,7 @@ export class Animator {
       // GSAP анимация
       const timeline = gsap.timeline({
         onComplete: () => {
-          textElement.remove();
+          // textElement.remove(); // Расскоментировать, для теста скрыл
           resolve();
         },
       });

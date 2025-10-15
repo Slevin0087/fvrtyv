@@ -306,7 +306,8 @@ input[type="range"]::-moz-range-track {
   font-size: var(--font-size-s-350px);
   border-collapse: separate; /*Важно! Должно быть 'separate' (по умолчанию)*/
   border-spacing: calc(var(--gap-for-pstate) * 4) 0; /* Горизонтальное, затем вертикальное */
-  background-color: rgb(190, 61, 61);
+  /* background-color: rgb(190, 61, 61); */
+  background-color: white;
   /* border-radius: var(--modal-border-radius); */
   border-radius: calc(var(--modal-border-radius) / 2);
 }
@@ -329,7 +330,8 @@ input[type="range"]::-moz-range-track {
   /* min-width: 150px; Фиксированная ширина для терминов */
   /* color: black; */
   line-height: 0.9;
-  color: rgb(0, 196, 0);
+  /* color: rgb(0, 196, 0); */
+  color: black;
 }
 
 .dealing-cards-modal-right-td {
@@ -337,7 +339,8 @@ input[type="range"]::-moz-range-track {
   text-align: right;
   /* word-break: break-word; Перенос длинных слов */
   overflow-wrap: anywhere;
-  color: yellow;
+  /* color: yellow; */
+  color: red;
   line-height: 0.9;
 }
 

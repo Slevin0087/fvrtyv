@@ -94,16 +94,16 @@ export class DragAndDrop {
     if (this.state.isAnimateCardFomStockToWaste) return;
     const { target, x, y } = event;
 
-    // const isDraggable = target.closest(
-    //   `[${GameConfig.dataAttributes.dataAttributeDND}]`
-    // );
-    // console.log("isDraggable:", isDraggable);
+    const isDraggable = target.closest(
+      `[${GameConfig.dataAttributes.dataAttributeDND}]`
+    );
+    console.log("isDraggable:", isDraggable);
 
-    // if (isDraggable === null) return;
+    if (isDraggable === null) return;
 
-    if (!target) return;
-    // this.currentDraggingCard = isDraggable;
-    this.currentDraggingCard = target;
+    // if (!target) return;
+    this.currentDraggingCard = isDraggable;
+    // this.currentDraggingCard = target;
     this.currentDraggingCardSource =
       this.currentDraggingCard.dataset[this.dataCardParent];
     this.gameComponents = this.state.cardsComponents;

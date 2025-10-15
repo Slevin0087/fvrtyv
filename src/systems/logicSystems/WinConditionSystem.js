@@ -30,7 +30,8 @@ export class WinConditionSystem {
   }
 
   check() {
-    return this.state.cardsComponents.foundations.every((f) => f.isComplete());
+    return true // Удалить, для теста добавил, а потом расскоментировать строчку, которая ниже
+    // return this.state.cardsComponents.foundations.every((f) => f.isComplete());
   }
 
   async handleWin() {
@@ -51,9 +52,9 @@ export class WinConditionSystem {
     const textEarned = this.translator.t(this.translateWinEarnedBonusKey);
     const textCoins = this.translator.pluralize("coins", GameConfig.earnedCoins.win);
 
-    await Animator.animationCoinsEarned(
-      `${textWinBonus}: ${this.addition}${GameConfig.rules.winScoreBonus}`
-    );
+    // await Animator.animationCoinsEarned(
+    //   `${textWinBonus}: ${this.addition}${GameConfig.rules.winScoreBonus}`
+    // );
 
     // await this.delay(UIConfig.animations.animationCoinsEarned * 1100);
     await Animator.animationCoinsEarned(`${textEarned} ${textCoins}`);
