@@ -395,6 +395,98 @@
   font-size: 1rem;
 }
 
+.game-results-modal {
+  position: fixed;
+  /* background-color: #caec08; */
+  background-color: white;
+  padding: 1rem;
+  z-index: 1000;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  gap: 1rem;
+  border-radius: var(--modal-border-radius);
+  /* border: 0.5rem solid rgba(128, 98, 0); */
+  /* border: var(--modal-border); */
+  border: 0.2rem solid red;
+}
+
+.game-results-modal-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+  color: black;
+}
+
+.game-results-modal-close {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  text-align: center;
+}
+
+.game-results-modal-close-span {
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.game-results-modal-table {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  padding: var(--padding-table-350);
+  font-size: var(--font-size-s-350px);
+  border-collapse: separate; /*Важно! Должно быть 'separate' (по умолчанию)*/
+  border-spacing: calc(var(--gap-for-pstate) * 4) 0; /* Горизонтальное, затем вертикальное */
+  /* background-color: rgb(190, 61, 61); */
+  background-color: white;
+  /* border-radius: var(--modal-border-radius); */
+  border-radius: calc(var(--modal-border-radius) / 2);
+}
+
+.game-results-modal-wrap-line {
+  border-bottom: 1px solid #c5b310;
+  margin-bottom: 1rem;
+  display: flex; /* или другие стили для расположения */
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: flex-end;
+  width: 100%;
+  font-size: 1rem;
+
+  white-space: nowrap;
+}
+
+.game-results-modal-left-td {
+  justify-self: start; /* Выравнивание по левому краю */
+  /* min-width: 150px; Фиксированная ширина для терминов */
+  /* color: black; */
+  line-height: 0.9;
+  /* color: rgb(0, 196, 0); */
+  color: black;
+}
+
+.game-results-modal-right-td {
+  justify-self: end; /* Выравнивание по правому краю */
+  text-align: right;
+  /* word-break: break-word; Перенос длинных слов */
+  overflow-wrap: anywhere;
+  /* color: yellow; */
+  color: red;
+  line-height: 0.9;
+}
+
+.game-results-modal-table .game-results-modal-wrap-line {
+  margin-bottom: 0;
+}
+
 @media (min-width: 350px) {
   .controls-btn-container {
     font-size: 2.6em;

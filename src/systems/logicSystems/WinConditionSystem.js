@@ -66,6 +66,7 @@ export class WinConditionSystem {
       this.typeWinCheckAchievements
     );
     this.eventManager.emit(GameEvents.GAME_END);
+    this.eventManager.emit(GameEvents.GAME_RESULTS_MODAL_SHOW)
   }
 
   saveWinStats() {

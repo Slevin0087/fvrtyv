@@ -95,6 +95,11 @@ export const Translations = {
       dealing_cards_modal_title_bottom: "*will be applied in the next game",
       dealing_cards_modal_right_td: "for watching 🎬",
 
+      // модальное окноЖ результаты игры //////////////////////////////////////////
+      game_results_modal_title: 'Game results:',
+      btn_game_results_modal_apply: 'Ok!',
+      /////////////////////////////////////////////////////////////////////////////
+
       // для оповещений подсказок
       hint_notif_nohints: "No hints!",
       hint_notif_nopoints: "You need at least 5 points for a hint!",
@@ -199,6 +204,11 @@ export const Translations = {
       dealing_cards_modal_shuffling_cards: "Перетасовка карт в стопке:",
       dealing_cards_modal_title_bottom: "*применится в следующей игре",
       dealing_cards_modal_right_td: "за просмотр 🎬",
+
+      // модальное окноЖ результаты игры //////////////////////////////////////////
+      game_results_modal_title: 'Результаты игры:',
+      btn_game_results_modal_apply: 'Понятно!',
+      /////////////////////////////////////////////////////////////////////////////
 
       // для оповещений подсказок
       hint_notif_nohints: "Нет подсказок!",
@@ -321,6 +331,11 @@ export const Translations = {
         "*йапхъахауа ахъвмарра апны тшаргылуашт|",
       dealing_cards_modal_right_td: "уапшрык|вын 🎬",
 
+      // модальное окноЖ результаты игры //////////////////////////////////////////
+      game_results_modal_title: 'Ахъвмарра арезультатква:',
+      btn_game_results_modal_apply: 'Йауашт|!',
+      /////////////////////////////////////////////////////////////////////////////
+
       // для оповещений подсказок
       hint_notif_nohints: "Подсказк|аква йгьаъам!",
       hint_notif_nopoints: "Йатахъыб минимум 5 очков аподск|азк|аква рыхъаз!",
@@ -441,7 +456,13 @@ export const Translations = {
         "Bir destedeki kartların karıştırılması:",
       dealing_cards_modal_title_bottom: "*bir sonraki oyunda uygulanacak",
       dealing_cards_modal_right_td: "görüntüleme için 🎬",
+      //////////////////////////////////////////////////////////////////////////
 
+      // модальное окноЖ результаты игры //////////////////////////////////////////
+      game_results_modal_title: 'Maç sonuçları:',
+      btn_game_results_modal_apply: 'Apaçık!',
+      /////////////////////////////////////////////////////////////////////////////
+      
       // для оповещений подсказок
       hint_notif_nohints: "Hiçbir ipucu yok!",
       hint_notif_nopoints: "İpucu için en az 5 puana ihtiyacınız var.!",

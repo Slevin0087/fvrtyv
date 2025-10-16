@@ -1,4 +1,96 @@
 /* Анимация "приземления" карты в стопку */
+/* @keyframes cardLanding {
+  0% {
+    transform: scale(1.1) rotate(-1deg);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+  }
+  25% {
+    transform: scale(1.08) rotate(0.5deg);
+  }
+  50% {
+    transform: scale(1.05) rotate(-0.3deg);
+  }
+  75% {
+    transform: scale(1.02) rotate(0.2deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  }
+} */
+
+/* Пульсация стопки (свечение) */
+/* @keyframes foundationGlow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 0 12px rgba(76, 175, 80, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
+  }
+} */
+
+/* Легкое "подпрыгивание" стопки */
+/* @keyframes stackBounce {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+} */
+
+/* Микро-сдвиг всей стопки для эффекта "утряски" */
+/* @keyframes stackSettle {
+  0% {
+    transform: translateX(0);
+  }
+  33% {
+    transform: translateX(1px);
+  }
+  66% {
+    transform: translateX(-1px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+} */
+
+/* Классы для анимаций */
+/* .card-landing {
+  animation: cardLanding 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.foundation-glow {
+  animation: foundationGlow 0.6s ease-out forwards;
+}
+
+.stack-bounce {
+  animation: stackBounce 0.4s ease-out;
+} */
+
+/* .stack-settle {
+  animation: stackSettle 0.3s ease-out;
+} */
+
+/* Для карт в стопке - небольшие смещения для объема */
+/* .foundation .card:not(:first-child) {
+  position: absolute;
+  top: 0;
+  left: 0;
+} */
+
+/* Эффект "утряски" для всей стопки */
+/* .foundation.cards-settling .card {
+  animation: stackSettle 0.3s ease-out;
+} */
+
+/* Анимация "приземления" карты в стопку - iOS compatible */
 @keyframes cardLanding {
   0% {
     transform: scale(1.1) rotate(-1deg);
@@ -19,7 +111,7 @@
   }
 }
 
-/* Пульсация стопки (свечение) */
+/* Пульсация стопки (свечение) - iOS compatible */
 @keyframes foundationGlow {
   0% {
     box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.6);
@@ -61,21 +153,37 @@
   }
 }
 
-/* Классы для анимаций */
+/* Классы для анимаций - iOS fixes */
 .card-landing {
   animation: cardLanding 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  /* iOS fix: принудительное аппаратное ускорение */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  /* iOS fix: для плавности анимации */
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-perspective: 1000;
+  perspective: 1000;
 }
 
 .foundation-glow {
   animation: foundationGlow 0.6s ease-out forwards;
+  /* iOS fix для box-shadow анимаций */
+  -webkit-animation: foundationGlow 0.6s ease-out forwards;
 }
 
 .stack-bounce {
   animation: stackBounce 0.4s ease-out;
+  -webkit-animation: stackBounce 0.4s ease-out;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 .stack-settle {
   animation: stackSettle 0.3s ease-out;
+  -webkit-animation: stackSettle 0.3s ease-out;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 /* Для карт в стопке - небольшие смещения для объема */
@@ -83,9 +191,42 @@
   position: absolute;
   top: 0;
   left: 0;
+  /* iOS fix */
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
 }
 
 /* Эффект "утряски" для всей стопки */
 .foundation.cards-settling .card {
   animation: stackSettle 0.3s ease-out;
+  -webkit-animation: stackSettle 0.3s ease-out;
+}
+
+/* Дополнительные iOS-specific fixes */
+@media screen and (max-width: 768px) {
+  .card-landing,
+  .stack-bounce,
+  .stack-settle {
+    /* Увеличиваем длительность для мобильных устройств */
+    animation-duration: 0.6s;
+    -webkit-animation-duration: 0.6s;
+  }
+
+  .foundation-glow {
+    /* Уменьшаем размер свечения для мобильных */
+    animation: foundationGlow 0.7s ease-out forwards;
+    -webkit-animation: foundationGlow 0.7s ease-out forwards;
+  }
+
+  @keyframes foundationGlow {
+    0% {
+      box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.6);
+    }
+    50% {
+      box-shadow: 0 0 0 8px rgba(76, 175, 80, 0.2);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
+    }
+  }
 }

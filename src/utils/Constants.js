@@ -134,6 +134,7 @@ export const GameEvents = {
   BACK_MOVE_CARDS_TO_STOCK: 'back:move:cards:to:stock',
   SHUFFLE_CARDS_TO_STOCK: 'shuffle:cards:to:stock',
   CREAT_ELEMENT_FOR_NOTIF_SHUFFLED_CARDS: 'creat:element:for:notif:shuffled:cards',
+  GAME_RESULTS_MODAL_SHOW: 'game:results:modal:show',
 };
 
 export const AnimationDurations = {

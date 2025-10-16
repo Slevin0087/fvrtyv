@@ -36,6 +36,22 @@ export class UIGamePage extends UIPage {
       undoBtn: document.getElementById("undo-btn"),
       undoCounter: document.getElementById("undo-counter"),
       shuffleBtn: document.getElementById("shuffle-btn"),
+
+      // Модальное окно: результаты игры
+      gameResultsModal: document.getElementById("game-results-modal"),
+      gameResultsModalTitle: document.getElementById(
+        "game_results_modal_title"
+      ),
+      gameResultsModalBody: document.getElementById(
+        "game-results-modal-content"
+      ),
+      gameResultsModalClose: document.getElementById(
+        "game-results-modal-close"
+      ),
+      gameResultsModalApply: document.getElementById(
+        "game-results-modal-its-apply-btn"
+      ),
+      ///////////////////
     };
 
     this.isRestartGameModalShow = false;
@@ -46,6 +62,7 @@ export class UIGamePage extends UIPage {
   init() {
     super.init();
     this.updateUI();
+    this.elements.gameResultsModalBody.innerHTML = this.createGameResultsModalBody()
   }
 
   setupEventListeners() {
@@ -106,7 +123,7 @@ export class UIGamePage extends UIPage {
     );
 
     this.elements.undoBtn.onclick = async () => {
-      if (this.state.isUndoCardAnimation) return
+      if (this.state.isUndoCardAnimation) return;
       await this.eventManager.emitAsync(GameEvents.UNDO_MOVE);
       this.upUndoCounter(this.stateManager.getLastMovesLengths());
     };
@@ -135,8 +152,9 @@ export class UIGamePage extends UIPage {
       this.creatElementForHighestScore()
     );
 
-    this.eventManager.on(GameEvents.CREAT_ELEMENT_FOR_NOTIF_SHUFFLED_CARDS, () =>
-      this.creatNotifShuffly()
+    this.eventManager.on(
+      GameEvents.CREAT_ELEMENT_FOR_NOTIF_SHUFFLED_CARDS,
+      () => this.creatNotifShuffly()
     );
 
     this.elements.shuffleBtn.onclick = () => {
@@ -147,6 +165,18 @@ export class UIGamePage extends UIPage {
         waste
       );
     };
+
+    ///////////////////////// События модального окна: результаты игры
+    this.eventManager.on(GameEvents.GAME_RESULTS_MODAL_SHOW, () => {
+      this.gameResultsModalShow();
+    });
+
+    this.elements.gameResultsModalClose.onclick = () =>
+      this.onClickGameResultsModalClose();
+
+    this.elements.gameResultsModalApply.onclick = () =>
+      this.onClickGameResultsModalApply();
+    //////////////////////////////////////////////////
   }
 
   onClickRestartGame() {
@@ -173,6 +203,22 @@ export class UIGamePage extends UIPage {
     this.elements.restartGameModal.classList.add("hidden");
     this.isRestartGameModalShow = false;
   }
+
+  // Инициализация событий модального окна: результаты игры
+  gameResultsModalShow() {
+    const modalBody = this.createGameResultsModalBody();
+    this.elements.gameResultsModalBody.append(modalBody);
+    this.elements.gameResultsModal.classList.remove("hidden");
+  }
+  onClickGameResultsModalClose() {
+    this.elements.gameResultsModal.classList.add("hidden");
+  }
+
+  onClickGameResultsModalApply() {
+    this.elements.gameResultsModal.classList.add("hidden");
+  }
+
+  //////////////////////////
 
   updateUI() {
     this.updateScore(this.state.game.score);
@@ -237,6 +283,21 @@ export class UIGamePage extends UIPage {
     div.append(span);
     this.elements.notifDivTop.innerHTML = "";
     this.elements.notifDivTop.append(div);
+  }
+
+  createGameResultsModalBody() {
+    // const score = this.translator.t("dealing_cards_modal_score");
+    return `<dl class="game-results-modal-table table">
+      <div class="game-results-modal-wrap-line">
+        <dt
+          class="game-results-modal-left-td"
+          data-i18n="game_esults_modal_score"
+        >
+          Очки
+        </dt>
+        <dd class="game-results-modal-right-td">x</dd>
+      </div>
+    </dl>`;
   }
 
   getModalData(data) {

@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="./src/css/playerStatePage.css" />
     <link rel="stylesheet" href="./src/css/cardsContainers.css" />
     <link rel="stylesheet" href="./src/css/selectedItems.css" />
-    <link rel="stylesheet" href="./src/css/foundationsAnimations.css">
+    <link rel="stylesheet" href="./src/css/foundationsAnimations.css" />
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.13/dist/gsap.min.js"></script>
   </head>
   <body>
@@ -178,7 +178,7 @@
         <!-- <div class="setting-item"> -->
         <!-- </div> -->
 
-        <!-- Модальное окно: начало -->
+        <!-- Модальное окно раздачи карт: начало -->
         <div id="dealing-cards-modal" class="dealing-cards-modal hidden">
           <div class="dealing-cards-modal-header">
             <div class="dealing-cards-modal-close">
@@ -235,7 +235,7 @@
             </button>
           </div>
         </div>
-        <!-- Модальное окно: конец -->
+        <!-- Модальное окно раздачи карт: конец -->
       </div>
       <!-- Настройки: конец -->
 
@@ -408,6 +408,47 @@
           </div>
         </div>
         <!-- Модальное окно: конец -->
+
+        <!-- Модальное окно итоги игры: начало -->
+        <div id="game-results-modal" class="game-results-modal">
+          <div class="game-results-modal-header">
+            <div class="game-results-modal-close">
+              <span
+                class="game-results-modal-close-span"
+                id="game-results-modal-close"
+                >&times;</span
+              >
+            </div>
+            <div class="game-results-modal-title">
+              <span
+                id="game_results_modal_title"
+                data-i18n="game_results_modal_title"
+                >Итоги игры:</span
+              >
+              <!-- <span
+                id="game_results_modal_title_bottom"
+                class="game_results_modal_title_bottom"
+                data-i18n="game_results_modal_title_bottom"
+                ></span
+              > -->
+            </div>
+          </div>
+          <div
+            class="game-results-modal-content"
+            id="game-results-modal-content"
+          >
+          </div>
+          <div class="game-results-modal-btns">
+            <button
+              class="game-results-modal-its_apply-btn"
+              id="game-results-modal-its-apply-btn"
+              data-i18n="btn_game_results_modal_apply"
+            >
+              Хорошо
+            </button>
+          </div>
+        </div>
+        <!-- Модальное окно итоги игры: конец -->
       </div>
       <!-- Game интерфейс: конец -->
     </div>
