@@ -123,6 +123,7 @@ export class CardMovementSystem {
 
   async openNextCardIfNeeded(source) {
     if (!source.startsWith(this.cardContainers.tableau)) return null;
+console.log('source: ', source);
 
     const index = parseInt(source.split("-")[1]);
 

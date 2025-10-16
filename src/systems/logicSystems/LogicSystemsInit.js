@@ -118,6 +118,7 @@ export class LogicSystemsInit {
     cardMoveDuration,
   }) {
     const source = this.movementSystem.getCardSource(card);
+    // let openCard = null
     console.log("const source: ", source);
 
     const elementFrom = this.movementSystem.getElementFrom(source);
@@ -155,16 +156,67 @@ export class LogicSystemsInit {
       let operator = "";
       let isSourceFromFoundation = false;
       if (containerToName === GameConfig.cardContainers.foundation) {
-        FoundationAnimation.playSuccessAnimation(
-          card,
-          containerTo,
-        );
+        FoundationAnimation.playSuccessAnimation(card, containerTo);
         operator = this.addition;
         this.scoringSystem.addPoints(score);
         this.stateManager.incrementStat(
           this.textToFoundationCheckAchievements,
           this.typeToFoundationCheckAchievements
         );
+
+        const tableaus = this.state.cardsComponents.tableaus;
+        for (let tableau of tableaus) {
+          const tableauTopCard = tableau.getTopCard();
+          if (
+            tableauTopCard &&
+            containerTo.canAccept(tableauTopCard, this.state.cardsComponents)
+          ) {
+            const source = this.movementSystem.getCardSource(tableauTopCard)
+            await Animator.animateCardMove(
+              // card,
+              tableauTopCard,
+              source,
+              tableau,
+              containerTo,
+              this.movementSystem,
+              cardMoveDuration
+            );
+
+            operator = this.addition;
+            this.scoringSystem.addPoints(score);
+            this.stateManager.incrementStat(
+              this.textToFoundationCheckAchievements,
+              this.typeToFoundationCheckAchievements
+            );
+
+            const openCard = await this.movementSystem.openNextCardIfNeeded(
+              source
+            );
+
+            card.openCard = openCard;
+            if (openCard) {
+              console.log("В if (openCard): ", card, openCard);
+              const score = GameConfig.rules.scoreForCardFlip;
+              this.eventManager.emit(
+                GameEvents.UI_ANIMATION_POINTS_EARNED,
+                openCard,
+                this.scoringSystem.calculatePointsWithDealingCards(score),
+                this.addition
+              );
+              this.scoringSystem.addPoints(score);
+
+              openCard.setDataAttribute(
+                GameConfig.dataAttributes.cardParent,
+                openCard.positionData.parent
+              );
+              openCard.setDataAttribute(
+                GameConfig.dataAttributes.dataAttributeDND
+              );
+
+              this.eventManager.emit(GameEvents.IS_FACE_DOWN_CARD, openCard);
+            }
+          }
+        }
       } else if (source.startsWith(GameConfig.cardContainers.foundation)) {
         operator = this.subtraction;
         isSourceFromFoundation = !isSourceFromFoundation;
@@ -189,6 +241,7 @@ export class LogicSystemsInit {
 
     card.openCard = openCard;
     if (openCard) {
+      console.log("В if (openCard): ", card, openCard);
       const score = GameConfig.rules.scoreForCardFlip;
       this.eventManager.emit(
         GameEvents.UI_ANIMATION_POINTS_EARNED,
