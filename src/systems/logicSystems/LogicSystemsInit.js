@@ -163,60 +163,6 @@ export class LogicSystemsInit {
           this.textToFoundationCheckAchievements,
           this.typeToFoundationCheckAchievements
         );
-
-        const tableaus = this.state.cardsComponents.tableaus;
-        for (let tableau of tableaus) {
-          const tableauTopCard = tableau.getTopCard();
-          if (
-            tableauTopCard &&
-            containerTo.canAccept(tableauTopCard, this.state.cardsComponents)
-          ) {
-            const source = this.movementSystem.getCardSource(tableauTopCard)
-            await Animator.animateCardMove(
-              // card,
-              tableauTopCard,
-              source,
-              tableau,
-              containerTo,
-              this.movementSystem,
-              cardMoveDuration
-            );
-
-            operator = this.addition;
-            this.scoringSystem.addPoints(score);
-            this.stateManager.incrementStat(
-              this.textToFoundationCheckAchievements,
-              this.typeToFoundationCheckAchievements
-            );
-
-            const openCard = await this.movementSystem.openNextCardIfNeeded(
-              source
-            );
-
-            card.openCard = openCard;
-            if (openCard) {
-              console.log("В if (openCard): ", card, openCard);
-              const score = GameConfig.rules.scoreForCardFlip;
-              this.eventManager.emit(
-                GameEvents.UI_ANIMATION_POINTS_EARNED,
-                openCard,
-                this.scoringSystem.calculatePointsWithDealingCards(score),
-                this.addition
-              );
-              this.scoringSystem.addPoints(score);
-
-              openCard.setDataAttribute(
-                GameConfig.dataAttributes.cardParent,
-                openCard.positionData.parent
-              );
-              openCard.setDataAttribute(
-                GameConfig.dataAttributes.dataAttributeDND
-              );
-
-              this.eventManager.emit(GameEvents.IS_FACE_DOWN_CARD, openCard);
-            }
-          }
-        }
       } else if (source.startsWith(GameConfig.cardContainers.foundation)) {
         operator = this.subtraction;
         isSourceFromFoundation = !isSourceFromFoundation;
@@ -233,10 +179,20 @@ export class LogicSystemsInit {
       );
     }
 
+    await this.handleOpenCard(card, source);
+
+    if (containerToName === GameConfig.cardContainers.foundation) {
+      console.log("в if (containerToName");
+
+      await this.autoCardMoveToFoundations();
+    }
+
     if (this.winSystem.check()) {
       await this.winSystem.handleWin();
     }
+  }
 
+  async handleOpenCard(card, source) {
     const openCard = await this.movementSystem.openNextCardIfNeeded(source);
 
     card.openCard = openCard;
@@ -258,6 +214,51 @@ export class LogicSystemsInit {
       openCard.setDataAttribute(GameConfig.dataAttributes.dataAttributeDND);
 
       this.eventManager.emit(GameEvents.IS_FACE_DOWN_CARD, openCard);
+    }
+  }
+
+  async autoCardMoveToFoundations() {
+    const foundations = this.state.cardsComponents.foundations;
+    let foundationsNotIsEmpty = [];
+    for (let foundation of foundations) {
+      if (!foundation.isEmpty()) {
+        foundationsNotIsEmpty.push(foundation);
+      }
+    }
+
+    if (foundationsNotIsEmpty.length > 0) {
+      for (let foundation of foundationsNotIsEmpty) {
+        const waste = this.state.cardsComponents.waste;
+        const wasteTopCard = waste.getTopCard();
+        if (
+          wasteTopCard &&
+          foundation.canAccept(wasteTopCard, this.state.cardsComponents)
+        ) {
+          await this.handleCardMove({
+            card: wasteTopCard,
+            containerToIndex: foundation.index,
+            containerTo: foundation,
+            cardMoveDuration: this.cardMoveDuration,
+          });
+        } else {
+          console.log("!wasteTopCard");
+          const tableaus = this.state.cardsComponents.tableaus;
+          for (let tableau of tableaus) {
+            const tableauTopCard = tableau.getTopCard();
+            if (
+              tableauTopCard &&
+              foundation.canAccept(tableauTopCard, this.state.cardsComponents)
+            ) {
+              await this.handleCardMove({
+                card: tableauTopCard,
+                containerToIndex: foundation.index,
+                containerTo: foundation,
+                cardMoveDuration: this.cardMoveDuration,
+              });
+            }
+          }
+        }
+      }
     }
   }
 
