@@ -86,53 +86,166 @@
 // // Пример вызова:
 // // onCardAddedToFoundation(newCard, foundation, false);
 
+// export class FoundationAnimation {
+//   static playSuccessAnimation(card, foundation) {
+//     const cardElement = card.domElement;
+//     const foundationElement = foundation.element;
+//     // Определяем iOS
+//     const isIOS =
+//       /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+//     // 1. Анимация карты (работает везде)
+//     cardElement.classList.add("card-landing");
+
+//     // 2. Анимация стопки - выбираем в зависимости от платформы
+//     if (isIOS) {
+//       foundationElement.classList.add("foundation-pulse");
+//     } else {
+//       foundationElement.classList.add("foundation-glow");
+//     }
+
+//     // 3. Анимация подпрыгивания
+//     const allCards = foundation.cards.map((card) => {
+//       card.domElement.classList.add("stack-bounce");
+//       return card.domElement;
+//     });
+
+//     // Очистка
+//     setTimeout(() => {
+//       cardElement.classList.remove("card-landing");
+//       foundationElement.classList.remove("foundation-glow", "foundation-pulse");
+//       allCards.forEach((card) => {
+//         card.classList.remove("stack-bounce");
+//       });
+//     }, 600);
+//   }
+
+//   // Упрощенная версия для максимальной совместимости
+//   static playSimpleAnimation(cardElement) {
+//     cardElement.classList.add("card-landing");
+
+//     setTimeout(() => {
+//       cardElement.classList.remove("card-landing");
+//     }, 500);
+//   }
+// }
+
+// // Функция для принудительного перезапуска анимации (иногда помогает в iOS)
+// function forceAnimationRestart(element) {
+//   element.style.animation = "none";
+//   element.offsetHeight; /* trigger reflow */
+//   element.style.animation = null;
+// }
+
 export class FoundationAnimation {
   static playSuccessAnimation(card, foundation) {
     const cardElement = card.domElement;
     const foundationElement = foundation.element;
-    // Определяем iOS
-    const isIOS =
-      /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    // 1. Анимация карты - принудительно через JS
+    this.animateCardLanding(cardElement);
 
-    // 1. Анимация карты (работает везде)
-    cardElement.classList.add("card-landing");
+    // 2. Анимация стопки
+    this.animateFoundationGlow(foundationElement);
 
-    // 2. Анимация стопки - выбираем в зависимости от платформы
-    if (isIOS) {
-      foundationElement.classList.add("foundation-pulse");
-    } else {
-      foundationElement.classList.add("foundation-glow");
+    // 3. Анимация подпрыгивания других карт в стопке
+    this.animateStackBounce(foundationElement);
+  }
+
+  static animateCardLanding(cardElement) {
+    // Сохраняем начальные стили
+    const initialTransform = cardElement.style.transform;
+    const initialBoxShadow = cardElement.style.boxShadow;
+
+    // Принудительно сбрасываем любые существующие анимации
+    cardElement.style.animation = "none";
+    cardElement.offsetHeight; // trigger reflow
+
+    // Анимация масштаба и тени через JS
+    const startTime = Date.now();
+    const duration = 500;
+
+    function animate() {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      // easing function
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+
+      if (progress < 1) {
+        // Анимация: scale от 1.1 до 1, shadow от большой к маленькой
+        const scale = 1 + 0.1 * (1 - easeOut);
+        const shadowBlur = 20 * (1 - easeOut);
+        const shadowSpread = 10 * (1 - easeOut);
+
+        cardElement.style.transform = `${initialTransform} scale(${scale})`;
+        cardElement.style.boxShadow = `0 ${
+          shadowBlur / 4
+        }px ${shadowBlur}px rgba(0, 0, 0, ${0.4 * (1 - easeOut)})`;
+
+        requestAnimationFrame(animate);
+      } else {
+        // Завершение анимации
+        cardElement.style.transform = initialTransform;
+        cardElement.style.boxShadow = initialBoxShadow;
+      }
     }
 
-    // 3. Анимация подпрыгивания
-    const allCards = foundation.cards.map((card) => {
-      card.domElement.classList.add("stack-bounce");
-      return card.domElement;
+    requestAnimationFrame(animate);
+  }
+
+  static animateFoundationGlow(foundationElement) {
+    const initialBoxShadow = foundationElement.style.boxShadow;
+    const initialBorder = foundationElement.style.border;
+
+    const startTime = Date.now();
+    const duration = 600;
+
+    function animate() {
+      const elapsed = Date.now() - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+
+      if (progress < 1) {
+        // Пульсирующий эффект glow
+        const glowSize = 12 * Math.sin(progress * Math.PI);
+        const opacity = 0.6 * Math.sin(progress * Math.PI);
+
+        foundationElement.style.boxShadow = `0 0 0 ${glowSize}px rgba(76, 175, 80, ${opacity})`;
+        requestAnimationFrame(animate);
+      } else {
+        // Возвращаем исходные стили
+        foundationElement.style.boxShadow = initialBoxShadow;
+        foundationElement.style.border = initialBorder;
+      }
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  static animateStackBounce(foundationElement) {
+    const cards = foundationElement.querySelectorAll(".card");
+    const startTime = Date.now();
+    const duration = 400;
+
+    cards.forEach((card) => {
+      if (card === cards[cards.length - 1]) return; // пропускаем новую карту
+
+      const initialTransform = card.style.transform;
+
+      function animate() {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        if (progress < 1) {
+          // bounce эффект
+          const bounce = -3 * Math.sin(progress * Math.PI * 2);
+          card.style.transform = `${initialTransform} translateY(${bounce}px)`;
+          requestAnimationFrame(animate);
+        } else {
+          card.style.transform = initialTransform;
+        }
+      }
+
+      requestAnimationFrame(animate);
     });
-
-    // Очистка
-    setTimeout(() => {
-      cardElement.classList.remove("card-landing");
-      foundationElement.classList.remove("foundation-glow", "foundation-pulse");
-      allCards.forEach((card) => {
-        card.classList.remove("stack-bounce");
-      });
-    }, 600);
   }
-
-  // Упрощенная версия для максимальной совместимости
-  static playSimpleAnimation(cardElement) {
-    cardElement.classList.add("card-landing");
-
-    setTimeout(() => {
-      cardElement.classList.remove("card-landing");
-    }, 500);
-  }
-}
-
-// Функция для принудительного перезапуска анимации (иногда помогает в iOS)
-function forceAnimationRestart(element) {
-  element.style.animation = "none";
-  element.offsetHeight; /* trigger reflow */
-  element.style.animation = null;
 }
