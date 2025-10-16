@@ -174,6 +174,28 @@ export class UndoSystem {
       if (oldOffsetsTopThreeCards.length > 0) {
         await Animator.animateCardFomStockToWaste(oldOffsetsTopThreeCards);
       }
+      const wasteTopCardAfter = waste.getTopCard();
+
+      if (wasteTopCardAfter) {
+        wasteTopCardAfter.setDataAttribute(
+          GameConfig.dataAttributes.dataAttributeDND
+        );
+
+        // Добавление картам событий: onpointerdown, onpointermove, onpointerup
+        this.eventManager.emit(
+          GameEvents.ADD_ONPOINTERDOWN_TO_CARD,
+          wasteTopCardAfter.domElement
+        );
+        this.eventManager.emit(
+          GameEvents.ADD_ONPOINTERMOVE_TO_CARD,
+          wasteTopCardAfter.domElement
+        );
+        this.eventManager.emit(
+          GameEvents.ADD_ONPOINTERUP_TO_CARD,
+          wasteTopCardAfter.domElement
+        );
+        ///////////////////////////////////////////
+      }
     } else if (fromType === this.cardContainers.stock) {
       const containerTo = gameComponents.stock;
       await this.backMoveCardsToStock(

@@ -1,0 +1,91 @@
+/* Анимация "приземления" карты в стопку */
+@keyframes cardLanding {
+  0% {
+    transform: scale(1.1) rotate(-1deg);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+  }
+  25% {
+    transform: scale(1.08) rotate(0.5deg);
+  }
+  50% {
+    transform: scale(1.05) rotate(-0.3deg);
+  }
+  75% {
+    transform: scale(1.02) rotate(0.2deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Пульсация стопки (свечение) */
+@keyframes foundationGlow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.6);
+  }
+  50% {
+    box-shadow: 0 0 0 12px rgba(76, 175, 80, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
+  }
+}
+
+/* Легкое "подпрыгивание" стопки */
+@keyframes stackBounce {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* Микро-сдвиг всей стопки для эффекта "утряски" */
+@keyframes stackSettle {
+  0% {
+    transform: translateX(0);
+  }
+  33% {
+    transform: translateX(1px);
+  }
+  66% {
+    transform: translateX(-1px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* Классы для анимаций */
+.card-landing {
+  animation: cardLanding 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.foundation-glow {
+  animation: foundationGlow 0.6s ease-out forwards;
+}
+
+.stack-bounce {
+  animation: stackBounce 0.4s ease-out;
+}
+
+.stack-settle {
+  animation: stackSettle 0.3s ease-out;
+}
+
+/* Для карт в стопке - небольшие смещения для объема */
+.foundation .card:not(:first-child) {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Эффект "утряски" для всей стопки */
+.foundation.cards-settling .card {
+  animation: stackSettle 0.3s ease-out;
+}

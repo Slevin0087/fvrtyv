@@ -11,6 +11,7 @@ import { UIConfig } from "../../configs/UIConfig.js";
 import { DragAndDrop } from "./DragAndDrop.js";
 import { Animator } from "../../utils/Animator.js";
 import { achType, achCheckName } from "../../configs/AchievementsConfig.js";
+import { FoundationAnimation } from "../../utils/FoundationAnimation.js";
 
 export class LogicSystemsInit {
   constructor(
@@ -97,7 +98,11 @@ export class LogicSystemsInit {
 
   handleCardClick(card) {
     if (this.winSystem.check()) return;
-    if (this.state.isDealingCardsAnimation || this.state.isAnimateCardFomStockToWaste) return
+    if (
+      this.state.isDealingCardsAnimation ||
+      this.state.isAnimateCardFomStockToWaste
+    )
+      return;
     if (!this.state.game.playerFirstCardClick) {
       this.eventManager.emit(GameEvents.FIRST_CARD_CLICK);
       this.eventManager.emit(GameEvents.START_PLAY_TIME, 0);
@@ -117,11 +122,13 @@ export class LogicSystemsInit {
 
     const elementFrom = this.movementSystem.getElementFrom(source);
     if (!source.startsWith(GameConfig.cardContainers.stock)) {
-      const lastMove = [{
-        card,
-        from: source,
-        to: `${containerToName}-${containerToIndex}`,
-      }];
+      const lastMove = [
+        {
+          card,
+          from: source,
+          to: `${containerToName}-${containerToIndex}`,
+        },
+      ];
       this.undoSystem.updateLastMoves(lastMove);
     }
     const cardParentFoundationElForUndo = card.parentElement;
@@ -148,6 +155,10 @@ export class LogicSystemsInit {
       let operator = "";
       let isSourceFromFoundation = false;
       if (containerToName === GameConfig.cardContainers.foundation) {
+        FoundationAnimation.playSuccessAnimation(
+          card,
+          containerTo,
+        );
         operator = this.addition;
         this.scoringSystem.addPoints(score);
         this.stateManager.incrementStat(
@@ -186,9 +197,12 @@ export class LogicSystemsInit {
         this.addition
       );
       this.scoringSystem.addPoints(score);
-      
-      openCard.setDataAttribute(GameConfig.dataAttributes.cardParent, openCard.positionData.parent)
-      openCard.setDataAttribute(GameConfig.dataAttributes.dataAttributeDND)
+
+      openCard.setDataAttribute(
+        GameConfig.dataAttributes.cardParent,
+        openCard.positionData.parent
+      );
+      openCard.setDataAttribute(GameConfig.dataAttributes.dataAttributeDND);
 
       this.eventManager.emit(GameEvents.IS_FACE_DOWN_CARD, openCard);
     }
