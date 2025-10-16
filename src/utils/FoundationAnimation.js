@@ -141,6 +141,10 @@ export class FoundationAnimation {
   static playSuccessAnimation(card, foundation) {
     const cardElement = card.domElement;
     const foundationElement = foundation.element;
+
+    const allCards = foundation.cards.map((card) => {
+      return card.domElement;
+    });
     // 1. Анимация карты - принудительно через JS
     this.animateCardLanding(cardElement);
 
@@ -148,7 +152,7 @@ export class FoundationAnimation {
     this.animateFoundationGlow(foundationElement);
 
     // 3. Анимация подпрыгивания других карт в стопке
-    this.animateStackBounce(foundationElement);
+    this.animateStackBounce(allCards);
   }
 
   static animateCardLanding(cardElement) {
@@ -221,8 +225,7 @@ export class FoundationAnimation {
     requestAnimationFrame(animate);
   }
 
-  static animateStackBounce(foundationElement) {
-    const cards = foundationElement.querySelectorAll(".card");
+  static animateStackBounce(cards) {
     const startTime = Date.now();
     const duration = 400;
 
