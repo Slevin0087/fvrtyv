@@ -62,7 +62,7 @@ export class UIGamePage extends UIPage {
   init() {
     super.init();
     this.updateUI();
-    this.elements.gameResultsModalBody.innerHTML = this.createGameResultsModalBody()
+    // this.elements.gameResultsModalBody.innerHTML = this.createGameResultsModalBody()
   }
 
   setupEventListeners() {
@@ -291,9 +291,9 @@ export class UIGamePage extends UIPage {
       <div class="game-results-modal-wrap-line">
         <dt
           class="game-results-modal-left-td"
-          data-i18n="game_esults_modal_score"
+          data-i18n="game_results_modal_score"
         >
-          Очки
+          Очки:
         </dt>
         <dd class="game-results-modal-right-td">x</dd>
       </div>

@@ -408,6 +408,7 @@ export class StateManager {
     if (this.state.game.score > this.state.player.highestScore) {
       this.state.player.highestScore = this.state.game.score;
       this.storage.setPlayerStats(this.state.player);
+      this.eventManager.emit(GameEvents.CREAT_ELEMENT_FOR_HIGHEST_SCORE)
     }
     this.eventManager.emit(GameEvents.SCORE_UPDATE, this.state.game.score);
     this.eventManager.emit(

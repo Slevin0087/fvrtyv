@@ -117,6 +117,29 @@
   color: rgb(0, 196, 0);
 }
 
+.won-no-undo-and-hints {
+  display: flex;
+  /* justify-content: space-between; */
+  justify-content: right;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 90%;
+  margin-left: 0.5rem;
+}
+
+.wrap-line-wins {
+  margin-bottom: 0.5rem;
+}
+
+.wrap-line-mini {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.won-no-undo-and-hints .wrap-line-mini:last-child {
+  margin-bottom: 0.5rem;
+}
+
 .p-state-table .wrap-line:last-child {
   margin-bottom: 0;
 }

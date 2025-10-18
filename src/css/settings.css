@@ -68,8 +68,6 @@
   color: black;
   width: 100%;
   /* padding: 0 var(--padding-top-settings); */
-  border: 0.1rem solid black;
-
 }
 
 .settings-back-btn {
@@ -104,10 +102,10 @@
   width: 100%;
 }
 
-.container-setting-item,
+/* .container-setting-item,
 .c-setting-item {
   border: 0.1rem solid black;
-}
+} */
 
 .setting-label {
   position: relative;
