@@ -350,6 +350,21 @@ input[type="range"]::-moz-range-track {
   margin-bottom: 0;
 }
 
+.assistance-in-collection-div {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.setting-assistance-in-collection-p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  color: black;
+}
+
 @media (min-width: 350px) {
   .setting-item {
     font-size: var(--font-size-s-350px-2);

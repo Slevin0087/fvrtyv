@@ -31,8 +31,8 @@ export const Translations = {
       option_hard: "Complex",
       ln_setting_item: "Language:",
       dealing_cards: "Distribution of cards by:",
-      assistance_in_collection: 'Assistance in collection:',
-
+      assistance_in_collection: "Assistance in collection:",
+      assistance_in_collection_p: "cards will be automatically moved to the assembly",
       //   },
       //   shopGame: {
       shop_title: "Shop",
@@ -60,7 +60,7 @@ export const Translations = {
 
       //   },
       //   gameInterface: {
-      notif_shuffled_cards_to_stock: 'The cards are shuffled!',
+      notif_shuffled_cards_to_stock: "The cards are shuffled!",
       status_bar_record_word: "Record",
       blinking_text: "Collect cards",
       undo_btn_aria_title: "Undo move",
@@ -98,8 +98,8 @@ export const Translations = {
       dealing_cards_modal_right_td: "for watching 🎬",
 
       // модальное окноЖ результаты игры //////////////////////////////////////////
-      game_results_modal_title: 'Game results:',
-      btn_game_results_modal_apply: 'Ok!',
+      game_results_modal_title: "Game results:",
+      btn_game_results_modal_apply: "Ok!",
       /////////////////////////////////////////////////////////////////////////////
 
       // для оповещений подсказок
@@ -144,8 +144,8 @@ export const Translations = {
       option_hard: "Сложная",
       ln_setting_item: "Язык:",
       dealing_cards: "Раздача карт по:",
-      assistance_in_collection: 'Помощь в сборе:',
-
+      assistance_in_collection: "Помощь в сборе:",
+      assistance_in_collection_p: "карты будут автоматически перемещаться в сборку",
       //   },
       //   shopGame: {
       shop_title: "Магазин",
@@ -172,7 +172,7 @@ export const Translations = {
       player_state_achievement: "Достижение:",
       //   },
       //   gameInterface: {
-      notif_shuffled_cards_to_stock: 'Карты перетасованы!',
+      notif_shuffled_cards_to_stock: "Карты перетасованы!",
       status_bar_record_word: "Рекорд",
       blinking_text: "Собрать карты",
       undo_btn_aria_title: "Отменить ход",
@@ -210,8 +210,8 @@ export const Translations = {
       dealing_cards_modal_right_td: "за просмотр 🎬",
 
       // модальное окноЖ результаты игры //////////////////////////////////////////
-      game_results_modal_title: 'Результаты игры:',
-      btn_game_results_modal_apply: 'Понятно!',
+      game_results_modal_title: "Результаты игры:",
+      btn_game_results_modal_apply: "Понятно!",
       /////////////////////////////////////////////////////////////////////////////
 
       // для оповещений подсказок
@@ -271,8 +271,8 @@ export const Translations = {
       option_hard: "Баргвы",
       ln_setting_item: "Абызшва:",
       dealing_cards: "К|ард щт|ацара зъару:",
-      assistance_in_collection: 'Ацхъраг|ара азк|к|ра:',
-
+      assistance_in_collection: "Ацхъраг|ара азк|к|ра:",
+      assistance_in_collection_p: "ак|артква дара дара асборка йазцушт|",
       //   },
       //   shopGame: {
       shop_title: "Аткван",
@@ -299,7 +299,7 @@ export const Translations = {
       player_state_achievement: "Аг|атгараква:",
       //   },
       //   gameInterface: {
-      notif_shuffled_cards_to_stock: 'Ак|арт|ква перетасованаб!',
+      notif_shuffled_cards_to_stock: "Ак|арт|ква перетасованаб!",
       status_bar_record_word: "Арекорд",
       blinking_text: "Ак|артква азк|к|ра",
       undo_btn_aria_title: "Аход аныххра",
@@ -338,8 +338,8 @@ export const Translations = {
       dealing_cards_modal_right_td: "уапшрык|вын 🎬",
 
       // модальное окноЖ результаты игры //////////////////////////////////////////
-      game_results_modal_title: 'Ахъвмарра арезультатква:',
-      btn_game_results_modal_apply: 'Йауашт|!',
+      game_results_modal_title: "Ахъвмарра арезультатква:",
+      btn_game_results_modal_apply: "Йауашт|!",
       /////////////////////////////////////////////////////////////////////////////
 
       // для оповещений подсказок
@@ -399,7 +399,8 @@ export const Translations = {
       option_hard: "Karmaşık",
       ln_setting_item: "Dil:",
       dealing_cards: "Kartların dağıtımı:",
-      assistance_in_collection: 'Tahsilat yardımı:',
+      assistance_in_collection: "Tahsilat yardımı:",
+      assistance_in_collection_p: "kartlar otomatik olarak meclise taşınacak",
 
       //   },
       //   shopGame: {
@@ -427,7 +428,7 @@ export const Translations = {
       player_state_achievement: "Başarı:",
       //   },
       //   gameInterface: {
-      notif_shuffled_cards_to_stock: 'Kartlar karıştırıldı!',
+      notif_shuffled_cards_to_stock: "Kartlar karıştırıldı!",
       status_bar_record_word: "Kayıt",
       blinking_text: "Kartları topla",
       undo_btn_aria_title: "Geri alma hareketi",
@@ -467,10 +468,10 @@ export const Translations = {
       //////////////////////////////////////////////////////////////////////////
 
       // модальное окноЖ результаты игры //////////////////////////////////////////
-      game_results_modal_title: 'Maç sonuçları:',
-      btn_game_results_modal_apply: 'Apaçık!',
+      game_results_modal_title: "Maç sonuçları:",
+      btn_game_results_modal_apply: "Apaçık!",
       /////////////////////////////////////////////////////////////////////////////
-      
+
       // для оповещений подсказок
       hint_notif_nohints: "Hiçbir ipucu yok!",
       hint_notif_nopoints: "İpucu için en az 5 puana ihtiyacınız var.!",
