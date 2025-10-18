@@ -31,8 +31,8 @@ export const Translations = {
       option_hard: "Complex",
       ln_setting_item: "Language:",
       dealing_cards: "Distribution of cards by:",
-      assistance_in_collection: "Assistance in collection:",
-      assistance_in_collection_p: "cards will be automatically moved to the assembly",
+      assistance_in_collection: "Quick play:",
+      assistance_in_collection_p: "automatically move cards to the home",
       //   },
       //   shopGame: {
       shop_title: "Shop",
@@ -144,8 +144,8 @@ export const Translations = {
       option_hard: "Сложная",
       ln_setting_item: "Язык:",
       dealing_cards: "Раздача карт по:",
-      assistance_in_collection: "Помощь в сборе:",
-      assistance_in_collection_p: "карты будут автоматически перемещаться в сборку",
+      assistance_in_collection: "Быстрая игра:",
+      assistance_in_collection_p: "автоматически перемещать карты в дом",
       //   },
       //   shopGame: {
       shop_title: "Магазин",
@@ -271,8 +271,8 @@ export const Translations = {
       option_hard: "Баргвы",
       ln_setting_item: "Абызшва:",
       dealing_cards: "К|ард щт|ацара зъару:",
-      assistance_in_collection: "Ацхъраг|ара азк|к|ра:",
-      assistance_in_collection_p: "ак|артква дара дара асборка йазцушт|",
+      assistance_in_collection: "Хъвмарра ласы:",
+      assistance_in_collection_p: "ак|артква дара дара атдзы йаквылуашт|",
       //   },
       //   shopGame: {
       shop_title: "Аткван",
@@ -399,8 +399,8 @@ export const Translations = {
       option_hard: "Karmaşık",
       ln_setting_item: "Dil:",
       dealing_cards: "Kartların dağıtımı:",
-      assistance_in_collection: "Tahsilat yardımı:",
-      assistance_in_collection_p: "kartlar otomatik olarak meclise taşınacak",
+      assistance_in_collection: "Hızlı oyun:",
+      assistance_in_collection_p: "kartları otomatik olarak ana sayfaya taşı",
 
       //   },
       //   shopGame: {
