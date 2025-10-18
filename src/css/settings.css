@@ -377,10 +377,6 @@ input[type="range"]::-moz-range-track {
   color: black;
 }
 
-.setting-assistance-in-collection .setting-label-assistance-in-collection {
-
-}
-
 @media (min-width: 350px) {
   .setting-item {
     font-size: var(--font-size-s-350px-2);
