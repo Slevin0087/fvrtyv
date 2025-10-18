@@ -29,8 +29,10 @@ export const Translations = {
       option_easy: "Easy",
       option_medium: "Average",
       option_hard: "Complex",
-      ln_setting_item: "Language",
+      ln_setting_item: "Language:",
       dealing_cards: "Distribution of cards by:",
+      assistance_in_collection: 'Assistance in collection:',
+
       //   },
       //   shopGame: {
       shop_title: "Shop",
@@ -140,8 +142,10 @@ export const Translations = {
       option_easy: "Лёгкая",
       option_medium: "Средняя",
       option_hard: "Сложная",
-      ln_setting_item: "Язык",
+      ln_setting_item: "Язык:",
       dealing_cards: "Раздача карт по:",
+      assistance_in_collection: 'Помощь в сборе:',
+
       //   },
       //   shopGame: {
       shop_title: "Магазин",
@@ -265,8 +269,10 @@ export const Translations = {
       option_easy: "Майра",
       option_medium: "Йыгьбаргвым",
       option_hard: "Баргвы",
-      ln_setting_item: "Абызшва",
+      ln_setting_item: "Абызшва:",
       dealing_cards: "К|ард щт|ацара зъару:",
+      assistance_in_collection: 'Ацхъраг|ара азк|к|ра:',
+
       //   },
       //   shopGame: {
       shop_title: "Аткван",
@@ -391,8 +397,10 @@ export const Translations = {
       option_easy: "Işık",
       option_medium: "Ortalama",
       option_hard: "Karmaşık",
-      ln_setting_item: "Dil",
+      ln_setting_item: "Dil:",
       dealing_cards: "Kartların dağıtımı:",
+      assistance_in_collection: 'Tahsilat yardımı:',
+
       //   },
       //   shopGame: {
       shop_title: "Mağaza",

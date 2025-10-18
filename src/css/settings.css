@@ -97,7 +97,8 @@
 
 /* ..................................................... */
 /* ....................................................... */
-.setting-off-in-vol {
+.setting-off-in-vol,
+.setting-assistance-in-collection {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -115,7 +116,8 @@
   border-radius: var(--border-r-slider);
 }
 
-.span-sound-off-in {
+.span-sound-off-in,
+.span-assistance-in-collection {
   border: 0 solid;
   background: var(--back-color-settings-el);
 }

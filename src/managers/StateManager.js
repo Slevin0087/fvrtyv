@@ -90,7 +90,7 @@ export class StateManager {
     );
 
     this.eventManager.on(GameEvents.GAME_NEW, () => {
-      this.setIsRunning(true)
+      this.setIsRunning(true);
     });
 
     this.eventManager.on(GameEvents.END_SET_NEW_GAME, () => {
@@ -127,7 +127,7 @@ export class StateManager {
     });
 
     this.eventManager.on(GameEvents.GAME_END, () => {
-      this.setIsRunning(false)
+      this.setIsRunning(false);
       this.resetLastMoves();
       this.saveAllData();
     });
@@ -147,6 +147,11 @@ export class StateManager {
 
     this.eventManager.on(GameEvents.SET_SOUND_TOGGLE, (enabled) => {
       this.state.settings.soundEnabled = enabled;
+      this.saveGameSettings();
+    });
+
+    this.eventManager.on(GameEvents.SET_ASSISTANCE_IN_COLLECTION, (enabled) => {
+      this.state.settings.assistanceInCollection = enabled;
       this.saveGameSettings();
     });
 
@@ -372,15 +377,15 @@ export class StateManager {
   }
 
   setIsDealingCardsAnimation(boolean) {
-    this.state.isDealingCardsAnimation = boolean
+    this.state.isDealingCardsAnimation = boolean;
   }
 
   setIsAnimateCardFomStockToWaste(boolean) {
-    this.state.isAnimateCardFomStockToWaste = boolean
+    this.state.isAnimateCardFomStockToWaste = boolean;
   }
 
   setIsUndoCardAnimation(boolean) {
-    this.state.isUndoCardAnimation = boolean
+    this.state.isUndoCardAnimation = boolean;
   }
 
   getDealingCardsValue() {

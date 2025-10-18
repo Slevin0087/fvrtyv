@@ -181,7 +181,10 @@ export class LogicSystemsInit {
 
     await this.handleOpenCard(card, source);
 
-    if (containerToName === GameConfig.cardContainers.foundation) {
+    if (
+      containerToName === GameConfig.cardContainers.foundation &&
+      this.state.settings.assistanceInCollection
+    ) {
       console.log("в if (containerToName");
 
       await this.autoCardMoveToFoundations();

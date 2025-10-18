@@ -9,6 +9,9 @@ export class UISettingsPage extends UIPage {
     this.elements = {
       backBtn: document.getElementById("back-to-menu"),
       soundToggle: document.getElementById("sound-toggle"),
+      assistanceInCollection: document.getElementById(
+        "assistance-in-collection"
+      ),
       // difficultySelect: document.getElementById("difficulty"),
       musicVolume: document.getElementById("music-volume"),
       languageSelected: document.getElementById("language-selected"),
@@ -42,6 +45,10 @@ export class UISettingsPage extends UIPage {
       this.eventManager.emit(GameEvents.SET_SOUND_TOGGLE, e.target.checked);
     };
 
+    this.elements.assistanceInCollection.onchange = (e) => {
+      this.eventManager.emit(GameEvents.SET_ASSISTANCE_IN_COLLECTION, e.target.checked);
+    };
+
     // this.elements.difficultySelect.onchange = (e) => {
     //   this.eventManager.emit(GameEvents.SET_DIFFICUTY_CHANGE, e.target.value);
     // };
@@ -65,8 +72,10 @@ export class UISettingsPage extends UIPage {
 
   onChangeDealingCards(e) {
     console.log("click по кнопке e.target: ", e.target);
-    if (e.target.value === String(this.stateManager.state.player.dealingCards)) {
-      return
+    if (
+      e.target.value === String(this.stateManager.state.player.dealingCards)
+    ) {
+      return;
     }
     if (!this.stateManager.state.player.isDontShowAgainDealingCardsModal) {
       if (e.target) {
@@ -94,7 +103,7 @@ export class UISettingsPage extends UIPage {
       if (e.target) {
         const value = Number(e.target.value);
         this.eventManager.emit(GameEvents.SET_DEALING_CARDS, value);
-        this.setActiveDealingCardsBtns()
+        this.setActiveDealingCardsBtns();
       }
       return;
     }
@@ -119,7 +128,7 @@ export class UISettingsPage extends UIPage {
   onClickDealingCardsModalItsClear(value) {
     this.eventManager.emit(GameEvents.SET_DEALING_CARDS, value);
     this.elements.dealingCardsModal.classList.add("hidden");
-    this.setActiveDealingCardsBtns()
+    this.setActiveDealingCardsBtns();
   }
 
   // createDealingCardsModalBody() {
@@ -192,7 +201,7 @@ export class UISettingsPage extends UIPage {
     const shufflingCards = this.translator.t(
       "dealing_cards_modal_shuffling_cards"
     );
-    const forViewing = this.translator.t('dealing_cards_modal_right_td')
+    const forViewing = this.translator.t("dealing_cards_modal_right_td");
     return value === GameConfig.rules.defaultDealingCardsThree
       ? `
         <div class="dealing-cards-modal-wrap-line">
@@ -215,6 +224,7 @@ export class UISettingsPage extends UIPage {
   render() {
     const settings = this.state.settings;
     this.elements.soundToggle.checked = settings.soundEnabled;
+    this.elements.assistanceInCollection.checked = settings.assistanceInCollection
     // this.elements.difficultySelect.value = settings.difficulty;
     this.elements.languageSelected.value = settings.language;
     this.elements.musicVolume.value = settings.musicVolume * 100;
@@ -231,10 +241,10 @@ export class UISettingsPage extends UIPage {
     Object.values(this.elements.dealingCardsBtns).forEach((btn) => {
       if (btn.value === String(this.stateManager.state.player.dealingCards)) {
         btn.classList.add("active-dealing-cards-btn");
-        btn.disabled = true
+        btn.disabled = true;
       } else {
         btn.classList.remove("active-dealing-cards-btn");
-        btn.disabled = false
+        btn.disabled = false;
       }
     });
   }
