@@ -157,6 +157,13 @@ export class UIGamePage extends UIPage {
       () => this.creatNotifShuffly()
     );
 
+    this.eventManager.on(
+      GameEvents.CREAT_ELEMENT_FOR_NOTIF_HINT_CARDS,
+      (numberFirst, numberEnd) => {
+        this.creatNotifHint(numberFirst, numberEnd);
+      }
+    );
+
     this.elements.shuffleBtn.onclick = () => {
       const { stock, waste } = this.state.cardsComponents;
       this.eventManager.emitAsync(
@@ -280,6 +287,21 @@ export class UIGamePage extends UIPage {
     span.className = "span-notif-shuffled-cards";
     const shuffledCardsWord = this.translator.t(dataI18n);
     span.textContent = `${shuffledCardsWord}`;
+    div.append(span);
+    this.elements.notifDivTop.innerHTML = "";
+    this.elements.notifDivTop.append(div);
+  }
+
+  creatNotifHint(numberFirst, numberEnd) {
+    const dataI18nFirst = UIConfig.dataI18nValue.HINT_CARDS_NOTIF_FIRST;
+    const dataI18nEnd = UIConfig.dataI18nValue.HINT_CARDS_NOTIF_END;
+    const div = document.createElement("div");
+    const span = document.createElement("span");
+    div.className = "div-notif-hint-cards";
+    span.className = "span-notif-hint-cards";
+    const hintCardsWordFirst = this.translator.t(dataI18nFirst);
+    const hintCardsWordEnd = this.translator.t(dataI18nEnd);
+    span.textContent = `${hintCardsWordFirst} ${numberFirst} ${hintCardsWordEnd} ${numberEnd}`;
     div.append(span);
     this.elements.notifDivTop.innerHTML = "";
     this.elements.notifDivTop.append(div);

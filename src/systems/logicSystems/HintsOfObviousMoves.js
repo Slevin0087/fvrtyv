@@ -1,20 +1,216 @@
-import { GameEvents } from "../../utils/Constants.js";
-
 export class HintsOfObviousMoves {
   constructor(eventManager, stateManager) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
-    this.state = this.stateManager.state;
+    this.hints = []
     this.setupEventListeners();
   }
 
   setupEventListeners() {
-    // this.eventManager.on(GameEvents)
+    // Реализовать подписки на события
   }
 
-  getTableusTopCards() {
+  // Основной публичный метод
+  getHints() {
+    this.hints = [];
+
+    this.hints.push(...this.getWasteToFoundationHints());
+    this.hints.push(...this.getWasteToTableauHints());
+    this.hints.push(...this.getTableauToFoundationHints());
+    this.hints.push(...this.getTableauToTableauHints());
+
+    return this.sortHintsByPriority(this.hints);
+  }
+  
+  getTopHint() {
+    return this.hints.pop()
+  }
+
+  // Разделяем логику на маленькие методы
+  getWasteToFoundationHints() {
+    const hints = [];
+    const wasteTopCard =
+      this.stateManager.state.cardsComponents.waste.getTopCard();
+
+    if (!wasteTopCard) return hints;
+
+    if (wasteTopCard.value === "A") {
+      const emptyFoundation = this.findEmptyFoundation();
+      if (emptyFoundation) {
+        hints.push(
+          this.createHint(
+            this.stateManager.state.cardsComponents.waste,
+            wasteTopCard,
+            emptyFoundation,
+            null,
+            100,
+            `Положить ${wasteTopCard} в пустой дом`
+          )
+        );
+      }
+    } else {
+      hints.push(
+        ...this.getCardToNonEmptyFoundationHints(
+          this.stateManager.state.cardsComponents.waste,
+          wasteTopCard
+        )
+      );
+    }
+
+    return hints;
+  }
+
+  getWasteToTableauHints() {
+    const hints = [];
+    const wasteTopCard =
+      this.stateManager.state.cardsComponents.waste.getTopCard();
+
+    if (!wasteTopCard) return hints;
+
+    this.stateManager.state.cardsComponents.tableaus.forEach((tableau) => {
+      if (tableau.canAccept(wasteTopCard)) {
+        const priority = wasteTopCard.value === "K" ? 100 : 90;
+        hints.push(
+          this.createHint(
+            this.stateManager.state.cardsComponents.waste,
+            wasteTopCard,
+            tableau,
+            tableau.getTopCard(),
+            priority,
+            `Положить ${wasteTopCard} в tableau`
+          )
+        );
+      }
+    });
+
+    return hints;
+  }
+
+  getTableauToFoundationHints() {
+    const hints = [];
+    const tableauTopCards = this.getTableausTopCards();
+
+    // Aces to empty foundations
+    const aces = tableauTopCards.filter(
+      ({ tableauTopCard }) => tableauTopCard.value === "A"
+    );
+
+    aces.forEach(({ tableau, tableauTopCard }) => {
+      const emptyFoundation = this.findEmptyFoundation();
+      if (emptyFoundation) {
+        hints.push(
+          this.createHint(
+            tableau,
+            tableauTopCard,
+            emptyFoundation,
+            null,
+            100,
+            `Положить ${tableauTopCard} в пустой дом`
+          )
+        );
+      }
+    });
+
+    // Non-aces to non-empty foundations
+    const nonAces = tableauTopCards.filter(
+      ({ tableauTopCard }) => tableauTopCard.value !== "A"
+    );
+
+    nonAces.forEach(({ tableau, tableauTopCard }) => {
+      hints.push(
+        ...this.getCardToNonEmptyFoundationHints(tableau, tableauTopCard)
+      );
+    });
+
+    return hints;
+  }
+
+  getTableauToTableauHints() {
+    const hints = [];
+    const tableauTopCards = this.getTableausTopCards();
+
+    tableauTopCards.forEach(({ tableau, tableauTopCard }) => {
+      this.stateManager.state.cardsComponents.tableaus.forEach(
+        (targetTableau) => {
+          if (
+            targetTableau !== tableau &&
+            targetTableau.canAccept(tableauTopCard)
+          ) {
+            hints.push(
+              this.createHint(
+                tableau,
+                tableauTopCard,
+                targetTableau,
+                targetTableau.getTopCard(),
+                90,
+                `Положить ${tableauTopCard} в tableau`
+              )
+            );
+          }
+        }
+      );
+    });
+
+    return hints;
+  }
+
+  // Вспомогательные методы
+  getCardToNonEmptyFoundationHints(fromContainer, card) {
+    const hints = [];
+    const nonEmptyFoundations =
+      this.stateManager.state.cardsComponents.foundations.filter(
+        (foundation) => !foundation.isEmpty()
+      );
+
+    nonEmptyFoundations.forEach((foundation) => {
+      if (foundation.canAccept(card, this.stateManager.state.cardsComponents)) {
+        hints.push(
+          this.createHint(
+            fromContainer,
+            card,
+            foundation,
+            foundation.getTopCard(),
+            90,
+            `Положить ${card} в дом`
+          )
+        );
+      }
+    });
+
+    return hints;
+  }
+
+  findEmptyFoundation() {
+    return this.stateManager.state.cardsComponents.foundations.find(
+      (foundation) => foundation.isEmpty()
+    );
+  }
+
+  createHint(
+    fromContainer,
+    fromCard,
+    toContainer,
+    toCard,
+    priority,
+    description
+  ) {
+    return {
+      fromContainer,
+      fromCard,
+      toContainer,
+      toCard,
+      priority,
+      description,
+    };
+  }
+
+  sortHintsByPriority(hints) {
+    return hints.sort((a, b) => b.priority - a.priority);
+  }
+
+  getTableausTopCards() {
     const tableauTopCards = [];
-    const tableaus = this.state.cardsComponents.tableaus;
+    const tableaus = this.stateManager.state.cardsComponents.tableaus;
     tableaus.forEach((tableau) => {
       const tableauTopCard = tableau.getTopCard();
       if (tableauTopCard) {
@@ -26,149 +222,12 @@ export class HintsOfObviousMoves {
 
   getFaceUpCardsInTableaus() {
     const faceUpCardsInTableaus = [];
-    const tableaus = this.state.cardsComponents.tableaus;
+    const tableaus = this.stateManager.state.cardsComponents.tableaus;
     tableaus.forEach((tableau) => {
       tableau.cards?.forEach((card) => {
         if (card.faceUp) faceUpCardsInTableaus.push({ tableau, card });
       });
     });
     return faceUpCardsInTableaus;
-  }
-
-  hintsForFoundations(tableauTopCards) {
-    const hints = [];
-    const tableaus = this.state.cardsComponents.tableaus;
-    const foundations = this.state.cardsComponents.foundations;
-    const waste = this.state.cardsComponents.waste;
-    const wasteTopCard = waste.getTopCard();
-
-    // Ищем ТУЗЫ для пустых foundations
-    const emptyFoundations = foundations.filter(
-      (foundation) => !foundation.getTopCard()
-    );
-    const aces = tableauTopCards.filter(
-      ({ tableauTopCard }) => tableauTopCard.value === "A"
-    );
-
-    // Для каждого Туза создаем только ОДНУ подсказку
-    aces.forEach(({ tableau, tableauTopCard }) => {
-      if (emptyFoundations.length > 0) {
-        // Берем первый пустой foundation
-        const targetFoundation = emptyFoundations[0];
-
-        hints.push({
-          fromContainer: tableau,
-          fromCard: tableauTopCard,
-          toContainer: targetFoundation,
-          toCard: null,
-          priority: 100,
-          description: `Положить ${tableauTopCard} в пустой дом`,
-        });
-
-        // Убираем использованный foundation из доступных
-        emptyFoundations.shift();
-      }
-    });
-
-    // Теперь обрабатываем НЕ-ТУЗЫ для непустых foundations
-    const nonEmptyFoundations = foundations.filter((foundation) =>
-      foundation.getTopCard()
-    );
-    const nonAces = tableauTopCards.filter(
-      ({ tableauTopCard }) => tableauTopCard.value !== "A"
-    );
-
-    nonAces.forEach(({ tableau, tableauTopCard }) => {
-      nonEmptyFoundations.forEach((foundation) => {
-        if (foundation.canAccept(tableauTopCard, this.state.cardsComponents)) {
-          hints.push({
-            fromContainer: tableau,
-            fromCard: tableauTopCard,
-            toContainer: foundation,
-            toCard: foundation.getTopCard(),
-            priority: 90,
-            description: `Положить ${tableauTopCard} в дом`,
-          });
-        }
-      });
-    });
-
-    // Теперь обрабатываем waste, есть ли там карта и эта карта === 'A'(туз)?
-    if (wasteTopCard) {
-      if (wasteTopCard.value === "A") {
-        // Ищем пустыe foundations
-        const emptyFoundations = foundations.filter(
-          (foundation) => !foundation.getTopCard()
-        );
-
-        if (emptyFoundations.length > 0) {
-          // Берем первый пустой foundation
-          const targetFoundation = emptyFoundations[0];
-          hints.push({
-            fromContainer: waste,
-            fromCard: wasteTopCard,
-            toContainer: targetFoundation,
-            toCard: null,
-            priority: 100,
-            description: `Положить ${wasteTopCard} в пустой дом`,
-          });
-        }
-      } else if (wasteTopCard.value !== "A") {
-        const nonEmptyFoundations = foundations.filter((foundation) =>
-          foundation.getTopCard()
-        );
-        nonEmptyFoundations.forEach((foundation) => {
-          if (foundation.canAccept(wasteTopCard, this.state.cardsComponents)) {
-            hints.push({
-              fromContainer: waste,
-              fromCard: wasteTopCard,
-              toContainer: foundation,
-              toCard: foundation.getTopCard(),
-              priority: 90,
-              description: `Положить ${wasteTopCard} в дом`,
-            });
-          }
-        });
-        tableaus.forEach((tableau) => {
-          if (tableau.canAccept(wasteTopCard)) {
-            hints.push({
-              fromContainer: waste,
-              fromCard: wasteTopCard,
-              toContainer: tableau,
-              toCard: tableau.getTopCard(),
-              priority: wasteTopCard.value === 'K' ? 100 : 90,
-              description: `Положить ${wasteTopCard} в tableau`,
-            })
-          }
-        })
-
-      }
-    }
-
-    tableauTopCards.forEach(({ tableau, tableauTopCard }) => {
-      tableaus.forEach((t) => {
-        if (t.canAccept(tableauTopCard) && t !== tableau) {
-          hints.push({
-            fromContainer: tableau,
-            fromCard: tableauTopCard,
-            toContainer: t,
-            toCard: t.getTopCard(),
-            priority: 90,
-            description: `Положить ${tableauTopCard} в tableau`,
-          })
-        }
-      })
-    })
-
-    return hints;
-  }
-
-  testF() {
-    const topCards = this.getTableusTopCards();
-    return this.hintsForFoundations(topCards);
-  }
-
-  canAcceptForFoundations(card) {
-    const foundations = this.state.cardsComponents.foundations;
   }
 }

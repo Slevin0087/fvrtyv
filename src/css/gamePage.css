@@ -336,7 +336,8 @@
 
 .restart-game-modal {
   position: fixed;
-  background-color: #caec08;
+  /* background-color: #caec08; */
+  background-color: white;
   padding: 1rem;
   z-index: 1000;
   top: 50%;
@@ -379,7 +380,8 @@
   color: #000;
   border-radius: calc(var(--modal-border-radius) / 2);
   /* background-color: rgb(190, 61, 61); */
-  background-color: white;
+  /* background-color: white; */
+  /* background-color: rgb(211, 189, 189); */
   padding: var(--padding-table-350);
   width: 100%;
 }

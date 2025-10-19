@@ -233,7 +233,9 @@ input[type="range"]::-moz-range-track {
 
 .dealing-cards-modal {
   position: fixed;
-  background-color: #caec08;
+  /* background-color: #caec08; */
+  background-color: white;
+
   padding: 1rem;
   z-index: 1000;
   top: 50%;
@@ -298,7 +300,9 @@ input[type="range"]::-moz-range-track {
   /* border: 0.2em solid green; */
   /* border-radius: 0.2em; */
   /* border-radius: calc(var(--modal-border-radius) / 2); */
-  background-color: #caec08;
+  /* background-color: #caec08; */
+  background-color: black;
+
 }
 
 .dealing-cards-modal-table {
@@ -314,7 +318,9 @@ input[type="range"]::-moz-range-track {
   /* background-color: rgb(190, 61, 61); */
   background-color: white;
   /* border-radius: var(--modal-border-radius); */
-  border-radius: calc(var(--modal-border-radius) / 2);
+  /* border-radius: calc(var(--modal-border-radius) / 2); */
+  border-radius: var(--modal-border-radius);
+
 }
 
 .dealing-cards-modal-wrap-line {

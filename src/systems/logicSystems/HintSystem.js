@@ -21,10 +21,10 @@ export class HintSystem {
     );
   }
 
-  provide() {
+  async provide() {
     console.log(
-      "this.hintsOfObviousMoves.testF: ",
-      this.hintsOfObviousMoves.testF()
+      "this.hintsOfObviousMoves.getHints: ",
+      this.hintsOfObviousMoves.getHints()
     );
 
     if (
@@ -49,8 +49,16 @@ export class HintSystem {
     }
 
     this.eventManager.emit(GameEvents.HINT_USED);
-    const hints = this.hintsOfObviousMoves.testF();
-    this.hintShow(hints[0]);
+    const hints = this.hintsOfObviousMoves.getHints();
+    if (hints.length > 0) {
+      const numberEnd = hints.length;
+      for (let numberFirst = 1; numberFirst <= numberEnd; numberFirst++) {
+        await this.hintShow(hints[numberFirst - 1], numberFirst, numberEnd);
+      }
+    }
+    // hints.forEach((hint) => this.hintShow(hint))
+    // this.hintShow(hints[0]);
+    // this.hintShow(hints);
     // const hint = this.findBestHint();
     // // ... остальная логика
     // if (hint) {
@@ -64,18 +72,29 @@ export class HintSystem {
     // }
   }
 
-  hintShow(hint) {
-    const { fromCard, toContainer, toCard } = hint;
-    fromCard.domElement.classList.add("hint-from-card");
-    toCard
-      ? toCard.domElement.classList.add("hint-to-card")
-      : toContainer.element.classList.add("hint-to-card");
-    setTimeout(() => {
-      fromCard.domElement.classList.remove("hint-from-card");
+  async hintShow(hint, numberFirst, numberEnd) {
+    await new Promise((resolve, reject) => {
+      console.log('hintShow hint: ', hint);
+      
+      const { fromCard, toContainer, toCard } = hint;
+      fromCard.domElement.classList.add("hint-from-card");
       toCard
-      ? toCard.domElement.classList.remove("hint-to-card")
-      : toContainer.element.classList.remove("hint-to-card");
-    }, 2000);
+        ? toCard.domElement.classList.add("hint-to-card")
+        : toContainer.element.classList.add("hint-to-card");
+      this.eventManager.emit(
+        GameEvents.CREAT_ELEMENT_FOR_NOTIF_HINT_CARDS,
+        numberFirst,
+        numberEnd
+      );
+      setTimeout(() => {
+        fromCard.domElement.classList.remove("hint-from-card");
+        toCard
+          ? toCard.domElement.classList.remove("hint-to-card")
+          : toContainer.element.classList.remove("hint-to-card");
+        this.eventManager.emit(GameEvents.CREAT_ELEMENT_FOR_HIGHEST_SCORE);
+        resolve();
+      }, 2000);
+    });
   }
 
   findBestHint() {

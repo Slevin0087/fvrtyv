@@ -22,6 +22,8 @@ const UIConfig = {
   dataI18nValue: {
     HINT_NOTIF_NOHINTS: "hint_notif_nohints",
     HINT_NOTIF_NOPOINTS: "hint_notif_nopoints",
+    HINT_CARDS_NOTIF_FIRST: 'hint_cards_notif_first',
+    HINT_CARDS_NOTIF_END: 'hint_cards_notif_end',
     STATUS_BAR_RECORD_WORD: "status_bar_record_word",
     NOTIF_SHUFFLED_CARDS_TO_STOCK: "notif_shuffled_cards_to_stock",
   },

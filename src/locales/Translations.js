@@ -100,12 +100,14 @@ export const Translations = {
       // модальное окно: результаты игры //////////////////////////////////////////
       game_results_modal_title: "Game results:",
       btn_game_results_modal_apply: "Ok!",
-      game_results_modal_score: 'Score:',
+      game_results_modal_score: "Score:",
       /////////////////////////////////////////////////////////////////////////////
 
       // для оповещений подсказок
       hint_notif_nohints: "No hints!",
       hint_notif_nopoints: "You need at least 5 points for a hint!",
+      hint_cards_notif_first: "Move",
+      hint_cards_notif_end: "of",
     },
     plurals: {
       coins: (count) => `${count} ${count === 1 ? "khusynka" : "khusynks"}`,
@@ -213,12 +215,14 @@ export const Translations = {
       // модальное окно: результаты игры //////////////////////////////////////////
       game_results_modal_title: "Результаты игры:",
       btn_game_results_modal_apply: "Понятно!",
-      game_results_modal_score: 'Очки:',
+      game_results_modal_score: "Очки:",
       /////////////////////////////////////////////////////////////////////////////
 
       // для оповещений подсказок
       hint_notif_nohints: "Нет подсказок!",
       hint_notif_nopoints: "Нужно минимум 5 очков для подсказки!",
+      hint_cards_notif_first: "Ход",
+      hint_cards_notif_end: "из",
     },
     plurals: {
       coins: (count) => {
@@ -342,12 +346,14 @@ export const Translations = {
       // модальное окно: результаты игры //////////////////////////////////////////
       game_results_modal_title: "Ахъвмарра арезультатква:",
       btn_game_results_modal_apply: "Йауашт|!",
-      game_results_modal_score: 'Апхьадзараква:',
+      game_results_modal_score: "Апхьадзараква:",
       /////////////////////////////////////////////////////////////////////////////
 
       // для оповещений подсказок
       hint_notif_nohints: "Подсказк|аква йгьаъам!",
       hint_notif_nopoints: "Йатахъыб минимум 5 очков аподск|азк|аква рыхъаз!",
+      hint_cards_notif_first: "Ацара",
+      hint_cards_notif_end: "из",
     },
     plurals: {
       coins: (count) => {
@@ -473,12 +479,14 @@ export const Translations = {
       // модальное окно: результаты игры //////////////////////////////////////////
       game_results_modal_title: "Maç sonuçları:",
       btn_game_results_modal_apply: "Apaçık!",
-      game_results_modal_score: 'Gözlük:',
+      game_results_modal_score: "Gözlük:",
       /////////////////////////////////////////////////////////////////////////////
 
       // для оповещений подсказок
       hint_notif_nohints: "Hiçbir ipucu yok!",
       hint_notif_nopoints: "İpucu için en az 5 puana ihtiyacınız var.!",
+      hint_cards_notif_first: "Taşınmak",
+      hint_cards_notif_end: "itibaren",
     },
     plurals: {
       coins: (count) => {
