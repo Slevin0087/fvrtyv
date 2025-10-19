@@ -349,7 +349,9 @@
   gap: 1rem;
   border-radius: var(--modal-border-radius);
   /* border: 1rem solid rgba(128, 98, 0); */
-  border: var(--modal-border);
+  /* border: var(--modal-border); */
+  border: 0.2rem solid red;
+
 }
 
 .restart-game-modal-header {

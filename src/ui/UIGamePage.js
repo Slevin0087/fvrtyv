@@ -207,7 +207,7 @@ export class UIGamePage extends UIPage {
   // Инициализация событий модального окна: результаты игры
   gameResultsModalShow() {
     const modalBody = this.createGameResultsModalBody();
-    this.elements.gameResultsModalBody.append(modalBody);
+    this.elements.gameResultsModalBody.innerHTML = modalBody;
     this.elements.gameResultsModal.classList.remove("hidden");
   }
   onClickGameResultsModalClose() {
@@ -286,14 +286,14 @@ export class UIGamePage extends UIPage {
   }
 
   createGameResultsModalBody() {
-    // const score = this.translator.t("dealing_cards_modal_score");
+    const score = this.translator.t("game_results_modal_score");
     return `<dl class="game-results-modal-table table">
       <div class="game-results-modal-wrap-line">
         <dt
           class="game-results-modal-left-td"
           data-i18n="game_results_modal_score"
         >
-          Очки:
+          ${score}
         </dt>
         <dd class="game-results-modal-right-td">x</dd>
       </div>
