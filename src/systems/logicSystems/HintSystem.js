@@ -74,8 +74,8 @@ export class HintSystem {
 
   async hintShow(hint, numberFirst, numberEnd) {
     await new Promise((resolve, reject) => {
-      console.log('hintShow hint: ', hint);
-      
+      console.log("hintShow hint: ", hint);
+
       const { fromCard, toContainer, toCard } = hint;
       fromCard.domElement.classList.add("hint-from-card");
       toCard
@@ -91,7 +91,7 @@ export class HintSystem {
         toCard
           ? toCard.domElement.classList.remove("hint-to-card")
           : toContainer.element.classList.remove("hint-to-card");
-        this.eventManager.emit(GameEvents.CREAT_ELEMENT_FOR_HIGHEST_SCORE);
+        this.eventManager.emit(GameEvents.CLEAR_NOTIF_HINT_CARDS);
         resolve();
       }, 2000);
     });

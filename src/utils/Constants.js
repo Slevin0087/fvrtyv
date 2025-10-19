@@ -138,6 +138,7 @@ export const GameEvents = {
   CREAT_ELEMENT_FOR_NOTIF_HINT_CARDS: 'creat:element:for:notif:hint:cards',
   GAME_RESULTS_MODAL_SHOW: 'game:results:modal:show',
   CHECK_AND_AUTO_MOVE: 'check:and:auto:move',
+  CLEAR_NOTIF_HINT_CARDS: 'clear:notif:hint:cards',
 };
 
 export const AnimationDurations = {

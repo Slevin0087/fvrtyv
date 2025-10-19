@@ -17,6 +17,7 @@ export class UIGamePage extends UIPage {
       notifDiv: document.getElementById("notif-div"),
       notifDivTop: document.getElementById("notif-div-top"),
       notifDivBottom: document.getElementById("notif-div-bottom"),
+      notifToasts: document.getElementById("notification-toasts"),
       achievementsIconEl: document.getElementById("achievements_span"),
       restartGameBtn: document.getElementById("new-game-ctr-btn"),
       restartGameModal: document.getElementById("restart-game-modal"),
@@ -173,6 +174,10 @@ export class UIGamePage extends UIPage {
       );
     };
 
+    this.eventManager.on(GameEvents.CLEAR_NOTIF_HINT_CARDS, () => {
+      this.elements.notifToasts.innerHTML = "";
+    });
+
     ///////////////////////// События модального окна: результаты игры
     this.eventManager.on(GameEvents.GAME_RESULTS_MODAL_SHOW, () => {
       this.gameResultsModalShow();
@@ -303,8 +308,8 @@ export class UIGamePage extends UIPage {
     const hintCardsWordEnd = this.translator.t(dataI18nEnd);
     span.textContent = `${hintCardsWordFirst} ${numberFirst} ${hintCardsWordEnd} ${numberEnd}`;
     div.append(span);
-    this.elements.notifDivTop.innerHTML = "";
-    this.elements.notifDivTop.append(div);
+    this.elements.notifToasts.innerHTML = "";
+    this.elements.notifToasts.append(div);
   }
 
   createGameResultsModalBody() {
