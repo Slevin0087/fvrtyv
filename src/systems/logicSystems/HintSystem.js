@@ -27,26 +27,28 @@ export class HintSystem {
       this.hintsOfObviousMoves.getHints()
     );
 
-    if (
-      this.state.hintCounterState === 0 ||
-      this.state.hintCounterState < 0 ||
-      this.state.player.hintQuantity === 0
-    ) {
-      this.audioManager.play(AudioName.INFO);
-      this.eventManager.emit(
-        GameEvents.HINT_NOTIF,
-        UIConfig.dataI18nValue.HINT_NOTIF_NOHINTS
-      );
-      return;
-    }
-    if (this.state.game.score < 5 && this.state.player.hintQuantity > 0) {
-      this.audioManager.play(AudioName.INFO);
-      this.eventManager.emit(
-        GameEvents.HINT_NOTIF,
-        UIConfig.dataI18nValue.HINT_NOTIF_NOPOINTS
-      );
-      return;
-    }
+///////////////////////// Расскоментить, для теста закомментил
+    // if (
+    //   this.state.hintCounterState === 0 ||
+    //   this.state.hintCounterState < 0 ||
+    //   this.state.player.hintQuantity === 0
+    // ) {
+    //   this.audioManager.play(AudioName.INFO);
+    //   this.eventManager.emit(
+    //     GameEvents.HINT_NOTIF,
+    //     UIConfig.dataI18nValue.HINT_NOTIF_NOHINTS
+    //   );
+    //   return;
+    // }
+    // if (this.state.game.score < 5 && this.state.player.hintQuantity > 0) {
+    //   this.audioManager.play(AudioName.INFO);
+    //   this.eventManager.emit(
+    //     GameEvents.HINT_NOTIF,
+    //     UIConfig.dataI18nValue.HINT_NOTIF_NOPOINTS
+    //   );
+    //   return;
+    // }
+/////////////////////////////////////////////////////////
 
     this.eventManager.emit(GameEvents.HINT_USED);
     const hints = this.hintsOfObviousMoves.getHints();
