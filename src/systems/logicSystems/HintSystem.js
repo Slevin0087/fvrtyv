@@ -82,7 +82,7 @@ export class HintSystem {
 
       const { fromCard, toContainer, toCard, description } = hint;
 
-      if (description === "Открыть новую карту из колоды") {
+      if (description === "Откройте новую карту из колоды") {
         hint.toContainer.element.classList.add("hint-from-card");
         this.eventManager.emit(GameEvents.CREAT_ELEMENT_FOR_NOTIF_HINT_STOCK, description);
         setTimeout(() => {
