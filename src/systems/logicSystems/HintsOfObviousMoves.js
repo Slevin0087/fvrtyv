@@ -321,7 +321,7 @@ export class HintsOfObviousMoves {
         stock,
         null,
         10,
-        "Открыть новую карту из колоды"
+        "Откройте новую карту из колоды"
       )];
     }
     return [];
@@ -353,9 +353,9 @@ export class HintsOfObviousMoves {
 
   // Существующие методы
   // getWasteToFoundationHints() { /* ... */ }
-  getTableauToFoundationHints() { /* ... */ }
-  getTableauToTableauHints() { /* ... */ }
-  getWasteToTableauHints() { /* ... */ }
+  // getTableauToFoundationHints() { /* ... */ }
+  // getTableauToTableauHints() { /* ... */ }
+  // getWasteToTableauHints() { /* ... */ }
 // }
 
 

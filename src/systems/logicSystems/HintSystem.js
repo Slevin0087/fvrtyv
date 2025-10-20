@@ -27,7 +27,7 @@ export class HintSystem {
       this.hintsOfObviousMoves.getHints()
     );
 
-///////////////////////// Расскоментить, для теста закомментил
+    ///////////////////////// Расскоментить, для теста закомментил
     // if (
     //   this.state.hintCounterState === 0 ||
     //   this.state.hintCounterState < 0 ||
@@ -48,10 +48,12 @@ export class HintSystem {
     //   );
     //   return;
     // }
-/////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////
 
     this.eventManager.emit(GameEvents.HINT_USED);
     const hints = this.hintsOfObviousMoves.getHints();
+    console.log("HINTS = : ", hints);
+
     if (hints.length > 0) {
       const numberEnd = hints.length;
       for (let numberFirst = 1; numberFirst <= numberEnd; numberFirst++) {
@@ -78,24 +80,35 @@ export class HintSystem {
     await new Promise((resolve, reject) => {
       console.log("hintShow hint: ", hint);
 
-      const { fromCard, toContainer, toCard } = hint;
-      fromCard.domElement.classList.add("hint-from-card");
-      toCard
-        ? toCard.domElement.classList.add("hint-to-card")
-        : toContainer.element.classList.add("hint-to-card");
-      this.eventManager.emit(
-        GameEvents.CREAT_ELEMENT_FOR_NOTIF_HINT_CARDS,
-        numberFirst,
-        numberEnd
-      );
-      setTimeout(() => {
-        fromCard.domElement.classList.remove("hint-from-card");
+      const { fromCard, toContainer, toCard, description } = hint;
+
+      if (description === "Открыть новую карту из колоды") {
+        hint.toContainer.element.classList.add("hint-from-card");
+        this.eventManager.emit(GameEvents.CREAT_ELEMENT_FOR_NOTIF_HINT_STOCK, description);
+        setTimeout(() => {
+          hint.toContainer.element.classList.remove("hint-from-card");
+          this.eventManager.emit(GameEvents.CLEAR_NOTIF_HINT_CARDS);
+          resolve();
+        }, 2000);
+      } else {
+        fromCard.domElement.classList.add("hint-from-card");
         toCard
-          ? toCard.domElement.classList.remove("hint-to-card")
-          : toContainer.element.classList.remove("hint-to-card");
-        this.eventManager.emit(GameEvents.CLEAR_NOTIF_HINT_CARDS);
-        resolve();
-      }, 2000);
+          ? toCard.domElement.classList.add("hint-to-card")
+          : toContainer.element.classList.add("hint-to-card");
+        this.eventManager.emit(
+          GameEvents.CREAT_ELEMENT_FOR_NOTIF_HINT_CARDS,
+          numberFirst,
+          numberEnd
+        );
+        setTimeout(() => {
+          fromCard.domElement.classList.remove("hint-from-card");
+          toCard
+            ? toCard.domElement.classList.remove("hint-to-card")
+            : toContainer.element.classList.remove("hint-to-card");
+          this.eventManager.emit(GameEvents.CLEAR_NOTIF_HINT_CARDS);
+          resolve();
+        }, 2000);
+      }
     });
   }
 

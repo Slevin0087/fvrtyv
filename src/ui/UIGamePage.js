@@ -165,6 +165,13 @@ export class UIGamePage extends UIPage {
       }
     );
 
+    this.eventManager.on(
+      GameEvents.CREAT_ELEMENT_FOR_NOTIF_HINT_STOCK,
+      (text) => {
+        this.creatNotifHintStock(text);
+      }
+    );
+
     this.elements.shuffleBtn.onclick = () => {
       const { stock, waste } = this.state.cardsComponents;
       this.eventManager.emitAsync(
@@ -307,6 +314,17 @@ export class UIGamePage extends UIPage {
     const hintCardsWordFirst = this.translator.t(dataI18nFirst);
     const hintCardsWordEnd = this.translator.t(dataI18nEnd);
     span.textContent = `${hintCardsWordFirst} ${numberFirst} ${hintCardsWordEnd} ${numberEnd}`;
+    div.append(span);
+    this.elements.notifToasts.innerHTML = "";
+    this.elements.notifToasts.append(div);
+  }
+
+  creatNotifHintStock(text) {
+    const div = document.createElement("div");
+    const span = document.createElement("span");
+    div.className = "div-notif-hint-stock";
+    span.className = "span-notif-hint-stock";
+    span.textContent = text;
     div.append(span);
     this.elements.notifToasts.innerHTML = "";
     this.elements.notifToasts.append(div);

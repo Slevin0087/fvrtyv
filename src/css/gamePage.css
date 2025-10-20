@@ -273,7 +273,8 @@
   margin: 0;
 }
 
-.span-notif-hint-cards {
+.span-notif-hint-cards,
+.span-notif-hint-stock {
   /* position: absolute; */
   /* bottom: 12rem; */
   width: auto;
