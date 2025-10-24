@@ -27,7 +27,7 @@ export class Tableau extends Pile {
     return card.isOppositeColor(topCard) && card.isNextInSequence(topCard);
   }
 
-  flipTopCard() {   
+  flipTopCard() {
     const topCard = this.getTopCard();
     if (topCard && !topCard.faceUp) {
       topCard.flip();
@@ -56,6 +56,13 @@ export class Tableau extends Pile {
       return topCards;
     }
     return [];
+  }
+
+  getFaceUpTopCards(faceUpCard) {
+    const index = this.cards.indexOf(faceUpCard);
+    if (index >= 0) {
+      return this.cards.slice(index + 1);
+    }
   }
 
   setOverlapY() {

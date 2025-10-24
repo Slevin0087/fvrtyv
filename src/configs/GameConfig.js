@@ -64,3 +64,9 @@ export const GameConfig = {
     getFAndTContainers: "data-f-and-t",
   },
 };
+
+export const HintsRules = {
+  priorities: {
+    firstOpenDownCard: 1,
+  },
+};

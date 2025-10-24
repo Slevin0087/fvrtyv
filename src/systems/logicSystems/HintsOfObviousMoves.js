@@ -28,9 +28,11 @@ export class HintsOfObviousMoves {
     
     // Собираем все открытые карты, которые блокируют закрытые
     const blockedOpenCards = this.getAllBlockedOpenCards();
+    console.log('blockedOpenCards: ', blockedOpenCards);
     
     // Сортируем по "ценности" - сначала карты ближе к низу (более заблокированные)
     blockedOpenCards.sort((a, b) => b.blockageLevel - a.blockageLevel);
+    console.log('blockedOpenCards.sort: ', blockedOpenCards);
     
     for (const blockedCardInfo of blockedOpenCards) {
       const { card, tableau, blockageLevel } = blockedCardInfo;
