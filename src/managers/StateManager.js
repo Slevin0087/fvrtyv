@@ -45,6 +45,7 @@ export class StateManager {
       isDealingCardsAnimation: false,
       isAnimateCardFomStockToWaste: false,
       isUndoCardAnimation: false,
+      isAutoCollectBtnShow: false,
       ui: this.storage.getUIStats(),
       game: this.storage.getGameStats(),
       player: this.storage.getPlayerStats(),
@@ -177,6 +178,14 @@ export class StateManager {
     this.eventManager.on(GameEvents.SET_DEALING_CARDS, (value) => {
       this.state.player.dealingCards = value;
       this.savePlayerStats();
+    });
+
+    this.eventManager.on(GameEvents.COLLECT_BTN_SHOW, () => {
+      this.state.isAutoCollectBtnShow = true;
+    });
+
+    this.eventManager.on(GameEvents.COLLECT_BTN_HIDDEN, () => {
+      this.state.isAutoCollectBtnShow = false;
     });
   }
 
@@ -408,7 +417,7 @@ export class StateManager {
     if (this.state.game.score > this.state.player.highestScore) {
       this.state.player.highestScore = this.state.game.score;
       this.storage.setPlayerStats(this.state.player);
-      this.eventManager.emit(GameEvents.CREAT_ELEMENT_FOR_HIGHEST_SCORE)
+      this.eventManager.emit(GameEvents.CREAT_ELEMENT_FOR_HIGHEST_SCORE);
     }
     this.eventManager.emit(GameEvents.SCORE_UPDATE, this.state.game.score);
     this.eventManager.emit(

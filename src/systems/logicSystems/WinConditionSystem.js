@@ -36,6 +36,11 @@ export class WinConditionSystem {
 
   async handleWin() {
     console.log("В HANDLEWIIIIIIIIIIIIIIIIN");
+
+    if (this.state.isAutoCollectBtnShow) {
+      this.eventManager.emit(GameEvents.COLLECT_BTN_HIDDEN);
+    }
+
     this.eventManager.emit(GameEvents.STOP_PLAY_TIME);
 
     this.saveWinStats();
@@ -62,7 +67,7 @@ export class WinConditionSystem {
     const textEarnedWinRightPathForResultModal = `${textCoins}`;
 
     // await Animator.animationCoinsEarned(
-      // `${textWinBonus}: ${this.addition}${GameConfig.rules.winScoreBonus}`
+    // `${textWinBonus}: ${this.addition}${GameConfig.rules.winScoreBonus}`
     // );
 
     // await this.delay(UIConfig.animations.animationCoinsEarned * 1100);
