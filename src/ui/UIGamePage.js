@@ -186,9 +186,22 @@ export class UIGamePage extends UIPage {
     });
 
     ///////////////////////// События модального окна: результаты игры
-    this.eventManager.on(GameEvents.GAME_RESULTS_MODAL_SHOW, () => {
-      this.gameResultsModalShow();
-    });
+    this.eventManager.on(
+      GameEvents.GAME_RESULTS_MODAL_SHOW,
+      (
+        textWinBonusScoreLeftPathForResultModal,
+        textWinBonusScoreRightPathForResultModal,
+        textEarnedWinLeftPathForResultModal,
+        textEarnedWinRightPathForResultModal
+      ) => {
+        this.gameResultsModalShow(
+          textWinBonusScoreLeftPathForResultModal,
+          textWinBonusScoreRightPathForResultModal,
+          textEarnedWinLeftPathForResultModal,
+          textEarnedWinRightPathForResultModal
+        );
+      }
+    );
 
     this.elements.gameResultsModalClose.onclick = () =>
       this.onClickGameResultsModalClose();
@@ -224,8 +237,18 @@ export class UIGamePage extends UIPage {
   }
 
   // Инициализация событий модального окна: результаты игры
-  gameResultsModalShow() {
-    const modalBody = this.createGameResultsModalBody();
+  gameResultsModalShow(
+    textWinBonusScoreLeftPathForResultModal,
+    textWinBonusScoreRightPathForResultModal,
+    textEarnedWinLeftPathForResultModal,
+    textEarnedWinRightPathForResultModal
+  ) {
+    const modalBody = this.createGameResultsModalBody(
+      textWinBonusScoreLeftPathForResultModal,
+      textWinBonusScoreRightPathForResultModal,
+      textEarnedWinLeftPathForResultModal,
+      textEarnedWinRightPathForResultModal
+    );
     this.elements.gameResultsModalBody.innerHTML = modalBody;
     this.elements.gameResultsModal.classList.remove("hidden");
   }
@@ -330,7 +353,12 @@ export class UIGamePage extends UIPage {
     this.elements.notifToasts.append(div);
   }
 
-  createGameResultsModalBody() {
+  createGameResultsModalBody(
+    textWinBonusScoreLeftPathForResultModal,
+    textWinBonusScoreRightPathForResultModal,
+    textEarnedWinLeftPathForResultModal,
+    textEarnedWinRightPathForResultModal
+  ) {
     const score = this.translator.t("game_results_modal_score");
     return `<dl class="game-results-modal-table table">
       <div class="game-results-modal-wrap-line">
@@ -341,6 +369,22 @@ export class UIGamePage extends UIPage {
           ${score}
         </dt>
         <dd class="game-results-modal-right-td">x</dd>
+      </div>
+      <div class="game-results-modal-wrap-line">
+        <dt
+          class="game-results-modal-left-td"
+        >
+          ${textWinBonusScoreLeftPathForResultModal}
+        </dt>
+        <dd class="game-results-modal-right-td">${textWinBonusScoreRightPathForResultModal}</dd>
+      </div>
+      <div class="game-results-modal-wrap-line">
+        <dt
+          class="game-results-modal-left-td"
+        >
+          ${textEarnedWinLeftPathForResultModal}
+        </dt>
+        <dd class="game-results-modal-right-td">${textEarnedWinRightPathForResultModal}</dd>
       </div>
     </dl>`;
   }

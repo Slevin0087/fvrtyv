@@ -11,7 +11,7 @@ export class WinConditionSystem {
     this.state = this.stateManager.state;
     this.audioManager = audioManager;
     this.addition = AnimationOperators.ADDITION;
-    this.translator = translator
+    this.translator = translator;
     this.translateWinBonusKey = "win_bonus";
     this.translateWinEarnedBonusKey = "you_have_earned";
     this.typeWinCheckAchievements = "win";
@@ -50,14 +50,23 @@ export class WinConditionSystem {
 
     const textWinBonus = this.translator.t(this.translateWinBonusKey);
     const textEarned = this.translator.t(this.translateWinEarnedBonusKey);
-    const textCoins = this.translator.pluralize("coins", GameConfig.earnedCoins.win);
-
-    await Animator.animationCoinsEarned(
-      `${textWinBonus}: ${this.addition}${GameConfig.rules.winScoreBonus}`
+    const textCoins = this.translator.pluralize(
+      "coins",
+      GameConfig.earnedCoins.win
     );
 
+    const textWinBonusScoreLeftPathForResultModal = `${textWinBonus}: `;
+    const textWinBonusScoreRightPathForResultModal = `${this.addition}${GameConfig.rules.winScoreBonus}`;
+
+    const textEarnedWinLeftPathForResultModal = `${textEarned} `;
+    const textEarnedWinRightPathForResultModal = `${textCoins}`;
+
+    // await Animator.animationCoinsEarned(
+      // `${textWinBonus}: ${this.addition}${GameConfig.rules.winScoreBonus}`
+    // );
+
     // await this.delay(UIConfig.animations.animationCoinsEarned * 1100);
-    await Animator.animationCoinsEarned(`${textEarned} ${textCoins}`);
+    // await Animator.animationCoinsEarned(`${textEarned} ${textCoins}`);
 
     // await this.delay(UIConfig.animations.animationCoinsEarned * 1100);
 
@@ -66,7 +75,13 @@ export class WinConditionSystem {
       this.typeWinCheckAchievements
     );
     this.eventManager.emit(GameEvents.GAME_END);
-    this.eventManager.emit(GameEvents.GAME_RESULTS_MODAL_SHOW)
+    this.eventManager.emit(
+      GameEvents.GAME_RESULTS_MODAL_SHOW,
+      textWinBonusScoreLeftPathForResultModal,
+      textWinBonusScoreRightPathForResultModal,
+      textEarnedWinLeftPathForResultModal,
+      textEarnedWinRightPathForResultModal
+    );
   }
 
   saveWinStats() {
