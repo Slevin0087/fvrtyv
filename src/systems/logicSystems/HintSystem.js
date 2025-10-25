@@ -83,7 +83,7 @@ export class HintSystem {
     await new Promise((resolve, reject) => {
       console.log("hintShow hint: ", hint);
 
-      const { fromCard, fromCardNextCards, toContainer, toCard, description } =
+      const { fromCard, toContainer, toCard, description, fromCardNextCards } =
         hint;
 
       if (description === "Откройте новую карту из колоды") {

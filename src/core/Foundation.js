@@ -33,6 +33,20 @@ export class Foundation extends Pile {
     }
   }
 
+  canAcceptForHints(card) {
+    if (!card.faceUp) return false;
+    else if (
+      card.value === "A" &&
+      card.positionData.parent.startsWith(GameConfig.cardContainers.foundation)
+    )
+      return false;
+    else {
+      if (super.isEmpty()) return card.value === "A";
+      const topCard = super.getTopCard();
+      return card.suit === topCard.suit && card.isPreviousInSequence(topCard);
+    }
+  }
+
   isComplete() {
     return this.cards.length === 13; // Все карты от A до K
   }

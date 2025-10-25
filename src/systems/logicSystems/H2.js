@@ -29,7 +29,6 @@ export class H2 {
       // ...this.getUncoverHiddenCardsHintsFirstOnes(tableauFirstBlockedCards)
 
       ...this.getUncoverHiddenCardsHintsFirstOnes(blockedCards)
-
     );
 
     // this.hints.push(
@@ -53,6 +52,7 @@ export class H2 {
 
     for (const blockedCard of tableauFirstBlockedCards) {
       const { card, tableau, nextCards } = blockedCard;
+
       // Проверяем все возможные ходы для этой карты
       const cardHints = this.getHintsForBlockedCard(card, tableau, nextCards);
       hints.push(...cardHints);
@@ -60,18 +60,95 @@ export class H2 {
       // Если нашли подсказки для этой карты, добавляем и переходим к следующей
       if (cardHints.length > 0) {
         break;
+      } else if (cardHints.length === 0) {
+        const nextCardHints = this.getHintsForBlockedCardNextCardsOnes(
+          card,
+          tableau,
+          nextCards
+        );
+        hints.push(...nextCardHints);
       }
     }
 
     return hints;
   }
 
-  getUncoverHiddenCardsHintsNextCardsOnes(tableauAfterFirstBlockedCards) {
+  getHintsForBlockedCardNextCardsOnes(card, tableau, nextCards) {
     const hints = [];
 
-    for (const blockedCard of tableauAfterFirstBlockedCards) {
-      const { card, tableau } = blockedCard;
+    if (nextCards.length === 0) return hints;
+    else if (nextCards.length > 0) {
+      const suitableFoundations = this.findSuitableFoundations(card);
+      console.log("suitableFoundations: ", suitableFoundations);
+
+      if (!suitableFoundations) return [];
+      else if (suitableFoundations) {
+        nextCards.forEach((nextCard, index) => {
+          console.log("nextCard: ", nextCard);
+
+          const newNextCards = nextCards.slice(index + 1);
+          console.log("newNextCards: ", newNextCards);
+
+          if (newNextCards.length === 0) {
+            const nextCardHints = this.getHintsForBlockedCard(
+              nextCard,
+              tableau,
+              []
+            );
+            if (nextCardHints.length > 0) {
+              const toCard =
+                suitableFoundations.getTopCard() || suitableFoundations;
+              hints.push(...nextCardHints);
+              hints.push(
+                this.createHint(
+                  tableau,
+                  card,
+                  suitableFoundations,
+                  toCard,
+                  95,
+                  "из getHintsForBlockedCardNextCardsOnes"
+                )
+              );
+              return hints;
+            }
+          } else if (newNextCards.length > 0) {
+            const nextCardHints = this.checkTableauMove(
+              nextCard,
+              tableau,
+              newNextCards
+            );
+            if (nextCardHints.length > 0) {
+              alert("nextCardHints.length > 0");
+              if (nextCards[index] === tableau.getTopCard()) {
+                const toCard =
+                  suitableFoundations.getTopCard() || suitableFoundations;
+                hints.push(...nextCardHints);
+                hints.push(
+                  this.createHint(
+                    tableau,
+                    card,
+                    suitableFoundations,
+                    toCard,
+                    95,
+                    "из getHintsForBlockedCardNextCardsOnes"
+                  )
+                );
+              }
+              return hints;
+            } else if (nextCardHints.length === 0) {
+              const newCardHints = this.getHintsForBlockedCardNextCardsOnes(
+                nextCard,
+                tableau,
+                newNextCards
+              );
+              if (newCardHints.length === 0) return [];
+            }
+          }
+        });
+      }
     }
+
+    return hints;
   }
 
   // Получить все открытые карты, которые блокируют закрытые
@@ -212,11 +289,11 @@ export class H2 {
           this.createHint(
             fromTableau,
             card,
-            nextCards,
             targetTableau,
             targetTableau.getTopCard(),
             85,
-            `Переместить ${card} в другой столбец`
+            `Переместить ${card} в другой столбец`,
+            nextCards
           )
         );
       }
@@ -228,20 +305,31 @@ export class H2 {
   createHint(
     fromContainer,
     fromCard,
-    fromCardNextCards = [],
     toContainer,
     toCard,
     priority,
-    description
+    description,
+    fromCardNextCards = []
   ) {
     return {
       fromContainer,
       fromCard,
-      fromCardNextCards,
       toContainer,
       toCard,
       priority,
       description,
+      fromCardNextCards,
     };
+  }
+
+  findSuitableFoundations(card) {
+    let foundationCanAccept = null;
+    const foundations = this.stateManager.state.cardsComponents.foundations;
+    foundations.forEach((foundation) => {
+      if (foundation.canAcceptForHints(card)) {
+        foundationCanAccept = foundation;
+      }
+    });
+    return foundationCanAccept;
   }
 }
