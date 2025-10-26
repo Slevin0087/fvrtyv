@@ -272,22 +272,21 @@ export class H2 {
   checkFoundationMove(card, fromContainer) {
     const hints = [];
     const foundations = this.stateManager.state.cardsComponents.foundations;
-
-    foundations.forEach((foundation) => {
-      if (foundation.canAccept(card, this.stateManager.state.cardsComponents)) {
-        hints.push(
-          this.createHint(
-            fromContainer,
-            card,
-            foundation,
-            foundation.getTopCard(),
-            95,
-            `Положить ${card} в дом`
-          )
-        );
-      }
+    const currentFoundation = foundations.find((foundation) => {
+      return foundation.canAccept(card, this.stateManager.state.cardsComponents);
     });
-
+    if (currentFoundation) {
+      hints.push(
+        this.createHint(
+          fromContainer,
+          card,
+          currentFoundation,
+          currentFoundation.getTopCard(),
+          95,
+          `Положить ${card} в дом`
+        )
+      );
+    }
     return hints;
   }
 
@@ -336,14 +335,8 @@ export class H2 {
   }
 
   findSuitableFoundations(card) {
-    let foundationCanAccept = null;
     const foundations = this.stateManager.state.cardsComponents.foundations;
-    foundations.forEach((foundation) => {
-      if (foundation.canAcceptForHints(card)) {
-        foundationCanAccept = foundation;
-      }
-    });
-    return foundationCanAccept;
+    return foundations.find((foundation) => foundation.canAcceptForHints(card));
   }
 
   getHintsToCardFromWaste() {
