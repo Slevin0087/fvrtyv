@@ -207,10 +207,15 @@ const UIGameRestartModalFooterData = {
   ],
 };
 
+const UIGameUnicodeIcons = {
+  VIDEO: '🎬',
+}
+
 export {
   UIConfig,
   UIGameRestartModalData,
   UIGameRestartModalBodyData,
   UIModalFooterBtnsEventIds,
   UIGameRestartModalFooterData,
+  UIGameUnicodeIcons,
 };

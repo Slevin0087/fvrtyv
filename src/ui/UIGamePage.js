@@ -185,6 +185,10 @@ export class UIGamePage extends UIPage {
       this.elements.notifToasts.innerHTML = "";
     });
 
+    this.eventManager.on(GameEvents.UP_HINT_CONTAINER, (n) => {
+      this.upHintCounter(n);
+    });
+
     ///////////////////////// События модального окна: результаты игры
     this.eventManager.on(
       GameEvents.GAME_RESULTS_MODAL_SHOW,
@@ -396,8 +400,10 @@ export class UIGamePage extends UIPage {
   }
 
   hintUsed() {
-    this.state.hintCounterState -= 1;
-    this.upHintCounter(this.state.hintCounterState);
+    if (!this.stateManager.getNeedVideoForHints()) { // временное if, для теста, потом убрать
+      this.state.hintCounterState -= 1;
+      this.upHintCounter(this.state.hintCounterState);
+    }
     this.eventManager.emit(GameEvents.UP_HITUSED_STATE, 1);
   }
 

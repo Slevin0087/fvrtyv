@@ -187,6 +187,10 @@ export class StateManager {
     this.eventManager.on(GameEvents.COLLECT_BTN_HIDDEN, () => {
       this.state.isAutoCollectBtnShow = false;
     });
+
+    this.eventManager.on(GameEvents.NEED_VIDEO_FOR_HINTS, (boolean) => {
+      this.setNeedVideoForHints(boolean)
+    })
   }
 
   setIsRunning(boolean) {
@@ -409,6 +413,16 @@ export class StateManager {
   setIsRestartGameModalCreated(boolen) {
     // установка true или false
     this.state.modalsState.restartGameModal.created = boolen;
+  }
+
+  setNeedVideoForHints(boolean) {
+    this.state.player.needVideoForHints = boolean
+    this.savePlayerStats();
+  }
+
+  getNeedVideoForHints() {
+    const playerStats = this.storage.getPlayerStats();
+    return playerStats.needVideoForHints
   }
 
   updateScore(points) {

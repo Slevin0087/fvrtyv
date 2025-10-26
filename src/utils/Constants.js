@@ -46,6 +46,7 @@ export const GameEvents = {
   UP_ACHIEVENT_ICON: "up:achievement:icon",
   UP_ACHIEVENT_DIV: "up:achievement:div",
   UP_ACHIEVENT_SCORE_DIV: "up:achievement:score:div",
+  UP_HINT_CONTAINER: 'up:hint:container',
   RESET_LAST_MOVES: "reset:last:moves",
   RESET_ONPOINTERDOWN_TO_CARD: 'reset:onpointerdown:to:card',
   RESET_ONPOINTERMOVE_TO_CARD: 'reset:onpointermove:to:card',
@@ -140,6 +141,7 @@ export const GameEvents = {
   CHECK_AND_AUTO_MOVE: 'check:and:auto:move',
   CLEAR_NOTIF_HINT_CARDS: 'clear:notif:hint:cards',
   CREAT_ELEMENT_FOR_NOTIF_HINT_STOCK: 'creat:element:for:notif:hint:stock',
+  NEED_VIDEO_FOR_HINTS: 'need:video:for:hints',
 };
 
 export const AnimationDurations = {

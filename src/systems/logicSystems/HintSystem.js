@@ -1,6 +1,6 @@
 import { AudioName } from "../../utils/Constants.js";
 import { GameEvents } from "../../utils/Constants.js";
-import { UIConfig } from "../../configs/UIConfig.js";
+import { UIConfig, UIGameUnicodeIcons } from "../../configs/UIConfig.js";
 // import { HintsOfObviousMoves } from "./HintsOfObviousMoves.js";
 import { H2 } from "./H2.js";
 
@@ -33,18 +33,20 @@ export class HintSystem {
     );
 
     ///////////////////////// Расскоментить, для теста закомментил
-    // if (
-    //   this.state.hintCounterState === 0 ||
-    //   this.state.hintCounterState < 0 ||
-    //   this.state.player.hintQuantity === 0
-    // ) {
-    //   this.audioManager.play(AudioName.INFO);
-    //   this.eventManager.emit(
-    //     GameEvents.HINT_NOTIF,
-    //     UIConfig.dataI18nValue.HINT_NOTIF_NOHINTS
-    //   );
-    //   return;
-    // }
+    if (
+      this.state.hintCounterState === 0 ||
+      this.state.hintCounterState < 0 ||
+      this.state.player.hintQuantity === 0
+    ) {
+      this.eventManager.emit(GameEvents.UP_HINT_CONTAINER, UIGameUnicodeIcons.VIDEO)
+      this.eventManager.emit(GameEvents.NEED_VIDEO_FOR_HINTS, true)
+      // this.audioManager.play(AudioName.INFO);
+      // this.eventManager.emit(
+      //   GameEvents.HINT_NOTIF,
+      //   UIConfig.dataI18nValue.HINT_NOTIF_NOHINTS
+      // );
+      // return;
+    }
     // if (this.state.game.score < 5 && this.state.player.hintQuantity > 0) {
     //   this.audioManager.play(AudioName.INFO);
     //   this.eventManager.emit(
