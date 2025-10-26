@@ -108,6 +108,7 @@ export const Translations = {
       hint_notif_nopoints: "You need at least 5 points for a hint!",
       hint_cards_notif_first: "Move",
       hint_cards_notif_end: "of",
+      hint_open_new_card_from_deck: 'Open a new card from the deck',
     },
     plurals: {
       coins: (count) => `${count} ${count === 1 ? "khusynka" : "khusynks"}`,
@@ -223,6 +224,7 @@ export const Translations = {
       hint_notif_nopoints: "Нужно минимум 5 очков для подсказки!",
       hint_cards_notif_first: "Ход",
       hint_cards_notif_end: "из",
+      hint_open_new_card_from_deck: 'Откройте новую карту из колоды',
     },
     plurals: {
       coins: (count) => {
@@ -354,6 +356,7 @@ export const Translations = {
       hint_notif_nopoints: "Йатахъыб минимум 5 очков аподск|азк|аква рыхъаз!",
       hint_cards_notif_first: "Ацара",
       hint_cards_notif_end: "из",
+      hint_open_new_card_from_deck: 'Аколода апны к|арт| ш|ыцк| хът|ы',
     },
     plurals: {
       coins: (count) => {
@@ -487,6 +490,8 @@ export const Translations = {
       hint_notif_nopoints: "İpucu için en az 5 puana ihtiyacınız var.!",
       hint_cards_notif_first: "Taşınmak",
       hint_cards_notif_end: "itibaren",
+      hint_open_new_card_from_deck: 'Desteden yeni bir kart açın',
+
     },
     plurals: {
       coins: (count) => {

@@ -60,7 +60,8 @@ export class LogicSystemsInit {
     this.hintSystem = new HintSystem(
       this.eventManager,
       this.stateManager,
-      this.audioManager
+      this.audioManager,
+      this.translator,
     );
     this.undoSystem = new UndoSystem(
       this.eventManager,

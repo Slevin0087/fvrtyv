@@ -31,6 +31,13 @@ export class H2 {
       ...this.getUncoverHiddenCardsHintsFirstOnes(blockedCards)
     );
 
+    if (this.hints.length === 0) {
+      this.hints.push(...this.getHintsToCardFromWaste());
+    }
+
+    if (this.hints.length === 0) {
+      this.hints.push(...this.getStockHint());
+    }
     // this.hints.push(
     //   ...this.getUncoverHiddenCardsHintsNextCardsOnes(
     //     tableauAfterFirstBlockedCards
@@ -213,11 +220,11 @@ export class H2 {
   }
 
   // Получить подсказки для заблокированной карты
-  getHintsForBlockedCard(card, tableau, nextCards) {
+  getHintsForBlockedCard(card, fromContainer, nextCards) {
     const hints = [];
 
     // ШАГ 1: Проверить можно ли переместить в foundations
-    const foundationHints = this.checkFoundationMove(card, tableau);
+    const foundationHints = this.checkFoundationMove(card, fromContainer);
     if (foundationHints.length > 0) {
       return foundationHints.map((hint) => ({
         ...hint,
@@ -227,7 +234,7 @@ export class H2 {
     }
 
     // ШАГ 2: Проверить можно ли переместить в другой tableau
-    const tableauHints = this.checkTableauMove(card, tableau, nextCards);
+    const tableauHints = this.checkTableauMove(card, fromContainer, nextCards);
     if (tableauHints.length > 0) {
       return tableauHints.map((hint) => ({
         ...hint,
@@ -256,7 +263,7 @@ export class H2 {
   }
 
   // Проверить перемещение в foundations
-  checkFoundationMove(card, fromTableau) {
+  checkFoundationMove(card, fromContainer) {
     const hints = [];
     const foundations = this.stateManager.state.cardsComponents.foundations;
 
@@ -264,7 +271,7 @@ export class H2 {
       if (foundation.canAccept(card, this.stateManager.state.cardsComponents)) {
         hints.push(
           this.createHint(
-            fromTableau,
+            fromContainer,
             card,
             foundation,
             foundation.getTopCard(),
@@ -279,15 +286,15 @@ export class H2 {
   }
 
   // Проверить перемещение в другой tableau
-  checkTableauMove(card, fromTableau, nextCards) {
+  checkTableauMove(card, fromContainer, nextCards) {
     const hints = [];
     const tableaus = this.stateManager.state.cardsComponents.tableaus;
 
     tableaus.forEach((targetTableau) => {
-      if (targetTableau !== fromTableau && targetTableau.canAccept(card)) {
+      if (targetTableau !== fromContainer && targetTableau.canAccept(card)) {
         hints.push(
           this.createHint(
-            fromTableau,
+            fromContainer,
             card,
             targetTableau,
             targetTableau.getTopCard(),
@@ -331,5 +338,36 @@ export class H2 {
       }
     });
     return foundationCanAccept;
+  }
+
+  getHintsToCardFromWaste() {
+    const hints = [];
+    const waste = this.stateManager.state.cardsComponents.waste;
+    const card = waste.getTopCard()
+    if (!card) return [];
+    // Проверяем все возможные ходы для этой карты
+    const cardHints = this.getHintsForBlockedCard(card, waste, []);
+    hints.push(...cardHints);
+    return hints;
+  }
+
+  getStockHint() {
+    const hints = [];
+
+    // Подсказка открыть новую карту
+    const stock = this.stateManager.state.cardsComponents.stock;
+    if (stock && stock.cards && stock.cards.length > 0) {
+      hints.push(
+        this.createHint(
+          null,
+          null,
+          stock,
+          null,
+          10,
+          "hint_open_new_card_from_deck"
+        )
+      );
+    }
+    return hints;
   }
 }

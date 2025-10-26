@@ -26,6 +26,7 @@ const UIConfig = {
     HINT_CARDS_NOTIF_END: 'hint_cards_notif_end',
     STATUS_BAR_RECORD_WORD: "status_bar_record_word",
     NOTIF_SHUFFLED_CARDS_TO_STOCK: "notif_shuffled_cards_to_stock",
+    HINT_OPEN_NEW_CARD_FROM_DECK: 'hint_open_new_card_from_deck',
   },
   keysForTranslations: {
     H4_START: "h4_ach_start_text",
