@@ -15,7 +15,7 @@ export class H2 {
     // const { tableauFirstBlockedCards, tableauAfterFirstBlockedCards } =
     //   this.getAllBlockedOpenCards();
 
-    const blockedCards = this.getAllBlockedOpenCards();
+    const blockedCardsToCardsWithFaceDown = this.getAllBlockedOpenCards();
 
     // if (tableauFirstBlockedCards.length > 0) {
     //   for (const blockedCard of blockedCards) {
@@ -30,11 +30,20 @@ export class H2 {
     this.hints.push(
       // ...this.getUncoverHiddenCardsHintsFirstOnes(tableauFirstBlockedCards)
 
-      ...this.getUncoverHiddenCardsHintsFirstOnes(blockedCards)
+      ...this.getUncoverHiddenCardsHintsFirstOnes(
+        blockedCardsToCardsWithFaceDown
+      )
     );
 
     if (this.hints.length === 0) {
       this.hints.push(...this.getHintsToCardFromWaste());
+    }
+
+    if (this.hints.length === 0) {
+      const blockedCardsToFreeUpSpace = this.getAllBlockedCardsToFreeUpSpace();
+      this.hints.push(
+        ...this.getUncoverHiddenCardsHintsFirstOnes(blockedCardsToFreeUpSpace)
+      );
     }
 
     if (this.hints.length === 0) {
@@ -273,7 +282,10 @@ export class H2 {
     const hints = [];
     const foundations = this.stateManager.state.cardsComponents.foundations;
     const currentFoundation = foundations.find((foundation) => {
-      return foundation.canAccept(card, this.stateManager.state.cardsComponents);
+      return foundation.canAccept(
+        card,
+        this.stateManager.state.cardsComponents
+      );
     });
     if (currentFoundation) {
       hints.push(
@@ -348,6 +360,46 @@ export class H2 {
     const cardHints = this.getHintsForBlockedCard(card, waste, []);
     hints.push(...cardHints);
     return hints;
+  }
+
+  // getHintsToFreeUpSpace(blockedCardsToFreeUpSpace) {
+  //   const hints = [];
+  // }
+
+  getAllBlockedCardsToFreeUpSpace() {
+    const blockedCards = [];
+    const tableaus = this.stateManager.state.cardsComponents.tableaus;
+
+    const currentTableus = tableaus.filter((tableau) => {
+      return tableau.cards[0]?.faceUp === true;
+    });
+
+    if (currentTableus.length === 0) {
+      return [];
+    }
+
+    currentTableus.forEach((tableau) => {
+      const cards = tableau.cards || [];
+      for (let i = 0; i < cards.length; i++) {
+        const card = cards[i];
+        if (card === tableau.getTopCard()) {
+          blockedCards.push({
+            card,
+            tableau,
+            index: i,
+            nextCards: [],
+          });
+        } else {
+          blockedCards.push({
+            card,
+            tableau,
+            index: i,
+            nextCards: tableau.getFaceUpTopCards(card),
+          });
+        }
+      }
+    });
+    return blockedCards;
   }
 
   getStockHint() {

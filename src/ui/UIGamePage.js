@@ -1,6 +1,6 @@
 import { UIPage } from "./UIPage.js";
 import { GameEvents } from "../utils/Constants.js";
-import { UIConfig } from "../configs/UIConfig.js";
+import { UIConfig, UIGameUnicodeIcons } from "../configs/UIConfig.js";
 import { GameConfig } from "../configs/GameConfig.js";
 import { Animator } from "../utils/Animator.js";
 
@@ -271,7 +271,11 @@ export class UIGamePage extends UIPage {
     this.updateTime(this.state.game.playTime);
     this.updateMoves(this.state.game.moves);
     this.upUndoCounter(this.stateManager.getLastMovesLengths());
-    this.upHintCounter(this.state.hintCounterState || 0);
+    if (this.stateManager.getNeedVideoForHints()) {
+      this.upHintCounter(UIGameUnicodeIcons.VIDEO);
+    } else {
+      this.upHintCounter(this.state.hintCounterState || 0);
+    }
     this.upAchievementIcon(this.state.player.achievements.active.icon);
   }
 
@@ -400,7 +404,8 @@ export class UIGamePage extends UIPage {
   }
 
   hintUsed() {
-    if (!this.stateManager.getNeedVideoForHints()) { // временное if, для теста, потом убрать
+    if (!this.stateManager.getNeedVideoForHints()) {
+      // временное if, для теста, потом убрать
       this.state.hintCounterState -= 1;
       this.upHintCounter(this.state.hintCounterState);
     }
