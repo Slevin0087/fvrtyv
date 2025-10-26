@@ -12,6 +12,7 @@ export class HintSystem {
     this.audioManager = audioManager;
     this.translator = translator;
     this.notifDiv = document.getElementById("notif-div");
+    this.hintNotifyShowTimerId = null;
 
     this.setupComponents();
   }
@@ -88,14 +89,15 @@ export class HintSystem {
         hint;
 
       if (description === UIConfig.dataI18nValue.HINT_OPEN_NEW_CARD_FROM_DECK) {
-        toContainer.element.classList.add("hint-from-card");
+        const card = toContainer.getTopCard()
+        card.domElement.classList.add("hint-from-card");
         const hintWord = this.translator.t(description);
         this.eventManager.emit(
           GameEvents.CREAT_ELEMENT_FOR_NOTIF_HINT_STOCK,
           hintWord
         );
         setTimeout(() => {
-          toContainer.element.classList.remove("hint-from-card");
+          card.domElement.classList.remove("hint-from-card");
           this.eventManager.emit(GameEvents.CLEAR_NOTIF_HINT_CARDS);
           resolve();
         }, 2000);
