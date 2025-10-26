@@ -10,7 +10,7 @@ export class HintSystem {
     this.stateManager = stateManager;
     this.state = this.stateManager.state;
     this.audioManager = audioManager;
-    this.translator = translator
+    this.translator = translator;
     this.notifDiv = document.getElementById("notif-div");
 
     this.setupComponents();
@@ -89,7 +89,29 @@ export class HintSystem {
 
       if (description === UIConfig.dataI18nValue.HINT_OPEN_NEW_CARD_FROM_DECK) {
         toContainer.element.classList.add("hint-from-card");
-        const hintWord = this.translator.t(description)
+        const hintWord = this.translator.t(description);
+        this.eventManager.emit(
+          GameEvents.CREAT_ELEMENT_FOR_NOTIF_HINT_STOCK,
+          hintWord
+        );
+        setTimeout(() => {
+          toContainer.element.classList.remove("hint-from-card");
+          this.eventManager.emit(GameEvents.CLEAR_NOTIF_HINT_CARDS);
+          resolve();
+        }, 2000);
+      } else if (description === UIConfig.dataI18nValue.HINT_NO_HINTS) {
+        const hintWord = this.translator.t(description);
+        this.eventManager.emit(
+          GameEvents.CREAT_ELEMENT_FOR_NOTIF_HINT_STOCK,
+          hintWord
+        );
+        setTimeout(() => {
+          this.eventManager.emit(GameEvents.CLEAR_NOTIF_HINT_CARDS);
+          resolve();
+        }, 2000);
+      } else if (description === UIConfig.dataI18nValue.HINT_TURN_DECK) {
+        toContainer.element.classList.add("hint-from-card");
+        const hintWord = this.translator.t(description);
         this.eventManager.emit(
           GameEvents.CREAT_ELEMENT_FOR_NOTIF_HINT_STOCK,
           hintWord

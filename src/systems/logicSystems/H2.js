@@ -1,3 +1,5 @@
+import { UIConfig } from "../../configs/UIConfig.js";
+
 export class H2 {
   constructor(eventManager, stateManager) {
     this.eventManager = eventManager;
@@ -37,6 +39,10 @@ export class H2 {
 
     if (this.hints.length === 0) {
       this.hints.push(...this.getStockHint());
+    }
+
+    if (this.hints.length === 0) {
+      this.hints.push(...this.getNoHints());
     }
     // this.hints.push(
     //   ...this.getUncoverHiddenCardsHintsNextCardsOnes(
@@ -343,7 +349,7 @@ export class H2 {
   getHintsToCardFromWaste() {
     const hints = [];
     const waste = this.stateManager.state.cardsComponents.waste;
-    const card = waste.getTopCard()
+    const card = waste.getTopCard();
     if (!card) return [];
     // Проверяем все возможные ходы для этой карты
     const cardHints = this.getHintsForBlockedCard(card, waste, []);
@@ -364,7 +370,39 @@ export class H2 {
           stock,
           null,
           10,
-          "hint_open_new_card_from_deck"
+          UIConfig.dataI18nValue.HINT_OPEN_NEW_CARD_FROM_DECK
+        )
+      );
+    }
+    return hints;
+  }
+
+  getNoHints() {
+    const hints = [];
+
+    const stock = this.stateManager.state.cardsComponents.stock;
+    const waste = this.stateManager.state.cardsComponents.waste;
+
+    if (stock.isEmpty() < 0 && waste.isEmpty()) {
+      hints.push(
+        this.createHint(
+          null,
+          null,
+          null,
+          null,
+          10,
+          UIConfig.dataI18nValue.HINT_NO_HINTS
+        )
+      );
+    } else if (stock.stockCardPosition < 0 && !waste.isEmpty()) {
+      hints.push(
+        this.createHint(
+          null,
+          null,
+          stock,
+          null,
+          10,
+          UIConfig.dataI18nValue.HINT_TURN_DECK
         )
       );
     }

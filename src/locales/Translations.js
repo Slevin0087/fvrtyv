@@ -109,6 +109,9 @@ export const Translations = {
       hint_cards_notif_first: "Move",
       hint_cards_notif_end: "of",
       hint_open_new_card_from_deck: 'Open a new card from the deck',
+
+      hint_no_hints: 'No moves!',
+      hint_turn_deck: 'Turn the deck over',
     },
     plurals: {
       coins: (count) => `${count} ${count === 1 ? "khusynka" : "khusynks"}`,
@@ -225,6 +228,9 @@ export const Translations = {
       hint_cards_notif_first: "Ход",
       hint_cards_notif_end: "из",
       hint_open_new_card_from_deck: 'Откройте новую карту из колоды',
+
+      hint_no_hints: 'Нет ходов!',
+      hint_turn_deck: 'Переверните колоду',
     },
     plurals: {
       coins: (count) => {
@@ -357,6 +363,9 @@ export const Translations = {
       hint_cards_notif_first: "Ацара",
       hint_cards_notif_end: "из",
       hint_open_new_card_from_deck: 'Аколода апны к|арт| ш|ыцк| хът|ы',
+
+      hint_no_hints: 'Йгьаъам ацараква!',
+      hint_turn_deck: 'Аколода йацарпа',
     },
     plurals: {
       coins: (count) => {
@@ -492,6 +501,8 @@ export const Translations = {
       hint_cards_notif_end: "itibaren",
       hint_open_new_card_from_deck: 'Desteden yeni bir kart açın',
 
+      hint_no_hints: 'Hareket yok!',
+      hint_turn_deck: 'Desteyi ters çevir',
     },
     plurals: {
       coins: (count) => {
