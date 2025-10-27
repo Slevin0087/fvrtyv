@@ -29,9 +29,7 @@ export class Card {
       : "black";
   }
 
-  flip(boolean) {
-    console.log('flip в Card boolean: ', boolean);
-    
+  flip(boolean) {   
     this.faceUp = boolean;
   }
 

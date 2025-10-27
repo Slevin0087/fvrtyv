@@ -125,6 +125,16 @@ export class HintSystem {
           this.eventManager.emit(GameEvents.CLEAR_NOTIF_HINT_CARDS);
           resolve();
         }, 2000);
+      } else if (description === UIConfig.dataI18nValue.HINT_CLICK_AUTO_COLLECT_BTN) {
+        const hintWord = this.translator.t(description);
+        this.eventManager.emit(
+          GameEvents.CREAT_ELEMENT_FOR_NOTIF_HINT_STOCK,
+          hintWord
+        );
+        setTimeout(() => {
+          this.eventManager.emit(GameEvents.CLEAR_NOTIF_HINT_CARDS);
+          resolve();
+        }, 2000);
       } else {
         if (fromCardNextCards.length > 0) {
           fromCard.domElement.classList.add("hint-from-card");

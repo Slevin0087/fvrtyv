@@ -30,6 +30,7 @@ const UIConfig = {
 
     HINT_NO_HINTS: "hint_no_hints",
     HINT_TURN_DECK: 'hint_turn_deck',
+    HINT_CLICK_AUTO_COLLECT_BTN: 'hint_click_auto_collect_btn',
   },
   keysForTranslations: {
     H4_START: "h4_ach_start_text",

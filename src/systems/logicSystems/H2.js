@@ -1,6 +1,5 @@
 import { UIConfig } from "../../configs/UIConfig.js";
-import { CardValues } from "../../utils/Constants.js";
-import { GameEvents } from "../../utils/Constants.js";
+import { GameEvents, CardValues, CountValuesOfEachCard } from "../../utils/Constants.js";
 
 export class H2 {
   constructor(eventManager, stateManager) {
@@ -24,7 +23,21 @@ export class H2 {
           UIConfig.dataI18nValue.HINT_NO_HINTS
         )
       );
-      return this.hints
+      return this.hints;
+    }
+
+    if (this.stateManager.getIsAutoCollectBtnShow()) {
+      this.hints.push(
+        this.createHint(
+          null,
+          null,
+          null,
+          null,
+          10,
+          UIConfig.dataI18nValue.HINT_CLICK_AUTO_COLLECT_BTN
+        )
+      );
+      return this.hints;
     }
 
     // Собираем все открытые карты, которые блокируют закрытые
@@ -32,8 +45,6 @@ export class H2 {
 
     // ПРИОРИТЕТ 1: Открытие закрытых карт
     this.hints.push(
-      // ...this.getUncoverHiddenCardsHintsFirstOnes(tableauFirstBlockedCards)
-
       ...this.getUncoverHiddenCardsHintsFirstOnes(
         blockedCardsToCardsWithFaceDown
       )
@@ -153,7 +164,7 @@ export class H2 {
               newNextCards
             );
             if (nextCardHints.length > 0) {
-              alert("nextCardHints.length > 0");
+              // alert("nextCardHints.length > 0");
               if (nextCards[index] === tableau.getTopCard()) {
                 const toCard =
                   suitableFoundations.getTopCard() || suitableFoundations;
@@ -382,6 +393,14 @@ export class H2 {
   getAllBlockedCardsToFreeUpSpace() {
     const blockedCards = [];
     const tableaus = this.stateManager.state.cardsComponents.tableaus;
+
+    const firstCardValueKingTableaus = tableaus.filter((tableau) => {
+      return tableau.cards[0]?.value === this.cardVAlueKing
+    })
+
+    if (firstCardValueKingTableaus.length - 1 === CountValuesOfEachCard) {
+      return []
+    }
 
     const currentTableus = tableaus.filter((tableau) => {
       return tableau.cards[0]?.faceUp === true;

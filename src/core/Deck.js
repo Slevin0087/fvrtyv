@@ -11,9 +11,7 @@ export class Deck {
     this.cards = [];
     for (const suit of Object.values(CardSuits)) {
       for (const value of CardValues) {
-        const card = new Card(suit, value)
-        console.log('createDeck card: ', card);
-        
+        const card = new Card(suit, value)        
         this.cards.push(card);
       }
     }

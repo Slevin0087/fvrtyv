@@ -21,6 +21,8 @@ export const CardValues = [
   "K",
 ];
 
+export const CountValuesOfEachCard = 4
+
 export const GameEvents = {
   APP_INIT: "app:init",
   FULL_SCREEN_BTN: "full-screen-btn",

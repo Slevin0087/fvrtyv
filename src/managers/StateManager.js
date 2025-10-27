@@ -438,6 +438,10 @@ export class StateManager {
     return playerStats.needVideoForHints
   }
 
+  getIsAutoCollectBtnShow() {
+    return this.state.isAutoCollectBtnShow
+  }
+
   updateScore(points) {
     this.state.game.score += points;
     this.state.stateForAchievements.score += points;

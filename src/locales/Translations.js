@@ -108,10 +108,11 @@ export const Translations = {
       hint_notif_nopoints: "You need at least 5 points for a hint!",
       hint_cards_notif_first: "Move",
       hint_cards_notif_end: "of",
-      hint_open_new_card_from_deck: 'Open a new card from the deck',
+      hint_open_new_card_from_deck: "Open a new card from the deck",
 
-      hint_no_hints: 'No moves!',
-      hint_turn_deck: 'Turn the deck over',
+      hint_no_hints: "No moves!",
+      hint_turn_deck: "Turn the deck over",
+      hint_click_auto_collect_btn: 'Click: "Collect Cards"',
     },
     plurals: {
       coins: (count) => `${count} ${count === 1 ? "khusynka" : "khusynks"}`,
@@ -227,10 +228,11 @@ export const Translations = {
       hint_notif_nopoints: "Нужно минимум 5 очков для подсказки!",
       hint_cards_notif_first: "Ход",
       hint_cards_notif_end: "из",
-      hint_open_new_card_from_deck: 'Откройте новую карту из колоды',
+      hint_open_new_card_from_deck: "Откройте новую карту из колоды",
 
-      hint_no_hints: 'Нет ходов!',
-      hint_turn_deck: 'Переверните колоду',
+      hint_no_hints: "Нет ходов!",
+      hint_turn_deck: "Переверните колоду",
+      hint_click_auto_collect_btn: 'Нажмите: "Собрать карты"',
     },
     plurals: {
       coins: (count) => {
@@ -362,10 +364,11 @@ export const Translations = {
       hint_notif_nopoints: "Йатахъыб минимум 5 очков аподск|азк|аква рыхъаз!",
       hint_cards_notif_first: "Ацара",
       hint_cards_notif_end: "из",
-      hint_open_new_card_from_deck: 'Аколода апны к|арт| ш|ыцк| хът|ы',
+      hint_open_new_card_from_deck: "Аколода апны к|арт| ш|ыцк| хът|ы",
 
-      hint_no_hints: 'Йгьаъам ацараква!',
-      hint_turn_deck: 'Аколода йацарпа',
+      hint_no_hints: "Йгьаъам ацараква!",
+      hint_turn_deck: "Аколода йацарпа",
+      hint_click_auto_collect_btn: 'У(б)аквх|а: "Ак|артква азк|к|ра"',
     },
     plurals: {
       coins: (count) => {
@@ -499,10 +502,11 @@ export const Translations = {
       hint_notif_nopoints: "İpucu için en az 5 puana ihtiyacınız var.!",
       hint_cards_notif_first: "Taşınmak",
       hint_cards_notif_end: "itibaren",
-      hint_open_new_card_from_deck: 'Desteden yeni bir kart açın',
+      hint_open_new_card_from_deck: "Desteden yeni bir kart açın",
 
-      hint_no_hints: 'Hareket yok!',
-      hint_turn_deck: 'Desteyi ters çevir',
+      hint_no_hints: "Hareket yok!",
+      hint_turn_deck: "Desteyi ters çevir",
+      hint_click_auto_collect_btn: 'Tıkla: "Kartları Topla"',
     },
     plurals: {
       coins: (count) => {
