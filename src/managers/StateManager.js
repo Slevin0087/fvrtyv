@@ -46,6 +46,7 @@ export class StateManager {
       isAnimateCardFomStockToWaste: false,
       isUndoCardAnimation: false,
       isAutoCollectBtnShow: false,
+      isNoHints: false,
       ui: this.storage.getUIStats(),
       game: this.storage.getGameStats(),
       player: this.storage.getPlayerStats(),
@@ -190,6 +191,10 @@ export class StateManager {
 
     this.eventManager.on(GameEvents.NEED_VIDEO_FOR_HINTS, (boolean) => {
       this.setNeedVideoForHints(boolean)
+    })
+
+    this.eventManager.on(GameEvents.SET_NO_HINTS, (boolean) => {
+      this.setIsNoHints(boolean)
     })
   }
 
@@ -399,6 +404,14 @@ export class StateManager {
 
   setIsUndoCardAnimation(boolean) {
     this.state.isUndoCardAnimation = boolean;
+  }
+
+  setIsNoHints(boolean) {
+    this.state.isNoHints = boolean
+  }
+
+  getIsNoHints() {
+    return this.state.isNoHints
   }
 
   getDealingCardsValue() {

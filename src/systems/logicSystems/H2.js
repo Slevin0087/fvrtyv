@@ -1,4 +1,6 @@
 import { UIConfig } from "../../configs/UIConfig.js";
+import { CardValues } from "../../utils/Constants.js";
+import { GameEvents } from "../../utils/Constants.js";
 
 export class H2 {
   constructor(eventManager, stateManager) {
@@ -6,27 +8,29 @@ export class H2 {
     this.stateManager = stateManager;
     this.blockedCards = [];
     this.hints = [];
+    this.cardVAlueKing = CardValues[CardValues.length - 1];
   }
 
   getHints() {
     this.hints = [];
+    if (this.stateManager.getIsNoHints()) {
+      this.hints.push(
+        this.createHint(
+          null,
+          null,
+          null,
+          null,
+          10,
+          UIConfig.dataI18nValue.HINT_NO_HINTS
+        )
+      );
+      return this.hints
+    }
 
     // Собираем все открытые карты, которые блокируют закрытые
-    // const { tableauFirstBlockedCards, tableauAfterFirstBlockedCards } =
-    //   this.getAllBlockedOpenCards();
-
     const blockedCardsToCardsWithFaceDown = this.getAllBlockedOpenCards();
 
-    // if (tableauFirstBlockedCards.length > 0) {
-    //   for (const blockedCard of blockedCards) {
-    //     const { card, tableau, nextCards } = blockedCard;
-    //     if (nextCards.length === 0) {
-    //       tableauFirstBlockedCards.push(blockedCard);
-    //     } else if (nextCards.length > 0) {
-    //       tableauAfterFirstBlockedCards.push(blockedCard);
-    //     }
-    //   }
-
+    // ПРИОРИТЕТ 1: Открытие закрытых карт
     this.hints.push(
       // ...this.getUncoverHiddenCardsHintsFirstOnes(tableauFirstBlockedCards)
 
@@ -51,7 +55,7 @@ export class H2 {
     }
 
     if (this.hints.length === 0) {
-      this.hints.push(...this.getNoHints());
+      this.hints.push(...this.getStockAndWasteHints());
     }
     // this.hints.push(
     //   ...this.getUncoverHiddenCardsHintsNextCardsOnes(
@@ -60,12 +64,21 @@ export class H2 {
     // );
     // }
 
-    // ПРИОРИТЕТ 1: Открытие закрытых карт
+    if (this.hints.length === 0) {
+      this.eventManager.emit(GameEvents.SET_NO_HINTS, true);
+      this.hints.push(
+        this.createHint(
+          null,
+          null,
+          null,
+          null,
+          10,
+          UIConfig.dataI18nValue.HINT_NO_HINTS
+        )
+      );
+    }
 
     return this.hints;
-    // return { tableauFirstBlockedCards, tableauAfterFirstBlockedCards };
-
-    // return blockedCards
   }
 
   // ПРИОРИТЕТ 1: Открытие закрытых карт
@@ -382,7 +395,8 @@ export class H2 {
       const cards = tableau.cards || [];
       for (let i = 0; i < cards.length; i++) {
         const card = cards[i];
-        if (card === tableau.getTopCard()) {
+        if (card === cards[0] && cards[0].value === this.cardVAlueKing) break;
+        else if (card === tableau.getTopCard()) {
           blockedCards.push({
             card,
             tableau,
@@ -422,34 +436,37 @@ export class H2 {
     return hints;
   }
 
-  getNoHints() {
+  getStockAndWasteHints() {
     const hints = [];
 
     const stock = this.stateManager.state.cardsComponents.stock;
     const waste = this.stateManager.state.cardsComponents.waste;
 
     if (stock.isEmpty() < 0 && waste.isEmpty()) {
-      hints.push(
-        this.createHint(
-          null,
-          null,
-          null,
-          null,
-          10,
-          UIConfig.dataI18nValue.HINT_NO_HINTS
-        )
-      );
+      return [];
     } else if (stock.stockCardPosition < 0 && !waste.isEmpty()) {
-      hints.push(
-        this.createHint(
-          null,
-          null,
-          stock,
-          null,
-          10,
-          UIConfig.dataI18nValue.HINT_TURN_DECK
-        )
-      );
+      if (waste.cards.length === 1) {
+        return [];
+      }
+      const wasteCards = waste.cards.filter((card) => card !== waste.cards[0]);
+      let hintsForWateCards = [];
+      for (let i = 0; i < wasteCards.length; i++) {
+        const card = wasteCards[i];
+        hintsForWateCards = this.getHintsForBlockedCard(card, waste, []);
+        if (hintsForWateCards.length > 0) {
+          hints.push(
+            this.createHint(
+              null,
+              null,
+              stock,
+              null,
+              10,
+              UIConfig.dataI18nValue.HINT_TURN_DECK
+            )
+          );
+          break;
+        }
+      }
     }
     return hints;
   }
