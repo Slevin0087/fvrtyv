@@ -22,7 +22,7 @@ export class CardMovementSystem {
     if (!card.faceUp || this.state.game.isPaused) return false;
 
     const gameComponents = this.state.cardsComponents;
-    const usedAutoCollectCards = this.state.game.usedAutoCollectCards;
+    const usedAutoCollectCards = this.state.usedAutoCollectCards;
 
     // Проверка foundation
     for (let i = 0; i < gameComponents.foundations.length; i++) {

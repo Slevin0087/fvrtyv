@@ -61,7 +61,7 @@ export class LogicSystemsInit {
       this.eventManager,
       this.stateManager,
       this.audioManager,
-      this.translator,
+      this.translator
     );
     this.undoSystem = new UndoSystem(
       this.eventManager,
@@ -267,10 +267,10 @@ export class LogicSystemsInit {
   }
 
   async cardsCollect() {
-    this.state.game.usedAutoCollectCards = true;
+    this.stateManager.setUsedAutoCollectCards(true);
     const { tableaus, stock, waste } = this.state.cardsComponents;
     await this.autoCollectCards(tableaus, stock, waste);
-    this.state.game.usedAutoCollectCards = false;
+    this.stateManager.setUsedAutoCollectCards(false);
   }
 
   async autoCollectCards(tableaus, stock, waste) {

@@ -120,7 +120,7 @@ export class Storage {
       isRunning: false,
       isPaused: false,
       playerFirstCardClick: false,
-      usedAutoCollectCards: false,
+      // usedAutoCollectCards: false,
       score: 0,
       moves: 0,
       playTime: 0,

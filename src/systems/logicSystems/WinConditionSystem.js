@@ -66,15 +66,6 @@ export class WinConditionSystem {
     const textEarnedWinLeftPathForResultModal = `${textEarned} `;
     const textEarnedWinRightPathForResultModal = `${textCoins}`;
 
-    // await Animator.animationCoinsEarned(
-    // `${textWinBonus}: ${this.addition}${GameConfig.rules.winScoreBonus}`
-    // );
-
-    // await this.delay(UIConfig.animations.animationCoinsEarned * 1100);
-    // await Animator.animationCoinsEarned(`${textEarned} ${textCoins}`);
-
-    // await this.delay(UIConfig.animations.animationCoinsEarned * 1100);
-
     this.eventManager.emit(
       GameEvents.CHECK_GET_ACHIEVEMENTS,
       this.typeWinCheckAchievements

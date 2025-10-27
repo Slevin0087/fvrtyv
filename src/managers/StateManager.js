@@ -46,6 +46,7 @@ export class StateManager {
       isAnimateCardFomStockToWaste: false,
       isUndoCardAnimation: false,
       isAutoCollectBtnShow: false,
+      usedAutoCollectCards: false,
       isNoHints: false,
       ui: this.storage.getUIStats(),
       game: this.storage.getGameStats(),
@@ -392,6 +393,10 @@ export class StateManager {
 
   upDealingCardsValue(value) {
     this.state.dealingCards = value;
+  }
+
+  setUsedAutoCollectCards(boolean) {
+    this.state.usedAutoCollectCards = boolean
   }
 
   setIsDealingCardsAnimation(boolean) {

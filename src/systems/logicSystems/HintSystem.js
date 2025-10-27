@@ -34,12 +34,18 @@ export class HintSystem {
 
     ///////////////////////// Расскоментить, для теста закомментил
     if (
-      this.state.hintCounterState === 0 ||
-      this.state.hintCounterState < 0 ||
-      this.state.player.hintQuantity === 0
+      // this.state.hintCounterState === 0 ||
+      // this.state.hintCounterState < 0 ||
+      // this.state.player.hintQuantity === 0
+
+      this.state.hintCounterState < 2 ||
+      this.state.player.hintQuantity < 2
     ) {
-      this.eventManager.emit(GameEvents.UP_HINT_CONTAINER, UIGameUnicodeIcons.VIDEO)
-      this.eventManager.emit(GameEvents.NEED_VIDEO_FOR_HINTS, true)
+      this.eventManager.emit(
+        GameEvents.UP_HINT_CONTAINER,
+        UIGameUnicodeIcons.VIDEO
+      );
+      this.eventManager.emit(GameEvents.NEED_VIDEO_FOR_HINTS, true);
       // this.audioManager.play(AudioName.INFO);
       // this.eventManager.emit(
       //   GameEvents.HINT_NOTIF,
@@ -91,7 +97,7 @@ export class HintSystem {
         hint;
 
       if (description === UIConfig.dataI18nValue.HINT_OPEN_NEW_CARD_FROM_DECK) {
-        const card = toContainer.getTopCard()
+        const card = toContainer.getTopCard();
         card.domElement.classList.add("hint-from-card");
         const hintWord = this.translator.t(description);
         this.eventManager.emit(
@@ -125,7 +131,9 @@ export class HintSystem {
           this.eventManager.emit(GameEvents.CLEAR_NOTIF_HINT_CARDS);
           resolve();
         }, 2000);
-      } else if (description === UIConfig.dataI18nValue.HINT_CLICK_AUTO_COLLECT_BTN) {
+      } else if (
+        description === UIConfig.dataI18nValue.HINT_CLICK_AUTO_COLLECT_BTN
+      ) {
         const hintWord = this.translator.t(description);
         this.eventManager.emit(
           GameEvents.CREAT_ELEMENT_FOR_NOTIF_HINT_STOCK,
