@@ -87,7 +87,7 @@ export class DragAndDrop {
   }
 
   onPointerDown(event) {
-    console.log("ЗАХОД В onPointerDown");
+    // console.log("ЗАХОД В onPointerDown");
 
     if (this.state.cardsComponents.foundations.every((f) => f.isComplete()))
       return;
@@ -97,7 +97,7 @@ export class DragAndDrop {
     const isDraggable = target.closest(
       `[${GameConfig.dataAttributes.dataAttributeDND}]`
     );
-    console.log("isDraggable:", isDraggable);
+    // console.log("isDraggable:", isDraggable);
 
     if (isDraggable === null) return;
 
@@ -118,7 +118,7 @@ export class DragAndDrop {
   }
 
   onPointerMove(event) {
-    console.log("ЗАХОД В onPointerMove event: ", event);
+    // console.log("ЗАХОД В onPointerMove event: ", event);
     if (!this.currentDraggingCard) return;
     this.cards.forEach((card, index) => {
       this.currentDraggingCard = card.domElement;
@@ -136,7 +136,7 @@ export class DragAndDrop {
   }
 
   async onPointerUp(event) {
-    console.log("ЗАХОД В onPointerUp");
+    // console.log("ЗАХОД В onPointerUp");
 
     if (
       this.state.isDealingCardsAnimation ||
@@ -163,12 +163,12 @@ export class DragAndDrop {
       card.domElement.style.visibility = "visible";
       card.domElement.style.pointerEvents = "auto";
     });
-    console.log("fromPoint:", fromPoint);
+    // console.log("fromPoint:", fromPoint);
 
     const fAndT = this.isTAndF(fromPoint);
 
     const target = this.getDropTarget(fromPoint);
-    console.log("fAndT, target:", fAndT, target);
+    // console.log("fAndT, target:", fAndT, target);
 
     if (target === null && fAndT === null) {
       this.cards.forEach((card) => {

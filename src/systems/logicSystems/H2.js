@@ -114,7 +114,7 @@ export class H2 {
       // Если нашли подсказки для этой карты, добавляем и переходим к следующей
       if (cardHints.length > 0) {
         break;
-      } else if (cardHints.length === 0) {
+      } else {
         const foundationToTableauHints = this.getFoundationToTableauHints(
           card,
           tableau
@@ -179,7 +179,7 @@ export class H2 {
           } else {
             const foundationTopCards = foundation.getTopCardsToHints(card);
             const hintsToTopCards = [];
-            let toContainer = null
+            let toContainer = null;
             for (let i = foundationTopCards.length - 1; i >= 0; i--) {
               for (const tableau of tableaus) {
                 if (
@@ -197,9 +197,9 @@ export class H2 {
                       []
                     )
                   );
-                  toContainer = tableau
-                  break
-                } 
+                  toContainer = tableau;
+                  break;
+                }
                 // else {
 
                 // }
@@ -229,79 +229,91 @@ export class H2 {
   }
 
   getHintsForBlockedCardNextCardsOnes(card, tableau, nextCards) {
+    console.log(
+      "заход в getHintsForBlockedCardNextCardsOnes: ",
+      card,
+      tableau,
+      nextCards
+    );
+
     const hints = [];
 
-    if (nextCards.length === 0) return [];
-    else if (nextCards.length > 0) {
-      const suitableFoundations = this.findSuitableFoundations(card);
-      console.log("suitableFoundations: ", suitableFoundations);
+    if (nextCards.length === 0) return hints;
+    const suitableFoundations = this.findSuitableFoundations(card);
+    console.log("suitableFoundations: ", suitableFoundations);
 
-      if (!suitableFoundations) return [];
-      else if (suitableFoundations) {
-        nextCards.forEach((nextCard, index) => {
-          console.log("nextCard: ", nextCard);
+    if (!suitableFoundations) return hints;
+    nextCards.forEach((nextCard, index) => {
+      const newNextCards = nextCards.slice(index + 1);
+      if (newNextCards.length === 0) {
+        console.log("if (newNextCards.length === 0)");
 
-          const newNextCards = nextCards.slice(index + 1);
-          console.log("newNextCards: ", newNextCards);
+        const nextCardHints = this.getHintsForBlockedCard(
+          nextCard,
+          tableau,
+          []
+        );
+        if (nextCardHints.length > 0) {
+          console.log(
+            "if (newNextCards.length === 0), if (nextCardHints.length > 0)"
+          );
 
-          if (newNextCards.length === 0) {
-            const nextCardHints = this.getHintsForBlockedCard(
-              nextCard,
+          const toCard =
+            suitableFoundations.getTopCard() || suitableFoundations;
+          hints.push(...nextCardHints);
+          hints.push(
+            this.createHint(
               tableau,
-              []
-            );
-            if (nextCardHints.length > 0) {
-              const toCard =
-                suitableFoundations.getTopCard() || suitableFoundations;
-              hints.push(...nextCardHints);
-              hints.push(
-                this.createHint(
-                  tableau,
-                  card,
-                  suitableFoundations,
-                  toCard,
-                  95,
-                  "из getHintsForBlockedCardNextCardsOnes"
-                )
-              );
-              return hints;
-            }
-          } else if (newNextCards.length > 0) {
-            const nextCardHints = this.checkTableauMove(
-              nextCard,
-              tableau,
-              newNextCards
-            );
-            if (nextCardHints.length > 0) {
-              // alert("nextCardHints.length > 0");
-              if (nextCards[index] === tableau.getTopCard()) {
-                const toCard =
-                  suitableFoundations.getTopCard() || suitableFoundations;
-                hints.push(...nextCardHints);
-                hints.push(
-                  this.createHint(
-                    tableau,
-                    card,
-                    suitableFoundations,
-                    toCard,
-                    95,
-                    "из getHintsForBlockedCardNextCardsOnes"
-                  )
-                );
-              }
-              return hints;
-            } else if (nextCardHints.length === 0) {
-              const newCardHints = this.getHintsForBlockedCardNextCardsOnes(
-                nextCard,
+              card,
+              suitableFoundations,
+              toCard,
+              95,
+              "из getHintsForBlockedCardNextCardsOnes"
+            )
+          );
+          return hints;
+        }
+      } else {
+        console.log("else if (newNextCards.length > 0)");
+
+        const nextCardHints = this.checkTableauMove(
+          nextCard,
+          tableau,
+          newNextCards
+        );
+        if (nextCardHints.length > 0) {
+          if (nextCards[index] === tableau.getTopCard()) {
+            const toCard =
+              suitableFoundations.getTopCard() || suitableFoundations;
+            hints.push(...nextCardHints);
+            hints.push(
+              this.createHint(
                 tableau,
-                newNextCards
-              );
-              if (newCardHints.length === 0) return [];
-            }
+                card,
+                suitableFoundations,
+                toCard,
+                95,
+                "из getHintsForBlockedCardNextCardsOnes"
+              )
+            );
           }
-        });
+          return hints;
+        } else {
+          console.log('else в цикле');
+          
+          const newCardHints = this.getHintsForBlockedCardNextCardsOnes(
+            nextCard,
+            tableau,
+            newNextCards
+          );
+          if (newCardHints.length === 0) return [];
+          else {
+            hints.push(...newCardHints)
+            return hints
+          } 
+        }
       }
-    }
+    });
 
     return hints;
   }

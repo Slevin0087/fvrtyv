@@ -108,6 +108,7 @@ export class StateManager {
       this.resetLastMoves();
       this.resetMoves(0);
       this.resetAchievementsActive();
+      this.resetIsNoHints(false)
       this.getDealingCardsValue();
     });
 
@@ -116,6 +117,7 @@ export class StateManager {
       this.resetTime(0);
       this.resetLastMoves();
       this.resetMoves(0);
+      this.resetIsNoHints(false)
       this.getDealingCardsValue();
     });
 
@@ -295,6 +297,10 @@ export class StateManager {
     this.state.stateForAchievements.unlockedMany = [];
     this.state.stateForAchievements.activeId = [];
     this.state.stateForAchievements.active = {};
+  }
+
+  resetIsNoHints(boolean) {
+    this.state.isNoHints = boolean
   }
 
   addCoins(amount) {
