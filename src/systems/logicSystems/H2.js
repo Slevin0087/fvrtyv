@@ -1,5 +1,9 @@
 import { UIConfig } from "../../configs/UIConfig.js";
-import { GameEvents, CardValues, CountValuesOfEachCard } from "../../utils/Constants.js";
+import {
+  GameEvents,
+  CardValues,
+  CountValuesOfEachCard,
+} from "../../utils/Constants.js";
 
 export class H2 {
   constructor(eventManager, stateManager) {
@@ -44,11 +48,13 @@ export class H2 {
     const blockedCardsToCardsWithFaceDown = this.getAllBlockedOpenCards();
 
     // ПРИОРИТЕТ 1: Открытие закрытых карт
-    this.hints.push(
-      ...this.getUncoverHiddenCardsHintsFirstOnes(
-        blockedCardsToCardsWithFaceDown
-      )
-    );
+    if (blockedCardsToCardsWithFaceDown.length > 0) {
+      this.hints.push(
+        ...this.getUncoverHiddenCardsHintsFirstOnes(
+          blockedCardsToCardsWithFaceDown
+        )
+      );
+    }
 
     if (this.hints.length === 0) {
       this.hints.push(...this.getHintsToCardFromWaste());
@@ -56,9 +62,11 @@ export class H2 {
 
     if (this.hints.length === 0) {
       const blockedCardsToFreeUpSpace = this.getAllBlockedCardsToFreeUpSpace();
-      this.hints.push(
-        ...this.getUncoverHiddenCardsHintsFirstOnes(blockedCardsToFreeUpSpace)
-      );
+      if (blockedCardsToFreeUpSpace.length > 0) {
+        this.hints.push(
+          ...this.getUncoverHiddenCardsHintsFirstOnes(blockedCardsToFreeUpSpace)
+        );
+      }
     }
 
     if (this.hints.length === 0) {
@@ -107,22 +115,123 @@ export class H2 {
       if (cardHints.length > 0) {
         break;
       } else if (cardHints.length === 0) {
-        const nextCardHints = this.getHintsForBlockedCardNextCardsOnes(
+        const foundationToTableauHints = this.getFoundationToTableauHints(
           card,
-          tableau,
-          nextCards
+          tableau
         );
-        hints.push(...nextCardHints);
+        hints.push(...foundationToTableauHints);
+        if (foundationToTableauHints.length === 0) {
+          //////////////////////////////
+          const nextCardHints = this.getHintsForBlockedCardNextCardsOnes(
+            card,
+            tableau,
+            nextCards
+          );
+          hints.push(...nextCardHints);
+        }
       }
     }
 
     return hints;
   }
 
+  getFoundationToTableauHints(tableauCard, fromTableau) {
+    const hints = [];
+    const tableaus = this.stateManager.state.cardsComponents.tableaus;
+    const foundations = this.stateManager.state.cardsComponents.foundations;
+    for (const foundation of foundations) {
+      const cards = foundation.cards;
+      for (const card of cards) {
+        if (
+          card.value !== "A" &&
+          card.value !== "K" &&
+          tableauCard.isOppositeColor(card) &&
+          tableauCard.isNextInSequence(card)
+        ) {
+          if (card === foundation.getTopCard()) {
+            for (const tableau of tableaus) {
+              if (tableau.canAccept(card) && tableau !== fromTableau) {
+                hints.push(
+                  this.createHint(
+                    foundation,
+                    card,
+                    tableau,
+                    tableau.getTopCard(),
+                    75,
+                    "dfdfdfd",
+                    []
+                  )
+                );
+                hints.push(
+                  this.createHint(
+                    fromTableau,
+                    tableauCard,
+                    tableau,
+                    tableau.getTopCard(),
+                    75,
+                    "dfdfdfd",
+                    []
+                  )
+                );
+                break;
+              }
+            }
+          } else {
+            const foundationTopCards = foundation.getTopCardsToHints(card);
+            const hintsToTopCards = [];
+            let toContainer = null
+            for (let i = foundationTopCards.length - 1; i >= 0; i--) {
+              for (const tableau of tableaus) {
+                if (
+                  tableau.canAccept(foundationTopCards[i]) &&
+                  tableau !== fromTableau
+                ) {
+                  hintsToTopCards.push(
+                    this.createHint(
+                      foundation,
+                      foundationTopCards[i],
+                      tableau,
+                      tableau.getTopCard(),
+                      75,
+                      "fdfdf",
+                      []
+                    )
+                  );
+                  toContainer = tableau
+                  break
+                } 
+                // else {
+
+                // }
+              }
+            }
+            if (hintsToTopCards.length === foundationTopCards.length) {
+              hints.push(
+                ...hintsToTopCards,
+                this.createHint(
+                  fromTableau,
+                  tableauCard,
+                  toContainer,
+                  toContainer.getTopCard(),
+                  75,
+                  "dfdfdfd",
+                  []
+                )
+              );
+            }
+          }
+          break;
+        }
+      }
+      if (hints.length > 0) break;
+    }
+    return hints;
+  }
+
   getHintsForBlockedCardNextCardsOnes(card, tableau, nextCards) {
     const hints = [];
 
-    if (nextCards.length === 0) return hints;
+    if (nextCards.length === 0) return [];
     else if (nextCards.length > 0) {
       const suitableFoundations = this.findSuitableFoundations(card);
       console.log("suitableFoundations: ", suitableFoundations);
@@ -263,7 +372,11 @@ export class H2 {
     const hints = [];
 
     // ШАГ 1: Проверить можно ли переместить в foundations
-    const foundationHints = this.checkFoundationMove(card, fromContainer);
+    const foundationHints = this.checkFoundationMove(
+      card,
+      fromContainer,
+      nextCards
+    );
     if (foundationHints.length > 0) {
       return foundationHints.map((hint) => ({
         ...hint,
@@ -302,7 +415,7 @@ export class H2 {
   }
 
   // Проверить перемещение в foundations
-  checkFoundationMove(card, fromContainer) {
+  checkFoundationMove(card, fromContainer, nextCards) {
     const hints = [];
     const foundations = this.stateManager.state.cardsComponents.foundations;
     const currentFoundation = foundations.find((foundation) => {
@@ -322,6 +435,21 @@ export class H2 {
           `Положить ${card} в дом`
         )
       );
+    } else if (!currentFoundation && nextCards.length > 0) {
+      const newCurrentFoundation = this.findSuitableFoundations(card);
+      if (newCurrentFoundation) {
+        nextCards.forEach((nextCard, index) => {
+          const newNextCards = nextCards.slice(index + 1);
+          if (newNextCards.length === 0) {
+            const nextCardHints = this.getHintsForBlockedCard(
+              nextCard,
+              fromContainer,
+              []
+            );
+          } else {
+          }
+        });
+      }
     }
     return hints;
   }
@@ -395,11 +523,11 @@ export class H2 {
     const tableaus = this.stateManager.state.cardsComponents.tableaus;
 
     const firstCardValueKingTableaus = tableaus.filter((tableau) => {
-      return tableau.cards[0]?.value === this.cardVAlueKing
-    })
+      return tableau.cards[0]?.value === this.cardVAlueKing;
+    });
 
     if (firstCardValueKingTableaus.length - 1 === CountValuesOfEachCard) {
-      return []
+      return [];
     }
 
     const currentTableus = tableaus.filter((tableau) => {

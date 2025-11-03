@@ -56,4 +56,11 @@ export class Foundation extends Pile {
     const lastСard = tableau.cards[tableau.cards.length - 1];
     return card.positionData.parent.startsWith("tableau") && lastСard !== card;
   }
+
+  getTopCardsToHints(card) {
+    const index = this.cards.indexOf(card);
+    if (index >= 0) {
+      return this.cards.slice(index + 1)
+    }
+  }
 }
