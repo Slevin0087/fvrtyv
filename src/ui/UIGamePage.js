@@ -79,7 +79,7 @@ export class UIGamePage extends UIPage {
       this.onClickRestartGameModalClose();
 
     this.elements.hintBtn.onclick = () => {
-      this.eventManager.emit(GameEvents.HINT_BTN_CLICK);
+      this.onClickHintBtn();
     };
 
     this.elements.menuBtn.onclick = () => {
@@ -238,6 +238,11 @@ export class UIGamePage extends UIPage {
   onClickRestartGameModalClose() {
     this.elements.restartGameModal.classList.add("hidden");
     this.isRestartGameModalShow = false;
+  }
+
+  onClickHintBtn() {
+    if (!this.stateManager.getIsRunning()) return;
+    this.eventManager.emit(GameEvents.HINT_BTN_CLICK);
   }
 
   // Инициализация событий модального окна: результаты игры

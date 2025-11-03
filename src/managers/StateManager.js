@@ -205,6 +205,10 @@ export class StateManager {
     this.state.game.isRunning = boolean;
   }
 
+  getIsRunning() {
+    return this.state.game.isRunning
+  }
+
   getAllData() {
     // Загрузка сохраненных данных
     this.getGameStats();
