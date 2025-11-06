@@ -45,8 +45,11 @@
   --cards-sprite-width-1500: calc(var(--card-width-1500) * 13);
   --cards-sprite-height-1500: calc(var(--card-height-1500) * 4);
 
-  --cards-sprite-width-cb: calc(var(--card-width-900) * 4);
-  --cards-sprite-height-cb: calc(var(--card-height-900) * 1);
+  --cards-sprite-width-cb: calc(var(--card-width) * 4);
+  --cards-sprite-height-cb: calc(var(--card-height) * 1);
+
+  --cards-sprite-width-cb-900: calc(var(--card-width-900) * 4);
+  --cards-sprite-height-cb-900: calc(var(--card-height-900) * 1);
 }
 
 /* Контейнер игры */
@@ -304,6 +307,10 @@
   .card-front {
     background-size: var(--cards-sprite-width-900)
       var(--cards-sprite-height-900);
+  }
+
+  .card-back {
+    background-size: var(--cards-sprite-width-cb-900) var(--cards-sprite-height-cb-900);
   }
 
   .stock-span,
