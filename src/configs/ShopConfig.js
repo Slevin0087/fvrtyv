@@ -65,12 +65,12 @@ export const ShopConfig = {
         img: "./src/assets/cardsImages/Frame_53@4x_5.png",
         styles: {
           borderRadius: "0.5vw",
-          padding: '0',
+          padding: "0",
         },
         shopStyles: {
           borderRadius: "0.5vw",
-          padding: '0',
-        }
+          padding: "0",
+        },
       },
       manyLines: 4,
       manyColumns: 13,
@@ -189,6 +189,41 @@ export const ShopConfig = {
     },
 
     // === Рубашки карт ===
+    {
+      id: "classic_back_img1",
+      name: "Классическая рубашка",
+      type: "backs",
+      bgType: "images",
+      category: "cardBack",
+      owned: false,
+      isBought: false,
+      price: 0,
+      styleClass: "classic-back",
+      description: "Классическая рубашка",
+      rarity: "common",
+      unlockCondition: null,
+      // previewImage: "assets/shop/previews/blue_back.png",
+      previewImage: {
+        img: "./src/assets/cardsImages/Frame_56_shirts.png",
+        bgPositionX: 0,
+        bgPositionY: 0,
+        styles: {
+          borderRadius: "0.5vw",
+          padding: "0",
+        },
+        shopStyles: {
+          borderRadius: "0.5vw",
+          padding: "0",
+        },
+      },
+      manyLines: 1,
+      manyColumns: 4,
+      // styles: {
+      //   background:
+      //     "repeating-linear-gradient(45deg,#1a5a1a,#1a5a1a 10px,#165016 10px,#165016 20px)",
+      //   color: "transparent !important",
+      // },
+    },
     {
       id: "classic_back",
       name: "Классическая рубашка",

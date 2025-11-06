@@ -60,8 +60,8 @@ export class CardsSystem {
 
   getCardStyles() {
     return {
-      backStyle: this.state.player.selectedItems.backs.styleClass,
-      faceStyle: this.state.player.selectedItems.faces.styleClass,
+      backStyle: this.state.player.selectedItems.backs,
+      faceStyle: this.state.player.selectedItems.faces,
     };
   }
 

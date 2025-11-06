@@ -7,7 +7,7 @@ export class UIShopPage extends UIPage {
   constructor(eventManager, stateManager, translator) {
     super(eventManager, stateManager, "shop");
     this.state = stateManager.state;
-    this.translator = translator
+    this.translator = translator;
     this.elements = {
       backBtn: document.getElementById("shop-back"),
       balance: document.getElementById("coins"),
@@ -91,17 +91,17 @@ export class UIShopPage extends UIPage {
     const shopItem = document.createElement("div");
     itemHead.classList.add("item-head");
     shopItemContainer.classList.add("shop-item-container");
-    const itemNameTranslation = this.translator.tShop(item.id, 'name')
+    const itemNameTranslation = this.translator.tShop(item.id, "name");
     // const itemDescriptionTranslation = this.translator.tShop(item.id, 'description')
-    console.log('itemNameTranslation: ', itemNameTranslation);
-    
+    console.log("itemNameTranslation: ", itemNameTranslation);
+
     // itemName.textContent = item.name;
     itemName.textContent = itemNameTranslation;
     // itemDescription.textContent = item.description;
     // itemDescription.textContent = itemDescriptionTranslation;
     // itemHead.append(itemName, itemDescription);
     itemHead.append(itemName);
-    
+
     console.log("item.category: ", item.category);
 
     if (item.category === "cardFace" || item.category === "cardBack") {
@@ -113,6 +113,8 @@ export class UIShopPage extends UIPage {
         Object.assign(shopItem.style, item.styles);
         Object.assign(shopItem2.style, item.styles);
       } else if (!item.styles && item.previewImage) {
+        let bgPositionsShopItem2 = null;
+        let bgPositionsShopItem = null;
         // const suitShopItem = CardSuits.CLUBS;
         // const valueShopItem = CardValues[CardValues.length - 1];
         // const suitShopItem2 = CardSuits.HEARTS;
@@ -122,25 +124,47 @@ export class UIShopPage extends UIPage {
         // а valueShopItem === "K", suitShopItem === "♣", а valueShopItem2 === "A", suitShopItem2 === "♥",
         // то const shopItem =
 
-        const bgPositionsShopItem2 = Helpers.calculatePosition(
-          CardSuits.CLUBS,
-          CardValues[CardValues.length - 1],
-          shopItem,
-          item.manyColumns,
-          item.manyLines
-        );
-        const bgPositionsShopItem = Helpers.calculatePosition(
-          CardSuits.HEARTS,
-          CardValues[0],
-          shopItem2,
-          item.manyColumns,
-          item.manyLines
-        );
+        if (item.category === "cardFace") {
+          bgPositionsShopItem2 = Helpers.calculatePosition(
+            CardSuits.CLUBS,
+            CardValues[CardValues.length - 1],
+            shopItem,
+            item.manyColumns,
+            item.manyLines
+          );
+          bgPositionsShopItem = Helpers.calculatePosition(
+            CardSuits.HEARTS,
+            CardValues[0],
+            shopItem2,
+            item.manyColumns,
+            item.manyLines
+          );
+          shopItem.className = "shop-item-card-bg";
+          shopItem2.className = "shop-item-card-bg";
+        } else {
+          console.log("в else");
 
-        shopItem.className = "shop-item-card-bg";
-        shopItem2.className = "shop-item-card-bg";
+          bgPositionsShopItem2 = Helpers.calculatePositionCardBack(
+            item.previewImage.bgPositionX,
+            item.previewImage.bgPositionY,
+            item.manyColumns,
+            item.manyLines
+          );
+          bgPositionsShopItem = Helpers.calculatePositionCardBack(
+            item.previewImage.bgPositionX,
+            item.previewImage.bgPositionY,
+            item.manyColumns,
+            item.manyLines
+          );
+          shopItem.className = "shop-item-card-bg-cb1";
+          shopItem2.className = "shop-item-card-bg-cb1";
+        }
+
+        console.log("item.previewImage.img: ", item.previewImage.img);
+
         shopItem.style.backgroundImage = `url(${item.previewImage.img})`;
         shopItem2.style.backgroundImage = `url(${item.previewImage.img})`;
+        console.log("bgPositionsShopItem2: ", bgPositionsShopItem2);
 
         shopItem.style.backgroundPosition = `${bgPositionsShopItem.x}% ${bgPositionsShopItem.y}%`;
 

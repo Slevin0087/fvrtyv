@@ -79,7 +79,13 @@ export class Helpers {
     return div.innerHTML;
   }
 
-  static calculatePosition(suit, value, element, manyColumns = 13, manyLines = 4) {
+  static calculatePosition(
+    suit,
+    value,
+    element,
+    manyColumns = 13,
+    manyLines = 4
+  ) {
     const suitIndex = [
       CardSuits.HEARTS,
       CardSuits.DIAMONDS,
@@ -91,6 +97,19 @@ export class Helpers {
 
     const x = (100 / (manyColumns - 1)) * valueIndex;
     const y = (100 / (manyLines - 1)) * suitIndex;
+
+    return { x, y };
+  }
+
+  static calculatePositionCardBack(
+    bgPositionX,
+    bgPositionY,
+    manyColumns = 4,
+    manyLines = 1
+  ) {
+    const x = (100 / (manyColumns - 1)) * bgPositionX;
+    // const y = (100 / (manyLines - 1)) * bgPositionY;
+    const y = bgPositionY;
 
     return { x, y };
   }

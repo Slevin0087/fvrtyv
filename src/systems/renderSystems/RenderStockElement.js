@@ -206,11 +206,25 @@ export class RenderStockElement {
   renderStockCard(card, container) {
     // Создаем новый элемент карты
     const cardElement = document.createElement("div");
-    cardElement.className = `card ${card.color}`;
+    cardElement.className = `card-back`;
     cardElement.dataset.suit = card.suit;
     cardElement.dataset.value = card.value;
+    const backStyle = this.state.player.selectedItems.backs;
+    if (backStyle.bgType === "images") {
+      cardElement.style.backgroundImage = `url(${backStyle.previewImage.img})`;
+      const bgPositions = Helpers.calculatePositionCardBack(
+        backStyle.previewImage.bgPositionX,
+        backStyle.previewImage.bgPositionY,
+        backStyle.manyColumns,
+        backStyle.manyLines
+      );
 
-    cardElement.classList.add(this.state.player.selectedItems.backs.styleClass);
+      cardElement.style.backgroundPosition = `${bgPositions.x}% ${bgPositions.y}%`;
+    } else {
+      cardElement.classList.add(
+        backStyle.styleClass
+      );
+    }
 
     // Сохраняем ссылку на DOM элемент в карте
     card.domElement = cardElement;

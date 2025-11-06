@@ -1,5 +1,7 @@
 :root {
+  /* --card-radius: 0.5vw; Скругление углов */
   --card-radius: 0.5vw; /* Скругление углов */
+
   --card-overlap: 3vw; /*Перекрытие карт в tableau */
   --card-overlap: calc(var(--card-height) * 0.3);
   --gap: 0.1vw; /* Отступы между элементами */
@@ -42,6 +44,9 @@
 
   --cards-sprite-width-1500: calc(var(--card-width-1500) * 13);
   --cards-sprite-height-1500: calc(var(--card-height-1500) * 4);
+
+  --cards-sprite-width-cb: calc(var(--card-width-900) * 4);
+  --cards-sprite-height-cb: calc(var(--card-height-900) * 1);
 }
 
 /* Контейнер игры */
@@ -54,7 +59,6 @@
   justify-content: center;
 }
 
-.card,
 .card-front,
 .card-back {
   /* padding: var(--padding-c); */
@@ -75,13 +79,16 @@
   touch-action: none;
   /* transition: transform 2000ms linear; */
   background-origin: padding-box;
-  background-size: var(--cards-sprite-width) var(--cards-sprite-height);
   background-repeat: no-repeat;
   background-clip: content-box;
   box-sizing: content-box;
 }
 
-.card.is-dragging {
+.card-front {
+  background-size: var(--cards-sprite-width) var(--cards-sprite-height);
+}
+
+.card-front .is-dragging {
   cursor: grabbing;
   border: var(--border-c) solid rgb(186, 218, 11);
   touch-action: none;
@@ -99,7 +106,7 @@
   position: absolute;
 } */
 
-.card .top {
+.card-front .top {
   font-size: var(--font-size-tbcard-v);
   padding: var(--padding-c);
   margin-top: 0;
@@ -111,7 +118,7 @@
   text-align: center;
 }
 
-.card .center {
+.card-front .center {
   font-size: var(--font-size-ccard-v); /* Размер шрифта */
   line-height: 1; /* Убираем лишний межстрочный интервал */
   padding: 0; /* Убираем внутренние отступы */
@@ -121,7 +128,7 @@
   text-align: center; /* Центрируем текст по горизонтали */
 }
 
-.card .bottom {
+.card-front .bottom {
   font-size: var(--font-size-tbcard-v);
   /* height: max-content; */
   width: 100%;
@@ -260,6 +267,10 @@
   /* box-sizing: border-box; */
 }
 
+.card-back {
+  background-size: var(--cards-sprite-width-cb) var(--cards-sprite-height-cb);
+}
+
 @media (min-width: 350px) {
   .row-a {
     gap: var(--gap-row1-350px);
@@ -279,7 +290,6 @@
     gap: var(--gap-row1-900);
   }
 
-  .card,
   .card-front,
   .card-back,
   .pile-stock,
@@ -291,7 +301,7 @@
     height: var(--card-height-900);
   }
 
-  .card {
+  .card-front {
     background-size: var(--cards-sprite-width-900)
       var(--cards-sprite-height-900);
   }
@@ -302,16 +312,16 @@
     font-size: var(--card-width-900);
   }
 
-  .card .top {
+  .card-front .top {
     padding: var(--padding-c-900);
     font-size: var(--font-size-tbcard-v-900);
   }
 
-  .card .center {
+  .card-front .center {
     font-size: var(--font-size-ccard-v-900);
   }
 
-  .card .bottom {
+  .card-front .bottom {
     padding: var(--padding-c-900);
     font-size: var(--font-size-tbcard-v-900);
   }
@@ -332,13 +342,11 @@
     margin-bottom: 1vh;
   }
 
-  /* .card,
-  .card-front,
-  .card-back {
+  /* .card-back {
     padding: var(--padding-c-1500);
+    background-size: var(--cards-sprite-width) var(--cards-sprite-height);
   } */
 
-  .card,
   .card-front,
   .card-back,
   .pile-stock,
@@ -350,7 +358,7 @@
     height: var(--card-height-1500);
   }
 
-  .card {
+  .card-front {
     background-size: var(--cards-sprite-width-1500)
       var(--cards-sprite-height-1500);
   }
@@ -361,16 +369,16 @@
     font-size: var(--card-width-1500);
   }
 
-  .card .top {
+  .card-front .top {
     padding: var(--padding-c-1500);
     font-size: var(--font-size-tbcard-v-1500);
   }
 
-  .card .center {
+  .card-front .center {
     font-size: var(--font-size-ccard-v-1500);
   }
 
-  .card .bottom {
+  .card-front .bottom {
     padding: var(--padding-c-1500);
     font-size: var(--font-size-tbcard-v-1500);
   }

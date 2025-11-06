@@ -241,47 +241,26 @@ export class AnimationSystem {
     if (!card.domElement || card.isAnimating) return;
     try {
       const cardDomElement = card.domElement;
-      const cardSuit = card.suit;
-      const { backStyle, faceStyle } = this.cardsSystem.getCardStyles();
-      const selectedFaces = this.state.player.selectedItems.faces;
-      
+      const { faceStyle } = this.cardsSystem.getCardStyles();
+
       card.isAnimating = true;
       await Animator.flipCard(
         card,
         () => {
           // Колбэк на середине анимации (90 градусов)
           cardDomElement.innerHTML = "";
-          cardDomElement.classList.remove(backStyle);
-
-          if (selectedFaces.bgType === "styles") {
-            const topSymbol = document.createElement("span");
-            topSymbol.className = "card-symbol top";
-            topSymbol.textContent = card.getSymbol();
-
-            const centerSymbol = document.createElement("span");
-            centerSymbol.className = "card-symbol center";
-            centerSymbol.textContent = cardSuit;
-
-            const bottomSymbol = document.createElement("span");
-            bottomSymbol.className = "card-symbol bottom";
-            bottomSymbol.textContent = card.getSymbol();
-            // cardDomElement.classList.remove(backStyle);
-            cardDomElement.classList.add(faceStyle);
-            cardDomElement.append(topSymbol, centerSymbol, bottomSymbol);
-          } else if (selectedFaces.bgType === "images") {
-            const cardValue = card.value;
-            cardDomElement.style.backgroundImage = `url(${selectedFaces.previewImage.img})`;
-            const elementPositions = Helpers.calculatePosition(
-              cardSuit,
-              cardValue,
+          // cardDomElement.classList.remove(backStyle);
+          cardDomElement.classList.remove("card-back");
+          cardDomElement.classList.add("card-front");
+          if (faceStyle.bgType === "styles") {
+            this.addCardFrontClass(faceStyle, card);
+          } else if (faceStyle.bgType === "images") {
+            this.addCardFrontImage(
+              faceStyle,
+              card.value,
+              card.suit,
               cardDomElement
             );
-            cardDomElement.style.backgroundPosition = `${elementPositions.x}% ${elementPositions.y}%`;
-            if (selectedFaces.previewImage.styles)
-              Object.assign(
-                cardDomElement.style,
-                selectedFaces.previewImage.styles
-              );
           }
         },
         deg,
@@ -301,21 +280,26 @@ export class AnimationSystem {
 
     try {
       const { backStyle, faceStyle } = this.cardsSystem.getCardStyles();
-      const selectedFaces = this.state.player.selectedItems.faces;
       card.isAnimating = true;
-      
+
       await Animator.flipCard(
         card,
         () => {
           // Колбэк на середине анимации (90 градусов)
-          // this.cardsSystem.removeHandleCard(card);
-
           card.domElement.innerHTML = "";
-          if (selectedFaces.bgType === "styles")
-            card.domElement.classList.remove(faceStyle);
-          else if (selectedFaces.bgType === "images")
+          card.domElement.classList.remove("card-front");
+          card.domElement.classList.add("card-back");
+          if (faceStyle.bgType === "styles") {
+            card.domElement.classList.remove(faceStyle.styleClass);
+          } else if (faceStyle.bgType === "images") {
             card.domElement.style.backgroundImage = "";
-          card.domElement.classList.add(backStyle);
+          }
+          if (backStyle.bgType === "styles") {
+            this.addCardBackClass(backStyle, card.domElement);
+          }
+          if (backStyle.bgType === "images") {
+            this.addCardBackImage(backStyle, card.domElement);
+          }
         },
         deg,
         this.eventManager,
@@ -413,5 +397,49 @@ export class AnimationSystem {
       const nextAnimation = this.animationsQueue.shift();
       nextAnimation();
     }
+  }
+
+  addCardFrontClass(faceStyle, card) {
+    const topSymbol = document.createElement("span");
+    topSymbol.className = "card-symbol top";
+    topSymbol.textContent = card.getSymbol();
+
+    const centerSymbol = document.createElement("span");
+    centerSymbol.className = "card-symbol center";
+    centerSymbol.textContent = card.suit;
+
+    const bottomSymbol = document.createElement("span");
+    bottomSymbol.className = "card-symbol bottom";
+    bottomSymbol.textContent = card.getSymbol();
+    card.domElement.classList.add(faceStyle.styleClass);
+    card.domElement.append(topSymbol, centerSymbol, bottomSymbol);
+  }
+
+  addCardFrontImage(faceStyle, cardValue, cardSuit, cardDomElement) {
+    cardDomElement.style.backgroundImage = `url(${faceStyle.previewImage.img})`;
+    const elementPositions = Helpers.calculatePosition(
+      cardSuit,
+      cardValue,
+      cardDomElement
+    );
+    cardDomElement.style.backgroundPosition = `${elementPositions.x}% ${elementPositions.y}%`;
+    if (faceStyle.previewImage.styles)
+      Object.assign(cardDomElement.style, faceStyle.previewImage.styles);
+  }
+
+  addCardBackClass(backStyle, cardDomElement) {
+    cardDomElement.classList.add(backStyle.styleClass);
+  }
+
+  addCardBackImage(backStyle, cardDomElement) {
+    cardDomElement.style.backgroundImage = `url(${backStyle.previewImage.img})`;
+    const bgPositions = Helpers.calculatePositionCardBack(
+      backStyle.previewImage.bgPositionX,
+      backStyle.previewImage.bgPositionY,
+      backStyle.manyColumns,
+      backStyle.manyLines
+    );
+
+    cardDomElement.style.backgroundPosition = `${bgPositions.x}% ${bgPositions.y}%`;
   }
 }

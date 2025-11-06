@@ -35,6 +35,13 @@
     var(--shopCard-height) * 4
   ); /* 4 карты в высоту */
 
+  --shop-cards-sprite-width: calc(
+    var(--shopCard-width) * 4
+  ); /* 4 карт в ширину */
+  --shop-cards-sprite-height: calc(
+    var(--shopCard-height) * 1
+  ); /* 1 карты в высоту */
+
   --shop-cards-sprite-width-900: calc(
     var(--shopCard-width-900) * 13
   ); /* 14 карт в ширину */
@@ -196,8 +203,18 @@
   width: var(--shopCard-width);
   height: var(--shopCard-height);
   /* background-repeat: no-repeat; */
-  background-size: var(--shop-cards-sprite-width)
-    var(--shop-cards-sprite-height);
+  background-size: var(--shop-cards-sprite-width);
+  /* var(--shop-cards-sprite-height); */
+  box-sizing: content-box;
+}
+
+.shop-item-card-bg-cb1 {
+  padding: var(--padding-c);
+  width: var(--shopCard-width);
+  height: var(--shopCard-height);
+  /* background-repeat: no-repeat; */
+  background-size: var(--shop-cards-sprite-width);
+  /* var(--shop-cards-sprite-height); */
   box-sizing: content-box;
 }
 
@@ -267,8 +284,8 @@
   }
 
   .shop-item-card-bg {
-    background-size: var(--shop-cards-sprite-width-900)
-      var(--shop-cards-sprite-height-900);
+    background-size: var(--shop-cards-sprite-width-900);
+    /* var(--shop-cards-sprite-height-900); */
   }
 
   .shop-card-top-left {
@@ -295,8 +312,8 @@
     height: var(--shopCard-height-1200);
   }
   .shop-item-card-bg {
-    background-size: var(--shop-cards-sprite-width-1200)
-      var(--shop-cards-sprite-height-1200);
+    background-size: var(--shop-cards-sprite-width-1200);
+    /* var(--shop-cards-sprite-height-1200); */
   }
 
   .shop-card-top-left {
@@ -320,8 +337,8 @@
   }
 
   .shop-item-card-bg {
-    background-size: var(--shop-cards-sprite-width-1500)
-      var(--shop-cards-sprite-height-1500);
+    background-size: var(--shop-cards-sprite-width-1500);
+    /* var(--shop-cards-sprite-height-1500); */
   }
 
   .shop-card-top-left {

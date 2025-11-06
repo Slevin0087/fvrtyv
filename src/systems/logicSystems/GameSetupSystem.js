@@ -61,15 +61,12 @@ export class GameSetupSystem {
   async dealSingleCard(stock, tableau, isFaceUp) {
     try {
       const card = stock.deal();
-      console.log('stock.deal(), card.faceUp: ', card.faceUp);
       if (!card) throw new Error("No cards left in stock");
       if (isFaceUp) card.flip(true);
       await this.animateCardMove(card, tableau);
       if (isFaceUp) {
 
         await this.flipCard(card);
-        console.log('card.flip(true), card.faceUp: ', card.faceUp);
-
         // Добавление картам событий: onpointerdown, onpointermove, onpointerup
         this.eventManager.emit(
           GameEvents.ADD_ONPOINTERDOWN_TO_CARD,
@@ -121,12 +118,6 @@ export class GameSetupSystem {
     this.eventManager.emit(GameEvents.CARD_CLICK, card);
     // });
   }
-
-  // removeHandleCard(card) {
-  //   card.domElement.removeEventListener("click", () => {
-  //     this.eventManager.emit(GameEvents.CARD_CLICK, card);
-  //   });
-  // }
 
   isFaceDownCard(card) {
     if (this.state.faceDownCards.length > 0) {

@@ -165,22 +165,23 @@ export class H2 {
       if (cardHints.length > 0) {
         break;
       } else {
-        if (nextCards.length === 0) {
-          const allHintsToFoundations = this.getAllHintsToFoundations(
+
+        // if (allHintsToFoundations.length === 0) {
+          const hintsFromWasteToTableau = this.getHintsFromWasteToTableau(
             card,
             fromContainer,
             nextCards
           );
-          hints.push(...allHintsToFoundations);
+          hints.push(...hintsFromWasteToTableau);
+        // }
+        if (nextCards.length === 0) {
+          // const allHintsToFoundations = this.getAllHintsToFoundations(
+          //   card,
+          //   fromContainer,
+          //   nextCards
+          // );
+          // hints.push(...allHintsToFoundations);
 
-          if (allHintsToFoundations.length === 0) {
-            const hintsFromWasteToTableau = this.getHintsFromWasteToTableau(
-              card,
-              fromContainer,
-              nextCards
-            );
-            hints.push(...hintsFromWasteToTableau);
-          }
           // const foundationToTableauHints = this.getFoundationToTableauHints(
           //   card,
           //   fromContainer
@@ -704,13 +705,12 @@ export class H2 {
     if (wasteTopCard && this.isSuitableCardToTableau(fromCard, wasteTopCard)) {
       for (const tableau of this.stateManager.state.cardsComponents.tableaus) {
         if (tableau.canAccept(wasteTopCard)) {
-          const toCard = tableau.isEmpty() ? tableau : tableau.getTopCard();
           hints.push(
             this.createHint(
               waste,
               wasteTopCard,
               tableau,
-              toCard,
+              tableau.getTopCard(),
               85,
               "ffff",
               nextCards
@@ -721,7 +721,7 @@ export class H2 {
               fromContainer,
               fromCard,
               tableau,
-              toCard,
+              tableau.getTopCard(),
               85,
               "ffff",
               nextCards
