@@ -49,11 +49,7 @@ export class H2 {
 
     // ПРИОРИТЕТ 1: Открытие закрытых карт
     if (blockedCardsToCardsWithFaceDown.length > 0) {
-      this.hints.push(
-        ...this.getUncoverHiddenCardsHintsFirstOnes(
-          blockedCardsToCardsWithFaceDown
-        )
-      );
+      this.hints.push(...this.getCardsHints(blockedCardsToCardsWithFaceDown));
     }
 
     if (this.hints.length === 0) {
@@ -63,9 +59,7 @@ export class H2 {
     if (this.hints.length === 0) {
       const blockedCardsToFreeUpSpace = this.getAllBlockedCardsToFreeUpSpace();
       if (blockedCardsToFreeUpSpace.length > 0) {
-        this.hints.push(
-          ...this.getUncoverHiddenCardsHintsFirstOnes(blockedCardsToFreeUpSpace)
-        );
+        this.hints.push(...this.getCardsHints(blockedCardsToFreeUpSpace));
       }
     }
 
@@ -100,31 +94,110 @@ export class H2 {
     return this.hints;
   }
 
+  ///////////////////////////////////////////////////////
+  getHintsViaSimilarCard(originalCard, originalFromContainer) {
+    const hints = [];
+    const similarCardData = this.getSimilarInValueAndColorCard(
+      originalCard,
+      originalFromContainer
+    );
+
+    if (similarCardData === null) {
+      return hints;
+    }
+
+    const {
+      card: similarCard,
+      fromContainer: similarFromContainer,
+      nextCards: similarNextCards,
+    } = similarCardData;
+
+    // Если аналогичная карта заблокирована, ищем ходы для неё
+    if (similarNextCards.length > 0) {
+      const similarCardHints = this.getHintsForBlockedCard(
+        similarCard,
+        similarFromContainer,
+        similarNextCards
+      );
+
+      if (similarCardHints.length > 0) {
+        hints.push(...similarCardHints);
+
+        // После освобождения аналогичной карты, можем переместить исходную карту
+        const targetMoveHints = this.checkTableauMove(
+          originalCard,
+          originalFromContainer,
+          []
+        );
+        hints.push(...targetMoveHints);
+      }
+    } else {
+      // Аналогичная карта уже доступна - можем переместить исходную карту к ней
+      const directMoveHints = this.checkTableauMove(
+        originalCard,
+        originalFromContainer,
+        []
+      );
+      hints.push(...directMoveHints);
+    }
+
+    return hints;
+  }
+
+  //////////////////////////////////
+
   // ПРИОРИТЕТ 1: Открытие закрытых карт
-  getUncoverHiddenCardsHintsFirstOnes(tableauFirstBlockedCards) {
+  getCardsHints(tableauFirstBlockedCards) {
     const hints = [];
 
     for (const blockedCard of tableauFirstBlockedCards) {
-      const { card, tableau, nextCards } = blockedCard;
+      const { card, fromContainer, nextCards } = blockedCard;
 
       // Проверяем все возможные ходы для этой карты
-      const cardHints = this.getHintsForBlockedCard(card, tableau, nextCards);
+      const cardHints = this.getHintsForBlockedCard(
+        card,
+        fromContainer,
+        nextCards
+      );
       hints.push(...cardHints);
 
       // Если нашли подсказки для этой карты, добавляем и переходим к следующей
       if (cardHints.length > 0) {
         break;
       } else {
-        const foundationToTableauHints = this.getFoundationToTableauHints(
-          card,
-          tableau
-        );
-        hints.push(...foundationToTableauHints);
-        if (foundationToTableauHints.length === 0) {
+        if (nextCards.length === 0) {
+          const allHintsToFoundations = this.getAllHintsToFoundations(
+            card,
+            fromContainer,
+            nextCards
+          );
+          hints.push(...allHintsToFoundations);
+
+          if (allHintsToFoundations.length === 0) {
+            const hintsFromWasteToTableau = this.getHintsFromWasteToTableau(
+              card,
+              fromContainer,
+              nextCards
+            );
+            hints.push(...hintsFromWasteToTableau);
+          }
+          // const foundationToTableauHints = this.getFoundationToTableauHints(
+          //   card,
+          //   fromContainer
+          // );
+          // hints.push(...foundationToTableauHints);
+          // if (foundationToTableauHints.length === 0) {
+          //   const hintsViaSimilarCard = this.getHintsViaSimilarCard(
+          //     card,
+          //     fromContainer
+          //   );
+          //   hints.push(...hintsViaSimilarCard);
+          // }
+        } else {
           //////////////////////////////
           const nextCardHints = this.getHintsForBlockedCardNextCardsOnes(
             card,
-            tableau,
+            fromContainer,
             nextCards
           );
           hints.push(...nextCardHints);
@@ -135,96 +208,146 @@ export class H2 {
     return hints;
   }
 
-  getFoundationToTableauHints(tableauCard, fromTableau) {
+  getFoundationToTableauHints(tableauCard, fromTableau, foundation) {
+    const hints = [];
+    // const foundations = this.stateManager.state.cardsComponents.foundations;
+    // for (const foundation of foundations) {
+    const foundationСards = foundation.cards;
+    for (const foundationСard of foundationСards) {
+      if (!this.isSuitableFoundationCard(foundationСard, tableauCard)) {
+        continue;
+      }
+      if (foundationСard === foundation.getTopCard()) {
+        // Карта верхняя в foundation
+        const hintsFromFoundation = this.tryMoveTopFoundationCard(
+          foundation,
+          card,
+          fromTableau,
+          tableauCard
+        );
+        if (hintsFromFoundation.length > 0) {
+          hints.push(...hintsFromFoundation);
+          return hints; // Нашли ходы - возвращаем массив
+        }
+      } else {
+        // Карта не верхняя - нужно переместить верхние карты
+        const hintsCardsFromFoundation = this.tryMoveNonTopFoundationCard(
+          foundation,
+          fromTableau,
+          tableauCard
+        );
+        if (hintsCardsFromFoundation.length > 0) {
+          hints.push(...hintsCardsFromFoundation);
+          return hints; // Нашли ходы - возвращаем массив
+        }
+      }
+    }
+    // }
+    return hints;
+  }
+
+  // Вспомогательные методы для упрощения логики
+  isSuitableFoundationCard(foundationCard, tableauCard) {
+    return (
+      foundationCard.value !== "A" &&
+      foundationCard.value !== "K" &&
+      tableauCard.isOppositeColor(foundationCard) &&
+      tableauCard.isNextInSequence(foundationCard)
+    );
+  }
+
+  isSuitableCardToFoundation(toCard, foundation, cardsComponents, fromCard) {
+    return (
+      toCard &&
+      foundation.canAccept(toCard, cardsComponents) &&
+      fromCard.suit === toCard.suit &&
+      fromCard.isPreviousInSequence(toCard)
+    );
+  }
+
+  isSuitableCardToTableau(fromCard, toCard) {
+    return (
+      toCard.value !== "A" &&
+      fromCard.isOppositeColor(toCard) &&
+      fromCard.isNextInSequence(toCard)
+    );
+  }
+
+  tryMoveTopFoundationCard(
+    foundation,
+    foundationCard,
+    fromTableau,
+    tableauCard
+  ) {
     const hints = [];
     const tableaus = this.stateManager.state.cardsComponents.tableaus;
-    const foundations = this.stateManager.state.cardsComponents.foundations;
-    for (const foundation of foundations) {
-      const cards = foundation.cards;
-      for (const card of cards) {
-        if (
-          card.value !== "A" &&
-          card.value !== "K" &&
-          tableauCard.isOppositeColor(card) &&
-          tableauCard.isNextInSequence(card)
-        ) {
-          if (card === foundation.getTopCard()) {
-            for (const tableau of tableaus) {
-              if (tableau.canAccept(card) && tableau !== fromTableau) {
-                hints.push(
-                  this.createHint(
-                    foundation,
-                    card,
-                    tableau,
-                    tableau.getTopCard(),
-                    75,
-                    "dfdfdfd",
-                    []
-                  )
-                );
-                hints.push(
-                  this.createHint(
-                    fromTableau,
-                    tableauCard,
-                    tableau,
-                    tableau.getTopCard(),
-                    75,
-                    "dfdfdfd",
-                    []
-                  )
-                );
-                break;
-              }
-            }
-          } else {
-            const foundationTopCards = foundation.getTopCardsToHints(card);
-            const hintsToTopCards = [];
-            let toContainer = null;
-            for (let i = foundationTopCards.length - 1; i >= 0; i--) {
-              for (const tableau of tableaus) {
-                if (
-                  tableau.canAccept(foundationTopCards[i]) &&
-                  tableau !== fromTableau
-                ) {
-                  hintsToTopCards.push(
-                    this.createHint(
-                      foundation,
-                      foundationTopCards[i],
-                      tableau,
-                      tableau.getTopCard(),
-                      75,
-                      "fdfdf",
-                      []
-                    )
-                  );
-                  toContainer = tableau;
-                  break;
-                }
-                // else {
+    for (const tableau of tableaus) {
+      if (tableau !== fromTableau && tableau.canAccept(foundationCard)) {
+        hints.push(
+          this.createHint(
+            foundation,
+            foundationCard,
+            tableau,
+            tableau.getTopCard(),
+            75,
+            "Move card from foundation to free space"
+          ),
+          this.createHint(
+            fromTableau,
+            tableauCard,
+            tableau,
+            tableau.getTopCard(),
+            75,
+            "Move target card to freed space"
+          )
+        );
+      }
+    }
 
-                // }
-              }
-            }
-            if (hintsToTopCards.length === foundationTopCards.length) {
-              hints.push(
-                ...hintsToTopCards,
-                this.createHint(
-                  fromTableau,
-                  tableauCard,
-                  toContainer,
-                  toContainer.getTopCard(),
-                  75,
-                  "dfdfdfd",
-                  []
-                )
-              );
-            }
-          }
+    return hints; // Не нашли - возвращаем пустой массив
+  }
+
+  tryMoveNonTopFoundationCard(foundation, fromTableau, tableauCard) {
+    const hints = [];
+    const tableaus = this.stateManager.state.cardsComponents.tableaus;
+    const foundationTopCards = foundation.getTopCardsToHints(card);
+    const hintsToTopCards = [];
+    let toContainer = null;
+    for (let i = foundationTopCards.length - 1; i >= 0; i--) {
+      const foundationTopCard = foundationTopCards[i];
+      for (const tableau of tableaus) {
+        if (tableau.canAccept(foundationTopCard) && tableau !== fromTableau) {
+          hintsToTopCards.push(
+            this.createHint(
+              foundation,
+              foundationTopCard,
+              tableau,
+              tableau.getTopCard(),
+              75,
+              "fdfdf",
+              []
+            )
+          );
+          toContainer = tableau;
           break;
         }
       }
-      if (hints.length > 0) break;
     }
+    if (hintsToTopCards.length === foundationTopCards.length) {
+      hints.push(
+        ...hintsToTopCards,
+        this.createHint(
+          fromTableau,
+          tableauCard,
+          toContainer,
+          toContainer.getTopCard(),
+          75,
+          "dfdfdfd",
+          []
+        )
+      );
+    }
+
     return hints;
   }
 
@@ -243,6 +366,11 @@ export class H2 {
     console.log("suitableFoundations: ", suitableFoundations);
 
     if (!suitableFoundations) return hints;
+    for (let i = 0; i > nextCards.length; i++) {
+      const newNextCards = nextCards.slice(i + 1);
+      if (newNextCards.length === 0) {
+      }
+    }
     nextCards.forEach((nextCard, index) => {
       const newNextCards = nextCards.slice(index + 1);
       if (newNextCards.length === 0) {
@@ -257,16 +385,13 @@ export class H2 {
           console.log(
             "if (newNextCards.length === 0), if (nextCardHints.length > 0)"
           );
-
-          const toCard =
-            suitableFoundations.getTopCard() || suitableFoundations;
           hints.push(...nextCardHints);
           hints.push(
             this.createHint(
               tableau,
               card,
               suitableFoundations,
-              toCard,
+              suitableFoundations.getTopCard(),
               95,
               "из getHintsForBlockedCardNextCardsOnes"
             )
@@ -283,15 +408,13 @@ export class H2 {
         );
         if (nextCardHints.length > 0) {
           if (nextCards[index] === tableau.getTopCard()) {
-            const toCard =
-              suitableFoundations.getTopCard() || suitableFoundations;
             hints.push(...nextCardHints);
             hints.push(
               this.createHint(
                 tableau,
                 card,
                 suitableFoundations,
-                toCard,
+                suitableFoundations.getTopCard(),
                 95,
                 "из getHintsForBlockedCardNextCardsOnes"
               )
@@ -299,8 +422,8 @@ export class H2 {
           }
           return hints;
         } else {
-          console.log('else в цикле');
-          
+          console.log("else в цикле");
+
           const newCardHints = this.getHintsForBlockedCardNextCardsOnes(
             nextCard,
             tableau,
@@ -308,9 +431,9 @@ export class H2 {
           );
           if (newCardHints.length === 0) return [];
           else {
-            hints.push(...newCardHints)
-            return hints
-          } 
+            hints.push(...newCardHints);
+            return hints;
+          }
         }
       }
     });
@@ -320,8 +443,6 @@ export class H2 {
 
   // Получить все открытые карты, которые блокируют закрытые
   getAllBlockedOpenCards() {
-    // let tableauFirstBlockedCards = [];
-    // let tableauAfterFirstBlockedCards = [];
     const blockedCards = [];
     const tableaus = this.stateManager.state.cardsComponents.tableaus;
 
@@ -339,32 +460,16 @@ export class H2 {
 
         if (card.faceUp === true && hasFaceDownBelow) {
           if (card === tableau.getTopCard()) {
-            // tableauFirstBlockedCards.push({
-            //   card,
-            //   tableau,
-            //   index: i,
-            //   nextCards: [],
-            // });
-
             blockedCards.push({
               card,
-              tableau,
+              fromContainer: tableau,
               index: i,
               nextCards: [],
             });
-          } else if (card !== tableau.getTopCard()) {
-            // Эта открытая карта блокирует закрытые снизу
-            // const blockageLevel = this.calculateBlockageLevel(tableau, i);
-
-            // tableauAfterFirstBlockedCards.push({
-            //   card,
-            //   tableau,
-            //   index: i,
-            //   nextCards: tableau.getFaceUpTopCards(card),
-            // });
-
+          } else {
             blockedCards.push({
               card,
+              fromContainer: tableau,
               tableau,
               index: i,
               nextCards: tableau.getFaceUpTopCards(card),
@@ -375,14 +480,41 @@ export class H2 {
       }
     });
 
-    // return { tableauFirstBlockedCards, tableauAfterFirstBlockedCards };
     return blockedCards;
+  }
+
+  getSimilarInValueAndColorCard(firstCard, fromContainer) {
+    console.log("firstCard: ", firstCard);
+
+    const tableaus = this.stateManager.state.cardsComponents.tableaus;
+
+    for (const tableau of tableaus) {
+      if (tableau.cards.length === 0) continue;
+      const similarCard = tableau.cards.find(
+        (card) =>
+          card.faceUp &&
+          card.value === firstCard.value &&
+          card.color === firstCard.color &&
+          fromContainer !== tableau
+      );
+
+      if (similarCard) {
+        return {
+          card: similarCard,
+          fromContainer: tableau,
+          nextCards:
+            similarCard === tableau.getTopCard()
+              ? []
+              : tableau.getFaceUpTopCards(similarCard),
+        };
+      }
+    }
+    return null;
   }
 
   // Получить подсказки для заблокированной карты
   getHintsForBlockedCard(card, fromContainer, nextCards) {
     const hints = [];
-
     // ШАГ 1: Проверить можно ли переместить в foundations
     const foundationHints = this.checkFoundationMove(
       card,
@@ -405,64 +537,102 @@ export class H2 {
         priority: 90,
         description: `Переместить ${card} в другой столбец чтобы освободить скрытые карты`,
       }));
+    } else {
+      const waste = this.stateManager.state.cardsComponents.waste;
+      if (fromContainer !== waste) {
+        const wasteTopCard = waste.getTopCard();
+        if (wasteTopCard && this.isSuitableCardToTableau(card, wasteTopCard)) {
+          for (const tableau of this.stateManager.state.cardsComponents
+            .tableaus) {
+            if (tableau.canAccept(wasteTopCard)) {
+              hints.push(
+                this.createHint(
+                  waste,
+                  wasteTopCard,
+                  tableau,
+                  tableau.getTopCard(),
+                  90,
+                  `Переместить ${card} в другой столбец чтобы освободить скрытые карты`
+                )
+              );
+              hints.push(
+                this.createHint(
+                  fromContainer,
+                  card,
+                  tableau,
+                  tableau.getTopCard(),
+                  90,
+                  `Переместить ${card} в другой столбец чтобы освободить скрытые карты`
+                )
+              );
+              break;
+            }
+          }
+        }
+      }
     }
-
-    // // ШАГ 3: Проверить можно ли переместить стопкой
-    // const sequenceHints = this.checkSequenceMove(card, tableau);
-    // if (sequenceHints.length > 0) {
-    //   return sequenceHints.map((hint) => ({
-    //     ...hint,
-    //     priority: 80,
-    //     description: `Переместить последовательность с ${card} чтобы освободить скрытые карты`,
-    //   }));
-    // }
-
-    // // ШАГ 4: Если карта не последняя, найти ходы чтобы она стала последней
-    // if (!this.isLastCard(tableau, card)) {
-    //   const makeLastHints = this.getHintsToMakeCardLast(card, tableau);
-    //   hints.push(...makeLastHints);
-    // }
-
     return hints;
   }
 
   // Проверить перемещение в foundations
-  checkFoundationMove(card, fromContainer, nextCards) {
+  checkFoundationMove(card, fromContainer, nextCards = []) {
     const hints = [];
-    const foundations = this.stateManager.state.cardsComponents.foundations;
-    const currentFoundation = foundations.find((foundation) => {
-      return foundation.canAccept(
-        card,
-        this.stateManager.state.cardsComponents
-      );
-    });
-    if (currentFoundation) {
-      hints.push(
-        this.createHint(
-          fromContainer,
-          card,
-          currentFoundation,
-          currentFoundation.getTopCard(),
-          95,
-          `Положить ${card} в дом`
-        )
-      );
-    } else if (!currentFoundation && nextCards.length > 0) {
-      const newCurrentFoundation = this.findSuitableFoundations(card);
-      if (newCurrentFoundation) {
-        nextCards.forEach((nextCard, index) => {
-          const newNextCards = nextCards.slice(index + 1);
-          if (newNextCards.length === 0) {
-            const nextCardHints = this.getHintsForBlockedCard(
-              nextCard,
-              fromContainer,
-              []
+    const cardsComponents = this.stateManager.state.cardsComponents;
+    for (const foundation of cardsComponents.foundations) {
+      if (foundation.canAccept(card, cardsComponents)) {
+        hints.push(
+          this.createHint(
+            fromContainer,
+            card,
+            foundation,
+            foundation.getTopCard(),
+            95,
+            `Положить ${card} в дом`,
+            nextCards
+          )
+        );
+        break;
+      } else {
+        const waste = cardsComponents.waste;
+        if (waste !== fromContainer) {
+          const wasteTopCard = waste.getTopCard();
+          if (
+            wasteTopCard &&
+            this.isSuitableCardToFoundation(
+              wasteTopCard,
+              foundation,
+              cardsComponents,
+              card
+            )
+          ) {
+            hints.push(
+              this.createHint(
+                waste,
+                waste.getTopCard(),
+                foundation,
+                foundation.getTopCard(),
+                95,
+                `Положить ${card} в дом`,
+                nextCards
+              )
             );
-          } else {
+            hints.push(
+              this.createHint(
+                fromContainer,
+                fromCard,
+                foundation,
+                foundation.getTopCard(),
+                95,
+                `Положить ${card} в дом`,
+                nextCards
+              )
+            );
+            break;
           }
-        });
+        }
       }
     }
+
     return hints;
   }
 
@@ -471,21 +641,22 @@ export class H2 {
     const hints = [];
     const tableaus = this.stateManager.state.cardsComponents.tableaus;
 
-    tableaus.forEach((targetTableau) => {
-      if (targetTableau !== fromContainer && targetTableau.canAccept(card)) {
+    for (const tableau of tableaus) {
+      if (tableau.canAccept(card) && tableau !== fromContainer) {
         hints.push(
           this.createHint(
             fromContainer,
             card,
-            targetTableau,
-            targetTableau.getTopCard(),
+            tableau,
+            tableau.getTopCard(),
             85,
             `Переместить ${card} в другой столбец`,
             nextCards
           )
         );
+        break;
       }
-    });
+    }
 
     return hints;
   }
@@ -523,6 +694,42 @@ export class H2 {
     // Проверяем все возможные ходы для этой карты
     const cardHints = this.getHintsForBlockedCard(card, waste, []);
     hints.push(...cardHints);
+    return hints;
+  }
+
+  getHintsFromWasteToTableau(fromCard, fromContainer, nextCards) {
+    const hints = [];
+    const waste = this.stateManager.state.cardsComponents.waste;
+    const wasteTopCard = waste.getTopCard();
+    if (wasteTopCard && this.isSuitableCardToTableau(fromCard, wasteTopCard)) {
+      for (const tableau of this.stateManager.state.cardsComponents.tableaus) {
+        if (tableau.canAccept(wasteTopCard)) {
+          const toCard = tableau.isEmpty() ? tableau : tableau.getTopCard();
+          hints.push(
+            this.createHint(
+              waste,
+              wasteTopCard,
+              tableau,
+              toCard,
+              85,
+              "ffff",
+              nextCards
+            )
+          );
+          hints.push(
+            this.createHint(
+              fromContainer,
+              fromCard,
+              tableau,
+              toCard,
+              85,
+              "ffff",
+              nextCards
+            )
+          );
+        }
+      }
+    }
     return hints;
   }
 
@@ -624,6 +831,53 @@ export class H2 {
             )
           );
           break;
+        }
+      }
+    }
+    return hints;
+  }
+
+  getAllHintsToFoundations(fromCard, fromContainer, nextCards) {
+    const hints = [];
+    const cardsComponents = this.stateManager.state.cardsComponents;
+    for (const foundation of cardsComponents.foundations) {
+      const toFoundationOrCard = foundation.isEmpty()
+        ? foundation
+        : foundation.getTopCard();
+      if (nextCards.length === 0) {
+        const waste = cardsComponents.waste;
+        if (
+          this.isSuitableCardToFoundation(
+            waste.getTopCard(),
+            foundation,
+            cardsComponents,
+            fromCard
+          )
+        ) {
+          hints.push(
+            this.createHint(
+              waste,
+              waste.getTopCard(),
+              foundation,
+              toFoundationOrCard
+            )
+          );
+          hints.push(
+            this.createHint(
+              fromContainer,
+              fromCard,
+              foundation,
+              toFoundationOrCard
+            )
+          );
+        }
+        if (hints.length === 0) {
+          const foundationToTableauHints = this.getFoundationToTableauHints(
+            fromCard,
+            fromContainer,
+            foundation
+          );
+          hints.push(...foundationToTableauHints);
         }
       }
     }
