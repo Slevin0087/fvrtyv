@@ -241,7 +241,7 @@ export class AnimationSystem {
     if (!card.domElement || card.isAnimating) return;
     try {
       const cardDomElement = card.domElement;
-      const { faceStyle } = this.cardsSystem.getCardStyles();
+      const { backStyle, faceStyle } = this.cardsSystem.getCardStyles();
 
       card.isAnimating = true;
       await Animator.flipCard(
@@ -250,8 +250,10 @@ export class AnimationSystem {
           // Колбэк на середине анимации (90 градусов)
           cardDomElement.innerHTML = "";
           // cardDomElement.classList.remove(backStyle);
-          cardDomElement.classList.remove("card-back");
-          cardDomElement.classList.add("card-front");
+          cardDomElement.classList.remove("card-back", backStyle.styleClass);
+          // cardDomElement.classList.add("card-front", card.color);
+          cardDomElement.className = `card-front ${card.color}`;
+
           if (faceStyle.bgType === "styles") {
             this.addCardFrontClass(faceStyle, card);
           } else if (faceStyle.bgType === "images") {
@@ -413,6 +415,7 @@ export class AnimationSystem {
     bottomSymbol.textContent = card.getSymbol();
     card.domElement.classList.add(faceStyle.styleClass);
     card.domElement.append(topSymbol, centerSymbol, bottomSymbol);
+    // Object.assign(card.domElement.style, faceStyle.styles);
   }
 
   addCardFrontImage(faceStyle, cardValue, cardSuit, cardDomElement) {

@@ -35,10 +35,10 @@
     var(--shopCard-height) * 4
   ); /* 4 карты в высоту */
 
-  --shop-cards-sprite-width: calc(
+  --shop-cards-sprite-width-cb: calc(
     var(--shopCard-width) * 4
   ); /* 4 карт в ширину */
-  --shop-cards-sprite-height: calc(
+  --shop-cards-sprite-height-cb: calc(
     var(--shopCard-height) * 1
   ); /* 1 карты в высоту */
 
@@ -203,7 +203,7 @@
   width: var(--shopCard-width);
   height: var(--shopCard-height);
   /* background-repeat: no-repeat; */
-  background-size: var(--shop-cards-sprite-width);
+  background-size: var(--shop-cards-sprite-width) var(--shop-cards-sprite-height);
   /* var(--shop-cards-sprite-height); */
   box-sizing: content-box;
 }
@@ -213,7 +213,7 @@
   width: var(--shopCard-width);
   height: var(--shopCard-height);
   /* background-repeat: no-repeat; */
-  background-size: var(--shop-cards-sprite-width);
+  background-size: var(--shop-cards-sprite-width-cb) var(--shop-cards-sprite-height-cb);
   /* var(--shop-cards-sprite-height); */
   box-sizing: content-box;
 }
