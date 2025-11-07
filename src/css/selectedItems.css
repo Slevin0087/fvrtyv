@@ -230,62 +230,50 @@
   }
 }
 
-.green-path-fon {
-  background: url("../assets/shop/fons/fon_1.jpg") no-repeat center center fixed;
-}
-
-.green-field-fon {
-  background: url("../assets/shop/fons/fon_2.jpg") no-repeat center center fixed;
-}
-
-.green-field2-fon {
-  background: url("../assets/shop/fons/fon_3.jpg") no-repeat center center fixed;
-}
-
+.green-path-fon,
+.green-field-fon,
+.green-field2-fon,
 .green-field3-fon {
-  background: url("../assets/shop/fons/fon_4.jpg") no-repeat center center fixed;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 @media (min-width: 350px) {
   .green-path-fon {
-    background: url("../assets/shop/fons/fon_1_350.jpg") no-repeat cover center
-      fixed;
+    background-image: url("../assets/shop/fons/fon_1_350.jpg");
+
   }
 
   .green-field-fon {
-    background: url("../assets/shop/fons/fon_2_350.jpg") no-repeat cover center
-      fixed;
+    background-image: url("../assets/shop/fons/fon_2_350.jpg");
+
   }
 
   .green-field2-fon {
-    background: url("../assets/shop/fons/fon_3_350.jpg") no-repeat cover center
-      fixed;
+    background-image: url("../assets/shop/fons/fon_3_350.jpg");
+
   }
 
   .green-field3-fon {
-    background: url("../assets/shop/fons/fon_4_350.jpg") no-repeat cover center
-      fixed;
+    background-image: url("../assets/shop/fons/fon_4_350.jpg");
   }
 }
 
 @media (min-width: 900px) {
   .green-path-fon {
-    background: url("../assets/shop/fons/fon_1.jpg") no-repeat center center
-      fixed;
+    background-image: url("../assets/shop/fons/fon_1.jpg");
   }
 
   .green-field-fon {
-    background: url("../assets/shop/fons/fon_2.jpg") no-repeat center center
-      fixed;
+    background-image: url("../assets/shop/fons/fon_2.jpg");
   }
 
   .green-field2-fon {
-    background: url("../assets/shop/fons/fon_3.jpg") no-repeat center center
-      fixed;
+    background-image: url("../assets/shop/fons/fon_3.jpg");
   }
 
   .green-field3-fon {
-    background: url("../assets/shop/fons/fon_4.jpg") no-repeat center center
-      fixed;
+    background-image: url("../assets/shop/fons/fon_4.jpg");
   }
 }
