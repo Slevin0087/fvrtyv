@@ -252,7 +252,6 @@ export class AnimationSystem {
           // cardDomElement.classList.remove(backStyle);
           // cardDomElement.classList.remove("card-back", backStyle.styleClass);
           // cardDomElement.classList.add("card-front", card.color);
-          cardDomElement.className = `card-front ${card.color}`;
           if (backStyle.bgType === "images") {
             cardDomElement.style.backgroundImage = "";
             cardDomElement.style.backgroundSize = "";
@@ -268,6 +267,7 @@ export class AnimationSystem {
               cardDomElement
             );
           }
+          cardDomElement.className = `card-front ${card.color}`;
         },
         deg,
         this.eventManager,
