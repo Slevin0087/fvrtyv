@@ -203,7 +203,8 @@
   width: var(--shopCard-width);
   height: var(--shopCard-height);
   /* background-repeat: no-repeat; */
-  background-size: var(--shop-cards-sprite-width) var(--shop-cards-sprite-height);
+  background-size: var(--shop-cards-sprite-width)
+    var(--shop-cards-sprite-height);
   /* var(--shop-cards-sprite-height); */
   box-sizing: content-box;
 }
@@ -281,7 +282,8 @@
 
 @media (min-width: 900px) {
   .shop-item-card,
-  .shop-item-card-bg {
+  .shop-item-card-bg,
+  .shop-item-card-bg-cb1 {
     width: var(--shopCard-width-900);
     height: var(--shopCard-height-900);
   }
@@ -335,7 +337,8 @@
 
 @media (min-width: 1500px) {
   .shop-item-card,
-  .shop-item-card-bg {
+  .shop-item-card-bg,
+  .shop-item-card-bg-cb1 {
     width: var(--shopCard-width-1500);
     height: var(--shopCard-height-1500);
   }
