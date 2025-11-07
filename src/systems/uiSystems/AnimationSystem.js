@@ -250,10 +250,14 @@ export class AnimationSystem {
           // Колбэк на середине анимации (90 градусов)
           cardDomElement.innerHTML = "";
           // cardDomElement.classList.remove(backStyle);
-          cardDomElement.classList.remove("card-back", backStyle.styleClass);
+          // cardDomElement.classList.remove("card-back", backStyle.styleClass);
           // cardDomElement.classList.add("card-front", card.color);
           cardDomElement.className = `card-front ${card.color}`;
-
+          if (backStyle.bgType === "images") {
+            cardDomElement.style.backgroundImage = "";
+            cardDomElement.style.backgroundSize = "";
+            cardDomElement.style.backgroundPosition = "";
+          }
           if (faceStyle.bgType === "styles") {
             this.addCardFrontClass(faceStyle, card);
           } else if (faceStyle.bgType === "images") {
@@ -415,7 +419,6 @@ export class AnimationSystem {
     bottomSymbol.textContent = card.getSymbol();
     card.domElement.classList.add(faceStyle.styleClass);
     card.domElement.append(topSymbol, centerSymbol, bottomSymbol);
-    // Object.assign(card.domElement.style, faceStyle.styles);
   }
 
   addCardFrontImage(faceStyle, cardValue, cardSuit, cardDomElement) {
@@ -426,8 +429,8 @@ export class AnimationSystem {
       cardDomElement
     );
     cardDomElement.style.backgroundPosition = `${elementPositions.x}% ${elementPositions.y}%`;
-    if (faceStyle.previewImage.styles)
-      Object.assign(cardDomElement.style, faceStyle.previewImage.styles);
+    // if (faceStyle.previewImage.styles)
+    //   Object.assign(cardDomElement.style, faceStyle.previewImage.styles);
   }
 
   addCardBackClass(backStyle, cardDomElement) {

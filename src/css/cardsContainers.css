@@ -73,7 +73,7 @@
   height: var(--card-height);
   border-radius: var(--card-radius);
   position: absolute;
-  border: var(--border-c) solid rgb(7, 7, 7);
+  /* border: var(--border-c) solid rgb(7, 7, 7); */
   top: 0;
   left: 0;
   cursor: grab;
@@ -87,8 +87,15 @@
   box-sizing: content-box;
 }
 
+.card-back {
+  background-size: cover;
+  background-position: center;
+}
+
 .card-front {
-  background-size: var(--cards-sprite-width) var(--cards-sprite-height);
+  /* background-image: url('./src/assets/cardsImages/shirt1.png'); */
+  /* background-size: var(--cards-sprite-width) var(--cards-sprite-height); */
+  background-size: auto;
 }
 
 .card-front .is-dragging {
@@ -270,9 +277,9 @@
   /* box-sizing: border-box; */
 }
 
-.card-back {
+/* .card-back {
   background-size: var(--cards-sprite-width-cb) var(--cards-sprite-height-cb);
-}
+} */
 
 @media (min-width: 350px) {
   .row-a {
@@ -309,9 +316,10 @@
       var(--cards-sprite-height-900);
   }
 
-  .card-back {
-    background-size: var(--cards-sprite-width-cb-900) var(--cards-sprite-height-cb-900);
-  }
+  /* .card-back {
+    background-size: var(--cards-sprite-width-cb-900)
+      var(--cards-sprite-height-cb-900);
+  } */
 
   .stock-span,
   .foundation-span,

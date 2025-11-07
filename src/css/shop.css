@@ -213,9 +213,12 @@
   width: var(--shopCard-width);
   height: var(--shopCard-height);
   /* background-repeat: no-repeat; */
-  background-size: var(--shop-cards-sprite-width-cb) var(--shop-cards-sprite-height-cb);
+  /* background-size: var(--shop-cards-sprite-width-cb) var(--shop-cards-sprite-height-cb); */
   /* var(--shop-cards-sprite-height); */
   box-sizing: content-box;
+  /* background-size: contain; */
+  background-size: cover;
+  background-position: center;
 }
 
 .shop-card-top-left {
@@ -307,7 +310,8 @@
     padding-right: 12vw;
   }
   .shop-item-card,
-  .shop-item-card-bg {
+  .shop-item-card-bg,
+  .shop-item-card-bg-cb1 {
     width: var(--shopCard-width-1200);
     height: var(--shopCard-height-1200);
   }

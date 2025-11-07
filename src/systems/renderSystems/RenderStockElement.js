@@ -212,6 +212,7 @@ export class RenderStockElement {
     const backStyle = this.state.player.selectedItems.backs;
     if (backStyle.bgType === "images") {
       cardElement.style.backgroundImage = `url(${backStyle.previewImage.img})`;
+      // cardElement.style.backgroundSize = "contain";
       const bgPositions = Helpers.calculatePositionCardBack(
         backStyle.previewImage.bgPositionX,
         backStyle.previewImage.bgPositionY,
@@ -221,9 +222,7 @@ export class RenderStockElement {
 
       cardElement.style.backgroundPosition = `${bgPositions.x}% ${bgPositions.y}%`;
     } else {
-      cardElement.classList.add(
-        backStyle.styleClass
-      );
+      cardElement.classList.add(backStyle.styleClass);
     }
 
     // Сохраняем ссылку на DOM элемент в карте

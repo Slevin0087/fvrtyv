@@ -204,22 +204,25 @@ export const ShopConfig = {
       unlockCondition: null,
       // previewImage: "assets/shop/previews/blue_back.png",
       previewImage: {
-        img: "./src/assets/cardsImages/Frame_56_shirts.png",
+        img: "./src/assets/cardsImages/shirt1_2_400_560_x1.png",
         bgPositionX: 0,
         bgPositionY: 0,
         styles: {
-          borderRadius: "0.5vw",
+          borderRadius: "1.5vw",
           padding: "0",
         },
         shopStyles: {
-          borderRadius: "0.5vw",
+          borderRadius: "1.5vw",
           padding: "0",
+          // backgroundSize: "contain",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
         },
       },
       manyLines: 1,
       manyColumns: 4,
     },
-        {
+    {
       id: "classic_back_img2",
       name: "Классическая рубашка",
       type: "backs",
@@ -234,8 +237,8 @@ export const ShopConfig = {
       unlockCondition: null,
       // previewImage: "assets/shop/previews/blue_back.png",
       previewImage: {
-        img: "./src/assets/cardsImages/Frame_56_shirts.png",
-        bgPositionX: 1,
+        img: "./src/assets/cardsImages/shirt2_2_400_560_x1.png",
+        bgPositionX: 0,
         bgPositionY: 0,
         styles: {
           borderRadius: "0.5vw",
@@ -244,12 +247,15 @@ export const ShopConfig = {
         shopStyles: {
           borderRadius: "0.5vw",
           padding: "0",
+          // backgroundSize: 'contain'
+          backgroundSize: "cover",
+          backgroundPosition: "center",
         },
       },
       manyLines: 1,
       manyColumns: 4,
     },
-        {
+    {
       id: "classic_back_img3",
       name: "Классическая рубашка",
       type: "backs",
@@ -264,8 +270,8 @@ export const ShopConfig = {
       unlockCondition: null,
       // previewImage: "assets/shop/previews/blue_back.png",
       previewImage: {
-        img: "./src/assets/cardsImages/Frame_56_shirts.png",
-        bgPositionX: 2,
+        img: "./src/assets/cardsImages/shirt3_400_560_x1.png",
+        bgPositionX: 0,
         bgPositionY: 0,
         styles: {
           borderRadius: "0.5vw",
@@ -274,12 +280,15 @@ export const ShopConfig = {
         shopStyles: {
           borderRadius: "0.5vw",
           padding: "0",
+          // backgroundSize: "contain",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
         },
       },
       manyLines: 1,
       manyColumns: 4,
     },
-        {
+    {
       id: "classic_back_img4",
       name: "Классическая рубашка",
       type: "backs",
@@ -294,8 +303,8 @@ export const ShopConfig = {
       unlockCondition: null,
       // previewImage: "assets/shop/previews/blue_back.png",
       previewImage: {
-        img: "./src/assets/cardsImages/Frame_56_shirts.png",
-        bgPositionX: 3,
+        img: "./src/assets/cardsImages/shirt4_400_560_x1.png",
+        bgPositionX: 0,
         bgPositionY: 0,
         styles: {
           borderRadius: "0.5vw",
@@ -304,6 +313,9 @@ export const ShopConfig = {
         shopStyles: {
           borderRadius: "0.5vw",
           padding: "0",
+          // backgroundSize: "contain",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
         },
       },
       manyLines: 1,
