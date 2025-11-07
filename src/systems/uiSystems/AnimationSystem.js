@@ -249,25 +249,16 @@ export class AnimationSystem {
         () => {
           // Колбэк на середине анимации (90 градусов)
           cardDomElement.innerHTML = "";
-          // cardDomElement.classList.remove(backStyle);
-          // cardDomElement.classList.remove("card-back", backStyle.styleClass);
-          // cardDomElement.classList.add("card-front", card.color);
+          cardDomElement.className = "";
           if (backStyle.bgType === "images") {
-            cardDomElement.style.backgroundImage = "";
-            cardDomElement.style.backgroundSize = "";
-            cardDomElement.style.backgroundPosition = "";
+            this.resetCardDomElementBgImage(card);
           }
           if (faceStyle.bgType === "styles") {
             this.addCardFrontClass(faceStyle, card);
           } else if (faceStyle.bgType === "images") {
-            this.addCardFrontImage(
-              faceStyle,
-              card.value,
-              card.suit,
-              cardDomElement
-            );
+            this.addCardFrontImage(card, faceStyle);
           }
-          cardDomElement.className = `card-front ${card.color}`;
+          cardDomElement.classList.add("card-front", card.color);
         },
         deg,
         this.eventManager,
@@ -293,12 +284,9 @@ export class AnimationSystem {
         () => {
           // Колбэк на середине анимации (90 градусов)
           card.domElement.innerHTML = "";
-          card.domElement.classList.remove("card-front");
-          card.domElement.classList.add("card-back");
-          if (faceStyle.bgType === "styles") {
-            card.domElement.classList.remove(faceStyle.styleClass);
-          } else if (faceStyle.bgType === "images") {
-            card.domElement.style.backgroundImage = "";
+          card.domElement.className = "";
+          if (faceStyle.bgType === "images") {
+            this.resetCardDomElementBgImage(card);
           }
           if (backStyle.bgType === "styles") {
             this.addCardBackClass(backStyle, card.domElement);
@@ -306,6 +294,7 @@ export class AnimationSystem {
           if (backStyle.bgType === "images") {
             this.addCardBackImage(backStyle, card.domElement);
           }
+          card.domElement.classList.add("card-back");
         },
         deg,
         this.eventManager,
@@ -421,16 +410,15 @@ export class AnimationSystem {
     card.domElement.append(topSymbol, centerSymbol, bottomSymbol);
   }
 
-  addCardFrontImage(faceStyle, cardValue, cardSuit, cardDomElement) {
-    cardDomElement.style.backgroundImage = `url(${faceStyle.previewImage.img})`;
-    const elementPositions = Helpers.calculatePosition(
-      cardSuit,
-      cardValue,
-      cardDomElement
+  addCardFrontImage(card, faceStyle) {
+    card.domElement.style.backgroundImage = `url(${faceStyle.previewImage.img})`;
+    const elementPositions = Helpers.calculateCardBgSpriteSheetPosition(
+      card.suit,
+      card.value,
+      faceStyle.previewImage.manyColumns,
+      faceStyle.previewImage.manyLines
     );
-    cardDomElement.style.backgroundPosition = `${elementPositions.x}% ${elementPositions.y}%`;
-    // if (faceStyle.previewImage.styles)
-    //   Object.assign(cardDomElement.style, faceStyle.previewImage.styles);
+    card.domElement.style.backgroundPosition = `${elementPositions.x}% ${elementPositions.y}%`;
   }
 
   addCardBackClass(backStyle, cardDomElement) {
@@ -439,13 +427,13 @@ export class AnimationSystem {
 
   addCardBackImage(backStyle, cardDomElement) {
     cardDomElement.style.backgroundImage = `url(${backStyle.previewImage.img})`;
-    const bgPositions = Helpers.calculatePositionCardBack(
-      backStyle.previewImage.bgPositionX,
-      backStyle.previewImage.bgPositionY,
-      backStyle.manyColumns,
-      backStyle.manyLines
-    );
-
+    const bgPositions = Helpers.calculateCardBackPosition(backStyle);
     cardDomElement.style.backgroundPosition = `${bgPositions.x}% ${bgPositions.y}%`;
+  }
+
+  resetCardDomElementBgImage(card) {
+    card.domElement.style.backgroundImage = "";
+    card.domElement.style.backgroundSize = "";
+    card.domElement.style.backgroundPosition = "";
   }
 }

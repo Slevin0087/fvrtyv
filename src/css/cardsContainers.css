@@ -89,32 +89,13 @@
 
 .card-back {
   background-size: cover;
-  background-position: center;
-}
-
-.card-front {
-  /* background-image: url('./src/assets/cardsImages/shirt1.png'); */
-  /* background-size: var(--cards-sprite-width) var(--cards-sprite-height); */
-  background-size: auto;
 }
 
 .card-front .is-dragging {
   cursor: grabbing;
   border: var(--border-c) solid rgb(186, 218, 11);
   touch-action: none;
-  /* 
-  width: var(--card-width);
-  height: var(--card-height);
-  background-size: var(--cards-sprite-width) var(--cards-sprite-height); */
 }
-
-/* .card-front,
-.card-back {
-  width: var(--card-width);
-  height: var(--card-height);
-  transform: rotateY(0deg);
-  position: absolute;
-} */
 
 .card-front .top {
   font-size: var(--font-size-tbcard-v);

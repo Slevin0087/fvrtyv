@@ -115,47 +115,26 @@ export class UIShopPage extends UIPage {
       } else if (!item.styles && item.previewImage) {
         let bgPositionsShopItem2 = null;
         let bgPositionsShopItem = null;
-        // const suitShopItem = CardSuits.CLUBS;
-        // const valueShopItem = CardValues[CardValues.length - 1];
-        // const suitShopItem2 = CardSuits.HEARTS;
-        // const valueShopItem2 = CardValues[0];
-
-        // Так как, в шаблоне шоп элемента мы указываем только "K♣" и "A♥",
-        // а valueShopItem === "K", suitShopItem === "♣", а valueShopItem2 === "A", suitShopItem2 === "♥",
-        // то const shopItem =
-
         if (item.category === "cardFace") {
-          bgPositionsShopItem2 = Helpers.calculatePosition(
+          bgPositionsShopItem2 = Helpers.calculateCardBgSpriteSheetPosition(
             CardSuits.CLUBS,
             CardValues[CardValues.length - 1],
-            shopItem,
-            item.manyColumns,
-            item.manyLines
+            item.previewImage.manyColumns,
+            item.previewImage.manyLines
           );
-          bgPositionsShopItem = Helpers.calculatePosition(
+          bgPositionsShopItem = Helpers.calculateCardBgSpriteSheetPosition(
             CardSuits.HEARTS,
             CardValues[0],
-            shopItem2,
-            item.manyColumns,
-            item.manyLines
+            item.previewImage.manyColumns,
+            item.previewImage.manyLines
           );
           shopItem.className = "shop-item-card-bg";
           shopItem2.className = "shop-item-card-bg";
         } else {
           console.log("в else");
 
-          bgPositionsShopItem2 = Helpers.calculatePositionCardBack(
-            item.previewImage.bgPositionX,
-            item.previewImage.bgPositionY,
-            item.manyColumns,
-            item.manyLines
-          );
-          bgPositionsShopItem = Helpers.calculatePositionCardBack(
-            item.previewImage.bgPositionX,
-            item.previewImage.bgPositionY,
-            item.manyColumns,
-            item.manyLines
-          );
+          bgPositionsShopItem2 = Helpers.calculateCardBackPosition(item);
+          bgPositionsShopItem = Helpers.calculateCardBackPosition(item);
           shopItem.className = "shop-item-card-bg-cb1";
           shopItem2.className = "shop-item-card-bg-cb1";
         }
@@ -205,12 +184,6 @@ export class UIShopPage extends UIPage {
       shopItemContainer.append(shopItem, shopItem2);
     } else if (item.category === "background") {
       shopItem.classList.add("shop-item-fon");
-      console.log(
-        'ВВВВВВВВВВВВ item.category === "background": ',
-        shopItem.style,
-        item.styles
-      );
-
       if (item.styles) Object.assign(shopItem.style, item.styles);
       else if (item.previewImage) {
         console.log("else if (item.previewImage)");

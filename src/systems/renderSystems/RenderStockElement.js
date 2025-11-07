@@ -213,12 +213,7 @@ export class RenderStockElement {
     if (backStyle.bgType === "images") {
       cardElement.style.backgroundImage = `url(${backStyle.previewImage.img})`;
       // cardElement.style.backgroundSize = "contain";
-      const bgPositions = Helpers.calculatePositionCardBack(
-        backStyle.previewImage.bgPositionX,
-        backStyle.previewImage.bgPositionY,
-        backStyle.manyColumns,
-        backStyle.manyLines
-      );
+      const bgPositions = Helpers.calculateCardBackPosition(backStyle);
 
       cardElement.style.backgroundPosition = `${bgPositions.x}% ${bgPositions.y}%`;
     } else {

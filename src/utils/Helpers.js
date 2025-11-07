@@ -79,21 +79,19 @@ export class Helpers {
     return div.innerHTML;
   }
 
-  static calculatePosition(
-    suit,
-    value,
-    element,
-    manyColumns = 13,
-    manyLines = 4
+  static calculateCardBgSpriteSheetPosition(
+    cardSuit,
+    cardValue,
+    manyColumns,
+    manyLines
   ) {
     const suitIndex = [
       CardSuits.HEARTS,
       CardSuits.DIAMONDS,
       CardSuits.CLUBS,
       CardSuits.SPADES,
-    ].indexOf(suit);
-    const valueIndex = CardValues.indexOf(value);
-    console.log("suitIndex, valueIndex:", suitIndex, valueIndex, suit, value);
+    ].indexOf(cardSuit);
+    const valueIndex = CardValues.indexOf(cardValue);
 
     const x = (100 / (manyColumns - 1)) * valueIndex;
     const y = (100 / (manyLines - 1)) * suitIndex;
@@ -101,15 +99,15 @@ export class Helpers {
     return { x, y };
   }
 
-  static calculatePositionCardBack(
-    bgPositionX,
-    bgPositionY,
-    manyColumns = 4,
-    manyLines = 1
-  ) {
-    const x = (100 / (manyColumns - 1)) * bgPositionX;
-    // const y = (100 / (manyLines - 1)) * bgPositionY;
-    const y = bgPositionY;
+  static calculateCardBackPosition(item) {
+    let x = 0;
+    let y = 0;
+    if (item.previewImage.spriteSheet) {
+      x =
+        (100 / (item.previewImage.manyColumns - 1)) *
+        item.previewImage.bgPositionX;
+      y = (100 / item.previewImage.manyLines) * item.previewImage.bgPositionY;
+    }
 
     return { x, y };
   }

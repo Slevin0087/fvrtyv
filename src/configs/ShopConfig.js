@@ -43,7 +43,7 @@ export const ShopConfig = {
       unlockCondition: null,
       previewImage: "",
       styles: {
-        background: "rgb(204, 195, 195)",
+        backgroundColor: "rgb(204, 195, 195)",
       },
     },
     {
@@ -60,9 +60,10 @@ export const ShopConfig = {
       rarity: "common",
       unlockCondition: null,
       previewImage: {
-        // img: "./src/assets/cardsImages/imageCardsSSVG_16.svg",
-        // img: "./src/assets/cardsImages/Frame_53PNG_14.png",
+        spriteSheet: true,
         img: "./src/assets/cardsImages/Frame_53@4x_5.png",
+        manyLines: 4,
+        manyColumns: 13,
         styles: {
           borderRadius: "0.5vw",
           padding: "0",
@@ -72,8 +73,6 @@ export const ShopConfig = {
           padding: "0",
         },
       },
-      manyLines: 4,
-      manyColumns: 13,
     },
     {
       id: "cosmo_faces",
@@ -204,7 +203,10 @@ export const ShopConfig = {
       unlockCondition: null,
       // previewImage: "assets/shop/previews/blue_back.png",
       previewImage: {
+        spriteSheet: false,
         img: "./src/assets/cardsImages/shirt1_2_400_560_x1.png",
+        manyLines: 1,
+        manyColumns: 4,
         bgPositionX: 0,
         bgPositionY: 0,
         styles: {
@@ -219,8 +221,6 @@ export const ShopConfig = {
           backgroundPosition: "center",
         },
       },
-      manyLines: 1,
-      manyColumns: 4,
     },
     {
       id: "classic_back_img2",
@@ -237,7 +237,10 @@ export const ShopConfig = {
       unlockCondition: null,
       // previewImage: "assets/shop/previews/blue_back.png",
       previewImage: {
+        spriteSheet: false,
         img: "./src/assets/cardsImages/shirt2_2_400_560_x1.png",
+        manyLines: 1,
+        manyColumns: 4,
         bgPositionX: 0,
         bgPositionY: 0,
         styles: {
@@ -252,8 +255,6 @@ export const ShopConfig = {
           backgroundPosition: "center",
         },
       },
-      manyLines: 1,
-      manyColumns: 4,
     },
     {
       id: "classic_back_img3",
@@ -270,7 +271,10 @@ export const ShopConfig = {
       unlockCondition: null,
       // previewImage: "assets/shop/previews/blue_back.png",
       previewImage: {
+        spriteSheet: false,
         img: "./src/assets/cardsImages/shirt3_400_560_x1.png",
+        manyLines: 1,
+        manyColumns: 4,
         bgPositionX: 0,
         bgPositionY: 0,
         styles: {
@@ -285,8 +289,6 @@ export const ShopConfig = {
           backgroundPosition: "center",
         },
       },
-      manyLines: 1,
-      manyColumns: 4,
     },
     {
       id: "classic_back_img4",
@@ -303,7 +305,10 @@ export const ShopConfig = {
       unlockCondition: null,
       // previewImage: "assets/shop/previews/blue_back.png",
       previewImage: {
+        spriteSheet: false,
         img: "./src/assets/cardsImages/shirt4_400_560_x1.png",
+        manyLines: 1,
+        manyColumns: 4,
         bgPositionX: 0,
         bgPositionY: 0,
         styles: {
@@ -318,8 +323,6 @@ export const ShopConfig = {
           backgroundPosition: "center",
         },
       },
-      manyLines: 1,
-      manyColumns: 4,
     },
     //////////////////////////////////////////
     {
