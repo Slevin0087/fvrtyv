@@ -201,10 +201,9 @@ export const ShopConfig = {
       description: "Классическая рубашка",
       rarity: "common",
       unlockCondition: null,
-      // previewImage: "assets/shop/previews/blue_back.png",
       previewImage: {
         spriteSheet: false,
-        img: "./src/assets/cardsImages/shirt1_2_400_560_x1.png",
+        img: "./src/assets/cardsImages/shirt1.png",
         manyLines: 1,
         manyColumns: 4,
         bgPositionX: 0,
@@ -238,7 +237,7 @@ export const ShopConfig = {
       // previewImage: "assets/shop/previews/blue_back.png",
       previewImage: {
         spriteSheet: false,
-        img: "./src/assets/cardsImages/shirt2_2_400_560_x1.png",
+        img: "./src/assets/cardsImages/shirt2.png",
         manyLines: 1,
         manyColumns: 4,
         bgPositionX: 0,
@@ -272,7 +271,7 @@ export const ShopConfig = {
       // previewImage: "assets/shop/previews/blue_back.png",
       previewImage: {
         spriteSheet: false,
-        img: "./src/assets/cardsImages/shirt3_400_560_x1.png",
+        img: "./src/assets/cardsImages/shirt3.png",
         manyLines: 1,
         manyColumns: 4,
         bgPositionX: 0,
@@ -306,7 +305,7 @@ export const ShopConfig = {
       // previewImage: "assets/shop/previews/blue_back.png",
       previewImage: {
         spriteSheet: false,
-        img: "./src/assets/cardsImages/shirt4_400_560_x1.png",
+        img: "./src/assets/cardsImages/shirt4.png",
         manyLines: 1,
         manyColumns: 4,
         bgPositionX: 0,
