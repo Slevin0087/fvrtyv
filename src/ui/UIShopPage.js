@@ -186,8 +186,6 @@ export class UIShopPage extends UIPage {
       shopItem.classList.add("shop-item-fon");
       if (item.styles) Object.assign(shopItem.style, item.styles);
       else if (item.previewImage) {
-        console.log("else if (item.previewImage)");
-
         const img = document.createElement("img");
         img.src = item.previewImage;
         shopItem.append(img);
