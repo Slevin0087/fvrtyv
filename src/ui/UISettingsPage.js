@@ -71,7 +71,6 @@ export class UISettingsPage extends UIPage {
   }
 
   onChangeDealingCards(e) {
-    console.log("click по кнопке e.target: ", e.target);
     if (
       e.target.value === String(this.stateManager.state.player.dealingCards)
     ) {
@@ -126,6 +125,8 @@ export class UISettingsPage extends UIPage {
   }
 
   onClickDealingCardsModalItsClear(value) {
+      console.log('value: ', value);
+
     this.eventManager.emit(GameEvents.SET_DEALING_CARDS, value);
     this.elements.dealingCardsModal.classList.add("hidden");
     this.setActiveDealingCardsBtns();

@@ -19,6 +19,7 @@ export class UIGamePage extends UIPage {
       notifDivBottom: document.getElementById("notif-div-bottom"),
       notifToasts: document.getElementById("notification-toasts"),
       achievementsIconEl: document.getElementById("achievements_span"),
+      controlBtnsContainer: document.getElementById("controls-btns-container"),
       restartGameBtn: document.getElementById("new-game-ctr-btn"),
       restartGameModal: document.getElementById("restart-game-modal"),
       restartGameModalClose: document.getElementById(
@@ -36,7 +37,7 @@ export class UIGamePage extends UIPage {
       collectBtn: document.getElementById("collect-cards"),
       undoBtn: document.getElementById("undo-btn"),
       undoCounter: document.getElementById("undo-counter"),
-      shuffleBtn: document.getElementById("shuffle-btn"),
+      // shuffleBtn: document.getElementById("shuffle-btn"),
 
       // Модальное окно: результаты игры
       gameResultsModal: document.getElementById("game-results-modal"),
@@ -172,14 +173,14 @@ export class UIGamePage extends UIPage {
       }
     );
 
-    this.elements.shuffleBtn.onclick = () => {
-      const { stock, waste } = this.state.cardsComponents;
-      this.eventManager.emitAsync(
-        GameEvents.SHUFFLE_CARDS_TO_STOCK,
-        stock,
-        waste
-      );
-    };
+    // this.elements.shuffleBtn.onclick = () => {
+    //   const { stock, waste } = this.state.cardsComponents;
+    //   this.eventManager.emitAsync(
+    //     GameEvents.SHUFFLE_CARDS_TO_STOCK,
+    //     stock,
+    //     waste
+    //   );
+    // };
 
     this.eventManager.on(GameEvents.CLEAR_NOTIF_HINT_CARDS, () => {
       this.elements.notifToasts.innerHTML = "";
@@ -213,6 +214,14 @@ export class UIGamePage extends UIPage {
     this.elements.gameResultsModalApply.onclick = () =>
       this.onClickGameResultsModalApply();
     //////////////////////////////////////////////////
+
+    this.eventManager.on(GameEvents.SET_DEALING_CARDS, (value) => {
+      if (value === GameConfig.rules.defaultDealingCardsThree) {
+        this.createShufflyBtnElement();
+      } else if (value === GameConfig.rules.defaultDealingCards) {
+        document.getElementById("shuffle-btn")?.remove();
+      }
+    });
   }
 
   onClickRestartGame() {
@@ -271,6 +280,15 @@ export class UIGamePage extends UIPage {
 
   //////////////////////////
 
+  async onclickShuffleBtn() {
+    const { stock, waste } = this.state.cardsComponents;
+    await this.eventManager.emitAsync(
+      GameEvents.SHUFFLE_CARDS_TO_STOCK,
+      stock,
+      waste
+    );
+  }
+
   updateUI() {
     this.updateScore(this.state.game.score);
     this.updateTime(this.state.game.playTime);
@@ -282,6 +300,23 @@ export class UIGamePage extends UIPage {
       this.upHintCounter(this.state.hintCounterState || 0);
     }
     this.upAchievementIcon(this.state.player.achievements.active.icon);
+
+    if (
+      this.stateManager.state.player.dealingCards ===
+      GameConfig.rules.defaultDealingCards
+    ) {
+      console.log(
+        "this.stateManager.state.player.dealingCards: ",
+        this.stateManager.state.player.dealingCards
+      );
+      document.getElementById("shuffle-btn")?.remove();
+    } else if (
+      this.stateManager.state.player.dealingCards ===
+      GameConfig.rules.defaultDealingCardsThree
+    ) {
+      document.getElementById("shuffle-btn")?.remove();
+      this.createShufflyBtnElement();
+    }
   }
 
   resetTime(minutes, seconds) {
@@ -400,6 +435,18 @@ export class UIGamePage extends UIPage {
         <dd class="game-results-modal-right-td">${textEarnedWinRightPathForResultModal}</dd>
       </div>
     </dl>`;
+  }
+
+  createShufflyBtnElement() {
+    const btn = document.createElement("button");
+    btn.id = "shuffle-btn";
+    btn.className = "controls-btn";
+    btn.title = "Перетосовка";
+    btn.textContent = "🎬";
+    btn.onclick = async () => {
+      await this.onclickShuffleBtn();
+    };
+    this.elements.controlBtnsContainer.append(btn);
   }
 
   getModalData(data) {
