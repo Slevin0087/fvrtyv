@@ -83,9 +83,10 @@ export class RenderStockElement {
       this.isClickAllowed = false;
       stock.recycleWaste(waste);
       this.renderStockCards(stock);
-      waste.element.querySelectorAll(".card").forEach((el) => {
-        el.remove();
-      });
+      // waste.element.querySelectorAll(".card").forEach((el) => {
+      //   el.remove();
+      // });
+      waste.element.innerHTML = "";
       await this.delay(this.clickLimitTime);
       this.isClickAllowed = true; // Разрешаем клики после задержки
       return;
