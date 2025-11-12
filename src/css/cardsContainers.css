@@ -93,6 +93,8 @@
 
 .card-front {
   background-size: var(--cards-sprite-width) var(--cards-sprite-height);
+  border: 0.05vw solid black;
+  box-sizing: border-box;
 }
 
 .card-front .is-dragging {
