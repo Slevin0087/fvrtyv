@@ -233,26 +233,31 @@
 .green-path-fon,
 .green-field-fon,
 .green-field2-fon,
-.green-field3-fon {
+.green-field3-fon,
+.classic-fon1,
+.classic-fon1 {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 
 @media (min-width: 350px) {
+  .classic-fon1 {
+    background-image: url("../assets/shop/fons/fon1.png");
+  }
+  .classic-fon2 {
+    background-image: url("../assets/shop/fons/fon2.png");
+  }
   .green-path-fon {
     background-image: url("../assets/shop/fons/fon_1_350.jpg");
-
   }
 
   .green-field-fon {
     background-image: url("../assets/shop/fons/fon_2_350.jpg");
-
   }
 
   .green-field2-fon {
     background-image: url("../assets/shop/fons/fon_3_350.jpg");
-
   }
 
   .green-field3-fon {
