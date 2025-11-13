@@ -558,6 +558,13 @@
   }
 } */
 
+@media (max-height: 400px) {
+  .status-bar {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+
 @media (min-width: 768px) {
   .notif-div div,
   .notif-div h4 {
