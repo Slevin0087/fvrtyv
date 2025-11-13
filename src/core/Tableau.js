@@ -6,7 +6,13 @@ export class Tableau extends Pile {
     super("tableau", index);
     this.overlapY = UIConfig.layout.card.tableauOverlapY; // Каскадное смещение карт
     this.element = this.createPileElement();
-    this.setOverlapY();
+    // this.setOverlapY();
+  }
+
+  addCard(card) {
+    const getPropertyValueCardWidth = this.element.offsetWidth;
+    this.overlapY = getPropertyValueCardWidth / 4
+    super.addCard(card);
   }
 
   createPileElement() {

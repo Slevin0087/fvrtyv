@@ -9,7 +9,7 @@ export class Waste extends Pile {
     this.overlapY = UIConfig.layout.card.wasteOverlapY; // Смещение для отображения веера карт
     this.oneOverlapX = UIConfig.layout.card.wasteOneOverlapX;
     this.maxVisibleCards = UIConfig.layout.card.wasteMaxVisibleCards;
-    this.setOverlapX();
+    // this.setOverlapX();
     this.maxOverlapX = this.oneOverlapX * (this.maxVisibleCards - 1);
     this.element = super.createPileElement();
     this.topThreeCards = [];
@@ -43,16 +43,16 @@ export class Waste extends Pile {
     this.topThreeCards = [];
     this.cards.forEach((card, index) => {
       console.log("uppp() card: ", card);
-      
+
       // Рассчитываем позицию от конца массива
       const positionFromEnd = this.cards.length - 1 - index;
       console.log("positionFromEnd: ", positionFromEnd);
-      
+
+      const getPropertyValueCardWidth = this.element.offsetWidth;
+      console.log("getPropertyValueCardWidth: ", getPropertyValueCardWidth);
+
+      this.oneOverlapX = getPropertyValueCardWidth / 3;
       if (positionFromEnd < this.maxVisibleCards) {
-        const getPropertyValueCardWidth = this.element.offsetWidth;
-        console.log('getPropertyValueCardWidth: ', getPropertyValueCardWidth);
-        
-        this.oneOverlapX = getPropertyValueCardWidth / 3
         // Это последние 3 карты (или меньше, если карт мало)
         card.positionData.offsetX = positionFromEnd * this.oneOverlapX;
 
@@ -60,6 +60,7 @@ export class Waste extends Pile {
         this.topThreeCards.push(card);
       } else {
         // Остальные карты (те, что "под" видимыми)
+        this.maxOverlapX = this.oneOverlapX * (this.maxVisibleCards - 1);
         card.positionData.offsetX = this.maxOverlapX;
       }
     });
