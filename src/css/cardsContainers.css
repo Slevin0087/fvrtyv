@@ -278,23 +278,26 @@
   outline: 0.5vw solid rgb(50, 230, 6);
 }
 
+@media (max-height: 525) {
+  :root {
+    --card-width: 8vh;
+  }
+}
+
 @media (max-height: 620px) {
   :root {
-    --card-width: min(10vw, 12vh);
+    --card-width: min(9vw, 12vh);
   }
   .game-container {
     flex-direction: row;
+    gap: var(--card-width)
   }
   .row-1 {
     flex-direction: column;
+    gap: 3vh;
   }
   .row-b {
     flex-direction: column;
   }
 }
 
-@media (max-height: 525) {
-  :root {
-    --card-width: 8vh;
-  }
-}
