@@ -18,7 +18,7 @@
   /* --card-width: 10vh;
   --card-height: calc(var(--card-width) * 1.4); */
 
-  --card-width: min(14vw, 12vh);
+  --card-width: min(10vw, 12vh);
   --card-height: calc(var(--card-width) * 1.4);
 
   --card-width-690: calc(
