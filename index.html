@@ -68,20 +68,22 @@
       <!-- Главное меню: начало -->
       <div id="game-menu" class="menu hidden">
         <h1 data-i18n="game_name">Хусынка</h1>
-        <button id="new-game-btn" data-i18n="menu_btn_new_game">
-          Новая игра
-        </button>
-        <button id="continue-btn" data-i18n="menu_btn_continue_game">
-          Продолжить
-        </button>
-        <button id="settings-btn" data-i18n="menu_btn_settings_game">
-          Настройки
-        </button>
-        <button id="state-player" data-i18n="menu_btn_state_player">
-          Статистика
-        </button>
-        <button id="shop-btn" data-i18n="menu_btn_shop">Магазин</button>
-        <button id="exit-btn" data-i18n="menu_btn_exit_game">Выход</button>
+        <div id="menu-btns" class="menu_btns">
+          <button id="new-game-btn" data-i18n="menu_btn_new_game">
+            Новая игра
+          </button>
+          <button id="continue-btn" data-i18n="menu_btn_continue_game">
+            Продолжить
+          </button>
+          <button id="settings-btn" data-i18n="menu_btn_settings_game">
+            Настройки
+          </button>
+          <button id="state-player" data-i18n="menu_btn_state_player">
+            Статистика
+          </button>
+          <button id="shop-btn" data-i18n="menu_btn_shop">Магазин</button>
+          <button id="exit-btn" data-i18n="menu_btn_exit_game">Выход</button>
+        </div>
       </div>
       <!-- Главное меню: конец -->
 
@@ -173,10 +175,11 @@
                 <p
                   class="setting-assistance-in-collection-p"
                   data-i18n="assistance_in_collection_p"
-                >
-                </p>
+                ></p>
               </div>
-              <label class="setting-label setting-label-assistance-in-collection">
+              <label
+                class="setting-label setting-label-assistance-in-collection"
+              >
                 <input type="checkbox" id="assistance-in-collection" />
                 <span class="slider"></span>
               </label>

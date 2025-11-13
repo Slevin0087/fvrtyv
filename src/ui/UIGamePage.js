@@ -3,12 +3,14 @@ import { GameEvents } from "../utils/Constants.js";
 import { UIConfig, UIGameUnicodeIcons } from "../configs/UIConfig.js";
 import { GameConfig } from "../configs/GameConfig.js";
 import { Animator } from "../utils/Animator.js";
+import CardsAndContainersScaler from "../utils/CardsAndContainersScaler.js";
 
 export class UIGamePage extends UIPage {
   constructor(eventManager, stateManager, translator) {
     super(eventManager, stateManager, "game-interface");
     this.state = stateManager.state;
     this.translator = translator;
+    // this.cardsAndContainersScaler = new CardsAndContainersScaler()
     this.elements = {
       messageEl: document.getElementById("message"),
       scoreEl: document.getElementById("points-in-game"),
@@ -63,6 +65,7 @@ export class UIGamePage extends UIPage {
 
   init() {
     super.init();
+    // this.cardsAndContainersScaler
     this.updateUI();
     // this.elements.gameResultsModalBody.innerHTML = this.createGameResultsModalBody()
   }

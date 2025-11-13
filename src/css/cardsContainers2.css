@@ -1,0 +1,320 @@
+:root {
+  /* Основные размеры через vmin для полной адаптивности */
+  --card-width: 12vmin;
+  --card-height: calc(var(--card-width) * 1.4);
+
+  /* Производные размеры */
+  --card-radius: calc(var(--card-width) * 0.05);
+  --card-overlap: calc(var(--card-height) * 0.3);
+  --gap: calc(var(--card-width) * 0.1);
+  --border-c: calc(var(--card-width) * 0.01);
+  --padding-c: calc(var(--card-width) * 0.05);
+
+  /* Шрифты */
+  --font-size-tbcard-v: calc(var(--card-width) / 5);
+  --font-size-ccard-v: calc(var(--card-width) / 1.7);
+
+  /* Спрайты */
+  --cards-sprite-width: calc(var(--card-width) * 13);
+  --cards-sprite-height: calc(var(--card-height) * 4);
+  --cards-sprite-width-cb: calc(var(--card-width) * 4);
+  --cards-sprite-height-cb: calc(var(--card-height) * 1);
+}
+
+/* Контейнер игры - занимает весь экран */
+.game-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 2vmin;
+  box-sizing: border-box;
+  gap: 2vmin;
+  justify-content: center;
+}
+
+/* Карты */
+.card-front,
+.card-back {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: var(--card-width);
+  height: var(--card-height);
+  border-radius: var(--card-radius);
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: grab;
+  transform: translate(0, 0);
+  user-select: none;
+  touch-action: none;
+  background-origin: padding-box;
+  background-repeat: no-repeat;
+  background-clip: content-box;
+  box-sizing: content-box;
+}
+
+.card-back {
+  background-size: cover;
+}
+
+.card-front {
+  background-size: var(--cards-sprite-width) var(--cards-sprite-height);
+  border: var(--border-c) solid black;
+  box-sizing: border-box;
+}
+
+.card-front.is-dragging {
+  cursor: grabbing;
+  border: var(--border-c) solid rgb(186, 218, 11);
+  touch-action: none;
+}
+
+.card-front .top {
+  font-size: var(--font-size-tbcard-v);
+  padding: var(--padding-c);
+  margin-top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: center;
+}
+
+.card-front .center {
+  font-size: var(--font-size-ccard-v);
+  line-height: 1;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.card-front .bottom {
+  font-size: var(--font-size-tbcard-v);
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  padding: var(--padding-c);
+  margin-bottom: 0;
+  transform: rotate(180deg);
+}
+
+/* Контейнеры для карт */
+.pile-stock,
+.pile-foundation,
+.pile-waste,
+.pile-tableau {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: var(--card-width);
+  height: var(--card-height);
+  text-align: center;
+  background-color: rgba(192, 192, 192, 0.411);
+  border-radius: var(--card-radius);
+}
+
+.pile-stock {
+  cursor: pointer;
+}
+
+/* Псевдоэлементы для границ */
+.pile-stock::before,
+.pile-foundation::before,
+.pile-waste::before,
+.pile-tableau::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: var(--border-c) dashed #ccc;
+  border-radius: var(--card-radius);
+  pointer-events: none;
+}
+
+/* Иконки в контейнерах */
+.stock-span,
+.foundation-span,
+.tableau-span {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  font-size: var(--card-width);
+}
+
+/* Цвета карт */
+.red {
+  color: red;
+}
+
+.black {
+  color: black;
+}
+
+/* Расположение рядов */
+.row-1 {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--gap);
+  flex-shrink: 0;
+}
+
+.stock-waste-container {
+  display: flex;
+  gap: var(--gap);
+}
+
+.foundations-container {
+  display: flex;
+  gap: var(--gap);
+}
+
+/* Tableaus - занимают оставшееся пространство */
+.row-2 {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--gap);
+  min-height: 0;
+}
+
+.tableau {
+  position: relative;
+  min-height: var(--card-height);
+}
+
+/* Подсказки */
+.hint-from-card {
+  outline: 0.5vmin solid rgb(84, 150, 68);
+  animation: pulse-hint 1s infinite alternate;
+}
+
+.hint-to-card {
+  outline: 0.5vmin solid rgb(50, 230, 6);
+}
+
+@keyframes pulse-hint {
+  from {
+    opacity: 0.7;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Анимации очков */
+.points-popup {
+  position: fixed;
+  font-size: var(--font-size-ccard-v);
+  font-weight: bold;
+  color: gold;
+  text-shadow: 1px 1px 2px black;
+  pointer-events: none;
+  z-index: 100;
+  will-change: transform, opacity;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== АДАПТИВНЫЕ МЕДИА-ЗАПРОСЫ ===== */
+
+/* Для очень маленьких экранов */
+@media (max-width: 480px) and (max-height: 600px) {
+  :root {
+    --card-width: 10vmin;
+  }
+}
+
+/* Для очень низких экранов */
+@media (max-height: 500px) {
+  .game-container {
+    flex-direction: row;
+    padding: 1vmin;
+  }
+
+  .row-1 {
+    flex-direction: column;
+    width: 30%;
+    gap: 1vmin;
+  }
+
+  .row-2 {
+    width: 70%;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 1vmin;
+  }
+
+  .stock-waste-container {
+    flex-direction: column;
+  }
+
+  .foundations-container {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .foundations-container .pile-foundation {
+    width: calc(var(--card-width) * 0.9);
+    height: calc(var(--card-height) * 0.9);
+  }
+}
+
+/* Для квадратных экранов */
+@media (max-aspect-ratio: 1/1) and (min-aspect-ratio: 3/4) {
+  .row-2 {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+  }
+}
+
+/* Ландшафтная ориентация на мобильных */
+@media (max-height: 500px) and (orientation: landscape) {
+  :root {
+    --card-width: 9vmin;
+  }
+}
+
+/* Для очень широких экранов */
+@media (min-aspect-ratio: 2/1) {
+  .game-container {
+    justify-content: center;
+    align-items: center;
+  }
+
+  .row-1 {
+    width: 80%;
+  }
+
+  .row-2 {
+    width: 80%;
+  }
+}
+
+/* Для ретина-дисплеев */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .card-front {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* Поддержка очень старых браузеров */
+@supports not (aspect-ratio: 1) {
+  .card-front,
+  .card-back,
+  .pile-stock,
+  .pile-foundation,
+  .pile-waste,
+  .pile-tableau {
+    height: calc(var(--card-width) * 1.4);
+  }
+}
