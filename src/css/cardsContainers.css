@@ -18,7 +18,7 @@
   /* --card-width: 10vh;
   --card-height: calc(var(--card-width) * 1.4); */
 
-  --card-width: min(10vw, 12vh);
+  --card-width: min(14vw, 12vh);
   --card-height: calc(var(--card-width) * 1.4);
 
   --card-width-690: calc(
@@ -278,7 +278,10 @@
   outline: 0.5vw solid rgb(50, 230, 6);
 }
 
-@media (max-height: 720px) {
+@media (max-height: 620px) {
+  :root {
+    --card-width: min(10vw, 12vh);
+  }
   .game-container {
     flex-direction: row;
   }
