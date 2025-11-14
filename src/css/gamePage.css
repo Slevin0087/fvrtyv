@@ -345,8 +345,8 @@
   right: 0;
   padding: calc(var(--padding-sb) / 2);
 
-  font-size: calc(var(--card-width) / 2);
-  gap: calc(var(--card-width) / 2);
+  font-size: calc(var(--card-width) / 1.5);
+  gap: calc(var(--card-width) / 1.5);
 }
 
 .controls-btn-container button {

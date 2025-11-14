@@ -333,9 +333,9 @@ body {
   right: var(--full-screen-button-top-left);
   bottom: var(--full-screen-button-top-left);
   /* width: var(--full-screen-button-width); */
-  width: calc(var(--card-width) / 2);
-  height: calc(var(--card-width) / 2);
-  font-size: calc(var(--card-width) / 5);
+  width: calc(var(--card-width) / 1.5);
+  height: calc(var(--card-width) / 1.5);
+  font-size: calc(var(--card-width) / 4);
 
   z-index: 1;
 }
