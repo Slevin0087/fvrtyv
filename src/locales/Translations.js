@@ -104,7 +104,7 @@ export const Translations = {
       // модальное окно: результаты игры //////////////////////////////////////////
       game_results_modalvictory_main_badge: 'Victory!',
       game_results_modal_title: "Game results:",
-      btn_game_results_modal_apply: "Great!",
+      btn_game_results_modal_apply: "New game!",
       game_results_modal_score: "Score:",
       /////////////////////////////////////////////////////////////////////////////
 
@@ -229,7 +229,7 @@ export const Translations = {
       // модальное окно: результаты игры //////////////////////////////////////////
       game_results_modalvictory_main_badge: 'Победа!',
       game_results_modal_title: "Результаты игры:",
-      btn_game_results_modal_apply: "Отлично!",
+      btn_game_results_modal_apply: "Новая игра!",
       game_results_modal_score: "Очки:",
       /////////////////////////////////////////////////////////////////////////////
 
@@ -370,7 +370,7 @@ export const Translations = {
       // модальное окно: результаты игры //////////////////////////////////////////
       game_results_modalvictory_main_badge: 'Айг|айра!',
       game_results_modal_title: "Ахъвмарра арезультатква:",
-      btn_game_results_modal_apply: "Мчыб!",
+      btn_game_results_modal_apply: "Хъвмарра ш|ыц!",
       game_results_modal_score: "Апхьадзараква:",
       /////////////////////////////////////////////////////////////////////////////
 
@@ -512,7 +512,7 @@ export const Translations = {
       // модальное окно: результаты игры //////////////////////////////////////////
       game_results_modalvictory_main_badge: 'Zafer!',
       game_results_modal_title: "Maç sonuçları:",
-      btn_game_results_modal_apply: "Harika!",
+      btn_game_results_modal_apply: "Yeni oyun!",
       game_results_modal_score: "Gözlük:",
       /////////////////////////////////////////////////////////////////////////////
 

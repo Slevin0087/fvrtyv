@@ -214,8 +214,8 @@ export class UIGamePage extends UIPage {
     this.elements.gameResultsModalClose.onclick = () =>
       this.onClickGameResultsModalClose();
 
-    this.elements.gameResultsModalApply.onclick = () =>
-      this.onClickGameResultsModalApply();
+    this.elements.gameResultsModalApply.onclick = async () =>
+      await this.onClickGameResultsModalApply();
     //////////////////////////////////////////////////
 
     this.eventManager.on(GameEvents.SET_DEALING_CARDS, (value) => {
@@ -284,8 +284,10 @@ export class UIGamePage extends UIPage {
     this.elements.gameResultsModal.classList.add("hidden");
   }
 
-  onClickGameResultsModalApply() {
+  async onClickGameResultsModalApply() {
     this.elements.gameResultsModal.classList.add("hidden");
+    await this.eventManager.emitAsync(GameEvents.GAME_RESTART);
+    this.updateUI();
   }
 
   //////////////////////////
