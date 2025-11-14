@@ -59,6 +59,7 @@ export class UIGamePage extends UIPage {
     };
 
     this.isRestartGameModalShow = false;
+    this.isGameResultsModalShow = false;
     this.isHintNotifShow = false;
     this.hintNotifyShowTimerId = null;
   }
@@ -282,10 +283,13 @@ export class UIGamePage extends UIPage {
 
   onClickGameResultsModalClose() {
     this.elements.gameResultsModal.classList.add("hidden");
+    this.handleBack()
   }
 
   async onClickGameResultsModalApply() {
     this.elements.gameResultsModal.classList.add("hidden");
+    this.isGameResultsModalShow = false;
+    this.stateManager.setIsRunning(false);
     await this.eventManager.emitAsync(GameEvents.GAME_RESTART);
     this.updateUI();
   }
