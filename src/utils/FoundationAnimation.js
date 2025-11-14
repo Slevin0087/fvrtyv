@@ -182,9 +182,13 @@ export class FoundationAnimation {
         const shadowSpread = 10 * (1 - easeOut);
 
         cardElement.style.transform = `${initialTransform} scale(${scale})`;
-        cardElement.style.boxShadow = `0 ${
-          shadowBlur / 4
-        }px ${shadowBlur}px rgba(0, 0, 0, ${0.4 * (1 - easeOut)})`;
+        // cardElement.style.boxShadow = `0 ${
+        //   shadowBlur / 4
+        // }px ${shadowBlur}px rgba(0, 0, 0, ${0.4 * (1 - easeOut)})`;
+
+      cardElement.style.boxShadow = `
+  0 ${shadowBlur/4}px ${shadowBlur}px rgba(255, 215, 0, ${0.6 * (1 - easeOut)})
+`; // золотая тень
 
         requestAnimationFrame(animate);
       } else {

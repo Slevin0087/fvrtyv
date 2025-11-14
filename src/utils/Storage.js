@@ -138,6 +138,7 @@ export class Storage {
     this.defaultSettingsStats = {
       soundEnabled: false,
       assistanceInCollection: false,
+      assistanceInCardClick: true,
       theme: "default",
       language: "ru",
       musicVolume: 0.2,

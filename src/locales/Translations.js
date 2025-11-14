@@ -33,7 +33,11 @@ export const Translations = {
       dealing_cards: "Distribution of cards by:",
       assistance_in_collection: "Quick play:",
       assistance_in_collection_p: "automatically move cards to the home",
-      //   },
+
+      assistance_in_card_click: "Click on the cards:",
+      assistance_in_card_click_p: 'the ability to click on the map',
+
+      //   }, 
       //   shopGame: {
       shop_title: "Shop",
       balance: "Balance: ",
@@ -154,7 +158,11 @@ export const Translations = {
       dealing_cards: "Раздача карт по:",
       assistance_in_collection: "Быстрая игра:",
       assistance_in_collection_p: "автоматически перемещать карты в дом",
-      //   },
+
+      assistance_in_card_click: "Клик по картам:",
+      assistance_in_card_click_p: 'возможность нажать на карту',
+
+      //   }, 
       //   shopGame: {
       shop_title: "Магазин",
       balance: "Баланс: ",
@@ -289,7 +297,11 @@ export const Translations = {
       dealing_cards: "К|арт| щт|ац|ара зъару:",
       assistance_in_collection: "Хъвмарра ласы:",
       assistance_in_collection_p: "ак|артква дара дара атдзы йаквылуашт|",
-      //   },
+
+      assistance_in_card_click: "Ак|артква арыквх|ара:",
+      assistance_in_card_click_p: 'ак|рт| у(б)заквх|арныс',
+
+      //   }, 
       //   shopGame: {
       shop_title: "Аткван",
       balance: "Ахча: ",
@@ -425,6 +437,9 @@ export const Translations = {
       dealing_cards: "Kartların dağıtımı:",
       assistance_in_collection: "Hızlı oyun:",
       assistance_in_collection_p: "kartları otomatik olarak ana sayfaya taşı",
+
+      assistance_in_card_click: "Kartlara tıklayın:",
+      assistance_in_card_click_p: "haritaya tıklama yeteneği",
 
       //   },
       //   shopGame: {

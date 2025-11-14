@@ -108,7 +108,7 @@ export class StateManager {
       this.resetLastMoves();
       this.resetMoves(0);
       this.resetAchievementsActive();
-      this.resetIsNoHints(false)
+      this.resetIsNoHints(false);
       this.getDealingCardsValue();
     });
 
@@ -117,7 +117,7 @@ export class StateManager {
       this.resetTime(0);
       this.resetLastMoves();
       this.resetMoves(0);
-      this.resetIsNoHints(false)
+      this.resetIsNoHints(false);
       this.getDealingCardsValue();
     });
 
@@ -160,6 +160,11 @@ export class StateManager {
       this.saveGameSettings();
     });
 
+    this.eventManager.on(GameEvents.SET_ASSISTANCE_IN_CARD_CLICK, (enabled) => {
+      this.state.settings.assistanceInCardClick = enabled;
+      this.saveGameSettings();
+    });
+
     this.eventManager.on(GameEvents.SET_MUSIC_VOLUME, (value) => {
       this.state.settings.musicVolume = value;
       this.saveGameSettings();
@@ -193,12 +198,12 @@ export class StateManager {
     });
 
     this.eventManager.on(GameEvents.NEED_VIDEO_FOR_HINTS, (boolean) => {
-      this.setNeedVideoForHints(boolean)
-    })
+      this.setNeedVideoForHints(boolean);
+    });
 
     this.eventManager.on(GameEvents.SET_NO_HINTS, (boolean) => {
-      this.setIsNoHints(boolean)
-    })
+      this.setIsNoHints(boolean);
+    });
   }
 
   setIsRunning(boolean) {
@@ -206,7 +211,7 @@ export class StateManager {
   }
 
   getIsRunning() {
-    return this.state.game.isRunning
+    return this.state.game.isRunning;
   }
 
   getAllData() {
@@ -304,7 +309,7 @@ export class StateManager {
   }
 
   resetIsNoHints(boolean) {
-    this.state.isNoHints = boolean
+    this.state.isNoHints = boolean;
   }
 
   addCoins(amount) {
@@ -406,7 +411,7 @@ export class StateManager {
   }
 
   setUsedAutoCollectCards(boolean) {
-    this.state.usedAutoCollectCards = boolean
+    this.state.usedAutoCollectCards = boolean;
   }
 
   setIsDealingCardsAnimation(boolean) {
@@ -422,11 +427,11 @@ export class StateManager {
   }
 
   setIsNoHints(boolean) {
-    this.state.isNoHints = boolean
+    this.state.isNoHints = boolean;
   }
 
   getIsNoHints() {
-    return this.state.isNoHints
+    return this.state.isNoHints;
   }
 
   getDealingCardsValue() {
@@ -444,17 +449,17 @@ export class StateManager {
   }
 
   setNeedVideoForHints(boolean) {
-    this.state.player.needVideoForHints = boolean
+    this.state.player.needVideoForHints = boolean;
     this.savePlayerStats();
   }
 
   getNeedVideoForHints() {
     const playerStats = this.storage.getPlayerStats();
-    return playerStats.needVideoForHints
+    return playerStats.needVideoForHints;
   }
 
   getIsAutoCollectBtnShow() {
-    return this.state.isAutoCollectBtnShow
+    return this.state.isAutoCollectBtnShow;
   }
 
   updateScore(points) {

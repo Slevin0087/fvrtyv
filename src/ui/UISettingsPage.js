@@ -12,6 +12,9 @@ export class UISettingsPage extends UIPage {
       assistanceInCollection: document.getElementById(
         "assistance-in-collection"
       ),
+      assistanceInCardClick: document.getElementById(
+        "assistance-in-card-click"
+      ),
       // difficultySelect: document.getElementById("difficulty"),
       musicVolume: document.getElementById("music-volume"),
       languageSelected: document.getElementById("language-selected"),
@@ -46,7 +49,17 @@ export class UISettingsPage extends UIPage {
     };
 
     this.elements.assistanceInCollection.onchange = (e) => {
-      this.eventManager.emit(GameEvents.SET_ASSISTANCE_IN_COLLECTION, e.target.checked);
+      this.eventManager.emit(
+        GameEvents.SET_ASSISTANCE_IN_COLLECTION,
+        e.target.checked
+      );
+    };
+
+    this.elements.assistanceInCardClick.onchange = (e) => {
+      this.eventManager.emit(
+        GameEvents.SET_ASSISTANCE_IN_CARD_CLICK,
+        e.target.checked
+      );
     };
 
     // this.elements.difficultySelect.onchange = (e) => {
@@ -125,7 +138,7 @@ export class UISettingsPage extends UIPage {
   }
 
   onClickDealingCardsModalItsClear(value) {
-      console.log('value: ', value);
+    console.log("value: ", value);
 
     this.eventManager.emit(GameEvents.SET_DEALING_CARDS, value);
     this.elements.dealingCardsModal.classList.add("hidden");
@@ -225,7 +238,10 @@ export class UISettingsPage extends UIPage {
   render() {
     const settings = this.state.settings;
     this.elements.soundToggle.checked = settings.soundEnabled;
-    this.elements.assistanceInCollection.checked = settings.assistanceInCollection
+    this.elements.assistanceInCollection.checked =
+      settings.assistanceInCollection;
+    this.elements.assistanceInCardClick.checked =
+      settings.assistanceInCardClick;
     // this.elements.difficultySelect.value = settings.difficulty;
     this.elements.languageSelected.value = settings.language;
     this.elements.musicVolume.value = settings.musicVolume * 100;

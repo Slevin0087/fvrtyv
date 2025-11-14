@@ -94,7 +94,8 @@
 /* ..................................................... */
 /* ....................................................... */
 .setting-off-in-vol,
-.setting-assistance-in-collection {
+.setting-assistance-in-collection,
+.setting-assistance-in-card-click {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -118,7 +119,8 @@
 }
 
 .span-sound-off-in,
-.span-assistance-in-collection {
+.span-assistance-in-collection,
+.span-assistance-in-card-click {
   border: 0 solid;
   background: var(--back-color-settings-el);
 }
@@ -359,14 +361,16 @@ input[type="range"]::-moz-range-track {
   margin-bottom: 0;
 }
 
-.assistance-in-collection-div {
+.assistance-in-collection-div,
+.assistance-in-card-click-div {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
   gap: 0.5rem; 
 }
 
-.span-assistance-in-collection {
+.span-assistance-in-collection,
+.span-assistance-in-card-click {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -375,7 +379,8 @@ input[type="range"]::-moz-range-track {
   /* text-overflow: ellipsis; */
 }
 
-.setting-assistance-in-collection-p {
+.setting-assistance-in-collection-p,
+.setting-assistance-in-card-click-p {
   display: flex;
   justify-content: center;
   align-items: center;

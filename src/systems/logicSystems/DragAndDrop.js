@@ -145,6 +145,7 @@ export class DragAndDrop {
       return;
     if (!this.currentDraggingCard) return;
     if (!this.isDragging) {
+      if (!this.stateManager.state.settings.assistanceInCardClick) return
       this.eventManager.emit(GameEvents.CARD_CLICK, this.cards[0]);
       this.resetDragState();
       return;
