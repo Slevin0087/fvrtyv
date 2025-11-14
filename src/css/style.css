@@ -332,7 +332,11 @@ body {
   position: fixed;
   right: var(--full-screen-button-top-left);
   bottom: var(--full-screen-button-top-left);
-  width: var(--full-screen-button-width);
+  /* width: var(--full-screen-button-width); */
+  width: calc(var(--card-width) / 2);
+  height: calc(var(--card-width) / 2);
+  font-size: calc(var(--card-width) / 5);
+
   z-index: 1;
 }
 

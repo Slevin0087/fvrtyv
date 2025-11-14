@@ -18,7 +18,7 @@
   /* --card-width: 10vh;
   --card-height: calc(var(--card-width) * 1.4); */
 
-  --card-width: min(14vw, 10vh);
+  --card-width: min(13.5vw, 10vh);
   --card-height: calc(var(--card-width) * 1.4);
 
   --card-width-690: calc(
@@ -303,7 +303,7 @@
 
 @media (max-width: 655px) and (max-height: 620px) {
     :root {
-    --card-width: min(9.5vw, 12vh);
+    --card-width: min(8.5vw, 10.5vh);
   }
 }
 
