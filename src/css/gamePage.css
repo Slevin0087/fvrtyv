@@ -648,7 +648,7 @@
   transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   max-width: 500px;
   width: 90%;
-  overflow: hidden;
+  /* overflow: hidden; */
   font-family: "Arial", sans-serif;
 }
 
@@ -670,7 +670,7 @@
   content: "👑";
   font-size: 3rem;
   position: absolute;
-  top: -25px;
+  top: -60px;
   left: 50%;
   transform: translateX(-50%);
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
@@ -873,5 +873,68 @@
 
 .game-results-modal-its_apply-btn:active {
   transform: translateY(0);
+}
+
+/* Основной бейдж победы */
+.game-results-modal-victory-main-badge {
+  position: absolute;
+  /* top: -10px; */
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #ff0000, #ff6b00, #ffd700);
+  color: white;
+  padding: 10px 30px;
+  border-radius: 25px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  box-shadow: 0 6px 20px rgba(255, 107, 0, 0.5);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: main-badge-glow 2s ease-in-out infinite;
+}
+
+.game-results-modal-victory-main-badge::before,
+.game-results-modal-victory-main-badge::after {
+  content: "✨";
+  font-size: 1.1rem;
+  animation: sparkle-twinkle 1.5s ease-in-out infinite;
+}
+
+.game-results-modal-victory-main-badge::after {
+  animation-delay: 0.5s;
+}
+
+@keyframes main-badge-glow {
+  0%,
+  100% {
+    transform: translateX(-50%) scale(1);
+    box-shadow: 0 6px 20px rgba(255, 107, 0, 0.5);
+  }
+  50% {
+    transform: translateX(-50%) scale(1.05);
+    box-shadow: 0 8px 25px rgba(255, 107, 0, 0.7);
+  }
+}
+
+@keyframes sparkle-twinkle {
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+/* Обновляем отступы шапки */
+.game-results-modal-header {
+  padding: 3rem 2rem 1.5rem;
 }
 /*  */

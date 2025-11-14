@@ -579,7 +579,7 @@ export class UIGamePage extends UIPage {
         }
 
         confettiContainer.appendChild(confetti);
-        setTimeout(() => confetti.remove(), 50000);
+        setTimeout(() => confetti.remove(), 5000);
       }, i * 30);
     }
 

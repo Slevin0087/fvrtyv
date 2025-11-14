@@ -102,8 +102,9 @@ export const Translations = {
       dealing_cards_modal_right_td: "for watching 🎬",
 
       // модальное окно: результаты игры //////////////////////////////////////////
+      game_results_modalvictory_main_badge: 'Victory!',
       game_results_modal_title: "Game results:",
-      btn_game_results_modal_apply: "Ok!",
+      btn_game_results_modal_apply: "Great!",
       game_results_modal_score: "Score:",
       /////////////////////////////////////////////////////////////////////////////
 
@@ -226,8 +227,9 @@ export const Translations = {
       dealing_cards_modal_right_td: "за просмотр 🎬",
 
       // модальное окно: результаты игры //////////////////////////////////////////
+      game_results_modalvictory_main_badge: 'Победа!',
       game_results_modal_title: "Результаты игры:",
-      btn_game_results_modal_apply: "Понятно!",
+      btn_game_results_modal_apply: "Отлично!",
       game_results_modal_score: "Очки:",
       /////////////////////////////////////////////////////////////////////////////
 
@@ -366,8 +368,9 @@ export const Translations = {
       dealing_cards_modal_right_td: "уапшрык|вын 🎬",
 
       // модальное окно: результаты игры //////////////////////////////////////////
+      game_results_modalvictory_main_badge: 'Айг|айра!',
       game_results_modal_title: "Ахъвмарра арезультатква:",
-      btn_game_results_modal_apply: "Йауашт|!",
+      btn_game_results_modal_apply: "Мчыб!",
       game_results_modal_score: "Апхьадзараква:",
       /////////////////////////////////////////////////////////////////////////////
 
@@ -507,8 +510,9 @@ export const Translations = {
       //////////////////////////////////////////////////////////////////////////
 
       // модальное окно: результаты игры //////////////////////////////////////////
+      game_results_modalvictory_main_badge: 'Zafer!',
       game_results_modal_title: "Maç sonuçları:",
-      btn_game_results_modal_apply: "Apaçık!",
+      btn_game_results_modal_apply: "Harika!",
       game_results_modal_score: "Gözlük:",
       /////////////////////////////////////////////////////////////////////////////
 
