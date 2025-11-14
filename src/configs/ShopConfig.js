@@ -499,6 +499,22 @@ export const ShopConfig = {
       previewImage: "./src/assets/shop/fons/fonG2.png",
       styles: "",
     },
+    {
+      id: "red_tree_fon",
+      name: "Красное дерево",
+      type: "backgrounds",
+      bgType: "image",
+      category: "background",
+      owned: false,
+      isBought: false,
+      price: 100,
+      styleClass: "red-tree-fon",
+      description: "Красное дерево",
+      rarity: "rare",
+      unlockCondition: { score: 1000 },
+      previewImage: "./src/assets/shop/fons/fonG3.png",
+      styles: "",
+    },
     /////////////////////////
     {
       id: "light_green_fon",

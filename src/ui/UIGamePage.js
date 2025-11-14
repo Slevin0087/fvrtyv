@@ -272,7 +272,14 @@ export class UIGamePage extends UIPage {
     );
     this.elements.gameResultsModalBody.innerHTML = modalBody;
     this.elements.gameResultsModal.classList.remove("hidden");
+
+    // Добавляем конфетти
+    this.createVictoryConfetti();
+
+    // // Анимация появления элементов
+    // this.animateResults();
   }
+
   onClickGameResultsModalClose() {
     this.elements.gameResultsModal.classList.add("hidden");
   }
@@ -505,4 +512,94 @@ export class UIGamePage extends UIPage {
     this.updateUI();
     this.creatElementForHighestScore();
   }
+
+  /////////////////////////////////////
+  // Анимация появления результатов
+  animateResults() {
+    const lines = document.querySelectorAll(".game-results-modal-wrap-line");
+
+    lines.forEach((line, index) => {
+      line.style.opacity = "0";
+      line.style.transform = "translateX(-50px)";
+
+      setTimeout(() => {
+        line.style.transition = "all 0.5s ease";
+        line.style.opacity = "1";
+        line.style.transform = "translateX(0)";
+      }, 300 + index * 200);
+    });
+  }
+
+  // Конфетти для победы
+  createVictoryConfetti() {
+    const confettiContainer = document.createElement("div");
+    confettiContainer.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10000;
+  `;
+    document.body.appendChild(confettiContainer);
+
+    const colors = [
+      "#ff0000",
+      "#00ff00",
+      "#0000ff",
+      "#ffff00",
+      "#ff00ff",
+      "#00ffff",
+      "#ff6b00",
+    ];
+    const symbols = ["🃏", "⭐", "🎉", "🔥", "💎", "👑", "💰"];
+
+    for (let i = 0; i < 1000; i++) {
+      setTimeout(() => {
+        const confetti = document.createElement("div");
+        confetti.style.cssText = `
+        position: absolute;
+        font-size: ${15 + Math.random() * 10}px;
+        top: -30px;
+        left: ${Math.random() * 100}%;
+        opacity: ${0.7 + Math.random() * 0.3};
+        animation: confetti-fall ${3 + Math.random() * 2}s ease-in forwards;
+      `;
+
+        if (Math.random() > 0.3) {
+          confetti.textContent =
+            symbols[Math.floor(Math.random() * symbols.length)];
+        } else {
+          confetti.style.width = "10px";
+          confetti.style.height = "10px";
+          confetti.style.background =
+            colors[Math.floor(Math.random() * colors.length)];
+          confetti.style.borderRadius = Math.random() > 0.5 ? "50%" : "0";
+        }
+
+        confettiContainer.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 50000);
+      }, i * 30);
+    }
+
+    // CSS для анимации конфетти
+    const style = document.createElement("style");
+    style.textContent = `
+    @keyframes confetti-fall {
+      0% {
+        transform: translateY(0) rotate(0deg) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg) scale(0.5);
+        opacity: 0;
+      }
+    }
+  `;
+    document.head.appendChild(style);
+
+    setTimeout(() => confettiContainer.remove(), 5000);
+  }
+  ////////////////////////////////////////
 }
