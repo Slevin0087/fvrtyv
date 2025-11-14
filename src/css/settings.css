@@ -25,7 +25,6 @@
   flex-direction: column;
   /* justify-content: center; */
   align-items: center;
-  gap: var(--gap-for-flex-settings);
   width: 100%;
   height: 100%;
   background-color: chocolate;
@@ -55,19 +54,19 @@
 }
 
 .setting-items {
-  padding-left: var(--settings-padding-left-right);
-  padding-right: var(--settings-padding-left-right);
   width: 100vw;
 }
 
 .setting-item {
   display: flex;
   flex-direction: column;
-  gap: 1em;
+  /* gap: 1em; */
   justify-content: center;
   color: black;
   width: 100%;
   /* padding: 0 var(--padding-top-settings); */
+  border-bottom: 1px solid #c5b310;
+  border-top: 1px solid #c5b310;
 }
 
 .settings-back-btn {
@@ -103,10 +102,16 @@
   width: 100%;
 }
 
-/* .container-setting-item,
-.c-setting-item {
-  border: 0.1rem solid black;
-} */
+.container-setting-item {
+  /* padding-left: var(--settings-padding-left-right);
+  padding-right: var(--settings-padding-left-right); */
+  padding: var(--settings-padding-left-right);
+  border-bottom: 1px solid #c5b310;
+}
+
+.container-setting-item:nth-child(even) {
+  background-color: rgb(211, 127, 67);
+}
 
 .setting-label {
   position: relative;
@@ -252,7 +257,6 @@ input[type="range"]::-moz-range-track {
   /* border: 0.5rem solid rgba(128, 98, 0); */
   /* border: var(--modal-border); */
   border: 0.2rem solid red;
-
 }
 
 .dealing-cards-modal-header {
@@ -304,7 +308,6 @@ input[type="range"]::-moz-range-track {
   /* border-radius: calc(var(--modal-border-radius) / 2); */
   /* background-color: #caec08; */
   background-color: black;
-
 }
 
 .dealing-cards-modal-table {
@@ -322,7 +325,6 @@ input[type="range"]::-moz-range-track {
   /* border-radius: var(--modal-border-radius); */
   /* border-radius: calc(var(--modal-border-radius) / 2); */
   border-radius: var(--modal-border-radius);
-
 }
 
 .dealing-cards-modal-wrap-line {
@@ -366,7 +368,7 @@ input[type="range"]::-moz-range-track {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
-  gap: 0.5rem; 
+  gap: 0.5rem;
 }
 
 .span-assistance-in-collection,
@@ -374,7 +376,7 @@ input[type="range"]::-moz-range-track {
   display: flex;
   justify-content: center;
   align-items: center;
-  
+
   /* white-space: nowrap; */
   /* text-overflow: ellipsis; */
 }
