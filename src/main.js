@@ -3,10 +3,13 @@ import { windowResize } from "./utils/windowResize.js";
 
 // Запуск приложения после загрузки DOM
 document.addEventListener("DOMContentLoaded", () => {
-  document.addEventListener("contextmenu", function (e) {
+  document.addEventListener("contextmenu", (e) => {
     e.preventDefault();
   });
-  windowResize()
+  document.addEventListener("gesturestart", (e) => {
+    e.preventDefault();
+  });
+  windowResize();
   const gameInit = new GameInit();
   gameInit.init();
 });
