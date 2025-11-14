@@ -117,9 +117,6 @@
   color: rgb(0, 196, 0);
 }
 
-.wrap-line-wins {
-  margin-bottom: 0.5rem;
-}
 
 .p-state-table .wrap-line:last-child {
   margin-bottom: 0;
@@ -148,6 +145,22 @@
   }
   .player-state button {
     font-size: var(--font-size-ps-350px);
+  }
+}
+
+@media (max-height: 470px) {
+  .wrap-line {
+    padding: 1vh;
+  }
+
+  .player-state button  {
+    font-size: 3vh;
+  }
+}
+
+@media (max-height: 380px) {
+  .wrap-line {
+    padding: 0;
   }
 }
 

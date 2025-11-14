@@ -53,18 +53,11 @@
   color: yellow;
 }
 
-.setting-items {
-  width: 100vw;
-}
-
 .setting-item {
   display: flex;
   flex-direction: column;
-  /* gap: 1em; */
   justify-content: center;
   color: black;
-  width: 100%;
-  /* padding: 0 var(--padding-top-settings); */
   border: 1px solid #c5b310;
   border-bottom: 0;
 }
@@ -105,7 +98,8 @@
 .container-setting-item {
   /* padding-left: var(--settings-padding-left-right);
   padding-right: var(--settings-padding-left-right); */
-  padding: var(--settings-padding-left-right);
+  /* padding: var(--settings-padding-left-right); */
+  padding: calc(var(--card-width) / 10);
   border-bottom: 1px solid #c5b310;
 }
 
@@ -433,11 +427,6 @@ input[type="range"]::-moz-range-track {
   .settings-back-btn {
     left: var(--settings-padding-left-right-650px);
   }
-  .setting-items {
-    padding-left: var(--settings-padding-left-right-650px);
-    padding-right: var(--settings-padding-left-right-650px);
-  }
-
   .dealing-cards-modal-wrap-line {
     font-size: 1rem;
   }
@@ -452,17 +441,10 @@ input[type="range"]::-moz-range-track {
   .settings-back-btn {
     left: var(--settings-padding-left-right-900px);
   }
-  .setting-items {
-    padding-left: var(--settings-padding-left-right-900px);
-    padding-right: var(--settings-padding-left-right-900px);
-  }
 }
 
 @media (min-width: 1200px) {
-  .setting-items {
-    padding-left: var(--settings-padding-left-right-1200px);
-    padding-right: var(--settings-padding-left-right-1200px);
-  }
+
 
   .setting-item {
     font-size: var(--font-size-s-350px);
