@@ -39,16 +39,14 @@ export class UIPlayerStatePage extends UIPage {
         <dt class="left-td" data-i18n="player_state_games_won">Выиграно игр:</dt>
         <dd class="right-td">${statePlayer.wins}</dd>
       </div>
-        <div class="won-no-undo-and-hints">
-          <div class='wrap-line wrap-line-mini'>
-            <dt class="left-td" data-i18n="player_state_games_won_no_undo">Без отмен ходов:</dt>
-            <dd class="right-td">${storagePlayer.winsWithoutUndo}</dd>
-          </div>
-          <div class='wrap-line wrap-line-mini'>
-            <dt class="left-td" data-i18n="player_state_games_won_no_hints">Без подсказок:</dt>
-            <dd class="right-td">${storagePlayer.winsWithoutHints}</dd>
-          </div>
-        </div>
+      <div class='wrap-line wrap-line-mini'>
+        <dt class="left-td" data-i18n="player_state_games_won_no_undo">Без отмен ходов:</dt>
+        <dd class="right-td">${storagePlayer.winsWithoutUndo}</dd>
+      </div>
+      <div class='wrap-line wrap-line-mini'>
+        <dt class="left-td" data-i18n="player_state_games_won_no_hints">Без подсказок:</dt>
+        <dd class="right-td">${storagePlayer.winsWithoutHints}</dd>
+      </div>
       <div class='wrap-line'>
         <dt class="left-td" data-i18n="player_state_best_score">Лучший счет:</dt>
         <dd class="right-td">${statePlayer.highestScore}</dd>

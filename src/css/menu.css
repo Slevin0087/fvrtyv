@@ -1,6 +1,6 @@
 :root {
   --font-size-menu-btn-350px: 1.7em;
-  --font-size-menu-h1-350px: 3.5em;
+  --font-size-menu-h1-350px: 2.5em;
 }
 
 .menu {
@@ -22,7 +22,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 1vh;
 }
 
 .menu h1 {
