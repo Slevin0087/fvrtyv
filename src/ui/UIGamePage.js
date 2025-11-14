@@ -424,6 +424,7 @@ export class UIGamePage extends UIPage {
     textEarnedWinRightPathForResultModal
   ) {
     const score = this.translator.t("game_results_modal_score");
+    const scoreValue = this.state.game.score
     return `<dl class="game-results-modal-table table">
       <div class="game-results-modal-wrap-line">
         <dt
@@ -432,7 +433,7 @@ export class UIGamePage extends UIPage {
         >
           ${score}
         </dt>
-        <dd class="game-results-modal-right-td">x</dd>
+        <dd class="game-results-modal-right-td">+${scoreValue}</dd>
       </div>
       <div class="game-results-modal-wrap-line">
         <dt

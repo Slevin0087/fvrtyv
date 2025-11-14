@@ -65,7 +65,7 @@ export class WinConditionSystem {
     const textWinBonusScoreRightPathForResultModal = `${this.addition}${GameConfig.rules.winScoreBonus}`;
 
     const textEarnedWinLeftPathForResultModal = `${textEarned} `;
-    const textEarnedWinRightPathForResultModal = `${textCoins}`;
+    const textEarnedWinRightPathForResultModal = `${this.addition}${textCoins}`;
 
     this.eventManager.emit(
       GameEvents.CHECK_GET_ACHIEVEMENTS,

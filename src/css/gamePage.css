@@ -858,6 +858,11 @@
   position: relative;
 }
 
+.game-results-modal-wrap-line:nth-child(1) .game-results-modal-right-td,
+.game-results-modal-wrap-line:nth-child(3) .game-results-modal-right-td {
+  animation: bonus-pulse 2s ease-in-out infinite;
+}
+
 /* Особые стили для бонусов */
 .game-results-modal-wrap-line:nth-child(2) .game-results-modal-right-td {
   color: #27ae60;
