@@ -79,7 +79,6 @@
   border-collapse: separate; /*Важно! Должно быть 'separate' (по умолчанию)*/
   border-spacing: calc(var(--gap-for-pstate) * 4) 0; /* Горизонтальное, затем вертикальное */
   background-color: brown;
-  border-bottom: 1px solid #c5b310;
   border-top: 1px solid #c5b310;
 }
 
