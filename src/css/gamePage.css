@@ -226,15 +226,23 @@
   cursor: pointer;
   font-size: 24px;
   font-weight: bold;
+  --webkit-animation: blink 1.5s ease-in-out infinite;
   animation: blink 1.5s ease-in-out infinite;
   will-change: opacity;
   z-index: 1000;
 }
 
-@keyframes blink {
-  /* 50% {
+@-webkit-keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
     opacity: 0;
-  } */
+  }
+}
+
+@keyframes blink {
   0%,
   100% {
     opacity: 1;
@@ -736,7 +744,18 @@
   left: 50%;
   transform: translateX(-50%);
   filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+  --webkit-animation: crown-float 3s ease-in-out infinite;
   animation: crown-float 3s ease-in-out infinite;
+}
+
+@-webkit-keyframes crown-float {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0) rotate(-5deg);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-5px) rotate(5deg);
+  }
 }
 
 @keyframes crown-float {
@@ -962,6 +981,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  --webkit-animation: main-badge-glow 2s ease-in-out infinite;
   animation: main-badge-glow 2s ease-in-out infinite;
 }
 
@@ -974,6 +994,18 @@
 
 .game-results-modal-victory-main-badge::after {
   animation-delay: 0.5s;
+}
+
+@-webkit-keyframes main-badge-glow {
+  0%,
+  100% {
+    transform: translateX(-50%) scale(1);
+    box-shadow: 0 6px 20px rgba(255, 107, 0, 0.5);
+  }
+  50% {
+    transform: translateX(-50%) scale(1.05);
+    box-shadow: 0 8px 25px rgba(255, 107, 0, 0.7);
+  }
 }
 
 @keyframes main-badge-glow {
