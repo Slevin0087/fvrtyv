@@ -4,10 +4,11 @@ import { GameEvents, CardSuits, CardValues } from "../utils/Constants.js";
 import { Helpers } from "../utils/Helpers.js";
 
 export class UIShopPage extends UIPage {
-  constructor(eventManager, stateManager, translator) {
+  constructor(eventManager, stateManager, translator, shopNavigation) {
     super(eventManager, stateManager, "shop");
     this.state = stateManager.state;
     this.translator = translator;
+    this.shopNavigation = shopNavigation
     this.elements = {
       backBtn: document.getElementById("shop-back"),
       balance: document.getElementById("coins"),
@@ -61,9 +62,30 @@ export class UIShopPage extends UIPage {
     );
 
     items.forEach((item, index) => {
-      this.elements.itemsContainer.append(
-        this.createShopItemElement(item, index)
-      );
+      const itemElement = this.createShopItemElement(item, index);
+      console.log('itemElement: ', itemElement);
+      
+      this.elements.itemsContainer.append(itemElement);
+      if (itemElement && index === items.length - 1) {
+        const itemElementWidth = this.getElementWidth(itemElement);
+        const allItemsElementsWidths = this.getAllElementWidths(
+          items.length,
+          itemElementWidth
+        );
+        const isAllWidthsMoreNavigashion = this.isAllWidthsMoreNavigashion(
+          allItemsElementsWidths
+        );
+        if (!isAllWidthsMoreNavigashion) {
+          console.log('if (!isAllWidthsMoreNavigashion)');
+          this.shopNavigation.setNavigationWidth(allItemsElementsWidths / 10 + allItemsElementsWidths)
+          this.shopNavigation.setScrollBtnsHidden()
+        } else {
+          const width = document.documentElement.clientWidth / 1.1
+          this.shopNavigation.setNavigationWidth(width)
+
+        }
+        this.shopNavigation.setScrollStep(itemElementWidth)
+      }
     });
 
     // Обновляем баланс
@@ -259,6 +281,20 @@ export class UIShopPage extends UIPage {
       backgrounds: "background",
     };
     return mapping[category];
+  }
+
+  getElementWidth(element) {
+    return element.offsetWidth;
+  }
+
+  getAllElementWidths(elementsLengths, elementWidth) {
+    return elementsLengths * elementWidth;
+  }
+
+  isAllWidthsMoreNavigashion(allWidths) {
+    console.log('allWidths, window.offsetWidth: ', allWidths, document.documentElement.clientWidth);
+    
+    return allWidths > document.documentElement.clientWidth;
   }
 
   show() {

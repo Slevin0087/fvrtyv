@@ -2,6 +2,7 @@ import { GameEvents } from "../utils/Constants.js";
 import { EventManager } from "../managers/EventManager.js";
 import { StateManager } from "../managers/StateManager.js";
 import { AutoMoveManager } from "../managers/AutoMoveManager.js";
+import { ShopNavigation } from "../utils/ShopNavigation.js";
 import { UIManager } from "../managers/UIManager.js";
 import { AudioManager } from "../managers/AudioManager.js";
 import { Storage } from "../utils/Storage.js";
@@ -38,10 +39,12 @@ export class GameInit {
       this.storage,
       this.translator,
     );
+    this.shopNavigation = new ShopNavigation();
     this.uiManager = new UIManager(
       this.eventManager,
       this.stateManager,
       this.translator,
+      this.shopNavigation,
     );
     this.audioManager = new AudioManager(this.eventManager, this.stateManager);
     this.cardsSystem = new CardsSystem(this.eventManager, this.stateManager);

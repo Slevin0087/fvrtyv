@@ -1,9 +1,12 @@
 export class ShopNavigation {
   constructor() {
+    this.navigationContainer = document.getElementById("shop-navigation");
     this.allItemsContainer = document.getElementById("all-items-container");
     // this.allItemsContainer = document.getElementById('shop-all-items-container')
     this.scrollLeftBtn = document.getElementById("scroll-left-btn");
     this.scrollRightBtn = document.getElementById("scroll-right-btn");
+    this.scrollStep = 0;
+    console.log("this.width: ", this.width);
 
     this.init();
   }
@@ -24,14 +27,14 @@ export class ShopNavigation {
 
   scrollLeft() {
     this.allItemsContainer.scrollBy({
-      left: -400,
+      left: -this.scrollStep,
       behavior: "smooth",
     });
   }
 
   scrollRight() {
     this.allItemsContainer.scrollBy({
-      left: 400,
+      left: this.scrollStep,
       behavior: "smooth",
     });
   }
@@ -56,5 +59,20 @@ export class ShopNavigation {
     } else if (event.key === "ArrowRight") {
       this.scrollRight();
     }
+  }
+
+  setScrollBtnsHidden() {
+    this.scrollLeftBtn.style.visibility = "hidden";
+    this.scrollRightBtn.style.visibility = "hidden";
+  }
+
+  setNavigationWidth(width) {
+    this.navigationContainer.style.width = `${width}px`;
+  }
+
+  setScrollStep(step) {
+    console.log('step: ', step);
+    
+    this.scrollStep = step
   }
 }

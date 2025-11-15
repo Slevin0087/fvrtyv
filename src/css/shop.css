@@ -126,6 +126,7 @@
   border-radius: var(--card-radius);
   padding: var(--padding-shop-head);
   box-shadow: 0 0 1em rgba(0, 0, 0, 0.2);
+  scroll-snap-align: center;
 }
 
 .owned {
@@ -398,10 +399,9 @@
   display: flex;
   gap: var(--gap-for-flex-shop);
   color: black;
-  width: 100%;
   background-color: coral;
   padding: var(--padding-shop-head);
-  justify-content: center;
+  justify-content: flex-start;
 
   /* Свойства для горизонтального скролла */
   overflow: hidden;
@@ -410,6 +410,7 @@
 
   /* Скрываем стандартный скроллбар */
   scrollbar-width: none; /* Firefox */
+  scroll-snap-type: x mandatory;
 }
 
 .all-items-container::-webkit-scrollbar {
