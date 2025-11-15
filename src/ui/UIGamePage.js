@@ -609,25 +609,140 @@ export class UIGamePage extends UIPage {
   //   setTimeout(() => confettiContainer.remove(), 5000);
   // }
 
+  // createVictoryConfetti() {
+  //   // создаём канвас во весь экран
+  //   const canvas = document.createElement("canvas");
+  //   const ctx = canvas.getContext("2d");
+
+  //   canvas.style.cssText = `
+  //   position: fixed;
+  //   left: 0;
+  //   top: 0;
+  //   width: 100vw;
+  //   height: 100vh;
+  //   pointer-events: none;
+  //   z-index: 9999;
+  // `;
+
+  //   document.body.appendChild(canvas);
+
+  //   // правильный размер (учитываем Retina)
+  //   const dpr = window.devicePixelRatio || 1;
+  //   function resize() {
+  //     canvas.width = window.innerWidth * dpr;
+  //     canvas.height = window.innerHeight * dpr;
+  //   }
+  //   resize();
+  //   window.addEventListener("resize", resize);
+
+  //   // ------------------------
+  //   // Конфетти-частицы
+  //   // ------------------------
+  //   const symbols = ["🃏", "⭐", "🎉", "🔥", "💎", "👑", "💰"];
+  //   const colors = [
+  //     "#ff0000",
+  //     "#ff6b00",
+  //     "#00ff00",
+  //     "#0000ff",
+  //     "#ffff00",
+  //     "#ff00ff",
+  //     "#00ffff",
+  //   ];
+
+  //   const particles = [];
+  //   const count = 250; // можно увеличить
+
+  //   for (let i = 0; i < count; i++) {
+  //     const useEmoji = Math.random() < 0.4;
+
+  //     particles.push({
+  //       x: Math.random() * canvas.width,
+  //       y: Math.random() * -canvas.height,
+  //       size: 14 + Math.random() * 16,
+  //       speedY: 1 + Math.random() * 3,
+  //       speedX: (Math.random() - 0.5) * 1.5,
+  //       rotation: Math.random() * Math.PI * 2,
+  //       rotationSpeed: (Math.random() - 0.5) * 0.08,
+  //       opacity: 0.8 + Math.random() * 0.2,
+  //       emoji: useEmoji ? symbols[(Math.random() * symbols.length) | 0] : null,
+  //       color: useEmoji ? null : colors[(Math.random() * colors.length) | 0],
+  //     });
+  //   }
+
+  //   // ------------------------
+  //   // Анимация
+  //   // ------------------------
+  //   let running = true;
+
+  //   function update() {
+  //     if (!running) return;
+
+  //     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  //     particles.forEach((p) => {
+  //       // обновление позиции
+  //       p.x += p.speedX;
+  //       p.y += p.speedY;
+  //       p.rotation += p.rotationSpeed;
+
+  //       // если вышло за экран — вернуть наверх
+  //       if (p.y > canvas.height + 100) {
+  //         p.y = -50;
+  //         p.x = Math.random() * canvas.width;
+  //       }
+
+  //       const px = p.x;
+  //       const py = p.y;
+
+  //       ctx.save();
+  //       ctx.globalAlpha = p.opacity;
+  //       ctx.translate(px, py);
+  //       ctx.rotate(p.rotation);
+
+  //       if (p.emoji) {
+  //         ctx.font = `${p.size * dpr}px serif`;
+  //         ctx.textAlign = "center";
+  //         ctx.textBaseline = "middle";
+  //         ctx.fillText(p.emoji, 0, 0);
+  //       } else {
+  //         ctx.fillStyle = p.color;
+  //         ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+  //       }
+
+  //       ctx.restore();
+  //     });
+
+  //     requestAnimationFrame(update);
+  //   }
+
+  //   update();
+
+  //   // ------------------------
+  //   // Автоматическое завершение
+  //   // ------------------------
+  //   setTimeout(() => {
+  //     running = false;
+  //     canvas.style.transition = "opacity 0.6s ease";
+  //     canvas.style.opacity = "0";
+  //     setTimeout(() => canvas.remove(), 40000);
+  //   }, 50000);
+  // }
+
   createVictoryConfetti() {
-    // создаём канвас во весь экран
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
 
     canvas.style.cssText = `
     position: fixed;
-    left: 0;
-    top: 0;
-    width: 100vw;
-    height: 100vh;
+    inset: 0;
     pointer-events: none;
-    z-index: 9999;
+    z-index: 99999;
   `;
 
     document.body.appendChild(canvas);
 
-    // правильный размер (учитываем Retina)
     const dpr = window.devicePixelRatio || 1;
+
     function resize() {
       canvas.width = window.innerWidth * dpr;
       canvas.height = window.innerHeight * dpr;
@@ -635,97 +750,99 @@ export class UIGamePage extends UIPage {
     resize();
     window.addEventListener("resize", resize);
 
-    // ------------------------
-    // Конфетти-частицы
-    // ------------------------
-    const symbols = ["🃏", "⭐", "🎉", "🔥", "💎", "👑", "💰"];
+    // --- GPU-friendly colors
     const colors = [
       "#ff0000",
       "#ff6b00",
-      "#00ff00",
-      "#0000ff",
       "#ffff00",
-      "#ff00ff",
+      "#00ff00",
       "#00ffff",
+      "#0000ff",
+      "#ff00ff",
     ];
 
+    // --- particles
+    const count = 250; // можно увеличить, FPS всё равно останется высоким
     const particles = [];
-    const count = 250; // можно увеличить
 
     for (let i = 0; i < count; i++) {
-      const useEmoji = Math.random() < 0.4;
-
       particles.push({
         x: Math.random() * canvas.width,
-        y: Math.random() * -canvas.height,
-        size: 14 + Math.random() * 16,
+        y: Math.random() * canvas.height - canvas.height,
+        size: 6 + Math.random() * 12,
         speedY: 1 + Math.random() * 3,
-        speedX: (Math.random() - 0.5) * 1.5,
+        speedX: (Math.random() - 0.5) * 0.9,
         rotation: Math.random() * Math.PI * 2,
-        rotationSpeed: (Math.random() - 0.5) * 0.08,
-        opacity: 0.8 + Math.random() * 0.2,
-        emoji: useEmoji ? symbols[(Math.random() * symbols.length) | 0] : null,
-        color: useEmoji ? null : colors[(Math.random() * colors.length) | 0],
+        rotationSpeed: (Math.random() - 0.5) * 0.2,
+        color: colors[(Math.random() * colors.length) | 0],
+        shape:
+          Math.random() < 0.33
+            ? "circle"
+            : Math.random() < 0.66
+            ? "square"
+            : "triangle",
       });
     }
 
-    // ------------------------
-    // Анимация
-    // ------------------------
     let running = true;
 
-    function update() {
+    function draw() {
       if (!running) return;
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      particles.forEach((p) => {
-        // обновление позиции
+      for (const p of particles) {
         p.x += p.speedX;
         p.y += p.speedY;
         p.rotation += p.rotationSpeed;
 
-        // если вышло за экран — вернуть наверх
-        if (p.y > canvas.height + 100) {
-          p.y = -50;
+        if (p.y > canvas.height + 20) {
+          p.y = -20;
           p.x = Math.random() * canvas.width;
         }
 
-        const px = p.x;
-        const py = p.y;
-
         ctx.save();
-        ctx.globalAlpha = p.opacity;
-        ctx.translate(px, py);
+        ctx.translate(p.x, p.y);
         ctx.rotate(p.rotation);
+        ctx.fillStyle = p.color;
 
-        if (p.emoji) {
-          ctx.font = `${p.size * dpr}px serif`;
-          ctx.textAlign = "center";
-          ctx.textBaseline = "middle";
-          ctx.fillText(p.emoji, 0, 0);
-        } else {
-          ctx.fillStyle = p.color;
-          ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+        const s = p.size;
+
+        switch (p.shape) {
+          case "circle":
+            ctx.beginPath();
+            ctx.arc(0, 0, s / 2, 0, Math.PI * 2);
+            ctx.fill();
+            break;
+
+          case "square":
+            ctx.fillRect(-s / 2, -s / 2, s, s);
+            break;
+
+          case "triangle":
+            ctx.beginPath();
+            ctx.moveTo(0, -s / 2);
+            ctx.lineTo(s / 2, s / 2);
+            ctx.lineTo(-s / 2, s / 2);
+            ctx.closePath();
+            ctx.fill();
+            break;
         }
 
         ctx.restore();
-      });
+      }
 
-      requestAnimationFrame(update);
+      requestAnimationFrame(draw);
     }
 
-    update();
+    draw();
 
-    // ------------------------
-    // Автоматическое завершение
-    // ------------------------
     setTimeout(() => {
       running = false;
-      canvas.style.transition = "opacity 0.6s ease";
+      canvas.style.transition = "opacity .6s";
       canvas.style.opacity = "0";
-      setTimeout(() => canvas.remove(), 700);
-    }, 5000);
+      setTimeout(() => canvas.remove(), 4000);
+    }, 50000);
   }
 
   ////////////////////////////////////////
