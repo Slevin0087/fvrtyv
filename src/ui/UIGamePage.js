@@ -283,7 +283,7 @@ export class UIGamePage extends UIPage {
 
   onClickGameResultsModalClose() {
     this.elements.gameResultsModal.classList.add("hidden");
-    this.handleBack()
+    this.handleBack();
   }
 
   async onClickGameResultsModalApply() {
@@ -424,7 +424,7 @@ export class UIGamePage extends UIPage {
     textEarnedWinRightPathForResultModal
   ) {
     const score = this.translator.t("game_results_modal_score");
-    const scoreValue = this.state.game.score
+    const scoreValue = this.state.game.score;
     return `<dl class="game-results-modal-table table">
       <div class="game-results-modal-wrap-line">
         <dt
@@ -537,76 +537,196 @@ export class UIGamePage extends UIPage {
     });
   }
 
-  // Конфетти для победы
-  createVictoryConfetti() {
-    const confettiContainer = document.createElement("div");
-    confettiContainer.style.cssText = `
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 10000;
-  `;
-    document.body.appendChild(confettiContainer);
+  // // Конфетти для победы
+  // createVictoryConfetti() {
+  //   const confettiContainer = document.createElement("div");
+  //   confettiContainer.style.cssText = `
+  //   position: fixed;
+  //   top: 0;
+  //   left: 0;
+  //   width: 100%;
+  //   height: 100%;
+  //   pointer-events: none;
+  //   z-index: 10000;
+  // `;
+  //   document.body.appendChild(confettiContainer);
 
+  //   const colors = [
+  //     "#ff0000",
+  //     "#00ff00",
+  //     "#0000ff",
+  //     "#ffff00",
+  //     "#ff00ff",
+  //     "#00ffff",
+  //     "#ff6b00",
+  //   ];
+  //   const symbols = ["🃏", "⭐", "🎉", "🔥", "💎", "👑", "💰"];
+
+  //   for (let i = 0; i < 1000; i++) {
+  //     setTimeout(() => {
+  //       const confetti = document.createElement("div");
+  //       confetti.style.cssText = `
+  //       position: absolute;
+  //       font-size: ${15 + Math.random() * 10}px;
+  //       top: -30px;
+  //       left: ${Math.random() * 100}%;
+  //       opacity: ${0.7 + Math.random() * 0.3};
+  //       animation: confetti-fall ${3 + Math.random() * 2}s ease-in forwards;
+  //     `;
+
+  //       if (Math.random() > 0.3) {
+  //         confetti.textContent =
+  //           symbols[Math.floor(Math.random() * symbols.length)];
+  //       } else {
+  //         confetti.style.width = "10px";
+  //         confetti.style.height = "10px";
+  //         confetti.style.background =
+  //           colors[Math.floor(Math.random() * colors.length)];
+  //         confetti.style.borderRadius = Math.random() > 0.5 ? "50%" : "0";
+  //       }
+
+  //       confettiContainer.appendChild(confetti);
+  //       setTimeout(() => confetti.remove(), 5000);
+  //     }, i * 30);
+  //   }
+
+  //   // CSS для анимации конфетти
+  //   const style = document.createElement("style");
+  //   style.textContent = `
+  //   @keyframes confetti-fall {
+  //     0% {
+  //       transform: translateY(0) rotate(0deg) scale(1);
+  //       opacity: 1;
+  //     }
+  //     100% {
+  //       transform: translateY(100vh) rotate(360deg) scale(0.5);
+  //       opacity: 0;
+  //     }
+  //   }
+  // `;
+  //   document.head.appendChild(style);
+
+  //   setTimeout(() => confettiContainer.remove(), 5000);
+  // }
+
+  createVictoryConfetti() {
+    // создаём канвас во весь экран
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+
+    canvas.style.cssText = `
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9999;
+  `;
+
+    document.body.appendChild(canvas);
+
+    // правильный размер (учитываем Retina)
+    const dpr = window.devicePixelRatio || 1;
+    function resize() {
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
+    }
+    resize();
+    window.addEventListener("resize", resize);
+
+    // ------------------------
+    // Конфетти-частицы
+    // ------------------------
+    const symbols = ["🃏", "⭐", "🎉", "🔥", "💎", "👑", "💰"];
     const colors = [
       "#ff0000",
+      "#ff6b00",
       "#00ff00",
       "#0000ff",
       "#ffff00",
       "#ff00ff",
       "#00ffff",
-      "#ff6b00",
     ];
-    const symbols = ["🃏", "⭐", "🎉", "🔥", "💎", "👑", "💰"];
 
-    for (let i = 0; i < 1000; i++) {
-      setTimeout(() => {
-        const confetti = document.createElement("div");
-        confetti.style.cssText = `
-        position: absolute;
-        font-size: ${15 + Math.random() * 10}px;
-        top: -30px;
-        left: ${Math.random() * 100}%;
-        opacity: ${0.7 + Math.random() * 0.3};
-        animation: confetti-fall ${3 + Math.random() * 2}s ease-in forwards;
-      `;
+    const particles = [];
+    const count = 250; // можно увеличить
 
-        if (Math.random() > 0.3) {
-          confetti.textContent =
-            symbols[Math.floor(Math.random() * symbols.length)];
-        } else {
-          confetti.style.width = "10px";
-          confetti.style.height = "10px";
-          confetti.style.background =
-            colors[Math.floor(Math.random() * colors.length)];
-          confetti.style.borderRadius = Math.random() > 0.5 ? "50%" : "0";
+    for (let i = 0; i < count; i++) {
+      const useEmoji = Math.random() < 0.4;
+
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * -canvas.height,
+        size: 14 + Math.random() * 16,
+        speedY: 1 + Math.random() * 3,
+        speedX: (Math.random() - 0.5) * 1.5,
+        rotation: Math.random() * Math.PI * 2,
+        rotationSpeed: (Math.random() - 0.5) * 0.08,
+        opacity: 0.8 + Math.random() * 0.2,
+        emoji: useEmoji ? symbols[(Math.random() * symbols.length) | 0] : null,
+        color: useEmoji ? null : colors[(Math.random() * colors.length) | 0],
+      });
+    }
+
+    // ------------------------
+    // Анимация
+    // ------------------------
+    let running = true;
+
+    function update() {
+      if (!running) return;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach((p) => {
+        // обновление позиции
+        p.x += p.speedX;
+        p.y += p.speedY;
+        p.rotation += p.rotationSpeed;
+
+        // если вышло за экран — вернуть наверх
+        if (p.y > canvas.height + 100) {
+          p.y = -50;
+          p.x = Math.random() * canvas.width;
         }
 
-        confettiContainer.appendChild(confetti);
-        setTimeout(() => confetti.remove(), 5000);
-      }, i * 30);
+        const px = p.x;
+        const py = p.y;
+
+        ctx.save();
+        ctx.globalAlpha = p.opacity;
+        ctx.translate(px, py);
+        ctx.rotate(p.rotation);
+
+        if (p.emoji) {
+          ctx.font = `${p.size * dpr}px serif`;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText(p.emoji, 0, 0);
+        } else {
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+        }
+
+        ctx.restore();
+      });
+
+      requestAnimationFrame(update);
     }
 
-    // CSS для анимации конфетти
-    const style = document.createElement("style");
-    style.textContent = `
-    @keyframes confetti-fall {
-      0% {
-        transform: translateY(0) rotate(0deg) scale(1);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(100vh) rotate(360deg) scale(0.5);
-        opacity: 0;
-      }
-    }
-  `;
-    document.head.appendChild(style);
+    update();
 
-    setTimeout(() => confettiContainer.remove(), 5000);
+    // ------------------------
+    // Автоматическое завершение
+    // ------------------------
+    setTimeout(() => {
+      running = false;
+      canvas.style.transition = "opacity 0.6s ease";
+      canvas.style.opacity = "0";
+      setTimeout(() => canvas.remove(), 700);
+    }, 5000);
   }
+
   ////////////////////////////////////////
 }
