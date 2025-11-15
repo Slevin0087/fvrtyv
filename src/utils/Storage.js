@@ -1,4 +1,4 @@
-import { GameConfig } from '../configs/GameConfig.js'
+import { GameConfig } from "../configs/GameConfig.js";
 
 export class Storage {
   constructor() {
@@ -40,10 +40,10 @@ export class Storage {
       },
       selectedItems: {
         faces: {
-          id: "classic_faces",
-          name: "Классические",
+          id: "classic_faces2",
+          name: "Классические2",
           type: "faces",
-          bgType: "styles",
+          bgType: "images",
           category: "cardFace",
           owned: false,
           isBought: false,
@@ -52,16 +52,26 @@ export class Storage {
           description: "Стандартный дизайн карт",
           rarity: "common",
           unlockCondition: null,
-          previewImage: "",
-          styles: {
-            background: "rgb(204, 195, 195)",
+          previewImage: {
+            spriteSheet: true,
+            img: "./src/assets/cardsImages/Frame_65@4x.png",
+            manyLines: 4,
+            manyColumns: 13,
+            styles: {
+              borderRadius: "0.5vw",
+              padding: "0",
+            },
+            shopStyles: {
+              borderRadius: "0.5vw",
+              padding: "0",
+            },
           },
         },
         backs: {
-          id: "classic_back",
+          id: "classic_back_img1",
           name: "Классическая рубашка",
           type: "backs",
-          bgType: "styles",
+          bgType: "images",
           category: "cardBack",
           owned: false,
           isBought: false,
@@ -70,15 +80,28 @@ export class Storage {
           description: "Классическая рубашка",
           rarity: "common",
           unlockCondition: null,
-          previewImage: "assets/shop/previews/blue_back.png",
-          styles: {
-            background:
-              "repeating-linear-gradient(45deg,#1a5a1a,#1a5a1a 10px,#165016 10px,#165016 20px)",
-            color: "transparent !important",
+          previewImage: {
+            spriteSheet: false,
+            img: "./src/assets/cardsImages/shirt1.png",
+            manyLines: 1,
+            manyColumns: 4,
+            bgPositionX: 0,
+            bgPositionY: 0,
+            styles: {
+              borderRadius: "1.5vw",
+              padding: "0",
+            },
+            shopStyles: {
+              borderRadius: "1.5vw",
+              padding: "0",
+              // backgroundSize: "contain",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            },
           },
         },
         backgrounds: {
-          id: "classic_fon",
+          id: "classic_fon1",
           name: "Классический зелёный",
           type: "backgrounds",
           bgType: "styles",
@@ -86,16 +109,12 @@ export class Storage {
           owned: false,
           isBought: false,
           price: 0,
-          styleClass: "classic-fon",
+          styleClass: "classic-fon1",
           description: "Классический фон",
           rarity: "rare",
           unlockCondition: { score: 1000 },
-          previewImage: "",
-          styles: {
-            backgroundColor: "green",
-            width: "326px",
-            height: "245px",
-          },
+          previewImage: "./src/assets/shop/fons/fonG1.png",
+          styles: "",
         },
       },
       achievements: {
