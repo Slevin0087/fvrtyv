@@ -459,15 +459,8 @@
   /* opacity: 0; */
   transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   max-width: 500px;
-  /* overflow: hidden; */
+  overflow: hidden;
   font-family: "Arial", sans-serif;
-}
-
-.restart-game-modal-close {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  z-index: 2;
 }
 
 .restart-game-modal-close-span {
@@ -506,6 +499,7 @@
   display: flex;
   justify-content: space-between;
   padding: 1rem;
+  gap: calc(var(--card-width) / 2);
 }
 
 .game-results-modal-its_apply-btn,
@@ -552,7 +546,6 @@
   text-align: center;
   position: relative;
   border-bottom: 2px solid #ffb347;
-  overflow: hidden;
 }
 
 .restart-game-modal-close,
@@ -796,5 +789,9 @@
 /* Обновляем отступы шапки */
 .game-results-modal-header {
   padding: 3rem 2rem 1.5rem;
+}
+
+.restart-game-modal-header {
+  padding: 2rem 2rem 1.5rem;
 }
 /*  */
