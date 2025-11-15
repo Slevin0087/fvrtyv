@@ -7,6 +7,7 @@ import { UIPlayerStatePage } from "../ui/UIPlayerStatePage.js";
 import { UIShopPage } from "../ui/UIShopPage.js";
 import { UINotificationPage } from "../ui/UINotificationPage.js";
 import { UIConfig } from "../configs/UIConfig.js";
+import { ShopNavigation } from "../utils/ShopNavigation.js";
 
 export class UIManager {
   constructor(eventManager, stateManager, translator) {
@@ -29,6 +30,7 @@ export class UIManager {
   }
 
   registerPages() {
+    this.components.shopNavigation = new ShopNavigation();
     // Автоматическая регистрация всех страниц
     this.registerPage(UIConfig.pages.UINamePage, UINamePage);
     this.registerPage(UIConfig.pages.UIMenuPage, UIMenuPage);
@@ -89,6 +91,7 @@ export class UIManager {
 
     this.eventManager.on(GameEvents.UI_SHOP_SHOW, () => {
       this.pageShow(UIConfig.pages.UIShopPage);
+      this.components.shopNavigation.updateButtonVisibility()
     });
 
     this.eventManager.on(GameEvents.UI_STATEPLAYER_SHOW, () => {

@@ -21,7 +21,7 @@ export class UIShopPage extends UIPage {
         backs: document.getElementById("shirt-container"),
         backgrounds: document.getElementById("fon-container"),
       },
-      // itemsContainer: document.getElementById("shop-items-container"),
+      shopNavigation: document.getElementById("shop-navigation"),
       itemsContainer: document.getElementById("all-items-container"),
     };
 
@@ -49,6 +49,7 @@ export class UIShopPage extends UIPage {
   render(shopState, shopConfig) {
     // Очищаем контейнер
     this.elements.itemsContainer.innerHTML = "";
+    // this.elements.shopNavigation.in
 
     // Устанавливаем активную категорию
     this.setActiveCategory(shopState.currentCategory);
