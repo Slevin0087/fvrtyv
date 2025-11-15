@@ -262,7 +262,7 @@
 
 .hint-from-card {
   outline: 0.5vw solid rgb(84, 150, 68);
-  --webkit-animation: pulse-hint 1s infinite alternate;
+  -webkit-animation: pulse-hint 1s infinite alternate;
   animation: pulse-hint 1s infinite alternate;
 }
 
