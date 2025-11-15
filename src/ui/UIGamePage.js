@@ -189,6 +189,17 @@ export class UIGamePage extends UIPage {
       this.upHintCounter(n);
     });
 
+    this.elements.modalsWindows.onclick = (e) => {
+      if (e.target === this.elements.modalsWindows) {
+        console.log("клик по modalsWindows");
+        const { modal, handlerClose } = this.stateManager.state.activeModal;
+        if (modal && handlerClose) {
+          handlerClose();
+          this.stateManager.resetActiveModal();
+        }
+      }
+      return
+    };
     ///////////////////////// События модального окна: результаты игры
     this.eventManager.on(
       GameEvents.GAME_RESULTS_MODAL_SHOW,
@@ -226,7 +237,11 @@ export class UIGamePage extends UIPage {
   onClickRestartGame() {
     if (this.isRestartGameModalShow) return;
     this.modalShow(this.elements.restartGameModal);
-    this.isRestartGameModalShow = true;
+    this.stateManager.setActiveModal(
+      this.elements.restartGameModal,      
+      () => this.onClickRestartGameModalClose()
+    );
+      this.isRestartGameModalShow = true;
     // setTimeout(() => this.eventManager.emit(GameEvents.UI_ANIMATE_DEAL_CARDS), 1000);
   }
 
@@ -268,6 +283,10 @@ export class UIGamePage extends UIPage {
     );
     this.elements.gameResultsModalBody.innerHTML = modalBody;
     this.modalShow(this.elements.gameResultsModal);
+    this.stateManager.setActiveModal(
+      this.elements.gameResultsModal,
+      () => this.onClickGameResultsModalClose()
+    );
   }
 
   onClickGameResultsModalClose() {

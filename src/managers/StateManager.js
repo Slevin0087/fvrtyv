@@ -49,6 +49,7 @@ export class StateManager {
       usedAutoCollectCards: false,
       isNoHints: false,
       iscreateVictoryConfetti: false,
+      activeModal: { modal: null, handlerClose: null },
       ui: this.storage.getUIStats(),
       game: this.storage.getGameStats(),
       player: this.storage.getPlayerStats(),
@@ -314,7 +315,7 @@ export class StateManager {
   }
 
   resetIscreateVictoryConfetti(boolean) {
-    this.state.iscreateVictoryConfetti = boolean
+    this.state.iscreateVictoryConfetti = boolean;
   }
 
   addCoins(amount) {
@@ -456,6 +457,20 @@ export class StateManager {
   setNeedVideoForHints(boolean) {
     this.state.player.needVideoForHints = boolean;
     this.savePlayerStats();
+  }
+
+  setActiveModal(modal, handlerClose) {
+    this.state.activeModal.modal = modal;
+    this.state.activeModal.handlerClose = handlerClose;
+  }
+
+  resetActiveModal() {
+    this.state.activeModal.modal = null;
+    this.state.activeModal.handlerClose = null;
+  }
+
+  getActiveModal() {
+    return this.state.activeModal;
   }
 
   getNeedVideoForHints() {
