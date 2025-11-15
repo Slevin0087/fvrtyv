@@ -5,12 +5,11 @@ import {
 } from "../../utils/Constants.js";
 import { Animator } from "../../utils/Animator.js";
 import { UIConfig } from "../../configs/UIConfig.js";
-import { CardSuits, CardValues } from "../../utils/Constants.js";
 import { Helpers } from "../../utils/Helpers.js";
+import { AnimationsVictory } from "../../utils/AnimationsVictory.js";
 
 export class AnimationSystem {
   constructor(eventManager, stateManager, cardsSystem) {
-    // this.components = {};
     this.eventManager = eventManager;
     this.stateManager = stateManager;
     this.state = this.stateManager.state;
@@ -31,8 +30,15 @@ export class AnimationSystem {
   }
 
   init() {
-    // this.registerComponents();
+    this.registerComponents();
     this.setupEventListeners();
+  }
+
+  registerComponents() {
+    this.animationsVictory = new AnimationsVictory(
+      this.eventManager,
+      this.stateManager
+    );
   }
 
   setupEventListeners() {
@@ -49,10 +55,6 @@ export class AnimationSystem {
         Animator.animationCoinsEarned(text);
       }, 200);
     });
-
-    // this.eventManager.on("ui:animate:move", (card, from, to, callback) =>
-    //   this.animateCardMove(card, from, to, callback)
-    // );
 
     this.eventManager.onAsync(GameEvents.CARD_FLIP, async (card) => {
       await this.animateCardFlip(

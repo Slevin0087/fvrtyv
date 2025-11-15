@@ -48,6 +48,7 @@ export class StateManager {
       isAutoCollectBtnShow: false,
       usedAutoCollectCards: false,
       isNoHints: false,
+      iscreateVictoryConfetti: false,
       ui: this.storage.getUIStats(),
       game: this.storage.getGameStats(),
       player: this.storage.getPlayerStats(),
@@ -310,6 +311,10 @@ export class StateManager {
 
   resetIsNoHints(boolean) {
     this.state.isNoHints = boolean;
+  }
+
+  resetIscreateVictoryConfetti(boolean) {
+    this.state.iscreateVictoryConfetti = boolean
   }
 
   addCoins(amount) {
