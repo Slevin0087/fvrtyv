@@ -231,7 +231,7 @@ export class UIGamePage extends UIPage {
   }
 
   async onClickRestartGameModalAgain() {
-    this.modalHide(this.elements.restartGameModal)
+    this.modalHide(this.elements.restartGameModal);
     this.isRestartGameModalShow = false;
     this.stateManager.setIsRunning(false);
     await this.eventManager.emitAsync(GameEvents.GAME_RESTART);
@@ -239,12 +239,12 @@ export class UIGamePage extends UIPage {
   }
 
   onClickRestartGameModalCancel() {
-    this.modalHide(this.elements.restartGameModal)
+    this.modalHide(this.elements.restartGameModal);
     this.isRestartGameModalShow = false;
   }
 
   onClickRestartGameModalClose() {
-    this.modalHide(this.elements.restartGameModal)
+    this.modalHide(this.elements.restartGameModal);
     this.isRestartGameModalShow = false;
   }
 
@@ -267,22 +267,16 @@ export class UIGamePage extends UIPage {
       textEarnedWinRightPathForResultModal
     );
     this.elements.gameResultsModalBody.innerHTML = modalBody;
-    this.elements.gameResultsModal.classList.remove("hidden");
-
-    // Добавляем конфетти
-    // createVictoryConfetti();
-
-    // // Анимация появления элементов
-    // this.animateResults();
+    this.modalShow(this.elements.gameResultsModal);
   }
 
   onClickGameResultsModalClose() {
-    this.elements.gameResultsModal.classList.add("hidden");
+    this.modalHide(this.elements.gameResultsModal);
     this.handleBack();
   }
 
   async onClickGameResultsModalApply() {
-    this.elements.gameResultsModal.classList.add("hidden");
+    this.modalHide(this.elements.gameResultsModal);
     this.isGameResultsModalShow = false;
     this.stateManager.setIsRunning(false);
     await this.eventManager.emitAsync(GameEvents.GAME_RESTART);
@@ -499,8 +493,8 @@ export class UIGamePage extends UIPage {
   }
 
   modalShow(modal) {
-    this.elements.modalsWindows.innerHTML = ''
-    this.elements.modalsWindows.append(modal)
+    this.elements.modalsWindows.innerHTML = "";
+    this.elements.modalsWindows.append(modal);
     this.elements.modalsWindows.classList.remove("hidden");
     modal.classList.remove("hidden");
   }
@@ -508,7 +502,7 @@ export class UIGamePage extends UIPage {
   modalHide(modal) {
     modal.classList.add("hidden");
     this.elements.modalsWindows.classList.add("hidden");
-    this.elements.modalsWindows.innerHTML = ''
+    this.elements.modalsWindows.innerHTML = "";
   }
 
   showMessage(message, type = "info") {
@@ -527,5 +521,4 @@ export class UIGamePage extends UIPage {
     this.updateUI();
     this.creatElementForHighestScore();
   }
-
 }
