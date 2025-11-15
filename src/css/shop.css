@@ -386,7 +386,7 @@
   transform: scale(0.95);
 }
 
-/* Обнови стили для all-items-container */
+/* Обновим стили для all-items-container */
 .all-items-container {
   display: flex;
   gap: var(--gap-for-flex-shop);
@@ -402,7 +402,7 @@
   flex-wrap: nowrap;
   scroll-behavior: smooth;
 
-  /* Скрываем стандартный скроллбар если хочешь */
+  /* Скрываем стандартный скроллбар */
   scrollbar-width: none; /* Firefox */
 }
 

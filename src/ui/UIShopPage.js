@@ -87,42 +87,63 @@ export class UIShopPage extends UIPage {
     itemElement.id = `shop-item-${index}`;
     const itemHead = document.createElement("div");
     const itemName = document.createElement("h3");
-    // const itemDescription = document.createElement("p");
     const shopItemContainer = document.createElement("div");
     const shopItem = document.createElement("div");
+    shopItemContainer.append(shopItem);
     itemHead.classList.add("item-head");
     shopItemContainer.classList.add("shop-item-container");
     const itemNameTranslation = this.translator.tShop(item.id, "name");
-    // const itemDescriptionTranslation = this.translator.tShop(item.id, 'description')
-    console.log("itemNameTranslation: ", itemNameTranslation);
-
-    // itemName.textContent = item.name;
     itemName.textContent = itemNameTranslation;
-    // itemDescription.textContent = item.description;
-    // itemDescription.textContent = itemDescriptionTranslation;
-    // itemHead.append(itemName, itemDescription);
     itemHead.append(itemName);
 
-    console.log("item.category: ", item.category);
-
     if (item.category === "cardFace" || item.category === "cardBack") {
-      const shopItem2 = document.createElement("div");
       shopItem.classList.add("shop-item-card");
-      shopItem2.classList.add("shop-item-card");
+      const shopItem2 = document.createElement("div");
       // Применяем стили сразу
       if (item.styles) {
         Object.assign(shopItem.style, item.styles);
-        Object.assign(shopItem2.style, item.styles);
+        if (item.category === "cardFace") {
+          shopItemContainer.append(shopItem2);
+          shopItem2.classList.add("shop-item-card");
+          Object.assign(shopItem2.style, item.styles);
+          const topSymbolA = document.createElement("span");
+          topSymbolA.className = "shop-card-top-left value-red";
+          topSymbolA.textContent = "A♥";
+
+          const centerSymbolA = document.createElement("span");
+          centerSymbolA.className = "shop-card-center value-red";
+          centerSymbolA.textContent = "♥";
+
+          const bottomSymbolA = document.createElement("span");
+          bottomSymbolA.className = "shop-card-bottom-right value-red";
+          bottomSymbolA.textContent = "A♥";
+
+          const topSymbolK = document.createElement("span");
+          topSymbolK.className = "shop-card-top-left value-black";
+          topSymbolK.textContent = "K♣";
+
+          const centerSymbolK = document.createElement("span");
+          centerSymbolK.className = "shop-card-center value-black";
+          centerSymbolK.textContent = "♣";
+
+          const bottomSymbolK = document.createElement("span");
+          bottomSymbolK.className = "shop-card-bottom-right value-black";
+          bottomSymbolK.textContent = "K♣";
+
+          shopItem2.append(topSymbolK, centerSymbolK, bottomSymbolK);
+          shopItem.append(topSymbolA, centerSymbolA, bottomSymbolA);
+        }
       } else if (!item.styles && item.previewImage) {
-        let bgPositionsShopItem2 = null;
         let bgPositionsShopItem = null;
         if (item.category === "cardFace") {
-          bgPositionsShopItem2 = Helpers.calculateCardBgSpriteSheetPosition(
-            CardSuits.CLUBS,
-            CardValues[CardValues.length - 1],
-            item.previewImage.manyColumns,
-            item.previewImage.manyLines
-          );
+          shopItemContainer.append(shopItem2);
+          const bgPositionsShopItem2 =
+            Helpers.calculateCardBgSpriteSheetPosition(
+              CardSuits.CLUBS,
+              CardValues[CardValues.length - 1],
+              item.previewImage.manyColumns,
+              item.previewImage.manyLines
+            );
           bgPositionsShopItem = Helpers.calculateCardBgSpriteSheetPosition(
             CardSuits.HEARTS,
             CardValues[0],
@@ -131,58 +152,17 @@ export class UIShopPage extends UIPage {
           );
           shopItem.className = "shop-item-card-bg";
           shopItem2.className = "shop-item-card-bg";
-        } else {
-          console.log("в else");
-
-          bgPositionsShopItem2 = Helpers.calculateCardBackPosition(item);
+          shopItem2.style.backgroundImage = `url(${item.previewImage.img})`;
+          shopItem2.style.backgroundPosition = `${bgPositionsShopItem2.x}% ${bgPositionsShopItem2.y}%`;
+          Object.assign(shopItem2.style, item.previewImage.styles);
+        } else if (item.category === "cardBack") {
           bgPositionsShopItem = Helpers.calculateCardBackPosition(item);
           shopItem.className = "shop-item-card-bg-cb1";
-          shopItem2.className = "shop-item-card-bg-cb1";
         }
-
-        console.log("item.previewImage.img: ", item.previewImage.img);
-
         shopItem.style.backgroundImage = `url(${item.previewImage.img})`;
-        shopItem2.style.backgroundImage = `url(${item.previewImage.img})`;
-        console.log("bgPositionsShopItem2: ", bgPositionsShopItem2);
-
         shopItem.style.backgroundPosition = `${bgPositionsShopItem.x}% ${bgPositionsShopItem.y}%`;
-
-        shopItem2.style.backgroundPosition = `${bgPositionsShopItem2.x}% ${bgPositionsShopItem2.y}%`;
         Object.assign(shopItem.style, item.previewImage.styles);
-        Object.assign(shopItem2.style, item.previewImage.styles);
-        // shopItem.style.borderRadius = item.borderRadius;
-        // shopItem2.style.borderRadius = item.borderRadius;
       }
-      if (item.category === "cardFace" && item.styles) {
-        const topSymbolA = document.createElement("span");
-        topSymbolA.className = "shop-card-top-left value-red";
-        topSymbolA.textContent = "A♥";
-
-        const centerSymbolA = document.createElement("span");
-        centerSymbolA.className = "shop-card-center value-red";
-        centerSymbolA.textContent = "♥";
-
-        const bottomSymbolA = document.createElement("span");
-        bottomSymbolA.className = "shop-card-bottom-right value-red";
-        bottomSymbolA.textContent = "A♥";
-
-        const topSymbolK = document.createElement("span");
-        topSymbolK.className = "shop-card-top-left value-black";
-        topSymbolK.textContent = "K♣";
-
-        const centerSymbolK = document.createElement("span");
-        centerSymbolK.className = "shop-card-center value-black";
-        centerSymbolK.textContent = "♣";
-
-        const bottomSymbolK = document.createElement("span");
-        bottomSymbolK.className = "shop-card-bottom-right value-black";
-        bottomSymbolK.textContent = "K♣";
-
-        shopItem2.append(topSymbolK, centerSymbolK, bottomSymbolK);
-        shopItem.append(topSymbolA, centerSymbolA, bottomSymbolA);
-      }
-      shopItemContainer.append(shopItem, shopItem2);
     } else if (item.category === "background") {
       shopItem.classList.add("shop-item-fon");
       if (item.styles) Object.assign(shopItem.style, item.styles);
