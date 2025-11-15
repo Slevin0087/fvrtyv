@@ -1,7 +1,7 @@
 export class ShopNavigation {
   constructor() {
-    // this.allItemsContainer = document.getElementById("all-items-container");
-    this.allItemsContainer = document.getElementById('shop-all-items-container')
+    this.allItemsContainer = document.getElementById("all-items-container");
+    // this.allItemsContainer = document.getElementById('shop-all-items-container')
     this.scrollLeftBtn = document.getElementById("scroll-left-btn");
     this.scrollRightBtn = document.getElementById("scroll-right-btn");
 

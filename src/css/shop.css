@@ -404,8 +404,7 @@
   justify-content: center;
 
   /* Свойства для горизонтального скролла */
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: hidden;
   flex-wrap: nowrap;
   scroll-behavior: smooth;
 
@@ -423,7 +422,7 @@
 
 .shop-navigation {
   position: relative;
-  width: 100%;
+  width: 95%;
 }
 
 .scroll-btn {
