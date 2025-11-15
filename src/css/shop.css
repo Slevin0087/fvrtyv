@@ -362,7 +362,7 @@
 }
 
 .scroll-btn {
-  background: rgba(0, 0, 0, 0.7);
+  background-color: yellow;
   color: white;
   border: none;
   border-radius: 50%;
