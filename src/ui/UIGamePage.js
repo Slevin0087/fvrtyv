@@ -728,122 +728,122 @@ export class UIGamePage extends UIPage {
   //   }, 50000);
   // }
 
-  // createVictoryConfetti() {
-  //   const canvas = document.createElement("canvas");
-  //   const ctx = canvas.getContext("2d");
+  createVictoryConfetti() {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
 
-  //   canvas.style.cssText = `
-  //   position: fixed;
-  //   inset: 0;
-  //   pointer-events: none;
-  //   z-index: 99999;
-  // `;
+    canvas.style.cssText = `
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 99999;
+  `;
 
-  //   document.body.appendChild(canvas);
+    document.body.appendChild(canvas);
 
-  //   const dpr = window.devicePixelRatio || 1;
+    const dpr = window.devicePixelRatio || 1;
 
-  //   function resize() {
-  //     canvas.width = window.innerWidth * dpr;
-  //     canvas.height = window.innerHeight * dpr;
-  //   }
-  //   resize();
-  //   window.addEventListener("resize", resize);
+    function resize() {
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
+    }
+    resize();
+    window.addEventListener("resize", resize);
 
-  //   // --- GPU-friendly colors
-  //   const colors = [
-  //     "#ff0000",
-  //     "#ff6b00",
-  //     "#ffff00",
-  //     "#00ff00",
-  //     "#00ffff",
-  //     "#0000ff",
-  //     "#ff00ff",
-  //   ];
+    // --- GPU-friendly colors
+    const colors = [
+      "#ff0000",
+      "#ff6b00",
+      "#ffff00",
+      "#00ff00",
+      "#00ffff",
+      "#0000ff",
+      "#ff00ff",
+    ];
 
-  //   // --- particles
-  //   const count = 250; // можно увеличить, FPS всё равно останется высоким
-  //   const particles = [];
+    // --- particles
+    const count = 250; // можно увеличить, FPS всё равно останется высоким
+    const particles = [];
 
-  //   for (let i = 0; i < count; i++) {
-  //     particles.push({
-  //       x: Math.random() * canvas.width,
-  //       y: Math.random() * canvas.height - canvas.height,
-  //       size: 6 + Math.random() * 12,
-  //       speedY: 1 + Math.random() * 3,
-  //       speedX: (Math.random() - 0.5) * 0.9,
-  //       rotation: Math.random() * Math.PI * 2,
-  //       rotationSpeed: (Math.random() - 0.5) * 0.2,
-  //       color: colors[(Math.random() * colors.length) | 0],
-  //       shape:
-  //         Math.random() < 0.33
-  //           ? "circle"
-  //           : Math.random() < 0.66
-  //           ? "square"
-  //           : "triangle",
-  //     });
-  //   }
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        size: 6 + Math.random() * 12,
+        speedY: 1 + Math.random() * 3,
+        speedX: (Math.random() - 0.5) * 0.9,
+        rotation: Math.random() * Math.PI * 2,
+        rotationSpeed: (Math.random() - 0.5) * 0.2,
+        color: colors[(Math.random() * colors.length) | 0],
+        shape:
+          Math.random() < 0.33
+            ? "circle"
+            : Math.random() < 0.66
+            ? "square"
+            : "triangle",
+      });
+    }
 
-  //   let running = true;
+    let running = true;
 
-  //   function draw() {
-  //     if (!running) return;
+    function draw() {
+      if (!running) return;
 
-  //     ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  //     for (const p of particles) {
-  //       p.x += p.speedX;
-  //       p.y += p.speedY;
-  //       p.rotation += p.rotationSpeed;
+      for (const p of particles) {
+        p.x += p.speedX;
+        p.y += p.speedY;
+        p.rotation += p.rotationSpeed;
 
-  //       if (p.y > canvas.height + 20) {
-  //         p.y = -20;
-  //         p.x = Math.random() * canvas.width;
-  //       }
+        if (p.y > canvas.height + 20) {
+          p.y = -20;
+          p.x = Math.random() * canvas.width;
+        }
 
-  //       ctx.save();
-  //       ctx.translate(p.x, p.y);
-  //       ctx.rotate(p.rotation);
-  //       ctx.fillStyle = p.color;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rotation);
+        ctx.fillStyle = p.color;
 
-  //       const s = p.size;
+        const s = p.size;
 
-  //       switch (p.shape) {
-  //         case "circle":
-  //           ctx.beginPath();
-  //           ctx.arc(0, 0, s / 2, 0, Math.PI * 2);
-  //           ctx.fill();
-  //           break;
+        switch (p.shape) {
+          case "circle":
+            ctx.beginPath();
+            ctx.arc(0, 0, s / 2, 0, Math.PI * 2);
+            ctx.fill();
+            break;
 
-  //         case "square":
-  //           ctx.fillRect(-s / 2, -s / 2, s, s);
-  //           break;
+          case "square":
+            ctx.fillRect(-s / 2, -s / 2, s, s);
+            break;
 
-  //         case "triangle":
-  //           ctx.beginPath();
-  //           ctx.moveTo(0, -s / 2);
-  //           ctx.lineTo(s / 2, s / 2);
-  //           ctx.lineTo(-s / 2, s / 2);
-  //           ctx.closePath();
-  //           ctx.fill();
-  //           break;
-  //       }
+          case "triangle":
+            ctx.beginPath();
+            ctx.moveTo(0, -s / 2);
+            ctx.lineTo(s / 2, s / 2);
+            ctx.lineTo(-s / 2, s / 2);
+            ctx.closePath();
+            ctx.fill();
+            break;
+        }
 
-  //       ctx.restore();
-  //     }
+        ctx.restore();
+      }
 
-  //     requestAnimationFrame(draw);
-  //   }
+      requestAnimationFrame(draw);
+    }
 
-  //   draw();
+    draw();
 
-  //   setTimeout(() => {
-  //     running = false;
-  //     canvas.style.transition = "opacity .6s";
-  //     canvas.style.opacity = "0";
-  //     setTimeout(() => canvas.remove(), 4000);
-  //   }, 50000);
-  // }
+    setTimeout(() => {
+      running = false;
+      canvas.style.transition = "opacity .6s";
+      canvas.style.opacity = "0";
+      setTimeout(() => canvas.remove(), 4000);
+    }, 50000);
+  }
 
   // createVictoryConfetti() {
   //   const canvas = document.createElement("canvas");
@@ -1018,208 +1018,208 @@ export class UIGamePage extends UIPage {
   //   }, 6000);
   // }
 
-  createVictoryConfetti() {
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
+  // createVictoryConfetti() {
+  //   const canvas = document.createElement("canvas");
+  //   const ctx = canvas.getContext("2d");
 
-    canvas.style.cssText = `
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 99999;
-  `;
-    document.body.appendChild(canvas);
+  //   canvas.style.cssText = `
+  //   position: fixed;
+  //   inset: 0;
+  //   pointer-events: none;
+  //   z-index: 99999;
+  // `;
+  //   document.body.appendChild(canvas);
 
-    const dpr = window.devicePixelRatio || 1;
-    function resize() {
-      canvas.width = window.innerWidth * dpr;
-      canvas.height = window.innerHeight * dpr;
-    }
-    resize();
-    window.addEventListener("resize", resize);
+  //   const dpr = window.devicePixelRatio || 1;
+  //   function resize() {
+  //     canvas.width = window.innerWidth * dpr;
+  //     canvas.height = window.innerHeight * dpr;
+  //   }
+  //   resize();
+  //   window.addEventListener("resize", resize);
 
-    const colors = [
-      "#ff0000",
-      "#ff6b00",
-      "#ffff00",
-      "#00ff00",
-      "#00ffff",
-      "#0000ff",
-      "#ff00ff",
-    ];
-    const emojis = ["🎉", "⭐", "🔥", "💎", "👑", "💰", "🃏"];
+  //   const colors = [
+  //     "#ff0000",
+  //     "#ff6b00",
+  //     "#ffff00",
+  //     "#00ff00",
+  //     "#00ffff",
+  //     "#0000ff",
+  //     "#ff00ff",
+  //   ];
+  //   const emojis = ["🎉", "⭐", "🔥", "💎", "👑", "💰", "🃏"];
 
-    const SHAPES = 220;
-    const EMOJIS = 25;
-    const particles = [];
+  //   const SHAPES = 220;
+  //   const EMOJIS = 25;
+  //   const particles = [];
 
-    const rand = (a, b) => a + Math.random() * (b - a);
-    const randItem = (arr) => arr[(Math.random() * arr.length) | 0];
+  //   const rand = (a, b) => a + Math.random() * (b - a);
+  //   const randItem = (arr) => arr[(Math.random() * arr.length) | 0];
 
-    // MULTI EXPLOSION POINTS
-    const explosionPoints = [
-      { x: canvas.width / 2, y: canvas.height / 2 }, // center
-      { x: canvas.width * 0.2, y: canvas.height * 0.2 }, // top-left
-      { x: canvas.width * 0.8, y: canvas.height * 0.2 }, // top-right
-      { x: rand(0, canvas.width), y: rand(0, canvas.height * 0.3) }, // random top
-    ];
+  //   // MULTI EXPLOSION POINTS
+  //   const explosionPoints = [
+  //     { x: canvas.width / 2, y: canvas.height / 2 }, // center
+  //     { x: canvas.width * 0.2, y: canvas.height * 0.2 }, // top-left
+  //     { x: canvas.width * 0.8, y: canvas.height * 0.2 }, // top-right
+  //     { x: rand(0, canvas.width), y: rand(0, canvas.height * 0.3) }, // random top
+  //   ];
 
-    function getExplosionPoint() {
-      return randItem(explosionPoints);
-    }
+  //   function getExplosionPoint() {
+  //     return randItem(explosionPoints);
+  //   }
 
-    // ------ SHAPES ------
-    for (let i = 0; i < SHAPES; i++) {
-      const e = getExplosionPoint();
-      particles.push({
-        type: "shape",
-        x: e.x,
-        y: e.y,
-        vx: rand(-4, 4),
-        vy: rand(-7, -2),
-        size: rand(6, 12),
-        rotationX: rand(0, Math.PI * 2),
-        rotationY: rand(0, Math.PI * 2),
-        rotationZ: rand(0, Math.PI * 2),
-        rSpeedX: rand(-0.2, 0.2),
-        rSpeedY: rand(-0.2, 0.2),
-        rSpeedZ: rand(-0.2, 0.2),
-        color: randItem(colors),
-        shape:
-          Math.random() < 0.33
-            ? "circle"
-            : Math.random() < 0.66
-            ? "square"
-            : "triangle",
-        sparkle: Math.random() < 0.15,
-      });
-    }
+  //   // ------ SHAPES ------
+  //   for (let i = 0; i < SHAPES; i++) {
+  //     const e = getExplosionPoint();
+  //     particles.push({
+  //       type: "shape",
+  //       x: e.x,
+  //       y: e.y,
+  //       vx: rand(-4, 4),
+  //       vy: rand(-7, -2),
+  //       size: rand(6, 12),
+  //       rotationX: rand(0, Math.PI * 2),
+  //       rotationY: rand(0, Math.PI * 2),
+  //       rotationZ: rand(0, Math.PI * 2),
+  //       rSpeedX: rand(-0.2, 0.2),
+  //       rSpeedY: rand(-0.2, 0.2),
+  //       rSpeedZ: rand(-0.2, 0.2),
+  //       color: randItem(colors),
+  //       shape:
+  //         Math.random() < 0.33
+  //           ? "circle"
+  //           : Math.random() < 0.66
+  //           ? "square"
+  //           : "triangle",
+  //       sparkle: Math.random() < 0.15,
+  //     });
+  //   }
 
-    // ------ EMOJI ------
-    for (let i = 0; i < EMOJIS; i++) {
-      const e = getExplosionPoint();
-      particles.push({
-        type: "emoji",
-        char: randItem(emojis),
-        x: e.x,
-        y: e.y,
-        vx: rand(-3, 3),
-        vy: rand(-6, -1),
-        size: rand(30, 45),
-        rotationZ: rand(0, Math.PI * 2),
-        rSpeedZ: rand(-0.06, 0.06),
-        opacity: rand(0.7, 1),
-      });
-    }
+  //   // ------ EMOJI ------
+  //   for (let i = 0; i < EMOJIS; i++) {
+  //     const e = getExplosionPoint();
+  //     particles.push({
+  //       type: "emoji",
+  //       char: randItem(emojis),
+  //       x: e.x,
+  //       y: e.y,
+  //       vx: rand(-3, 3),
+  //       vy: rand(-6, -1),
+  //       size: rand(30, 45),
+  //       rotationZ: rand(0, Math.PI * 2),
+  //       rSpeedZ: rand(-0.06, 0.06),
+  //       opacity: rand(0.7, 1),
+  //     });
+  //   }
 
-    let running = true;
+  //   let running = true;
 
-    function draw() {
-      if (!running) return;
+  //   function draw() {
+  //     if (!running) return;
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+  //     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      for (const p of particles) {
-        // Physics
-        p.vy += 0.05; // gravity
-        p.x += p.vx;
-        p.y += p.vy;
+  //     for (const p of particles) {
+  //       // Physics
+  //       p.vy += 0.05; // gravity
+  //       p.x += p.vx;
+  //       p.y += p.vy;
 
-        // Wind left-right
-        p.x += Math.sin(p.y * 0.01) * 0.6;
+  //       // Wind left-right
+  //       p.x += Math.sin(p.y * 0.01) * 0.6;
 
-        // Bounce from walls
-        const w = canvas.width;
-        const h = canvas.height;
-        const r = p.size;
+  //       // Bounce from walls
+  //       const w = canvas.width;
+  //       const h = canvas.height;
+  //       const r = p.size;
 
-        if (p.x < r) {
-          p.x = r;
-          p.vx *= -0.7; // bounce with damping
-        }
+  //       if (p.x < r) {
+  //         p.x = r;
+  //         p.vx *= -0.7; // bounce with damping
+  //       }
 
-        if (p.x > w - r) {
-          p.x = w - r;
-          p.vx *= -0.7;
-        }
+  //       if (p.x > w - r) {
+  //         p.x = w - r;
+  //         p.vx *= -0.7;
+  //       }
 
-        if (p.y < r) {
-          p.y = r;
-          p.vy *= -0.7;
-        }
+  //       if (p.y < r) {
+  //         p.y = r;
+  //         p.vy *= -0.7;
+  //       }
 
-        if (p.y > h - r) {
-          p.y = h - r;
-          p.vy *= -0.55; // floor bounce weaker
-          p.vx *= 0.9;
-        }
+  //       if (p.y > h - r) {
+  //         p.y = h - r;
+  //         p.vy *= -0.55; // floor bounce weaker
+  //         p.vx *= 0.9;
+  //       }
 
-        // Rotations
-        if (p.type === "shape") {
-          p.rotationX += p.rSpeedX;
-          p.rotationY += p.rSpeedY;
-          p.rotationZ += p.rSpeedZ;
-        } else {
-          p.rotationZ += p.rSpeedZ;
-        }
+  //       // Rotations
+  //       if (p.type === "shape") {
+  //         p.rotationX += p.rSpeedX;
+  //         p.rotationY += p.rSpeedY;
+  //         p.rotationZ += p.rSpeedZ;
+  //       } else {
+  //         p.rotationZ += p.rSpeedZ;
+  //       }
 
-        ctx.save();
-        ctx.translate(p.x, p.y);
+  //       ctx.save();
+  //       ctx.translate(p.x, p.y);
 
-        if (p.type === "emoji") {
-          ctx.rotate(p.rotationZ);
-          ctx.globalAlpha = p.opacity;
-          ctx.font = `${p.size}px serif`;
-          ctx.fillText(p.char, -p.size * 0.5, p.size * 0.5);
-        } else {
-          const s = p.size;
-          ctx.rotate(p.rotationZ);
+  //       if (p.type === "emoji") {
+  //         ctx.rotate(p.rotationZ);
+  //         ctx.globalAlpha = p.opacity;
+  //         ctx.font = `${p.size}px serif`;
+  //         ctx.fillText(p.char, -p.size * 0.5, p.size * 0.5);
+  //       } else {
+  //         const s = p.size;
+  //         ctx.rotate(p.rotationZ);
 
-          // Fake 3D flip
-          const scaleY = Math.abs(Math.sin(p.rotationX)) * 0.9 + 0.1;
-          ctx.scale(1, scaleY);
+  //         // Fake 3D flip
+  //         const scaleY = Math.abs(Math.sin(p.rotationX)) * 0.9 + 0.1;
+  //         ctx.scale(1, scaleY);
 
-          ctx.fillStyle = p.color;
-          ctx.globalAlpha =
-            p.sparkle && Math.random() < 0.1 ? rand(0.4, 0.9) : 1;
+  //         ctx.fillStyle = p.color;
+  //         ctx.globalAlpha =
+  //           p.sparkle && Math.random() < 0.1 ? rand(0.4, 0.9) : 1;
 
-          switch (p.shape) {
-            case "circle":
-              ctx.beginPath();
-              ctx.arc(0, 0, s / 2, 0, Math.PI * 2);
-              ctx.fill();
-              break;
+  //         switch (p.shape) {
+  //           case "circle":
+  //             ctx.beginPath();
+  //             ctx.arc(0, 0, s / 2, 0, Math.PI * 2);
+  //             ctx.fill();
+  //             break;
 
-            case "square":
-              ctx.fillRect(-s / 2, -s / 2, s, s);
-              break;
+  //           case "square":
+  //             ctx.fillRect(-s / 2, -s / 2, s, s);
+  //             break;
 
-            case "triangle":
-              ctx.beginPath();
-              ctx.moveTo(0, -s / 2);
-              ctx.lineTo(s / 2, s / 2);
-              ctx.lineTo(-s / 2, s / 2);
-              ctx.closePath();
-              ctx.fill();
-              break;
-          }
-        }
+  //           case "triangle":
+  //             ctx.beginPath();
+  //             ctx.moveTo(0, -s / 2);
+  //             ctx.lineTo(s / 2, s / 2);
+  //             ctx.lineTo(-s / 2, s / 2);
+  //             ctx.closePath();
+  //             ctx.fill();
+  //             break;
+  //         }
+  //       }
 
-        ctx.restore();
-      }
+  //       ctx.restore();
+  //     }
 
-      requestAnimationFrame(draw);
-    }
+  //     requestAnimationFrame(draw);
+  //   }
 
-    draw();
+  //   draw();
 
-    setTimeout(() => {
-      running = false;
-      canvas.style.transition = "opacity .6s";
-      canvas.style.opacity = "0";
-      setTimeout(() => canvas.remove(), 5000);
-    }, 6000);
-  }
+  //   setTimeout(() => {
+  //     running = false;
+  //     canvas.style.transition = "opacity .6s";
+  //     canvas.style.opacity = "0";
+  //     setTimeout(() => canvas.remove(), 5000);
+  //   }, 6000);
+  // }
 
   ////////////////////////////////////////
 }
