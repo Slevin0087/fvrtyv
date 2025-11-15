@@ -361,6 +361,13 @@
   }
 }
 
+.shop-all-items-container {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 95%;
+}
+
 .scroll-btn {
   background-color: yellow;
   color: white;
@@ -394,7 +401,7 @@
   width: 100%;
   background-color: coral;
   padding: var(--padding-shop-head);
-  justify-content: flex-start;
+  justify-content: center;
 
   /* Свойства для горизонтального скролла */
   overflow-x: auto;
@@ -414,30 +421,28 @@
   flex: 0 0 auto; /* Запрещаем растягивание и сжатие */
 }
 
-
 .shop-navigation {
-    position: relative;
-    width: 100%;
+  position: relative;
+  width: 100%;
 }
 
 .scroll-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 100;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
 }
 
 .scroll-left {
-    left: 10px;
+  left: 10px;
 }
 
 .scroll-right {
-    right: 10px;
+  right: 10px;
 }
 
 .all-items-container {
-    /* остальные стили */
-    padding-left: 50px;
-    padding-right: 50px;
+  /* остальные стили */
+  padding-left: 50px;
+  padding-right: 50px;
 }
-

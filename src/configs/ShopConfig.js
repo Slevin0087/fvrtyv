@@ -462,8 +462,8 @@ export const ShopConfig = {
       previewImage: "",
       styles: {
         backgroundColor: "green",
-        width: "326px",
-        height: "245px",
+        width: "226px",
+        height: "170px",
       },
     },
     ///////////////////////////
@@ -480,7 +480,7 @@ export const ShopConfig = {
       description: "Классический фон",
       rarity: "rare",
       unlockCondition: { score: 1000 },
-      previewImage: "./src/assets/shop/fons/fonG1.png",
+      previewImage: "./src/assets/shop/fons/fonG1_226.png",
       styles: "",
     },
     {
@@ -496,7 +496,7 @@ export const ShopConfig = {
       description: "Классический фон",
       rarity: "rare",
       unlockCondition: { score: 1000 },
-      previewImage: "./src/assets/shop/fons/fonG2.png",
+      previewImage: "./src/assets/shop/fons/fonG2_226.png",
       styles: "",
     },
     {
@@ -512,7 +512,7 @@ export const ShopConfig = {
       description: "Красное дерево",
       rarity: "rare",
       unlockCondition: { score: 1000 },
-      previewImage: "./src/assets/shop/fons/fonG3.png",
+      previewImage: "./src/assets/shop/fons/fonG3_226.png",
       styles: "",
     },
     /////////////////////////
@@ -532,8 +532,8 @@ export const ShopConfig = {
       previewImage: "",
       styles: {
         backgroundColor: "rgb(104, 189, 104)",
-        width: "326px",
-        height: "245px",
+        width: "226px",
+        height: "170px",
       },
     },
     {
@@ -551,8 +551,8 @@ export const ShopConfig = {
       unlockCondition: { score: 1000 },
       previewImage: "",
       styles: {
-        width: "326px",
-        height: "245px",
+        width: "226px",
+        height: "170px",
         background: `linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab)`,
         backgroundSize: "400% 400%",
         animation: "gradientBG 15s ease infinite",
@@ -573,8 +573,8 @@ export const ShopConfig = {
       unlockCondition: { score: 1000 },
       previewImage: "",
       styles: {
-        width: "326px",
-        height: "245px",
+        width: "226px",
+        height: "170px",
         background: `linear-gradient(#2b2b44 2px, transparent 2px),
     linear-gradient(90deg, #2b2b44 2px, transparent 2px),
     linear-gradient(#3b3b5a 1px, transparent 1px),
@@ -598,8 +598,8 @@ export const ShopConfig = {
       unlockCondition: { score: 1000 },
       previewImage: "",
       styles: {
-        width: "326px",
-        height: "245px",
+        width: "226px",
+        height: "170px",
         background: `radial-gradient(circle, transparent 20%, #1a1a1a 20%, #1a1a1a 80%, transparent 80%, transparent),
     radial-gradient(circle, transparent 20%, #1a1a1a 20%, #1a1a1a 80%, transparent 80%, transparent) 50px 50px,
     linear-gradient(#2d2d2d 2px, transparent 2px) 0 -1px,
@@ -623,8 +623,8 @@ export const ShopConfig = {
       unlockCondition: { score: 1000 },
       previewImage: "",
       styles: {
-        width: "326px",
-        height: "245px",
+        width: "226px",
+        height: "170px",
         background: `linear-gradient(135deg, 
       rgba(100,149,237,0.1) 0%, 
       rgba(100,149,237,0) 50%, 
@@ -657,8 +657,8 @@ export const ShopConfig = {
       unlockCondition: { score: 1000 },
       previewImage: "",
       styles: {
-        width: "326px",
-        height: "245px",
+        width: "226px",
+        height: "170px",
         backgroundColor: "#52411b",
         backgroundImage: `linear-gradient(to bottom, 
           rgba(0, 0, 0, 0.589) 0%,
@@ -683,8 +683,8 @@ export const ShopConfig = {
       unlockCondition: { score: 1000 },
       previewImage: "",
       styles: {
-        width: "326px",
-        height: "245px",
+         width: "226px",
+        height: "170px",
         background: `conic-gradient(from 90deg at 1px 1px, 
         transparent 25%, 
         #8a2be2 0%, 
