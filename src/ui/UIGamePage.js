@@ -728,6 +728,123 @@ export class UIGamePage extends UIPage {
   //   }, 50000);
   // }
 
+  // createVictoryConfetti() {
+  //   const canvas = document.createElement("canvas");
+  //   const ctx = canvas.getContext("2d");
+
+  //   canvas.style.cssText = `
+  //   position: fixed;
+  //   inset: 0;
+  //   pointer-events: none;
+  //   z-index: 99999;
+  // `;
+
+  //   document.body.appendChild(canvas);
+
+  //   const dpr = window.devicePixelRatio || 1;
+
+  //   function resize() {
+  //     canvas.width = window.innerWidth * dpr;
+  //     canvas.height = window.innerHeight * dpr;
+  //   }
+  //   resize();
+  //   window.addEventListener("resize", resize);
+
+  //   // --- GPU-friendly colors
+  //   const colors = [
+  //     "#ff0000",
+  //     "#ff6b00",
+  //     "#ffff00",
+  //     "#00ff00",
+  //     "#00ffff",
+  //     "#0000ff",
+  //     "#ff00ff",
+  //   ];
+
+  //   // --- particles
+  //   const count = 250; // можно увеличить, FPS всё равно останется высоким
+  //   const particles = [];
+
+  //   for (let i = 0; i < count; i++) {
+  //     particles.push({
+  //       x: Math.random() * canvas.width,
+  //       y: Math.random() * canvas.height - canvas.height,
+  //       size: 6 + Math.random() * 12,
+  //       speedY: 1 + Math.random() * 3,
+  //       speedX: (Math.random() - 0.5) * 0.9,
+  //       rotation: Math.random() * Math.PI * 2,
+  //       rotationSpeed: (Math.random() - 0.5) * 0.2,
+  //       color: colors[(Math.random() * colors.length) | 0],
+  //       shape:
+  //         Math.random() < 0.33
+  //           ? "circle"
+  //           : Math.random() < 0.66
+  //           ? "square"
+  //           : "triangle",
+  //     });
+  //   }
+
+  //   let running = true;
+
+  //   function draw() {
+  //     if (!running) return;
+
+  //     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  //     for (const p of particles) {
+  //       p.x += p.speedX;
+  //       p.y += p.speedY;
+  //       p.rotation += p.rotationSpeed;
+
+  //       if (p.y > canvas.height + 20) {
+  //         p.y = -20;
+  //         p.x = Math.random() * canvas.width;
+  //       }
+
+  //       ctx.save();
+  //       ctx.translate(p.x, p.y);
+  //       ctx.rotate(p.rotation);
+  //       ctx.fillStyle = p.color;
+
+  //       const s = p.size;
+
+  //       switch (p.shape) {
+  //         case "circle":
+  //           ctx.beginPath();
+  //           ctx.arc(0, 0, s / 2, 0, Math.PI * 2);
+  //           ctx.fill();
+  //           break;
+
+  //         case "square":
+  //           ctx.fillRect(-s / 2, -s / 2, s, s);
+  //           break;
+
+  //         case "triangle":
+  //           ctx.beginPath();
+  //           ctx.moveTo(0, -s / 2);
+  //           ctx.lineTo(s / 2, s / 2);
+  //           ctx.lineTo(-s / 2, s / 2);
+  //           ctx.closePath();
+  //           ctx.fill();
+  //           break;
+  //       }
+
+  //       ctx.restore();
+  //     }
+
+  //     requestAnimationFrame(draw);
+  //   }
+
+  //   draw();
+
+  //   setTimeout(() => {
+  //     running = false;
+  //     canvas.style.transition = "opacity .6s";
+  //     canvas.style.opacity = "0";
+  //     setTimeout(() => canvas.remove(), 4000);
+  //   }, 50000);
+  // }
+
   createVictoryConfetti() {
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
@@ -738,11 +855,9 @@ export class UIGamePage extends UIPage {
     pointer-events: none;
     z-index: 99999;
   `;
-
     document.body.appendChild(canvas);
 
     const dpr = window.devicePixelRatio || 1;
-
     function resize() {
       canvas.width = window.innerWidth * dpr;
       canvas.height = window.innerHeight * dpr;
@@ -750,7 +865,6 @@ export class UIGamePage extends UIPage {
     resize();
     window.addEventListener("resize", resize);
 
-    // --- GPU-friendly colors
     const colors = [
       "#ff0000",
       "#ff6b00",
@@ -760,27 +874,55 @@ export class UIGamePage extends UIPage {
       "#0000ff",
       "#ff00ff",
     ];
+    const emojis = ["🎉", "⭐", "🔥", "💎", "👑", "💰", "🃏"];
 
-    // --- particles
-    const count = 250; // можно увеличить, FPS всё равно останется высоким
+    const SHAPES = 200;
+    const EMOJIS = 25;
     const particles = [];
 
-    for (let i = 0; i < count; i++) {
+    // --- RANDOM HELPERS ---
+    const rand = (a, b) => a + Math.random() * (b - a);
+    const randItem = (arr) => arr[(Math.random() * arr.length) | 0];
+
+    // --- CREATE SHAPES ---
+    for (let i = 0; i < SHAPES; i++) {
       particles.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height - canvas.height,
-        size: 6 + Math.random() * 12,
-        speedY: 1 + Math.random() * 3,
-        speedX: (Math.random() - 0.5) * 0.9,
-        rotation: Math.random() * Math.PI * 2,
-        rotationSpeed: (Math.random() - 0.5) * 0.2,
-        color: colors[(Math.random() * colors.length) | 0],
+        type: "shape",
+        x: canvas.width / 2,
+        y: canvas.height / 2,
+        vx: rand(-4, 4),
+        vy: rand(-6, -2),
+        size: rand(6, 12),
+        rotationX: rand(0, Math.PI * 2),
+        rotationY: rand(0, Math.PI * 2),
+        rotationZ: rand(0, Math.PI * 2),
+        rSpeedX: rand(-0.2, 0.2),
+        rSpeedY: rand(-0.2, 0.2),
+        rSpeedZ: rand(-0.2, 0.2),
+        color: randItem(colors),
         shape:
           Math.random() < 0.33
             ? "circle"
             : Math.random() < 0.66
             ? "square"
             : "triangle",
+        sparkle: Math.random() < 0.15,
+      });
+    }
+
+    // --- CREATE EMOJI ---
+    for (let i = 0; i < EMOJIS; i++) {
+      particles.push({
+        type: "emoji",
+        char: randItem(emojis),
+        x: canvas.width / 2,
+        y: canvas.height / 2,
+        vx: rand(-3, 3),
+        vy: rand(-5, -1),
+        size: rand(30, 45),
+        rotationZ: rand(0, Math.PI * 2),
+        rSpeedZ: rand(-0.05, 0.05),
+        opacity: rand(0.7, 1),
       });
     }
 
@@ -792,41 +934,71 @@ export class UIGamePage extends UIPage {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       for (const p of particles) {
-        p.x += p.speedX;
-        p.y += p.speedY;
-        p.rotation += p.rotationSpeed;
+        // Physics
+        p.vy += 0.02; // gravity
+        p.x += p.vx;
+        p.y += p.vy;
 
-        if (p.y > canvas.height + 20) {
-          p.y = -20;
-          p.x = Math.random() * canvas.width;
+        // Side wind
+        p.x += Math.sin(p.y * 0.01) * 0.6;
+
+        // 3D rotation
+        if (p.type === "shape") {
+          p.rotationX += p.rSpeedX;
+          p.rotationY += p.rSpeedY;
+          p.rotationZ += p.rSpeedZ;
+        } else {
+          p.rotationZ += p.rSpeedZ;
         }
 
         ctx.save();
         ctx.translate(p.x, p.y);
-        ctx.rotate(p.rotation);
-        ctx.fillStyle = p.color;
 
-        const s = p.size;
+        // EMOJI
+        if (p.type === "emoji") {
+          ctx.rotate(p.rotationZ);
+          ctx.globalAlpha = p.opacity;
+          ctx.font = `${p.size}px serif`;
+          ctx.fillText(p.char, -p.size * 0.5, p.size * 0.5);
+        }
 
-        switch (p.shape) {
-          case "circle":
-            ctx.beginPath();
-            ctx.arc(0, 0, s / 2, 0, Math.PI * 2);
-            ctx.fill();
-            break;
+        // SHAPES
+        else {
+          const s = p.size;
+          ctx.rotate(p.rotationZ);
 
-          case "square":
-            ctx.fillRect(-s / 2, -s / 2, s, s);
-            break;
+          // Fake 3D flip effect
+          const scaleY = Math.abs(Math.sin(p.rotationX)) * 0.9 + 0.1;
 
-          case "triangle":
-            ctx.beginPath();
-            ctx.moveTo(0, -s / 2);
-            ctx.lineTo(s / 2, s / 2);
-            ctx.lineTo(-s / 2, s / 2);
-            ctx.closePath();
-            ctx.fill();
-            break;
+          ctx.scale(1, scaleY);
+          ctx.fillStyle = p.color;
+          ctx.globalAlpha = 1;
+
+          // Sparkles
+          if (p.sparkle && Math.random() < 0.1) {
+            ctx.globalAlpha = rand(0.4, 0.9);
+          }
+
+          switch (p.shape) {
+            case "circle":
+              ctx.beginPath();
+              ctx.arc(0, 0, s / 2, 0, Math.PI * 2);
+              ctx.fill();
+              break;
+
+            case "square":
+              ctx.fillRect(-s / 2, -s / 2, s, s);
+              break;
+
+            case "triangle":
+              ctx.beginPath();
+              ctx.moveTo(0, -s / 2);
+              ctx.lineTo(s / 2, s / 2);
+              ctx.lineTo(-s / 2, s / 2);
+              ctx.closePath();
+              ctx.fill();
+              break;
+          }
         }
 
         ctx.restore();
@@ -837,12 +1009,13 @@ export class UIGamePage extends UIPage {
 
     draw();
 
+    // auto-remove
     setTimeout(() => {
       running = false;
       canvas.style.transition = "opacity .6s";
       canvas.style.opacity = "0";
-      setTimeout(() => canvas.remove(), 4000);
-    }, 50000);
+      setTimeout(() => canvas.remove(), 1000);
+    }, 6000);
   }
 
   ////////////////////////////////////////
