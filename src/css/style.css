@@ -156,7 +156,7 @@ html {
 
   width: 100%;
   height: 100%;
-
+  overflow: hidden;
   /**
     Убираем скачок интерфейса по горизонтали
     при появлении / исчезновении скроллбара
@@ -167,10 +167,10 @@ html {
 /**
   Плавный скролл
  */
-html,
+/* html,
 :has(:target) {
   scroll-behavior: smooth;
-}
+} */
 
 body {
   /**
