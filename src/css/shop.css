@@ -376,7 +376,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 4vw;
+  min-width: 15vw;
 }
 
 .scroll-btn:hover {
@@ -425,23 +425,34 @@
 .scroll-btns-container {
   display: flex;
   justify-content: center;
-  gap: 2vw;
+  gap: 10vw;
 }
 
-/* .scroll-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 100;
+@media (min-width: 650px) {
+  .scroll-btns-container {
+    gap: 5vw;
+  }
 }
 
-.scroll-left {
-  left: 10px;
+@media (min-width: 980px) {
+  .scroll-btns-container {
+    gap: 5vw;
+  }
+
+  .scroll-btn {
+    min-width: 10vw;
+  }
 }
 
-.scroll-right {
-  right: 10px;
-} */
+@media (min-width: 1375px) {
+  .scroll-btns-container {
+    gap: 5vw;
+  }
+
+  .scroll-btn {
+    width: 10vw;
+  }
+}
 
 .all-items-container {
   /* остальные стили */
