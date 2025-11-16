@@ -98,6 +98,10 @@ export class StateManager {
       this.setIsRunning(true);
     });
 
+    this.eventManager.on(GameEvents.UIMENUPAGE_SHOW, () => {
+      this.setIsPaused(true)
+    })
+
     this.eventManager.on(GameEvents.END_SET_NEW_GAME, () => {
       this.resetScore(0);
       this.resetTime(0);
@@ -480,6 +484,16 @@ export class StateManager {
 
   getIsAutoCollectBtnShow() {
     return this.state.isAutoCollectBtnShow;
+  }
+
+  setIsPaused(boolean) {
+    this.state.game.isPaused = boolean;
+    this.saveGameState()
+  }
+
+  getIsPaused() {
+    const GameStats = this.storage.getGameStats()
+    return GameStats.isPaused;
   }
 
   updateScore(points) {

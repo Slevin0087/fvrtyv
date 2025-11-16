@@ -372,22 +372,15 @@
 .scroll-btn {
   background-color: yellow;
   color: white;
-  border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  font-size: 20px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.3s ease;
-  flex-shrink: 0;
-  z-index: 10;
+  width: 4vw;
 }
 
 .scroll-btn:hover {
-  background: rgba(0, 0, 0, 0.9);
+  background: rgb(134, 134, 0);
 }
 
 .scroll-btn:active {
@@ -422,11 +415,20 @@
 }
 
 .shop-navigation {
-  position: relative;
+  display: flex;
+  flex-direction: column;
   width: 95%;
+  justify-content: space-between;
+  gap: 2vh;
 }
 
-.scroll-btn {
+.scroll-btns-container {
+  display: flex;
+  justify-content: center;
+  gap: 2vw;
+}
+
+/* .scroll-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -439,7 +441,7 @@
 
 .scroll-right {
   right: 10px;
-}
+} */
 
 .all-items-container {
   /* остальные стили */

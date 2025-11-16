@@ -87,6 +87,7 @@ export class UIGamePage extends UIPage {
     };
 
     this.elements.menuBtn.onclick = () => {
+      if (!this.stateManager.getIsRunning()) return
       this.eventManager.emit(GameEvents.UIMENUPAGE_SHOW);
     };
 
@@ -305,6 +306,7 @@ export class UIGamePage extends UIPage {
   //////////////////////////
 
   async onclickShuffleBtn() {
+    if (!this.stateManager.getIsRunning()) return
     const { stock, waste } = this.state.cardsComponents;
     await this.eventManager.emitAsync(
       GameEvents.SHUFFLE_CARDS_TO_STOCK,
@@ -326,16 +328,12 @@ export class UIGamePage extends UIPage {
     this.upAchievementIcon(this.state.player.achievements.active.icon);
 
     if (
-      this.stateManager.state.player.dealingCards ===
+      this.stateManager.state.dealingCards ===
       GameConfig.rules.defaultDealingCards
     ) {
-      console.log(
-        "this.stateManager.state.player.dealingCards: ",
-        this.stateManager.state.player.dealingCards
-      );
       document.getElementById("shuffle-btn")?.remove();
     } else if (
-      this.stateManager.state.player.dealingCards ===
+      this.stateManager.state.dealingCards ===
       GameConfig.rules.defaultDealingCardsThree
     ) {
       document.getElementById("shuffle-btn")?.remove();
