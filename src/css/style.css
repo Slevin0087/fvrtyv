@@ -183,6 +183,11 @@ body {
     Унифицированный интерлиньяж
    */
   /* line-height: 1.5; */
+  -webkit-text-size-adjust: none; /* Предотвращает изменение размера текста */
+  text-size-adjust: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 /**
@@ -275,28 +280,9 @@ svg * {
 
 body {
   user-select: none;
-  /* font-size: 14px; */
-  /* box-sizing: border-box; */
+
   touch-action: manipulation;
-  /* background-color: #3b0763; */
   color: white;
-
-  /*/////////////////////////////////*/
-  /* overflow: hidden; */
-  /*/////////////////////////////////*/
-
-  /* justify-content: center; */
-  /* align-items: center; */
-  /* background: url("../assets/shop/fons/fon_4.jpg") no-repeat center center
-      fixed; */
-  /* background-color: #333; */
-  /*background-image: repeating-linear-gradient(
-    0deg,
-    rgba(255, 255, 255, 0.05),
-    rgba(255, 255, 255, 0.05) 1px,
-    transparent 1px,
-    transparent 5px
-  ); */
 }
 
 .loader-spinner {
