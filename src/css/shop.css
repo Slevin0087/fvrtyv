@@ -419,7 +419,7 @@
   flex-direction: column;
   width: 95%;
   justify-content: space-between;
-  gap: 2vh;
+  gap: var(--gap-for-flex-shop);
 }
 
 .scroll-btns-container {
