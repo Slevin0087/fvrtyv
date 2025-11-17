@@ -29,7 +29,8 @@
   width: 100%;
   /* background-color: rgba(155, 60, 112, 0.692); */
   background-color: transparent;
-  border: outset black;
+  border-radius: calc(var(--card-width) / 2);
+  border-bottom: outset black;
   padding-left: 1rem;
   padding-right: 1rem;
   padding-top: 1.2em;
