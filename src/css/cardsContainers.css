@@ -255,7 +255,7 @@
 }
 
 .hint-from-card {
-  outline: 0.5vw solid rgb(84, 150, 68);
+  outline: calc(var(--card-width) / 5) solid rgb(84, 150, 68);
   -webkit-animation: pulse-hint 1s infinite alternate;
   animation: pulse-hint 1s infinite alternate;
 }
@@ -279,7 +279,7 @@
 }
 
 .hint-to-card {
-  outline: 0.5vw solid rgb(50, 230, 6);
+  outline: calc(var(--card-width) / 5) solid rgb(50, 230, 6);
 }
 
 /* Height breakpoint for landscape/compact devices (500px) */
