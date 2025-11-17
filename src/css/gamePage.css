@@ -7,7 +7,7 @@
   ); /* Responsive gap for 900px+ viewports */
   --padding-sb: 0.7em;
   --padding-bc: 0.3em;
-  --top-right-bc: -0.8em;
+  --top-right-bc: -1.5em;
   --min-width-bc: 1.5em;
 }
 
@@ -316,7 +316,6 @@
   /* margin: var(--margin-bc); */
   display: flex;
   justify-content: center;
-  text-align: center;
   background-color: rgba(0, 0, 0, 0.5);
   top: var(--top-right-bc);
   right: var(--top-right-bc);
@@ -325,9 +324,12 @@
   -webkit-text-fill-color: yellow;
   /* background-color: transparent; */
   border-radius: 50%;
-  min-width: var(--min-width-bc);
+  /* min-width: var(--min-width-bc); */
   pointer-events: none;
   line-height: 1;
+  align-items: center;
+  width: 1rem;
+  height: 1rem;
 }
 
 .controls-btn-container {
