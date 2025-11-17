@@ -107,16 +107,16 @@ export class UIShopPage extends UIPage {
     // Действия с найденным элементом
     itemElement.className = "shop-item";
     itemElement.id = `shop-item-${index}`;
-    const itemHead = document.createElement("div");
+    // const itemHead = document.createElement("div");
     const itemName = document.createElement("h3");
     const shopItemContainer = document.createElement("div");
     const shopItem = document.createElement("div");
     shopItemContainer.append(shopItem);
-    itemHead.classList.add("item-head");
+    // itemHead.classList.add("item-head");
     shopItemContainer.classList.add("shop-item-container");
     const itemNameTranslation = this.translator.tShop(item.id, "name");
     itemName.textContent = itemNameTranslation;
-    itemHead.append(itemName);
+    // itemHead.append(itemName);
 
     if (item.category === "cardFace" || item.category === "cardBack") {
       shopItem.classList.add("shop-item-card");
@@ -196,17 +196,30 @@ export class UIShopPage extends UIPage {
       shopItemContainer.append(shopItem);
     }
 
-    itemElement.append(itemHead, shopItemContainer);
+    // itemElement.append(itemHead, shopItemContainer);
+    itemElement.append(shopItemContainer);
+    let circle = null;
+    let checkmark = null;
+    let priceElement = null;
+
     if (isOwned) {
+      if (priceElement) priceElement.remove();
+      if (checkmark) checkmark.remove();
       const circle = this.createCircle(index);
       itemElement.append(circle);
     } else if (!isOwned && !isItemBuy) {
+      if (circle) priceElement.remove();
+      if (checkmark) checkmark.remove();
       const priceElement = document.createElement("div");
       priceElement.classList.add("shop-item-price");
       priceElement.textContent = `${item.price}x`;
       itemElement.append(priceElement);
+    } else if (isItemBuy && !isOwned) {
+      if (circle) circle.remove();
+      if (priceElement) priceElement.remove();
+      checkmark = this.createCheckMark();
+      itemElement.append(checkmark);
     }
-    // else if (isItemBuy && !isOwned) {
     //   if (priceElement) {
     //     priceElement.remove;
     //   }
@@ -239,11 +252,16 @@ export class UIShopPage extends UIPage {
   createCircle(index) {
     const checkmarkCircle = document.createElement("div");
     checkmarkCircle.id = `checkmarkCircle-${index}`;
-    const checkmark = document.createElement("div");
     checkmarkCircle.classList.add("checkmark-circle");
-    checkmark.classList.add("checkmark");
+    const checkmark = this.createCheckMark();
     checkmarkCircle.append(checkmark);
     return checkmarkCircle;
+  }
+
+  createCheckMark() {
+    const checkmark = document.createElement("div");
+    checkmark.classList.add("checkmark");
+    return checkmark;
   }
 
   createBtn(item, index, isOwned, isItemBuy) {

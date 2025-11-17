@@ -109,7 +109,6 @@
   color: black;
   width: 100%;
   background-color: coral;
-  padding: var(--padding-shop-head);
   justify-content: center;
 }
 
@@ -150,7 +149,7 @@
   padding: var(--padding-shop-head);
   box-shadow: 0 0 1em rgba(0, 0, 0, 0.2);
   scroll-snap-align: center;
-  /* height: 100%; */
+  height: 50%;
 }
 
 .owned {
@@ -426,7 +425,6 @@
   gap: var(--gap-for-flex-shop);
   color: black;
   background-color: coral;
-  padding: var(--padding-shop-head);
   justify-content: center;
 
   /* Свойства для горизонтального скролла */
@@ -440,8 +438,8 @@
   scrollbar-width: none; /* Firefox */
   scroll-snap-type: x mandatory;
   border-radius: 10px;
-  box-shadow: inset 20px 0px 10px -10px rgba(255, 255, 255),
-    inset -20px 0px 10px -10px rgba(255, 255, 255);
+  box-shadow: inset 0px 20px 10px -10px rgba(255, 255, 255),
+    inset 0px -20px 10px -10px rgba(255, 255, 255);
 }
 
 .all-items-container::-webkit-scrollbar {
