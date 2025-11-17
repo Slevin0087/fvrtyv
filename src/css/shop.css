@@ -3,7 +3,7 @@
   --padding-shop-head: 1em;
   --translateY-btn: 0.1em;
   --btn-active: #224e24;
-  --font-size-shop-350px: 1.2em;
+  --font-size-shop-350px: 1rem;
   --shopCard-width: calc(var(--card-width) * 2);
   --shopCard-height: calc(var(--shopCard-width) * 1.4);
   --gap-for-items: 0.5em;
@@ -17,12 +17,16 @@
   --font-size-tbcard-vSh-900: calc(var(--shopCard-width-900) / 5);
   --font-size-ccard-vSh-900: calc(var(--shopCard-width-900) / 1.7);
 
-  --shopCard-width-1200: calc(var(--card-width-1200px) * 1.5);  /* Fixed: was using undefined --card-width-900 */
+  --shopCard-width-1200: calc(
+    var(--card-width-1200px) * 1.5
+  ); /* Fixed: was using undefined --card-width-900 */
   --shopCard-height-1200: calc(var(--shopCard-width-1200) * 1.4);
   --font-size-tbcard-vSh-1200: calc(var(--shopCard-width-1200) / 7);
   --font-size-ccard-vSh-1200: calc(var(--shopCard-width-1200) / 1.9);
 
-  --shopCard-width-1500: calc(var(--card-width-1600px) * 1.5);  /* Fixed: using --card-width-1600px instead */
+  --shopCard-width-1500: calc(
+    var(--card-width-1600px) * 1.5
+  ); /* Fixed: using --card-width-1600px instead */
   --shopCard-height-1500: calc(var(--shopCard-width-1500) * 1.4);
   --font-size-tbcard-vSh-1500: calc(var(--shopCard-width-1500) / 7);
   --font-size-ccard-vSh-1500: calc(var(--shopCard-width-1500) / 1.9);
@@ -71,10 +75,11 @@
 
 .shop-head {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: var(--padding-shop-head);
-  gap: var(--gap-for-flex-shop);
+  /* gap: var(--gap-for-flex-shop); */
+  gap: 1.5rem;
   width: 100%;
   background-color: rgb(155, 60, 112);
 }
@@ -112,6 +117,24 @@
   background-color: var(--btn-active);
   transform: translateY(var(--translateY-btn));
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.shop-back-btn {
+  width: 50px;
+  height: 50px;
+  line-height: 1;
+  padding: 0;
+  text-align: center;
+  color: yellow !important;
+  background-color: transparent;
+  -webkit-text-fill-color: yellow;
+  border: 1px outset black;
+  min-width: calc(var(--card-width) / 2);
+  min-height: calc(var(--card-width) / 2);
+  line-height: 1;
+  padding: 0;
+  text-align: center;
+  font-size: calc(var(--card-width) / 2);
 }
 
 .shop-back-btn:active {
@@ -276,6 +299,11 @@
 }
 
 /* Base mobile (320px+) - button font already set */
+@media (min-width: 500px) {
+  .shop-back-btn {
+    font-size: var(--font-size-s-350px);
+  }
+}
 
 @media (min-width: 1024px) {
   .shop-item-card,
@@ -355,7 +383,6 @@
   }
 }
 
-
 .scroll-btn {
   background-color: yellow;
   color: white;
@@ -373,7 +400,7 @@
 .scroll-btn:active {
   transform: scale(0.95);
   background-color: var(--btn-active);
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2)
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 /* Обновим стили для all-items-container */
@@ -394,9 +421,8 @@
   scrollbar-width: none; /* Firefox */
   scroll-snap-type: x mandatory;
   border-radius: 10px;
-  box-shadow:
-  inset 20px 0px 10px -10px rgba(255, 255, 255),
-  inset -20px 0px 10px -10px rgba(255, 255, 255);
+  box-shadow: inset 20px 0px 10px -10px rgba(255, 255, 255),
+    inset -20px 0px 10px -10px rgba(255, 255, 255);
 }
 
 .all-items-container::-webkit-scrollbar {
