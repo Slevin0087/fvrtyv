@@ -362,11 +362,11 @@
   font-size: calc(var(--card-width) / 2);
 }
 
-/* .controls-btn-container button {
-  position: relative;
-  color: yellow !important;
-  -webkit-text-fill-color: yellow;
-} */
+.controls-btn-container .controls-btn:hover,
+.controls-btn-container .controls-btn:focus {
+  background-color: #00000047;
+  border: 5px outset black;
+}
 
 /* Base mobile (320px+) - button styling already applied */
 
@@ -497,6 +497,17 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
   position: relative;
   overflow: hidden;
+}
+
+.game-results-modal-its_apply-btn:hover,
+.game-restart-modal-cancel-btn:hover,
+.game-restart-modal-again-btn:hover,
+.game-results-modal-its_apply-btn:focus,
+.game-restart-modal-cancel-btn:focus,
+.game-restart-modal-again-btn:focus {
+  background: linear-gradient(135deg, #ff0000 0%, #ff6b00 100%);
+  box-shadow: 0 6px 20px rgba(255, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 /*  */
 
