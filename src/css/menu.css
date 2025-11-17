@@ -87,6 +87,12 @@
   }
 }
 
+@media (max-width: 1000px) and (max-height: 550px) {
+.menu {
+  justify-content: normal;
+}
+}
+
 /* Large Desktop — 1440px and up */
 @media (min-width: 1440px) {
   :root {
