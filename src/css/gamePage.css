@@ -7,8 +7,9 @@
   ); /* Responsive gap for 900px+ viewports */
   --padding-sb: 0.7em;
   --padding-bc: 0.3em;
-  --top-right-bc: -20%;
-  --min-width-bc: calc(var(--card-width) / 4);
+  --top-right-bc: -50%;
+  --min-width-bc: calc(var(--card-width) / 2);
+  --font-size-bc: calc(var(--card-width) / 4);
 }
 
 .game-interface {
@@ -319,7 +320,7 @@
   background-color: rgba(0, 0, 0, 0.5);
   top: var(--top-right-bc);
   right: var(--top-right-bc);
-  font-size: 0.3em;
+  font-size: var(--font-size-bc);
   color: yellow;
   -webkit-text-fill-color: yellow;
   /* background-color: transparent; */
