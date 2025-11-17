@@ -260,6 +260,12 @@
   animation: pulse-hint 1s infinite alternate;
 }
 
+.hint-from-next-cards {
+  outline: calc(var(--card-width) / 20) solid rgb(84, 150, 68);
+  -webkit-animation: pulse-hint 1s infinite alternate;
+  animation: pulse-hint 1s infinite alternate;
+}
+
 @-webkit-keyframes pulse-hint {
   from {
     opacity: 0.7;

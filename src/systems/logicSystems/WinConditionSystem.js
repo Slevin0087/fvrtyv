@@ -30,8 +30,8 @@ export class WinConditionSystem {
   }
 
   check() {
-    return true // Удалить, для теста добавил, а потом расскоментировать строчку, которая ниже
-    // return this.state.cardsComponents.foundations.every((f) => f.isComplete()); // это не удалять!!! это и должно быть тут
+    // return true // Удалить, для теста добавил, а потом расскоментировать строчку, которая ниже
+    return this.state.cardsComponents.foundations.every((f) => f.isComplete()); // это не удалять!!! это и должно быть тут
   }
 
   async handleWin() {

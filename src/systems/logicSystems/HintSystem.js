@@ -147,7 +147,7 @@ export class HintSystem {
         if (fromCardNextCards.length > 0) {
           fromCard.domElement.classList.add("hint-from-card");
           fromCardNextCards.forEach((card) => {
-            card.domElement.classList.add("hint-from-card");
+            card.domElement.classList.add("hint-from-next-cards");
           });
           toCard
             ? toCard.domElement.classList.add("hint-to-card")
@@ -160,7 +160,7 @@ export class HintSystem {
           setTimeout(() => {
             fromCard.domElement.classList.remove("hint-from-card");
             fromCardNextCards.forEach((card) => {
-              card.domElement.classList.remove("hint-from-card");
+              card.domElement.classList.remove("hint-from-next-cards");
             });
             toCard
               ? toCard.domElement.classList.remove("hint-to-card")
