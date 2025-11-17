@@ -350,8 +350,12 @@
   background-color: transparent;
   -webkit-text-fill-color: yellow;
   border: outset black;
+  min-width: calc(var(--card-width) / 1.2);
+  min-height: calc(var(--card-width) / 1.2);
   line-height: 1;
-  padding: 0%;
+  padding: 0;
+  text-align: center;
+  font-size: calc(var(--card-width) / 2);
 }
 
 /* .controls-btn-container button {
