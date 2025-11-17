@@ -2,7 +2,7 @@
   --gap-for-flex-shop: 1em;
   --padding-shop-head: 1em;
   --translateY-btn: 0.1em;
-  --btn-active: #3e8e41;
+  --btn-active: #224e24;
   --font-size-shop-350px: 1.2em;
   --shopCard-width: calc(var(--card-width) * 2);
   --shopCard-height: calc(var(--shopCard-width) * 1.4);
@@ -379,6 +379,8 @@
 
 .scroll-btn:active {
   transform: scale(0.95);
+  background-color: var(--btn-active);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2)
 }
 
 /* Обновим стили для all-items-container */

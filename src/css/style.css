@@ -32,6 +32,8 @@
   --blinking-text-br: 0.7em;
   --points-game-br: 0.7em;
   --border-radius-btn-input: 0.3em;
+  --buttons-hover-focus-bg-color: rgb(119, 119, 4);
+  --buttons-active-bg-color: rgb(107, 107, 46);
   --full-screen-button-top-left: 1em;
   --full-screen-button-width: 2.5em;
   --language-switcher-bottom: calc(
@@ -154,8 +156,8 @@ html {
   /* width: 100vw;
   height: 100vh; */
 
-  width: 100%;
-  height: 100%;
+  /* width: 100%;
+  height: 100%; */
   /* overflow: hidden; */
   /**
     Убираем скачок интерфейса по горизонтали
@@ -177,8 +179,8 @@ body {
     Пригодится в большинстве ситуаций
     (когда, например, нужно будет "прижать" футер к низу сайта)
    */
-  width: 100vw;
-  height: 100vh;
+  /* width: 100vw;
+  height: 100vh; */
   /**
     Унифицированный интерлиньяж
    */
@@ -188,6 +190,14 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 /**
@@ -223,6 +233,17 @@ button:focus,
 button:active {
   color: black !important;
   -webkit-text-fill-color: black;
+}
+
+button:hover,
+button:focus {
+  background-color: var(--buttons-hover-focus-bg-color);
+}
+
+button:active {
+  background-color: var(--buttons-active-bg-color);
+  cursor: none !important;
+  touch-action: none;
 }
 
 /**
