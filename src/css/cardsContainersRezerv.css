@@ -2,7 +2,7 @@
   /* --card-radius: 0.5vw; Скругление углов */
   --card-radius: 0.5vw; /* Скругление углов */
 
-  --card-overlap: 3vw; /*Перекрытие карт в tableau */
+  /* Card overlap - use calculated value, remove duplicate vw version */
   --card-overlap: calc(var(--card-height) * 0.3);
   --gap: 0.1vw; /* Отступы между элементами */
   --gap-row1-350px: 1.5vw;
@@ -264,17 +264,9 @@
   /* box-sizing: border-box; */
 }
 
-/* .card-back {
-  background-size: var(--cards-sprite-width-cb) var(--cards-sprite-height-cb);
-} */
+/* Base mobile (320px+) - default gap already set */
 
-@media (min-width: 350px) {
-  .row-a {
-    gap: var(--gap-row1-350px);
-  }
-}
-
-@media (min-width: 900px) {
+@media (min-width: 1024px) {
   .row-a,
   .row-b {
     gap: var(--gap-900);
@@ -303,11 +295,6 @@
       var(--cards-sprite-height-900);
   }
 
-  /* .card-back {
-    background-size: var(--cards-sprite-width-cb-900)
-      var(--cards-sprite-height-cb-900);
-  } */
-
   .stock-span,
   .foundation-span,
   .tableau-span {
@@ -329,25 +316,19 @@
   }
 }
 
-@media (min-width: 1500px) {
+@media (min-width: 1600px) {
   .row-a,
   .row-b {
     gap: var(--gap-1500);
   }
   .row-2 {
     gap: var(--gap-1500);
-    /* width: 70%; */
   }
 
   .row-1 {
     gap: var(--gap-row1-1500);
     margin-bottom: 1vh;
   }
-
-  /* .card-back {
-    padding: var(--padding-c-1500);
-    background-size: var(--cards-sprite-width) var(--cards-sprite-height);
-  } */
 
   .card-front,
   .card-back,

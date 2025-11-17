@@ -1,7 +1,4 @@
 /* СТИЛИ ДЛЯ КАРТ И background ВЫБРАННЫХ ИГРОКОМ В shop*/
-:root {
-  --font-sizeeeeee: 2em;
-}
 
 /* СТИЛИ ЛИЦЕВОЙ СТОРОНЫ КАРТ */
 .classic-faces {
@@ -242,34 +239,33 @@
   background-repeat: no-repeat;
 }
 
-@media (min-width: 350px) {
-  .classic-fon1 {
-    background-image: url("../assets/shop/fons/fon1.png");
-  }
-  .classic-fon2 {
-    background-image: url("../assets/shop/fons/fon2.png");
-  }
-  .red-tree-fon {
-    background-image: url("../assets/shop/fons/fon3.png");
-  }
-  .green-path-fon {
-    background-image: url("../assets/shop/fons/fon_1_350.jpg");
-  }
-
-  .green-field-fon {
-    background-image: url("../assets/shop/fons/fon_2_350.jpg");
-  }
-
-  .green-field2-fon {
-    background-image: url("../assets/shop/fons/fon_3_350.jpg");
-  }
-
-  .green-field3-fon {
-    background-image: url("../assets/shop/fons/fon_4_350.jpg");
-  }
+/* Base mobile (320px+) background images */
+.classic-fon1 {
+  background-image: url("../assets/shop/fons/fon1.png");
+}
+.classic-fon2 {
+  background-image: url("../assets/shop/fons/fon2.png");
+}
+.red-tree-fon {
+  background-image: url("../assets/shop/fons/fon3.png");
+}
+.green-path-fon {
+  background-image: url("../assets/shop/fons/fon_1_350.jpg");
 }
 
-@media (min-width: 900px) {
+.green-field-fon {
+  background-image: url("../assets/shop/fons/fon_2_350.jpg");
+}
+
+.green-field2-fon {
+  background-image: url("../assets/shop/fons/fon_3_350.jpg");
+}
+
+.green-field3-fon {
+  background-image: url("../assets/shop/fons/fon_4_350.jpg");
+}
+
+@media (min-width: 1024px) {
   .green-path-fon {
     background-image: url("../assets/shop/fons/fon_1.jpg");
   }

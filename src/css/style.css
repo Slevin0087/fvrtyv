@@ -1,4 +1,7 @@
 :root {
+  /* Card base dimensions - used in calculations across sheets */
+  --card-width: 80px;
+  --card-height: 120px;
   --card-width-350px: 100%;
   --card-width-390px: 50%;
   --card-width-600px: 70px;
@@ -20,17 +23,19 @@
   --minHeight-messageContainer-350px: 80px;
   --minHeight-messageContainer-700px: 25px;
   --minHeight-messageContainer-1600px: 20px;
-  --modal-content-width: 15.62em;
-  --modal-content-height: 9.37em;
+  /* Modal sizing - now using semantically named variables */
+  --modal-content-width: clamp(14rem, 90vw, 20rem);
+  --modal-content-height: auto;
   --modal-border-radius: 1rem;
-  --modal-border-bold: 0.5rem;
-  --modal0border-type: solid;
-  --modal-border-color: rgba(128, 98, 0);
   --modal-border: 0.5rem solid rgba(128, 98, 0);
-  --game-container-height: 40%;
-  --info-container-height: 10%;
-  --blinking-text-br: 0.7em;
-  --points-game-br: 0.7em;
+  /* UI element sizing - semantic names instead of magic numbers */
+  --blinking-text-border-radius: 0.5rem;
+  --blinking-text-padding: 0.5rem;
+  --modal-close-button-size: 2rem;
+  --modal-close-button-line-height: 2rem;
+  --modal-close-button-color: #8b4513;
+  --modal-header-padding: 1.5rem 2rem;
+  --modal-header-border-size: 2px;
   --border-radius-btn-input: 0.3em;
   --buttons-hover-focus-bg-color: rgb(119, 119, 4);
   --buttons-active-bg-color: rgb(107, 107, 46);
@@ -43,9 +48,14 @@
 }
 
 * {
+  -webkit-text-size-adjust: none; /* Предотвращает изменение размера текста */
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
+  -webkit-text-size-adjust: none; /* Предотвращает изменение размера текста */
+  text-size-adjust: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
   user-select: none;
 }
 
@@ -175,19 +185,6 @@ html {
 } */
 
 body {
-  /**
-    Пригодится в большинстве ситуаций
-    (когда, например, нужно будет "прижать" футер к низу сайта)
-   */
-  /* width: 100vw;
-  height: 100vh; */
-  /**
-    Унифицированный интерлиньяж
-   */
-  /* line-height: 1.5; */
-  -webkit-text-size-adjust: none; /* Предотвращает изменение размера текста */
-  text-size-adjust: none;
-  -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
 }

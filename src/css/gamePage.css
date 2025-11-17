@@ -1,9 +1,12 @@
 :root {
-  --gap-for-flex: 1rem;
-  --gap-for-flex-900px: 3vh;
+  --gap-for-flex: 1rem; /* Primary flex gap - used in .game-interface and .achievements-container */
+  --gap-for-flex-900px: clamp(
+    1rem,
+    3vh,
+    1.5rem
+  ); /* Responsive gap for 900px+ viewports */
   --padding-sb: 0.7em;
   --padding-bc: 0.3em;
-  /* --margin-bc: -0.2em; */
   --top-right-bc: -0.8em;
   --min-width-bc: 1.5em;
 }
@@ -24,7 +27,9 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  background-color: rgba(155, 60, 112, 0.692);
+  /* background-color: rgba(155, 60, 112, 0.692); */
+  background-color: transparent;
+  border: outset black;
   padding-left: 1rem;
   padding-right: 1rem;
   padding-top: 1.2em;
@@ -134,18 +139,20 @@
   max-width: fit-content;
 }
 
-.ach-info-span-yellow {
-  color: yellow !important;
+/* Achievement notification colors - using semantic BEM naming */
+.ach-info-span--yellow {
+  color: yellow;
 }
 
-.ach-info-span-black {
-  color: black !important;
+.ach-info-span--black {
+  color: black;
 }
 
-.span-animate-for-ach {
+/* Animated achievement label */
+.ach-info-span--animate {
   position: absolute;
-  color: yellow !important;
-  font-size: 2em !important;
+  color: yellow;
+  font-size: clamp(1.5em, 5vw, 2.5em);
 }
 
 /* .blinking-text {
@@ -193,45 +200,6 @@
   -webkit-animation: blink 1s infinite alternate;
 } */
 
-/* @keyframes blink {
-  0%,
-  100% {
-    visibility: visible;
-  }
-  50% {
-    visibility: hidden;
-  }
-} */
-
-/* Обязательно дублируем для Safari */
-/* @-webkit-keyframes blink {
-  0%,
-  100% {
-    visibility: visible;
-  }
-  50% {
-    visibility: hidden;
-  }
-} */
-
-.blinking-text {
-  position: absolute;
-  bottom: 12rem;
-  width: auto;
-  color: red;
-  /* border: 0.1em solid black; */
-  border: 0.1em solid yellow;
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-  cursor: pointer;
-  font-size: 24px;
-  font-weight: bold;
-  -webkit-animation: blink 1.5s ease-in-out infinite;
-  animation: blink 1.5s ease-in-out infinite;
-  will-change: opacity;
-  z-index: 1000;
-}
-
 @-webkit-keyframes blink {
   0%,
   100% {
@@ -250,6 +218,24 @@
   50% {
     opacity: 0;
   }
+}
+
+.blinking-text {
+  position: absolute;
+  bottom: 12rem;
+  width: auto;
+  color: red;
+  /* border: 0.1em solid black; */
+  border: 0.1em solid yellow;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  font-size: 24px;
+  font-weight: bold;
+  -webkit-animation: blink 1.5s ease-in-out infinite;
+  animation: blink 1.5s ease-in-out infinite;
+  will-change: opacity;
+  z-index: 1000;
 }
 
 .notification-toast {
@@ -340,6 +326,7 @@
   border-radius: 50%;
   min-width: var(--min-width-bc);
   pointer-events: none;
+  line-height: 1;
 }
 
 .controls-btn-container {
@@ -357,37 +344,29 @@
   gap: calc(var(--card-width) / 1.5);
 }
 
-.controls-btn-container button {
+.controls-btn-container .controls-btn {
+  position: relative;
+  color: yellow !important;
+  background-color: transparent;
+  -webkit-text-fill-color: yellow;
+  border: outset black;
+  line-height: 1;
+  padding: 0%;
+}
+
+/* .controls-btn-container button {
   position: relative;
   color: yellow !important;
   -webkit-text-fill-color: yellow;
-}
+} */
 
-@media (min-width: 350px) {
-  /* .controls-btn-container {
-    font-size: 2.6em;
-  } */
-
-  /* .controls-btn-container {
-    gap: 1rem;
-  } */
-
-  .controls-btn-container button {
-    background-color: rgba(255, 255, 255, 0);
-    border: 0.1em solid rgba(128, 98, 0, 0);
-    padding: 0;
-  }
-
-  .span-notif-hint-cards,
-  .span-notif-hint-stock {
-    font-size: 1.2rem;
-  }
-}
+/* Base mobile (320px+) - button styling already applied */
 
 @media (max-height: 500px) {
   .status-bar {
-    padding-top: 0;
-    padding-bottom: 0;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    font-size: clamp(0.7rem, 2.5vw, 1rem);
   }
 }
 
@@ -395,13 +374,13 @@
   .notif-div div,
   .notif-div h4 {
     line-clamp: inherit;
-    -webkit-line-clamp: 1; /* Только 1 строка на мобильных */
+    -webkit-line-clamp: 1;
     font-size: 1.2rem;
   }
 }
-@media (min-width: 900px) {
+
+@media (min-width: 1024px) {
   .status-bar {
-    /* justify-content: center; */
     padding-left: 5vw;
     padding-right: 5vw;
     gap: 0.5vw;
@@ -410,11 +389,10 @@
   .controls-btn-container {
     left: 50%;
     right: 50%;
-    /* gap: 3rem; */
   }
 }
 
-@media (min-width: 1500px) {
+@media (min-width: 1440px) {
   .game-interface {
     gap: var(--gap-for-flex);
   }

@@ -2,7 +2,7 @@
   /* --card-radius: 0.5vw; Скругление углов */
   --card-radius: 0.1vw; /* Скругление углов */
 
-  --card-overlap: 3vw; /*Перекрытие карт в tableau */
+  /* Card overlap - use calculated value, remove duplicate vw version */
   --card-overlap: calc(var(--card-height) * 0.3);
   --gap: 0.2vw; /* Отступы между элементами */
   --gap-row-a: calc(var(--gap) * 6);
@@ -11,12 +11,6 @@
   --padding-c: 0.07em;
   --padding-c-900: 0.09em;
   --padding-c-1500: 0.2em;
-  /* --card-width: 14vw; Базовая ширина карты */
-  /* --card-width: calc((100vmin - (var(--padding-c) * 2)) / 7 - (var(--gap) * 6)); */
-  /* --card-height: calc(var(--card-width) * 1.4); */
-  /*  */
-  /* --card-height: 14vh;
-  --card-width: 10vh; */
   --card-width: 12vmin;
   --card-height: calc(var(--card-width) * 1.4);
 
@@ -278,13 +272,15 @@
 }
 
 /* Медиа-запросы - меняем ТОЛЬКО базовый размер */
-@media (max-width: 480px) and (orientation: portrait) {
+/* Mobile portrait (≤500px) */
+@media (max-width: 500px) and (orientation: portrait) {
   :root {
     --card-width: 10vh;
   }
 }
 
-@media (max-width: 480px) and (orientation: landscape) {
+/* Mobile landscape (≤500px) */
+@media (max-width: 500px) and (orientation: landscape) {
   :root {
     --card-width: 12vw;
   }
@@ -299,22 +295,24 @@
   }
 }
 
-@media (min-width: 481px) and (max-width: 900px) {
+/* Tablet layout (500px - 1024px) */
+@media (min-width: 500px) and (max-width: 1024px) {
   :root {
     --card-width: 14vmin;
   }
 }
 
-@media (min-width: 901px) {
+/* Desktop layout (1024px+) */
+@media (min-width: 1024px) {
   :root {
     --card-width: 16vmin;
   }
 }
 
-/* Для очень маленьких экранов */
+/* Very short/landscape screens */
 @media (max-height: 500px) {
   :root {
-    --card-width: 8vmin;
+    --card-width: clamp(6vmin, 7vh, 8vmin);
   }
   .game-container {
     flex-direction: row;

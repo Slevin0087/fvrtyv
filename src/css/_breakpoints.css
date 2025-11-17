@@ -1,0 +1,50 @@
+/**
+ * Unified Breakpoints System
+ * Used across all CSS files for consistent responsive design
+ * 
+ * Breakpoint Strategy:
+ * - 320px: Mobile small (phones)
+ * - 500px: Mobile medium / tablet small
+ * - 768px: Tablet
+ * - 1024px: Laptop / desktop
+ * - 1440px: Desktop large
+ * - 1600px: Desktop extra large
+ * 
+ * Height breakpoints:
+ * - 500px: Compact height (landscape phones, tablets)
+ * 
+ * USAGE INSTRUCTIONS:
+ * 
+ * Mobile small (320px+) - Default base styles, no media query needed
+ * 
+ * Mobile medium (500px+):
+ *   @media (min-width: 500px) { ... }
+ * 
+ * Compact height (≤500px):
+ *   @media (max-height: 500px) { ... }
+ * 
+ * Tablet (768px+):
+ *   @media (min-width: 768px) { ... }
+ * 
+ * Desktop (1024px+):
+ *   @media (min-width: 1024px) { ... }
+ * 
+ * Large desktop (1440px+):
+ *   @media (min-width: 1440px) { ... }
+ * 
+ * Extra large desktop (1600px+):
+ *   @media (min-width: 1600px) { ... }
+ * 
+ * Landscape orientation:
+ *   @media (orientation: landscape) { ... }
+ * 
+ * Portrait orientation:
+ *   @media (orientation: portrait) { ... }
+ */
+
+/* ============================================
+   REFERENCE - DO NOT USE DIRECTLY
+   This file is documentation only.
+   Use the @media queries listed above in your CSS files.
+   ============================================ */
+

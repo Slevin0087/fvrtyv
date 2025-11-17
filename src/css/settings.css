@@ -13,10 +13,10 @@
   --btn-settings-left-bottom-1200: 50%;
   --setting-item-width-1200: calc(100vw / 2);
   --setting-item-width-1500: calc(100vw / 4);
-  --settings-padding-left-right: 2vw;
-  --settings-padding-left-right-650px: 15vw;
-  --settings-padding-left-right-900px: 20vw;
-  --settings-padding-left-right-1200px: 30vw;
+  --settings-padding-left-right: clamp(1rem, 2vw, 2rem);  /* Replace vw */
+  --settings-padding-left-right-650px: clamp(4rem, 15vw, 8rem);  /* Replace vw */
+  --settings-padding-left-right-900px: clamp(6rem, 20vw, 10rem);  /* Replace vw */
+  --settings-padding-left-right-1200px: clamp(8rem, 30vw, 14rem);  /* Replace vw */
 }
 
 .settings {
@@ -248,8 +248,6 @@ input[type="range"]::-moz-range-track {
   text-align: center;
   gap: 1rem;
   border-radius: var(--modal-border-radius);
-  /* border: 0.5rem solid rgba(128, 98, 0); */
-  /* border: var(--modal-border); */
   border: 0.2rem solid red;
 }
 
@@ -384,7 +382,9 @@ input[type="range"]::-moz-range-track {
   color: black;
 }
 
-@media (min-width: 350px) {
+/* Base mobile (320px+) - default styles already set */
+
+@media (min-width: 500px) {
   .setting-item {
     font-size: var(--font-size-s-350px-2);
   }
@@ -407,23 +407,7 @@ input[type="range"]::-moz-range-track {
   }
 }
 
-@media (min-width: 450px) {
-  .setting-item {
-    font-size: var(--font-size-s-350px);
-  }
-
-  .settings-back-btn {
-    font-size: var(--font-size-s-350px);
-  }
-}
-
-/* @media (min-width: 550px) {
-  .setting-item {
-    width: 90vw;
-  }
-} */
-
-@media (min-width: 650px) {
+@media (min-width: 768px) {
   .settings-back-btn {
     left: var(--settings-padding-left-right-650px);
   }
@@ -437,15 +421,13 @@ input[type="range"]::-moz-range-track {
   }
 }
 
-@media (min-width: 900px) {
+@media (min-width: 1024px) {
   .settings-back-btn {
     left: var(--settings-padding-left-right-900px);
   }
 }
 
-@media (min-width: 1200px) {
-
-
+@media (min-width: 1440px) {
   .setting-item {
     font-size: var(--font-size-s-350px);
   }
@@ -457,7 +439,7 @@ input[type="range"]::-moz-range-track {
   }
 }
 
-@media (min-width: 1500px) {
+@media (min-width: 1600px) {
   .setting-item {
     font-size: var(--font-size-s-350px);
   }

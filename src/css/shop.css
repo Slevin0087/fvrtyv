@@ -17,12 +17,12 @@
   --font-size-tbcard-vSh-900: calc(var(--shopCard-width-900) / 5);
   --font-size-ccard-vSh-900: calc(var(--shopCard-width-900) / 1.7);
 
-  --shopCard-width-1200: calc(var(--card-width-900) * 1.5);
+  --shopCard-width-1200: calc(var(--card-width-1200px) * 1.5);  /* Fixed: was using undefined --card-width-900 */
   --shopCard-height-1200: calc(var(--shopCard-width-1200) * 1.4);
   --font-size-tbcard-vSh-1200: calc(var(--shopCard-width-1200) / 7);
   --font-size-ccard-vSh-1200: calc(var(--shopCard-width-1200) / 1.9);
 
-  --shopCard-width-1500: calc(var(--card-width-1500) * 1.5);
+  --shopCard-width-1500: calc(var(--card-width-1600px) * 1.5);  /* Fixed: using --card-width-1600px instead */
   --shopCard-height-1500: calc(var(--shopCard-width-1500) * 1.4);
   --font-size-tbcard-vSh-1500: calc(var(--shopCard-width-1500) / 7);
   --font-size-ccard-vSh-1500: calc(var(--shopCard-width-1500) / 1.9);
@@ -275,13 +275,9 @@
   height: 100%;
 }
 
-@media (min-width: 350px) {
-  .shop button {
-    font-size: var(--font-size-shop-350px);
-  }
-}
+/* Base mobile (320px+) - button font already set */
 
-@media (min-width: 900px) {
+@media (min-width: 1024px) {
   .shop-item-card,
   .shop-item-card-bg,
   .shop-item-card-bg-cb1 {
@@ -291,7 +287,6 @@
 
   .shop-item-card-bg {
     background-size: var(--shop-cards-sprite-width-900);
-    /* var(--shop-cards-sprite-height-900); */
   }
 
   .shop-card-top-left {
@@ -307,7 +302,7 @@
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1440px) {
   .shop-head {
     padding-left: 12vw;
     padding-right: 12vw;
@@ -320,7 +315,6 @@
   }
   .shop-item-card-bg {
     background-size: var(--shop-cards-sprite-width-1200);
-    /* var(--shop-cards-sprite-height-1200); */
   }
 
   .shop-card-top-left {
@@ -336,7 +330,7 @@
   }
 }
 
-@media (min-width: 1500px) {
+@media (min-width: 1600px) {
   .shop-item-card,
   .shop-item-card-bg,
   .shop-item-card-bg-cb1 {
@@ -346,7 +340,6 @@
 
   .shop-item-card-bg {
     background-size: var(--shop-cards-sprite-width-1500);
-    /* var(--shop-cards-sprite-height-1500); */
   }
 
   .shop-card-top-left {
@@ -428,13 +421,13 @@
   gap: 10vw;
 }
 
-@media (min-width: 650px) {
+@media (min-width: 768px) {
   .scroll-btns-container {
     gap: 5vw;
   }
 }
 
-@media (min-width: 980px) {
+@media (min-width: 1024px) {
   .scroll-btns-container {
     gap: 5vw;
   }
@@ -444,7 +437,7 @@
   }
 }
 
-@media (min-width: 1375px) {
+@media (min-width: 1600px) {
   .scroll-btns-container {
     gap: 5vw;
   }

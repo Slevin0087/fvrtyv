@@ -1,6 +1,17 @@
 :root {
-  --font-size-menu-btn-350px: 1.7em;
-  --font-size-menu-h1-350px: 2.5em;
+  /* Breakpoints (unified across all CSS files) */
+  --breakpoint-mobile: 320px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1024px;
+  --breakpoint-wide: 1440px;
+
+  /* Menu styles - Mobile first */
+  --font-size-menu-btn: 1.2rem;
+  --font-size-menu-h1: 3rem;
+  --menu-btn-padding: 1rem 2rem;
+  --menu-btn-min-width: 70vw;
+  --menu-btn-margin: 0.5rem;
+  --menu-h1-margin-bottom: 2rem;
 }
 
 .menu {
@@ -25,121 +36,69 @@
 }
 
 .menu h1 {
-  font-size: 3rem;
-  margin-bottom: 2rem;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  margin-bottom: var(--menu-h1-margin-bottom);
 }
 
 .menu button {
-  margin: 0.5rem;
-  padding: 1rem 2rem;
-  font-size: 1.2rem;
-  min-width: 200px;
+  margin: var(--menu-btn-margin);
+  padding: var(--menu-btn-padding);
+  font-size: var(--font-size-menu-btn);
+  min-width: var(--menu-btn-min-width);
 }
 
 .hidden {
   display: none !important;
 }
 
-#ingame-menu {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 10px;
-}
+/* ========================================
+   Responsive Design - Mobile First
+   ======================================== */
 
-@media (min-width: 350px) {
-  .menu button {
-    font-size: var(--font-size-menu-btn-350px);
-    padding: 0.7em;
-    min-width: 70vw;
-  }
-
-  .menu h1 {
-    font-size: var(--font-size-menu-h1-350px);
-  }
-}
-
-@media (min-width: 450px) {
-  .menu button {
-    min-width: 60vw;
-  }
-}
-
-@media (max-height: 440px) {
+/* Mobile landscape — very short screens (max-height takes precedence) */
+@media (max-height: 500px) {
   .menu_btns {
     flex-direction: row;
     flex-wrap: wrap;
+    gap: 0.5rem;
   }
-}
-
-@media (max-height: 425px) and (max-width: 400px) {
   .menu h1 {
-    margin-bottom: 0.5vh;
-    margin-top: 0.5vh;
-    font-size: 2rem;
+    margin-bottom: 1rem;
+    font-size: clamp(1.5rem, 3vw, 2rem);
   }
   .menu button {
     padding: 0.5rem 1rem;
-    font-size: 0.8rem !important;
-    min-width: 200px !important;
-    min-height: 10vh !important;
-    margin: 0.2rem;
-  }
-  .menu_btns {
-    gap: 0.3vh !important;
-  }
-}
-
-@media (max-height: 580px) {
-  .menu_btns {
-    gap: 0.5vh;
-  }
-  .menu h1 {
-    margin-bottom: 1vh;
-  }
-  .menu button {
-    padding: 1rem 2rem;
-    font-size: 1.2rem;
-    min-width: 200px !important;
-    min-height: 10vh !important;
+    font-size: 0.9rem;
+    min-height: clamp(2.5rem, 6vh, 3.8rem);
     margin: 0.2rem;
   }
 }
 
-@media (min-width: 650px) {
-  .menu button {
-    min-width: 50vw;
+/* Tablet — 768px and up */
+@media (min-width: 768px) {
+  :root {
+    --menu-btn-min-width: 50vw;
   }
 }
 
-@media (min-width: 750px) {
-  .menu button {
-    min-width: 40vw;
+/* Desktop — 1024px and up */
+@media (min-width: 1024px) {
+  :root {
+    --menu-btn-min-width: 40vw;
   }
 }
 
-@media (min-width: 900px) {
-  .menu button {
-    min-width: 30vw;
+/* Large Desktop — 1440px and up */
+@media (min-width: 1440px) {
+  :root {
+    --menu-btn-min-width: 25vw;
   }
 }
 
-@media (min-width: 1000px) {
-  .menu button {
-    min-width: 30vw;
+/* Extra Wide — 1600px and up */
+@media (min-width: 1600px) {
+  :root {
+    --menu-btn-min-width: 15vw;
   }
 }
 
-@media (min-width: 1200px) {
-  .menu button {
-    min-width: 20vw;
-  }
-}
-
-@media (min-width: 1500px) {
-  .menu button {
-    min-width: 15vw;
-  }
-}

@@ -3,19 +3,19 @@
   --padding-top-p-state: 1em;
   --gap-for-pstate-head: 1em;
   --padding-psate-head: 0.5em;
-  --btn-pstate-left-bottom: 2vw;
+  --btn-pstate-left-bottom: clamp(1rem, 2vw, 2.5rem);  /* Replace vw with clamp for stability */
   --font-size-ps-350px: 1.3em;
   --font-size-table-900px: 1.4em;
   --padding-table: 1em;
-  --padding-table-350: 2vw;
-  --padding-table-750px: 5vw;
+  --padding-table-350: clamp(1rem, 2vw, 2rem);  /* Replace vw */
+  --padding-table-750px: clamp(2rem, 5vw, 4rem);  /* Replace vw */
   --p-state-table-width-1200: calc(100vw / 2);
   --p-state-table-width-1500: calc(100vw / 4);
-  --padding-player-state-content-left-right: 2vw;
-  --padding-player-state-content-left-right-750: 10vw;
-  --padding-player-state-content-left-right-900: 15vw;
-  --padding-player-state-content-left-right-1200: 20vw;
-  --padding-player-state-content-left-right-1500: 30vw;
+  --padding-player-state-content-left-right: clamp(1rem, 2vw, 2rem);  /* Replace vw */
+  --padding-player-state-content-left-right-750: clamp(4rem, 10vw, 6rem);  /* Replace vw */
+  --padding-player-state-content-left-right-900: clamp(6rem, 15vw, 9rem);  /* Replace vw */
+  --padding-player-state-content-left-right-1200: clamp(8rem, 20vw, 12rem);  /* Replace vw */
+  --padding-player-state-content-left-right-1500: clamp(10rem, 30vw, 16rem);  /* Replace vw */
 }
 
 .player-state {
@@ -139,32 +139,18 @@
   justify-content: center;
 }
 
-@media (min-width: 350px) {
-  .p-state-table {
-    font-size: var(--font-size-s-350px-2);
+/* Base mobile (320px+) - default styles already set */
+
+@media (max-height: 500px) {
+  .wrap-line {
+    padding: clamp(0.5rem, 1vh, 1rem);
   }
   .player-state button {
-    font-size: var(--font-size-ps-350px);
+    font-size: clamp(2.5rem, 6vh, 3.8rem);
   }
 }
 
-@media (max-height: 470px) {
-  .wrap-line {
-    padding: 1vh;
-  }
-
-  .player-state button  {
-    font-size: 3vh;
-  }
-}
-
-@media (max-height: 380px) {
-  .wrap-line {
-    padding: 0;
-  }
-}
-
-@media (min-width: 750px) {
+@media (min-width: 768px) {
   .player-state-content {
     padding-left: var(--padding-player-state-content-left-right-750);
     padding-right: var(--padding-player-state-content-left-right-750);
@@ -175,7 +161,7 @@
   }
 }
 
-@media (min-width: 900px) {
+@media (min-width: 1024px) {
   .player-state-content {
     padding-left: var(--padding-player-state-content-left-right-900);
     padding-right: var(--padding-player-state-content-left-right-900);
@@ -188,7 +174,7 @@
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1440px) {
   .player-state-content {
     padding-left: var(--padding-player-state-content-left-right-1200);
     padding-right: var(--padding-player-state-content-left-right-1200);
@@ -198,7 +184,7 @@
   }
 }
 
-@media (min-width: 1500px) {
+@media (min-width: 1600px) {
   .player-state-content {
     padding-left: var(--padding-player-state-content-left-right-1500);
     padding-right: var(--padding-player-state-content-left-right-1500);

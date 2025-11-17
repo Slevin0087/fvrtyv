@@ -2,7 +2,7 @@
   /* --card-radius: 0.5vw; Скругление углов */
   --card-radius: 0.1vw; /* Скругление углов */
 
-  --card-overlap: 3vw; /*Перекрытие карт в tableau */
+  /* Card overlap - use calculated value, remove duplicate vw version */
   --card-overlap: calc(var(--card-height) * 0.3);
   --gap: 0.2vw; /* Отступы между элементами */
   --gap-row-a: calc(var(--gap) * 6);
@@ -11,12 +11,6 @@
   --padding-c: 0.07em;
   --padding-c-900: 0.09em;
   --padding-c-1500: 0.2em;
-  /* --card-width: 14vw; Базовая ширина карты */
-  /* --card-width: calc((100vmin - (var(--padding-c) * 2)) / 7 - (var(--gap) * 6)); */
-  /* --card-height: calc(var(--card-width) * 1.4); */
-  /*  */
-  /* --card-width: 10vh;
-  --card-height: calc(var(--card-width) * 1.4); */
 
   --card-width: min(13.5vw, 10vh);
   --card-height: calc(var(--card-width) * 1.4);
@@ -288,32 +282,19 @@
   outline: 0.5vw solid rgb(50, 230, 6);
 }
 
-/* @media (max-height: 525) {
-  :root {
-    --card-width: 8vh;
-  }
-} */
-
-@media (max-height: 620px) {
-  /* :root {
-    --card-width: min(9vw, 12vh);
-  } */
+/* Height breakpoint for landscape/compact devices (500px) */
+@media (max-height: 500px) {
   .game-container {
     flex-direction: row;
-    gap: var(--card-width)
+    gap: var(--card-width);
   }
   .row-1 {
     flex-direction: column;
-    gap: 3vh;
+    gap: 2rem;
   }
   .row-b {
     flex-direction: column;
   }
 }
 
-@media (max-width: 655px) and (max-height: 620px) {
-    :root {
-    --card-width: min(8.5vw, 10.5vh);
-  }
-}
 

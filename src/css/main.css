@@ -1,0 +1,41 @@
+/**
+ * Main CSS Entry Point
+ * 
+ * This is the central stylesheet that imports all CSS modules.
+ * Organization:
+ * 1. System - Global styles, normalization, variables
+ * 2. Pages - Page-specific layouts
+ * 3. Components - Reusable UI components
+ * 4. Animations - Animation effects
+ * 
+ * NOTE: This file assumes all CSS files are in the same directory.
+ * If you've reorganized files into subfolders, update the @import paths accordingly.
+ */
+
+/* ============================================
+   1. SYSTEM - Global styles and normalization
+   ============================================ */
+@import './style.css';
+@import './hidden.css';
+
+/* ============================================
+   2. PAGES - Page-specific layouts
+   ============================================ */
+@import './menu.css';
+@import './namePage.css';
+@import './gamePage.css';
+@import './playerStatePage.css';
+@import './settings.css';
+
+/* ============================================
+   3. COMPONENTS - Reusable UI components
+   ============================================ */
+@import './shop.css';
+@import './selectedItems.css';
+
+/* ============================================
+   4. ANIMATIONS - Animation effects
+   ============================================ */
+@import './foundationsAnimations.css';
+@import './cardsContainers.css';
+
