@@ -150,7 +150,7 @@
   padding: var(--padding-shop-head);
   box-shadow: 0 0 1em rgba(0, 0, 0, 0.2);
   scroll-snap-align: center;
-  height: 100%;
+  /* height: 100%; */
 }
 
 .owned {
@@ -431,10 +431,11 @@
 
   /* Свойства для горизонтального скролла */
   /* overflow: hidden; */
-  /* flex-wrap: nowrap; */
-  overflow-x: auto;
+  flex-wrap: wrap;
+  overflow-x: hidden;
+  overflow-y: auto;
   scroll-behavior: smooth;
-
+  max-height: 90%;
   /* Скрываем стандартный скроллбар */
   scrollbar-width: none; /* Firefox */
   scroll-snap-type: x mandatory;
@@ -444,8 +445,27 @@
 }
 
 .all-items-container::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Edge */
+  width: 8px;
 }
+
+.all-items-container::-webkit-scrollbar-track {
+  background: coral;
+  border-radius: 4px;
+}
+
+.all-items-container::-webkit-scrollbar-thumb {
+  background: yellow;
+  border-radius: 4px;
+}
+
+.all-items-container::-webkit-scrollbar-thumb:hover {
+  background: #cccc00;
+}
+
+/* Chrome, Safari, Edge */
+/* .all-items-container::-webkit-scrollbar {
+  display: none; 
+} */
 
 .item-container {
   flex: 0 0 auto; /* Запрещаем растягивание и сжатие */
@@ -457,6 +477,7 @@
   width: 95%;
   justify-content: space-between;
   gap: var(--gap-for-flex-shop);
+  height: 80vh;
 }
 
 .scroll-btns-container {
