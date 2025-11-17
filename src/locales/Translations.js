@@ -9,7 +9,7 @@ export const Translations = {
       en_btn: "English",
       tr_btn: "Turkish",
       abaza_btn: "Abaza",
-      btn_back_to_menu: "Back to menu",
+      // btn_back_to_menu: "Back to menu",
       win_bonus: "Bonus for winning",
       you_have_earned: "You have earned",
       coins: "coin", // базовая форма слова
@@ -134,7 +134,7 @@ export const Translations = {
       en_btn: "Английский",
       tr_btn: "Турецкий",
       abaza_btn: "Абаза",
-      btn_back_to_menu: "Назад в меню",
+      // btn_back_to_menu: "Назад в меню",
       win_bonus: "Бонус за победу",
       you_have_earned: "Вы заработали",
       coins: "хусынок", // базовая форма слова
@@ -274,7 +274,7 @@ export const Translations = {
       en_btn: "En",
       tr_btn: "Трыквбызшва",
       abaza_btn: "Х|ыбызшва",
-      btn_back_to_menu: "Щт|ахьла аменю",
+      // btn_back_to_menu: "Щт|ахьла аменю",
       win_bonus: "Айг|айра бонус",
       you_have_earned: "У(б)ара йг|ау(б)ынхат|",
       coins: "х|вусынк|ата", // базовая форма слова
@@ -416,7 +416,7 @@ export const Translations = {
       en_btn: "Ingilizce dili",
       tr_btn: "Dilimiz",
       abaza_btn: "Abaza dili",
-      btn_back_to_menu: "Menüye geri dön",
+      // btn_back_to_menu: "Menüye geri dön",
       win_bonus: "Kazanma bonusu",
       you_have_earned: "Kazandın",
       coins: "husynok", // базовая форма слова

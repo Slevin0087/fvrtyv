@@ -83,6 +83,7 @@
       <!-- Настройки: начало -->
       <div id="settings" class="settings hidden">
         <div class="setting-head">
+          <button class="settings-back-btn" id="back-to-menu">☰</button>
           <h2 class="setting-title" data-i18n="setting_title">Настройки</h2>
         </div>
         <div class="setting-items">
@@ -215,13 +216,6 @@
               </select>
             </div>
           </div>
-          <button
-            class="settings-back-btn"
-            id="back-to-menu"
-            data-i18n="btn_back_to_menu"
-          >
-            Назад в меню
-          </button>
         </div>
         <!-- <div class="setting-item"> -->
         <!-- </div> -->
@@ -290,13 +284,7 @@
       <!-- Магазин: начало -->
       <div id="shop" class="shop hidden">
         <div class="shop-head">
-          <button
-            class="shop-back-btn"
-            id="shop-back"
-            data-i18n="btn_back_to_menu"
-          >
-            Назад в меню
-          </button>
+          <button class="shop-back-btn" id="shop-back">☰</button>
           <h2 class="shop-title" data-i18n="shop_title">Магазин</h2>
           <div class="balance" id="balance-container" data-i18n="balance">
             Баланс: <span id="coins">0</span> хусынок
@@ -336,7 +324,9 @@
             <div class="all-items-container" id="fon-container"></div>
           </div>
           <div class="scroll-btns-container">
-            <button class="scroll-btn scroll-left" id="scroll-left-btn">‹--</button>
+            <button class="scroll-btn scroll-left" id="scroll-left-btn">
+              ‹--
+            </button>
             <button class="scroll-btn scroll-right" id="scroll-right-btn">
               --›
             </button>
@@ -349,6 +339,7 @@
       <!-- Статистика игрока: начало -->
       <div class="player-state hidden" id="player-state">
         <div class="player-state-head">
+          <button class="btn" id="btn-back-st-player">☰</button>
           <h2 class="player-state-title" data-i18n="player_state_title">
             Статистика игрока
           </h2>
@@ -357,13 +348,6 @@
         <div class="player-state-content" id="player-state-content">
           <!-- Контент статистики здесь -->
         </div>
-        <button
-          class="btn"
-          id="btn-back-st-player"
-          data-i18n="btn_back_to_menu"
-        >
-          Назад в меню
-        </button>
         <!-- </div> -->
       </div>
       <!-- Статистика игрока: конец -->

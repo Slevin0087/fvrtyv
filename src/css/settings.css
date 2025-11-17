@@ -13,10 +13,18 @@
   --btn-settings-left-bottom-1200: 50%;
   --setting-item-width-1200: calc(100vw / 2);
   --setting-item-width-1500: calc(100vw / 4);
-  --settings-padding-left-right: clamp(1rem, 2vw, 2rem);  /* Replace vw */
-  --settings-padding-left-right-650px: clamp(4rem, 15vw, 8rem);  /* Replace vw */
-  --settings-padding-left-right-900px: clamp(6rem, 20vw, 10rem);  /* Replace vw */
-  --settings-padding-left-right-1200px: clamp(8rem, 30vw, 14rem);  /* Replace vw */
+  --settings-padding-left-right: clamp(1rem, 2vw, 2rem); /* Replace vw */
+  --settings-padding-left-right-650px: clamp(4rem, 15vw, 8rem); /* Replace vw */
+  --settings-padding-left-right-900px: clamp(
+    6rem,
+    20vw,
+    10rem
+  ); /* Replace vw */
+  --settings-padding-left-right-1200px: clamp(
+    8rem,
+    30vw,
+    14rem
+  ); /* Replace vw */
 }
 
 .settings {
@@ -63,11 +71,22 @@
 }
 
 .settings-back-btn {
-  position: absolute;
-  bottom: var(--btn-settings-left-bottom);
-  /* left: var(--btn-settings-left-bottom); */
-  left: var(--settings-padding-left-right);
-  width: max-content;
+  /* width: max-content; */
+  width: 50px;
+  height: 50px;
+  line-height: 1;
+  padding: 0;
+  text-align: center;
+  color: yellow !important;
+  background-color: transparent;
+  -webkit-text-fill-color: yellow;
+  border: 1px outset black;
+  min-width: calc(var(--card-width) / 2);
+  min-height: calc(var(--card-width) / 2);
+  line-height: 1;
+  padding: 0;
+  text-align: center;
+  font-size: calc(var(--card-width) / 2);
 }
 
 .c-setting-item {
@@ -408,9 +427,6 @@ input[type="range"]::-moz-range-track {
 }
 
 @media (min-width: 768px) {
-  .settings-back-btn {
-    left: var(--settings-padding-left-right-650px);
-  }
   .dealing-cards-modal-wrap-line {
     font-size: 1rem;
   }
@@ -421,12 +437,6 @@ input[type="range"]::-moz-range-track {
   }
 }
 
-@media (min-width: 1024px) {
-  .settings-back-btn {
-    left: var(--settings-padding-left-right-900px);
-  }
-}
-
 @media (min-width: 1440px) {
   .setting-item {
     font-size: var(--font-size-s-350px);
@@ -434,8 +444,6 @@ input[type="range"]::-moz-range-track {
 
   .settings-back-btn {
     font-size: var(--font-size-s-350px);
-    bottom: var(--btn-settings-left-bottom);
-    left: var(--settings-padding-left-right-1200px);
   }
 }
 
@@ -446,7 +454,6 @@ input[type="range"]::-moz-range-track {
 
   .settings-back-btn {
     font-size: var(--font-size-s-350px);
-    bottom: var(--btn-settings-left-bottom);
   }
 
   .dealing-cards-modal-wrap-line {

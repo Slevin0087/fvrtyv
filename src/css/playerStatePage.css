@@ -3,39 +3,80 @@
   --padding-top-p-state: 1em;
   --gap-for-pstate-head: 1em;
   --padding-psate-head: 0.5em;
-  --btn-pstate-left-bottom: clamp(1rem, 2vw, 2.5rem);  /* Replace vw with clamp for stability */
+  --btn-pstate-left-bottom: clamp(
+    1rem,
+    2vw,
+    2.5rem
+  ); /* Replace vw with clamp for stability */
   --font-size-ps-350px: 1.3em;
   --font-size-table-900px: 1.4em;
   --padding-table: 1em;
-  --padding-table-350: clamp(1rem, 2vw, 2rem);  /* Replace vw */
-  --padding-table-750px: clamp(2rem, 5vw, 4rem);  /* Replace vw */
+  --padding-table-350: clamp(1rem, 2vw, 2rem); /* Replace vw */
+  --padding-table-750px: clamp(2rem, 5vw, 4rem); /* Replace vw */
   --p-state-table-width-1200: calc(100vw / 2);
   --p-state-table-width-1500: calc(100vw / 4);
-  --padding-player-state-content-left-right: clamp(1rem, 2vw, 2rem);  /* Replace vw */
-  --padding-player-state-content-left-right-750: clamp(4rem, 10vw, 6rem);  /* Replace vw */
-  --padding-player-state-content-left-right-900: clamp(6rem, 15vw, 9rem);  /* Replace vw */
-  --padding-player-state-content-left-right-1200: clamp(8rem, 20vw, 12rem);  /* Replace vw */
-  --padding-player-state-content-left-right-1500: clamp(10rem, 30vw, 16rem);  /* Replace vw */
+  --padding-player-state-content-left-right: clamp(
+    1rem,
+    2vw,
+    2rem
+  ); /* Replace vw */
+  --padding-player-state-content-left-right-750: clamp(
+    4rem,
+    10vw,
+    6rem
+  ); /* Replace vw */
+  --padding-player-state-content-left-right-900: clamp(
+    6rem,
+    15vw,
+    9rem
+  ); /* Replace vw */
+  --padding-player-state-content-left-right-1200: clamp(
+    8rem,
+    20vw,
+    12rem
+  ); /* Replace vw */
+  --padding-player-state-content-left-right-1500: clamp(
+    10rem,
+    30vw,
+    16rem
+  ); /* Replace vw */
+
+  /* wrap-line adaptive variables */
+  --wrap-line-gap: clamp(0.5rem, 2vw, 1rem); /* Mobile: 0.5rem, Tablet+: 1rem */
+  --wrap-line-padding: clamp(0.5rem, 1.5vw, 1rem); /* Adaptive padding */
+  --left-td-min-width: clamp(
+    80px,
+    30%,
+    150px
+  ); /* Mobile: 30% of container, Desktop: 150px */
 }
 
 .player-state {
   position: relative;
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: center;
-  /* gap: var(--gap-for-pstate); */
-  /* background-color: rgb(73, 73, 189); */
   background-color: rgb(112, 112, 168);
   width: 100%;
   height: 100%;
-  /* padding-top: var(--padding-top-p-state); */
 }
 
-.player-state button {
-  position: absolute;
-  bottom: var(--btn-pstate-left-bottom);
-  left: var(--btn-pstate-left-bottom);
+.player-state .btn {
+  width: 50px;
+  height: 50px;
+  line-height: 1;
+  padding: 0;
+  text-align: center;
+  color: yellow !important;
+  background-color: transparent;
+  -webkit-text-fill-color: yellow;
+  border: 1px outset black;
+  min-width: calc(var(--card-width) / 2);
+  min-height: calc(var(--card-width) / 2);
+  line-height: 1;
+  padding: 0;
+  text-align: center;
+  font-size: calc(var(--card-width) / 2);
 }
 
 .player-state-head {
@@ -58,12 +99,11 @@
 .player-state-content {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
-  /* width: 100vw;
-  height: 100vh; */
-  /* padding-left: var(--padding-player-state-content-left-right);
-  padding-right: var(--padding-player-state-content-left-right); */
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 .p-state-table {
@@ -71,10 +111,11 @@
   /* grid-template-columns: auto 1fr; Левая колонка по ширине контента */
   /* gap: 12px 20px; */
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   flex-direction: column;
   width: 100%;
+  max-width: 600px; /* Limit width on wide screens */
   font-size: var(--font-size-s-350px);
   border-collapse: separate; /*Важно! Должно быть 'separate' (по умолчанию)*/
   border-spacing: calc(var(--gap-for-pstate) * 4) 0; /* Горизонтальное, затем вертикальное */
@@ -83,22 +124,18 @@
   border-bottom: 0;
 }
 
-/* .p-state-table dt,
-.p-state-table dd {
-  border-bottom: 1px solid #ddd;
-  padding-bottom: 8px;
-  margin-bottom: 8px;
-} */
-
 .wrap-line {
   border-bottom: 1px solid #c5b310;
-  display: flex; /* или другие стили для расположения */
+  display: flex;
   justify-content: space-between;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: center;
+  flex-wrap: wrap;
   width: 100%;
-  padding: 0.5rem;
-  gap: calc(var(--card-width) * 4);
+  padding: var(--wrap-line-padding);
+  gap: var(--wrap-line-gap);
+  min-height: 2.5rem;
+  box-sizing: border-box; /* Include padding in width calculation */
 }
 
 .right-td {
@@ -108,16 +145,18 @@
   overflow-wrap: anywhere;
   color: yellow;
   line-height: 0.9;
+  flex: 1; /* Grow to fill available space */
+  min-width: 60px; /* Minimum width for readability */
 }
 
 .left-td {
   justify-self: start; /* Выравнивание по левому краю */
-  min-width: 150px; /* Фиксированная ширина для терминов */
+  min-width: var(--left-td-min-width); /* Dynamic width using variable */
   /* color: black; */
   line-height: 0.9;
   color: rgb(0, 196, 0);
+  flex-shrink: 0; /* Prevent shrinking below min-width */
 }
-
 
 .p-state-table .wrap-line:last-child {
   margin-bottom: 0;
@@ -142,12 +181,60 @@
 
 /* Base mobile (320px+) - default styles already set */
 
-@media (max-height: 500px) {
+@media (max-width: 500px) {
   .wrap-line {
-    padding: clamp(0.5rem, 1vh, 1rem);
+    gap: clamp(0.5rem, 2vw, 0.8rem); /* Tight gap on mobile */
+    padding: clamp(0.3rem, 1.5vw, 0.7rem);
+    flex-direction: row; /* Keep horizontal layout */
   }
-  .player-state button {
-    font-size: clamp(2.5rem, 6vh, 3.8rem);
+
+  .left-td {
+    min-width: clamp(70px, 25%, 120px); /* Smaller on mobile */
+    font-size: clamp(0.8rem, 2vw, 0.95rem);
+  }
+
+  .right-td {
+    min-width: clamp(50px, 20%, 100px);
+    font-size: clamp(0.8rem, 2vw, 0.95rem);
+  }
+}
+
+/* Adjust for short viewport heights - works with any width */
+@media (max-height: 650px) {
+  .wrap-line {
+    gap: clamp(0.3rem, 1.5vh, 0.6rem) !important; /* Override with vh */
+    padding: clamp(0.2rem, 1vh, 0.5rem) !important; /* Override with vh */
+    min-height: auto; /* Allow shrinking */
+  }
+}
+
+/* Extra tight for very short screens */
+@media (max-height: 450px) {
+  .wrap-line {
+    gap: clamp(0.2rem, 1vh, 0.4rem) !important;
+    padding: clamp(0.15rem, 0.8vh, 0.35rem) !important;
+    min-height: 1.5rem;
+  }
+}
+
+@media (min-width: 500px) {
+  .wrap-line {
+    gap: clamp(0.8rem, 3vw, 1.2rem); /* Medium gap for tablets */
+    padding: clamp(0.6rem, 2vw, 0.95rem);
+  }
+
+  .left-td {
+    min-width: clamp(100px, 28%, 150px);
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+  }
+
+  .right-td {
+    min-width: clamp(70px, 22%, 120px);
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+  }
+
+  .player-state .btn {
+    font-size: var(--font-size-s-350px);
   }
 }
 
@@ -157,8 +244,19 @@
     padding-right: var(--padding-player-state-content-left-right-750);
   }
 
-  .player-state button {
-    left: var(--padding-player-state-content-left-right-750);
+  .wrap-line {
+    gap: clamp(1rem, 4vw, 1.5rem); /* Comfortable gap for desktop */
+    padding: clamp(0.7rem, 2.5vw, 1.1rem);
+  }
+
+  .left-td {
+    min-width: 150px; /* Fixed width on desktop */
+    font-size: 1rem;
+  }
+
+  .right-td {
+    min-width: auto; /* Flexible on desktop */
+    font-size: 1rem;
   }
 }
 
@@ -167,11 +265,14 @@
     padding-left: var(--padding-player-state-content-left-right-900);
     padding-right: var(--padding-player-state-content-left-right-900);
   }
-  .player-state button {
-    left: var(--padding-player-state-content-left-right-900);
-  }
   .p-state-table {
     font-size: var(--font-size-table-900px);
+  }
+
+  .wrap-line {
+    gap: clamp(1.2rem, 5vw, 2rem); /* Generous gap on large screens */
+    padding: clamp(0.8rem, 3vw, 1.2rem);
+    flex-wrap: nowrap; /* Don't wrap on desktop */
   }
 }
 
@@ -180,8 +281,8 @@
     padding-left: var(--padding-player-state-content-left-right-1200);
     padding-right: var(--padding-player-state-content-left-right-1200);
   }
-  .player-state button {
-    left: var(--padding-player-state-content-left-right-1200);
+  .player-state .btn {
+    font-size: var(--font-size-s-350px);
   }
 }
 
@@ -190,7 +291,7 @@
     padding-left: var(--padding-player-state-content-left-right-1500);
     padding-right: var(--padding-player-state-content-left-right-1500);
   }
-  .player-state button {
-    left: var(--padding-player-state-content-left-right-1500);
+  .player-state .btn {
+    font-size: var(--font-size-s-350px);
   }
 }
