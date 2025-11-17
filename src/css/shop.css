@@ -400,8 +400,8 @@
   scroll-snap-type: x mandatory;
   border-radius: 10px;
   box-shadow:
-  inset 10px 0px 10px rgba(255, 255, 255),
-  inset -10px 0px 10px rgba(255, 255, 255);
+  inset 20px 0px 10px -10px rgba(255, 255, 255),
+  inset -20px 0px 10px -10px rgba(255, 255, 255);
 }
 
 .all-items-container::-webkit-scrollbar {
