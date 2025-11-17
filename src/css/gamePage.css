@@ -353,7 +353,7 @@
   color: yellow !important;
   background-color: transparent;
   -webkit-text-fill-color: yellow;
-  border: outset black;
+  border: 1px outset black;
   min-width: calc(var(--card-width) / 1.2);
   min-height: calc(var(--card-width) / 1.2);
   line-height: 1;
