@@ -37,7 +37,6 @@
 
 .menu h1 {
   font-size: clamp(1.8rem, 4vw, 3rem);
-  margin-bottom: var(--menu-h1-margin-bottom);
 }
 
 .menu button {

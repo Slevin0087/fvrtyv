@@ -426,6 +426,24 @@ input[type="range"]::-moz-range-track {
   }
 }
 
+@media (max-height: 350px) {
+  .setting-item {
+    font-size: calc(var(--font-size-s-350px-2) / 1.2);
+  }
+
+  .settings-back-btn {
+    font-size: var(--font-size-s-350px);
+  }
+
+  .setting-title {
+    font-size: calc(var(--font-size-s-350px) / 1.1);
+  }
+  .settings-back-btn {
+    width: 40px;
+    height: 40px;
+  }
+}
+
 @media (min-width: 768px) {
   .dealing-cards-modal-wrap-line {
     font-size: 1rem;
