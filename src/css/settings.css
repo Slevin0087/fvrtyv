@@ -161,13 +161,13 @@
   border-radius: var(--border-r-slider);
 }
 
-.slider:before {
+.slider::before {
   position: absolute;
   content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
+  height: 38px;
+  width: 38px;
+  left: -2px;
+  bottom: -2px;
   background-color: white;
   transition: 0.4s;
   border-radius: 50%;
@@ -177,12 +177,12 @@ input:checked + .slider {
   background-color: #4caf50;
 }
 
-input:checked + .slider:before {
-  transform: translateX(26px);
+input:checked + .slider::before {
+  transform: translateX(32px);
 }
 
 /* Дополнительно: стиль для "вдавленного" состояния */
-input:active + .slider:before {
+input:active + .slider::before {
   width: 30px;
   margin-left: -2px;
 }
@@ -436,12 +436,33 @@ input[type="range"]::-moz-range-track {
   }
 
   .setting-title {
-    font-size: calc(var(--font-size-s-350px) / 1.1);
+    font-size: 5vh;
   }
   .settings-back-btn {
     width: 40px;
     height: 40px;
   }
+
+  .setting-label {
+    height: 23px;
+  }
+
+  .slider::before {
+    height: 27px;
+    width: 27px;
+    left: -2px;
+    bottom: -2px;
+  }
+
+  input:checked + .slider::before {
+    transform: translateX(38px);
+  }
+
+  /* Дополнительно: стиль для "вдавленного" состояния */
+  /* input:active + .slider::before {
+    width: 30px;
+    margin-left: -2px;
+  } */
 }
 
 @media (min-width: 768px) {
