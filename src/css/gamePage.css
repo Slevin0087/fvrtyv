@@ -241,49 +241,44 @@
 }
 
 .notification-toast {
-  /* background-color: blue;
-  position: absolute;
-  bottom: 10vw; */
-
   display: flex;
   flex-direction: row;
   color: yellow;
   position: absolute;
   justify-content: space-between;
   align-items: center;
-  /* bottom: 10vw; */
   bottom: 15%;
   left: 50%;
-  /* transform: translate(-50%, -30%); */
   transform: translateX(-50%);
-  font-weight: bold;
   pointer-events: none;
   z-index: 1000;
   white-space: nowrap;
-  /* opacity: 0; */
   /* overflow: hidden; */
   text-overflow: ellipsis;
-  max-width: fit-content;
-  line-height: normal;
+  /* max-width: calc(var(--card-width) / 1.5); */
+  max-width: 95vw;
   padding: 0;
   margin: 0;
 }
 
+.div-notif-hint-stock {
+  width: 100%;
+}
+
 .span-notif-hint-cards,
 .span-notif-hint-stock {
-  /* position: absolute; */
-  /* bottom: 12rem; */
-  width: auto;
-  /* color: red; */
+  width: 100%;
   color: yellow;
-
-  /* border: 0.1em solid black; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: 0.1em solid yellow;
   border-radius: 0.5rem;
   padding: 0.5rem;
   cursor: pointer;
-  font-size: 24px;
+  font-size: 1em;
   font-weight: bold;
+  line-height: normal;
   background-color: rgba(0, 0, 0);
 }
 
@@ -374,6 +369,11 @@
   .status-bar {
     padding-top: 0.25rem;
     padding-bottom: 0.25rem;
+    font-size: clamp(0.7rem, 2.5vw, 0.5rem);
+  }
+
+  .span-notif-hint-cards,
+  .span-notif-hint-stock {
     font-size: clamp(0.7rem, 2.5vw, 0.5rem);
   }
 }

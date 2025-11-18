@@ -106,7 +106,7 @@ export class HintSystem {
         );
         setTimeout(() => {
           card.domElement.classList.remove("hint-from-card");
-          this.eventManager.emit(GameEvents.CLEAR_NOTIF_HINT_CARDS);
+          // this.eventManager.emit(GameEvents.CLEAR_NOTIF_HINT_CARDS);
           resolve();
         }, 2000);
       } else if (description === UIConfig.dataI18nValue.HINT_NO_HINTS) {
