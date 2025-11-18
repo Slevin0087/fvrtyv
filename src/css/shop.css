@@ -8,8 +8,8 @@
   --font-size-shop-350px: 1rem;
   --shopCard-width: calc(var(--card-width) * 2);
   --shopCard-height: calc(var(--shopCard-width) * 1.4);
-  --shop-items-fon-height: calc(var(--card-width) * 2);;
-  --shop-items-fon-width: calc(var(--shop-items-fon-height) * 1.4);;
+  --shop-items-fon-height: calc(var(--card-width) * 2);
+  --shop-items-fon-width: calc(var(--shop-items-fon-height) * 1.4);
   --gap-for-items: 0.5em;
   --gap-for-items-head: calc(var(--gap-for-items) / 2);
   --font-size-tbcard-vSh: calc(var(--shopCard-width) / 5);
@@ -324,6 +324,29 @@
 }
 
 /* Base mobile (320px+) - button font already set */
+
+@media (max-height: 350px) {
+  .shop-back-btn {
+    width: 40px;
+    height: 30px;
+  }
+  .shop-title {
+    font-size: 5vh;
+  }
+  .balance {
+    font-size: 4vh;
+  }
+}
+
+@media (max-height: 680px) and (min-width: 924px) {
+  .shop-item-card,
+  .shop-item-card-bg,
+  .shop-item-card-bg-cb1 {
+    width: calc(var(--shopCard-width-900) / 1.5);
+    height: calc(var(--shopCard-height-900) / 1.5);
+  }
+}
+
 @media (min-width: 500px) {
   .shop-back-btn {
     font-size: var(--font-size-s-350px);
