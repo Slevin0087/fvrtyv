@@ -190,6 +190,7 @@ export class UIShopPage extends UIPage {
       if (item.styles) Object.assign(shopItem.style, item.styles);
       else if (item.previewImage) {
         const img = document.createElement("img");
+        img.className = 'img-type-bg'
         img.src = item.previewImage;
         shopItem.append(img);
       }

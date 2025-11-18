@@ -173,7 +173,11 @@ export class ShopNavigation {
 
   init() {
     // Назначаем обработчики событий для кнопок
-    this.scrollLeftBtn.addEventListener("click", () => this.scrollLeft());
+    this.scrollLeftBtn.addEventListener("click", () => {
+      console.log('scrollLeftBtn');
+      
+      this.scrollLeft()
+    });
     this.scrollRightBtn.addEventListener("click", () => this.scrollRight());
 
     // Обновляем видимость кнопок при скролле
@@ -239,14 +243,16 @@ export class ShopNavigation {
 
   scrollLeft() {
     this.allItemsContainer.scrollBy({
-      left: -this.scrollStep,
+      // top: -this.scrollStep,
+      top: -100,
       behavior: "smooth",
     });
   }
 
   scrollRight() {
     this.allItemsContainer.scrollBy({
-      left: this.scrollStep,
+      // top: this.scrollStep,
+      top: 100,
       behavior: "smooth",
     });
   }
