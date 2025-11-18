@@ -144,10 +144,10 @@ export class DragAndDrop {
     )
       return;
     if (!this.currentDraggingCard) return;
-    if (!this.isDragging) {
-      console.log('в if (!this.isDragging): ', this.stateManager.state.settings.assistanceInCardClick);
-      
+    if (!this.isDragging) {      
       if (!this.stateManager.state.settings.assistanceInCardClick) return
+      console.log('это после if (!this.stateManager.state.settings.assistanceInCardClick): ', this.stateManager.state.settings.assistanceInCardClick);
+      
       this.eventManager.emit(GameEvents.CARD_CLICK, this.cards[0]);
       this.resetDragState();
       return;

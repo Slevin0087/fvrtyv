@@ -146,10 +146,6 @@ export class Storage {
       hintsUsed: 0,
       undoUsed: 0,
       lastMoves: [],
-      // lastMoves: {
-      //   stockLastMoves: [],
-      //   otherLastMoves: [],
-      // },
       difficulty: "normal",
       faceDownCards: 28,
     };
@@ -455,6 +451,8 @@ export class Storage {
 
   // === Game State ===
   setGameStats(gameStats) {
+    console.log('setGameStats(gameStats): ', gameStats);
+    
     try {
       localStorage.setItem("gameStats", JSON.stringify(gameStats));
       return true;

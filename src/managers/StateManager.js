@@ -116,6 +116,7 @@ export class StateManager {
       this.resetAchievementsActive();
       this.resetIsNoHints(false);
       this.getDealingCardsValue();
+      this.setIsPaused(false)
     });
 
     this.eventManager.onAsync(GameEvents.SET_NEW_GAME, () => {
@@ -125,6 +126,7 @@ export class StateManager {
       this.resetMoves(0);
       this.resetIsNoHints(false);
       this.getDealingCardsValue();
+      this.setIsPaused(false)
     });
 
     this.eventManager.on(GameEvents.SET_DIFFICUTY_CHANGE, (value) => {
@@ -488,7 +490,6 @@ export class StateManager {
 
   setIsPaused(boolean) {
     this.state.game.isPaused = boolean;
-    this.saveGameState()
   }
 
   getIsPaused() {
