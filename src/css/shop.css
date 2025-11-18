@@ -72,7 +72,7 @@
   gap: var(--gap-for-flex-shop);
   background-color: chocolate;
   height: 100%;
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 .shop-head {
