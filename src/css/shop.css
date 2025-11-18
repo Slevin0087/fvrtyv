@@ -8,6 +8,8 @@
   --font-size-shop-350px: 1rem;
   --shopCard-width: calc(var(--card-width) * 2);
   --shopCard-height: calc(var(--shopCard-width) * 1.4);
+  --shop-items-fon-height: calc(var(--card-width) * 2);;
+  --shop-items-fon-width: calc(var(--shop-items-fon-height) * 1.4);;
   --gap-for-items: 0.5em;
   --gap-for-items-head: calc(var(--gap-for-items) / 2);
   --font-size-tbcard-vSh: calc(var(--shopCard-width) / 5);
@@ -312,14 +314,18 @@
 }
 
 .shop-item-fon {
-  background: red;
-  width: 100%;
-  height: 100%;
+  /* background: red; */
+  /* width: 100%;
+  height: 100%; */
+  width: var(--shop-items-fon-width);
+  height: var(--shop-items-fon-height);
 }
 
 .img-type-bg {
-  width: auto;
-  height: auto;
+  /* width: auto;
+  height: auto; */
+  width: var(--shop-items-fon-width);
+  height: var(--shop-items-fon-height);
 }
 
 /* Base mobile (320px+) - button font already set */
@@ -414,9 +420,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 15vw;
-  min-height: 20vw;
   transform: rotate(90deg);
+  padding: 20px 0;
+  min-width: 40px;
+  align-items: center;
+  line-height: 1;
 }
 
 .scroll-btn:hover {
