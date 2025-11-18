@@ -306,4 +306,8 @@
   }
 }
 
-
+@media (min-height: 500px) and (max-height: 768px) {
+  .game-container {
+    gap: 1vh;
+  }
+}
