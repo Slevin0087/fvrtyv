@@ -296,7 +296,7 @@
   }
   .row-1 {
     flex-direction: column;
-    gap: 2rem;
+    gap: 2vh;
   }
   .row-b {
     flex-direction: column;
