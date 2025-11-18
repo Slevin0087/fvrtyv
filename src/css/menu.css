@@ -73,24 +73,34 @@
   }
 }
 
+@media (min-height: 500px) and (max-height: 550px) {
+  .menu_btns {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0;
+  }
+}
+
 /* Tablet — 768px and up */
 @media (min-width: 768px) {
   :root {
-    --menu-btn-min-width: 50vw;
+    /* --menu-btn-min-width: 50vw; */
+    --menu-btn-min-width: min(50vw, 60vh);
   }
 }
 
 /* Desktop — 1024px and up */
 @media (min-width: 1024px) {
   :root {
-    --menu-btn-min-width: 40vw;
+    /* --menu-btn-min-width: 40vw; */
+    --menu-btn-min-width: min(40vw, 50vh);
   }
 }
 
 @media (max-width: 1000px) and (max-height: 550px) {
-.menu {
-  justify-content: normal;
-}
+  .menu {
+    justify-content: normal;
+  }
 }
 
 /* Large Desktop — 1440px and up */
@@ -106,4 +116,3 @@
     --menu-btn-min-width: 15vw;
   }
 }
-
