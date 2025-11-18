@@ -314,16 +314,11 @@
 }
 
 .shop-item-fon {
-  /* background: red; */
-  /* width: 100%;
-  height: 100%; */
   width: var(--shop-items-fon-width);
   height: var(--shop-items-fon-height);
 }
 
 .img-type-bg {
-  /* width: auto;
-  height: auto; */
   width: var(--shop-items-fon-width);
   height: var(--shop-items-fon-height);
 }
@@ -515,7 +510,7 @@
   }
 
   .scroll-btn {
-    min-width: 10vw;
+    min-width: 60px;
   }
 }
 
@@ -525,7 +520,7 @@
   }
 
   .scroll-btn {
-    width: 10vw;
+    min-width: 70px;
   }
 }
 
