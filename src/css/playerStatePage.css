@@ -117,6 +117,7 @@
   width: 100%;
   max-width: 600px; /* Limit width on wide screens */
   font-size: var(--font-size-s-350px);
+  /* font-size: 5vh; */
   border-collapse: separate; /*Важно! Должно быть 'separate' (по умолчанию)*/
   border-spacing: calc(var(--gap-for-pstate) * 4) 0; /* Горизонтальное, затем вертикальное */
   background-color: brown;
@@ -134,7 +135,7 @@
   width: 100%;
   padding: var(--wrap-line-padding);
   gap: var(--wrap-line-gap);
-  min-height: 2.5rem;
+  /* min-height: 2.5rem; */
   box-sizing: border-box; /* Include padding in width calculation */
 }
 
@@ -146,12 +147,12 @@
   color: yellow;
   line-height: 0.9;
   flex: 1; /* Grow to fill available space */
-  min-width: 60px; /* Minimum width for readability */
+  /* min-width: 60px; */
 }
 
 .left-td {
   justify-self: start; /* Выравнивание по левому краю */
-  min-width: var(--left-td-min-width); /* Dynamic width using variable */
+  /* min-width: var(--left-td-min-width); */
   /* color: black; */
   line-height: 0.9;
   color: rgb(0, 196, 0);
@@ -188,23 +189,23 @@
     flex-direction: row; /* Keep horizontal layout */
   }
 
-  .left-td {
-    min-width: clamp(70px, 25%, 120px); /* Smaller on mobile */
+  /* .left-td {
+    min-width: clamp(70px, 25%, 120px);
     font-size: clamp(0.8rem, 2vw, 0.95rem);
-  }
+  } */
 
-  .right-td {
+  /* .right-td {
     min-width: clamp(50px, 20%, 100px);
     font-size: clamp(0.8rem, 2vw, 0.95rem);
-  }
+  } */
 }
 
 /* Adjust for short viewport heights - works with any width */
-@media (max-height: 650px) {
+@media (max-height: 660px) {
   .wrap-line {
     gap: clamp(0.3rem, 1.5vh, 0.6rem) !important; /* Override with vh */
     padding: clamp(0.2rem, 1vh, 0.5rem) !important; /* Override with vh */
-    min-height: auto; /* Allow shrinking */
+    /* min-height: auto; Allow shrinking */
   }
 }
 
@@ -213,7 +214,7 @@
   .wrap-line {
     gap: clamp(0.2rem, 1vh, 0.4rem) !important;
     padding: clamp(0.15rem, 0.8vh, 0.35rem) !important;
-    min-height: 1.5rem;
+    /* min-height: 1.5rem; */
   }
 }
 
@@ -223,15 +224,15 @@
     padding: clamp(0.6rem, 2vw, 0.95rem);
   }
 
-  .left-td {
+  /* .left-td {
     min-width: clamp(100px, 28%, 150px);
     font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-  }
+  } */
 
-  .right-td {
+  /* .right-td {
     min-width: clamp(70px, 22%, 120px);
     font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-  }
+  } */
 
   .player-state .btn {
     font-size: var(--font-size-s-350px);
@@ -241,10 +242,14 @@
 @media (max-height: 350px) {
   .player-state .btn {
     width: 40px;
-    height: 40px;
+    height: 30px;
   }
   .player-state-title {
-    font-size: calc(var(--font-size-s-350px) / 1.1);
+    /* font-size: calc(var(--font-size-s-350px) / 1.1); */
+    font-size: 5vh;
+  }
+  .p-state-table {
+    font-size: 5vh;
   }
 }
 
@@ -259,15 +264,15 @@
     padding: clamp(0.7rem, 2.5vw, 1.1rem);
   }
 
-  .left-td {
-    min-width: 150px; /* Fixed width on desktop */
+  /* .left-td {
+    min-width: 150px;
     font-size: 1rem;
-  }
+  } */
 
-  .right-td {
-    min-width: auto; /* Flexible on desktop */
+  /* .right-td {
+    min-width: auto;
     font-size: 1rem;
-  }
+  } */
 }
 
 @media (min-width: 1024px) {
@@ -275,13 +280,13 @@
     padding-left: var(--padding-player-state-content-left-right-900);
     padding-right: var(--padding-player-state-content-left-right-900);
   }
-  .p-state-table {
+  /* .p-state-table {
     font-size: var(--font-size-table-900px);
-  }
+  } */
 
   .wrap-line {
     gap: clamp(1.2rem, 5vw, 2rem); /* Generous gap on large screens */
-    padding: clamp(0.8rem, 3vw, 1.2rem);
+    padding: clamp(0.8rem, 3vw, 1rem);
     flex-wrap: nowrap; /* Don't wrap on desktop */
   }
 }

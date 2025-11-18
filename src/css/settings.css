@@ -440,7 +440,7 @@ input[type="range"]::-moz-range-track {
   }
   .settings-back-btn {
     width: 40px;
-    height: 40px;
+    height: 30px;
   }
 
   .setting-label {
