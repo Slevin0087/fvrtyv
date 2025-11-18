@@ -151,7 +151,6 @@
   padding: var(--padding-for-shop-items);
   box-shadow: 0 0 1em rgba(0, 0, 0, 0.2);
   scroll-snap-align: center;
-  max-height: 50%;
   justify-content: center;
   box-sizing: content-box;
 }
@@ -487,7 +486,7 @@
   width: 95%;
   justify-content: space-between;
   gap: var(--gap-for-flex-shop);
-  height: 75%;
+  height: 80%;
 }
 
 .scroll-btns-container {
