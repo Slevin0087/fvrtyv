@@ -148,8 +148,8 @@ export class DragAndDrop {
       this.resetDragState();
       return;
     }
-    if (!this.state.game.playerFirstCardClick) {
-      this.state.game.playerFirstCardClick = true;
+    if (!this.stateManager.getPlayerFirstCardClick()) {
+      this.stateManager.setPlayerFirstCardClick(true);
       this.eventManager.emit(GameEvents.START_PLAY_TIME, Date.now());
     }
     this.cards.forEach((card) => {

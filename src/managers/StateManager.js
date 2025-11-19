@@ -60,7 +60,7 @@ export class StateManager {
 
   setupEventListeners() {
     this.eventManager.on(GameEvents.FIRST_CARD_CLICK, () => {
-      this.state.game.playerFirstCardClick = true;
+      this.setPlayerFirstCardClick(true);
       this.state.player.gamesPlayed++;
       this.savePlayerStats();
     });
@@ -100,29 +100,32 @@ export class StateManager {
 
     this.eventManager.on(GameEvents.END_SET_NEW_GAME, () => {
       this.resetScore(0);
-      this.resetTime(0);
+      this.setTime(0);
       this.resetLastMoves();
+      this.setPlayerFirstCardClick(false);
     });
 
     this.eventManager.onAsync(GameEvents.GAME_RESTART, () => {
       this.resetScore(0);
-      this.resetTime(0);
+      this.setTime(0);
       this.resetLastMoves();
       this.resetMoves(0);
       this.resetAchievementsActive();
       this.resetIsNoHints(false);
       this.getDealingCardsValue();
+      this.setPlayerFirstCardClick(false);
       this.setIsRunning(true);
       this.setIsPaused(false);
     });
 
     this.eventManager.onAsync(GameEvents.SET_NEW_GAME, () => {
       this.resetScore(0);
-      this.resetTime(0);
+      this.setTime(0);
       this.resetLastMoves();
       this.resetMoves(0);
       this.resetIsNoHints(false);
       this.getDealingCardsValue();
+      this.setPlayerFirstCardClick(false);
       this.setIsRunning(true);
       this.setIsPaused(false);
     });
@@ -141,6 +144,7 @@ export class StateManager {
       this.setIsRunning(false);
       this.resetLastMoves();
       this.saveAllData();
+      this.setIsPaused(true);
     });
 
     this.eventManager.on(GameEvents.SET_GAME_PAUSE_STATUS, (boolean) => {
@@ -298,9 +302,16 @@ export class StateManager {
     this.state.stateForAchievements.score = score;
   }
 
-  resetTime(time) {
-    this.state.game.playerFirstCardClick = false;
+  setTime(time) {
     this.state.game.playTime = time;
+  }
+
+  setPlayerFirstCardClick(boolean) {
+    this.state.game.playerFirstCardClick = boolean;
+  }
+
+  getPlayerFirstCardClick() {
+    return this.state.game.playerFirstCardClick;
   }
 
   resetMoves(n) {

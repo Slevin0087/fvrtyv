@@ -21,13 +21,14 @@ export class GameInit {
   constructor() {
     this.timeInterval = null;
     this.startTime = 0;
+    this.pauseAndStopTime = 0;
     this.lastTime = 0;
     this.fullScreenBtn = document.getElementById("full-screen-btn");
   }
 
   init() {
     // 1. Инициализация компонентов
-    this.initComponents()
+    this.initComponents();
 
     // 2. Установка начального имени игрока в input
     this.eventManager.emit(GameEvents.SET_NAME_IN_INPUT);
@@ -106,37 +107,52 @@ export class GameInit {
       async () => await this.gameRestart()
     );
     this.eventManager.on(GameEvents.START_PLAY_TIME, (time) =>
-
       this.startTimeInterval(time)
     );
     this.eventManager.on(GameEvents.STOP_PLAY_TIME, () =>
       this.stopTimeInterval()
     );
+    this.eventManager.on(GameEvents.PAUSE_PLAY_TIME, () =>
+      this.pauseTimeInterval()
+    );
+    this.eventManager.on(GameEvents.CONTINUE_PLAY_TIME, () =>
+      this.continueTimeInterval()
+    );
   }
 
   pauseTimeInterval() {
-    this.startTimeInterval();
-    const timeForGamePause = Date.now()
+    this.stopTimeInterval();
+    this.updatePauseAndStopTime(Date.now());
+  }
+
+  continueTimeInterval() {
+    console.log('continueTimeInterval');
+    
+    const pausedDuration = Date.now() - this.pauseAndStopTime;
+    this.updateStartTime(this.startTime + pausedDuration);
+    this.startTimeInterval(this.startTime);
   }
 
   startTimeInterval(time) {
     if (this.timeInterval) return; // Уже запущен
 
-    this.startTime = time;
-    console.log('this.startTime: ', this.startTime);    
+    this.updateStartTime(time);
+    console.log("this.startTime: ", this.startTime);
     this.timeInterval = setInterval(() => {
       const elapsed = (Date.now() - this.startTime) / 1000;
-      console.log('elapsed: ', elapsed);
-      
-      this.stateManager.state.game.playTime = elapsed;
+      console.log("elapsed: ", elapsed);
+
+      this.stateManager.setTime(elapsed);
       this.eventManager.emit(GameEvents.TIME_UPDATE, elapsed);
     }, 100); // Обновление каждые 100мс (10 FPS)
   }
 
   stopTimeInterval() {
+    console.log('stopTimeInterval');
+    
     if (this.timeInterval) {
       clearInterval(this.timeInterval);
-      this.timeInterval = null;
+      this.setTimeInterval(null);
     }
   }
 
@@ -188,6 +204,18 @@ export class GameInit {
       this.cardsSystem.stock,
       this.cardsSystem.tableaus
     );
+  }
+
+  updateStartTime(time) {
+    this.startTime = time;
+  }
+
+  updatePauseAndStopTime(time) {
+    this.pauseAndStopTime = time;
+  }
+
+  setTimeInterval(data) {
+    this.timeInterval = data;
   }
 
   update(deltaTime) {

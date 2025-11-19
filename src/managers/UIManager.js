@@ -134,8 +134,6 @@ export class UIManager {
         GameEvents.SET_ACTIV_PAGE,
         this.components.uiGamePage
       );
-      this.stateManager.setIsRunning(true);
-      this.stateManager.setIsPaused(false);
     });
 
     this.eventManager.on(

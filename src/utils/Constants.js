@@ -31,6 +31,8 @@ export const GameEvents = {
   FIRST_CARD_CLICK: "first:card:click",
   START_PLAY_TIME: "start:play:time",
   STOP_PLAY_TIME: "stop:play:time",
+  CONTINUE_PLAY_TIME: "continue:play:time",
+  PAUSE_PLAY_TIME: "pause:play:time",
   UIMANAGER_INIT: "uiManager:init",
   UINAMEPAGE_SHOW: "uiNamePage:show",
   UIMENUPAGE_SHOW: "uiMenuPage:show",

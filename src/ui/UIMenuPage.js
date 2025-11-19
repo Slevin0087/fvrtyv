@@ -17,11 +17,19 @@ export class UIMenuPage extends UIPage {
   setupEventListeners() {
     this.elements.newGameBtn.onclick = async () => {
       await this.eventManager.emitAsync(GameEvents.SET_NEW_GAME);
-      // this.eventManager.emit("game:start");
     };
 
     this.elements.continueBtn.onclick = () => {
       this.eventManager.emit(GameEvents.GAME_CONTINUE);
+      if (
+        this.stateManager.getIsPaused() &&
+        this.stateManager.getIsRunning() &&
+        this.stateManager.getPlayerFirstCardClick()
+      ) {
+        this.eventManager.emit(GameEvents.CONTINUE_PLAY_TIME);
+      }
+      this.stateManager.setIsRunning(true);
+      this.stateManager.setIsPaused(false);
     };
 
     this.elements.settingsBtn.onclick = () => {

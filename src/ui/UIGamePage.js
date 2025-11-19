@@ -88,7 +88,10 @@ export class UIGamePage extends UIPage {
 
     this.elements.menuBtn.onclick = () => {
       if (!this.stateManager.getIsRunning()) return;
-      this.eventManager.emit(GameEvents.SET_GAME_PAUSE_STATUS, true);
+      if (!this.stateManager.getIsPaused()) {
+        this.eventManager.emit(GameEvents.SET_GAME_PAUSE_STATUS, true);
+        this.eventManager.emit(GameEvents.PAUSE_PLAY_TIME);
+      }
       this.eventManager.emit(GameEvents.UIMENUPAGE_SHOW);
     };
 
