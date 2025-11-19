@@ -14,6 +14,23 @@ export class UIPlayerStatePage extends UIPage {
     const statePlayer = this.state.player;
     const stateGame = this.state.game;
     const storagePlayer = this.stateManager.storage.getPlayerStats();
+    console.log("storagePlayer.fastestWin: ", storagePlayer.fastestWin);
+    let fastestWin = "";
+    if (storagePlayer.fastestWin === Infinity) {
+      fastestWin = "00:00";
+    } else {
+      const hours = Math.floor(storagePlayer.fastestWin / 3600);
+      const minutes = Math.floor(storagePlayer.fastestWin / 60);
+      const seconds = Math.floor(storagePlayer.fastestWin % 60);
+      const formattedMinutes = minutes.toString().padStart(2, "0");
+      const formattedSeconds = seconds.toString().padStart(2, "0");
+      if (hours > 0) {
+        const formattedHours = hours.toString().padStart(2, "0");
+        fastestWin = `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+      } else {
+        fastestWin = `${formattedMinutes}:${formattedSeconds}`;
+      }
+    }
     let playerName = "";
     if (statePlayer.name === "") {
       playerName = document.getElementById("player-name").placeholder;
@@ -53,7 +70,7 @@ export class UIPlayerStatePage extends UIPage {
       </div>
       <div class='wrap-line'>
         <dt class="left-td" data-i18n="player_state_best_time">Лучшее время:</dt>
-        <dd class="right-td">${"00:00"}</dd>
+        <dd class="right-td">${fastestWin}</dd>
       </div>
       <div class='wrap-line'>
         <dt class="left-td" data-i18n="player_state_moves">Ходов за игру:</dt>

@@ -212,7 +212,7 @@ export class StateManager {
     });
 
     this.eventManager.on(GameEvents.TIME_UPDATE, (time) => {
-      this.updateTime(time);
+      this.setTime(time);
     });
   }
 
@@ -303,6 +303,8 @@ export class StateManager {
   }
 
   setTime(time) {
+    console.log('time: ', time);
+    
     this.state.game.playTime = time;
   }
 
@@ -504,10 +506,6 @@ export class StateManager {
   getIsPaused() {
     const GameStats = this.storage.getGameStats();
     return GameStats.isPaused;
-  }
-
-  updateTime(time) {
-    this.state.game.playTime = time;
   }
 
   updateScore(points) {

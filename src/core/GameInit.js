@@ -125,9 +125,7 @@ export class GameInit {
     this.updatePauseAndStopTime(Date.now());
   }
 
-  continueTimeInterval() {
-    console.log('continueTimeInterval');
-    
+  continueTimeInterval() {   
     const pausedDuration = Date.now() - this.pauseAndStopTime;
     this.updateStartTime(this.startTime + pausedDuration);
     this.startTimeInterval(this.startTime);
@@ -135,48 +133,20 @@ export class GameInit {
 
   startTimeInterval(time) {
     if (this.timeInterval) return; // Уже запущен
-
     this.updateStartTime(time);
-    console.log("this.startTime: ", this.startTime);
     this.timeInterval = setInterval(() => {
       const elapsed = (Date.now() - this.startTime) / 1000;
-      console.log("elapsed: ", elapsed);
-
       this.stateManager.setTime(elapsed);
       this.eventManager.emit(GameEvents.TIME_UPDATE, elapsed);
     }, 100); // Обновление каждые 100мс (10 FPS)
   }
 
-  stopTimeInterval() {
-    console.log('stopTimeInterval');
-    
+  stopTimeInterval() {    
     if (this.timeInterval) {
       clearInterval(this.timeInterval);
       this.setTimeInterval(null);
     }
   }
-
-  // gameLoop(timestamp) {
-  //   if (!this.stateManager.state.firstCardClick) return;
-
-  //   // Первый кадр: игнорируем deltaTime, начинаем с 0
-  //   if (this.lastTime === 0) {
-  //     this.lastTime = timestamp;
-  //     requestAnimationFrame((t) => this.gameLoop(t));
-  //     return;
-  //   }
-
-  //   const deltaTime = timestamp - this.lastTime;
-  //   this.lastTime = timestamp;
-
-  //   if (this.update) {
-  //     this.update(deltaTime / 1000);
-  //   }
-
-  //   requestAnimationFrame((t) => {
-  //     this.gameLoop(t);
-  //   });
-  // }
 
   async gameRestart() {
     this.stopTimeInterval();
@@ -216,20 +186,5 @@ export class GameInit {
 
   setTimeInterval(data) {
     this.timeInterval = data;
-  }
-
-  update(deltaTime) {
-    console.log("///////////////////////////////////////////////////////");
-
-    if (
-      this.stateManager.state.game.isRunning &&
-      this.stateManager.state.game.playerFirstCardClick
-    ) {
-      this.stateManager.state.game.playTime += deltaTime;
-      this.eventManager.emit(
-        GameEvents.TIME_UPDATE,
-        this.stateManager.state.game.playTime
-      );
-    }
   }
 }
