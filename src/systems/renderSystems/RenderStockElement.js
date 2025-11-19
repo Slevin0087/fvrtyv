@@ -68,7 +68,7 @@ export class RenderStockElement {
     }
     if (!this.state.game.playerFirstCardClick) {
       this.state.game.playerFirstCardClick = true;
-      this.eventManager.emit(GameEvents.START_PLAY_TIME, 0);
+      this.eventManager.emit(GameEvents.START_PLAY_TIME, Date.now());
     }
     if (stock.stockCardPosition < 0 && waste.isEmpty()) {
       stock.element.querySelector(".stock-span").textContent = "";

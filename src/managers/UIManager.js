@@ -130,9 +130,12 @@ export class UIManager {
 
     this.eventManager.on(GameEvents.GAME_CONTINUE, () => {
       this.pageShow(UIConfig.pages.UIGamePage);
-      this.stateManager.state.ui.activePage = this.components.uiGamePage;
-      this.stateManager.state.game.isRunning = true;
-      this.stateManager.setIsPaused(false)
+      this.eventManager.emit(
+        GameEvents.SET_ACTIV_PAGE,
+        this.components.uiGamePage
+      );
+      this.stateManager.setIsRunning(true);
+      this.stateManager.setIsPaused(false);
     });
 
     this.eventManager.on(

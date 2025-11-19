@@ -42,8 +42,6 @@ export class DragAndDrop {
     this.eventManager.on(
       GameEvents.ADD_ONPOINTERDOWN_TO_CARD,
       (cardDomElement) => {
-        console.log("в ADD_ONPOINTERDOWN_TO_CARD: ", cardDomElement);
-
         cardDomElement.onpointerdown = (event) => this.onPointerDown(event);
       }
     );
@@ -66,8 +64,6 @@ export class DragAndDrop {
     this.eventManager.on(
       GameEvents.RESET_ONPOINTERDOWN_TO_CARD,
       (cardDomElement) => {
-        console.log("в RESET_ONPOINTERDOWN_TO_CARD: ", cardDomElement);
-
         cardDomElement.onpointerdown = null;
       }
     );
@@ -154,7 +150,7 @@ export class DragAndDrop {
     }
     if (!this.state.game.playerFirstCardClick) {
       this.state.game.playerFirstCardClick = true;
-      this.eventManager.emit(GameEvents.START_PLAY_TIME, 0);
+      this.eventManager.emit(GameEvents.START_PLAY_TIME, Date.now());
     }
     this.cards.forEach((card) => {
       card.domElement.style.visibility = "hidden";

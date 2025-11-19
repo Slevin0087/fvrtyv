@@ -98,10 +98,6 @@ export class StateManager {
       this.setIsRunning(true);
     });
 
-    this.eventManager.on(GameEvents.UIMENUPAGE_SHOW, () => {
-      this.setIsPaused(true)
-    })
-
     this.eventManager.on(GameEvents.END_SET_NEW_GAME, () => {
       this.resetScore(0);
       this.resetTime(0);
@@ -116,7 +112,8 @@ export class StateManager {
       this.resetAchievementsActive();
       this.resetIsNoHints(false);
       this.getDealingCardsValue();
-      this.setIsPaused(false)
+      this.setIsRunning(true);
+      this.setIsPaused(false);
     });
 
     this.eventManager.onAsync(GameEvents.SET_NEW_GAME, () => {
@@ -126,7 +123,8 @@ export class StateManager {
       this.resetMoves(0);
       this.resetIsNoHints(false);
       this.getDealingCardsValue();
-      this.setIsPaused(false)
+      this.setIsRunning(true);
+      this.setIsPaused(false);
     });
 
     this.eventManager.on(GameEvents.SET_DIFFICUTY_CHANGE, (value) => {
@@ -145,12 +143,8 @@ export class StateManager {
       this.saveAllData();
     });
 
-    this.eventManager.on(GameEvents.GAME_PAUSE, () => {
-      this.state.game.isPaused = true;
-    });
-
-    this.eventManager.on("game:resume", () => {
-      this.state.game.isPaused = false;
+    this.eventManager.on(GameEvents.SET_GAME_PAUSE_STATUS, (boolean) => {
+      this.setIsPaused(boolean);
     });
 
     // Другие обработчики событий...
@@ -211,6 +205,10 @@ export class StateManager {
 
     this.eventManager.on(GameEvents.SET_NO_HINTS, (boolean) => {
       this.setIsNoHints(boolean);
+    });
+
+    this.eventManager.on(GameEvents.TIME_UPDATE, (time) => {
+      this.updateTime(time);
     });
   }
 
@@ -493,8 +491,12 @@ export class StateManager {
   }
 
   getIsPaused() {
-    const GameStats = this.storage.getGameStats()
+    const GameStats = this.storage.getGameStats();
     return GameStats.isPaused;
+  }
+
+  updateTime(time) {
+    this.state.game.playTime = time;
   }
 
   updateScore(points) {

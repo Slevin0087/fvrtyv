@@ -6,7 +6,7 @@ export class EventManager {
 
   // Синхронная подписка
   on(event, callback) {
-    console.log(`${event}: ${callback}`);
+    // console.log(`${event}: ${callback}`);
     if (!this.listeners.has(event)) {
       this.listeners.set(event, []);
     }
@@ -15,7 +15,7 @@ export class EventManager {
 
   // Синхронный вызов событий
   emit(event, ...args) {
-    console.log("event, ...args:", event, ...args);
+    // console.log("event, ...args:", event, ...args);
 
     if (this.listeners.has(event)) {
       this.listeners.get(event).forEach((callback) => {

@@ -87,7 +87,8 @@ export class UIGamePage extends UIPage {
     };
 
     this.elements.menuBtn.onclick = () => {
-      if (!this.stateManager.getIsRunning()) return
+      if (!this.stateManager.getIsRunning()) return;
+      this.eventManager.emit(GameEvents.SET_GAME_PAUSE_STATUS, true);
       this.eventManager.emit(GameEvents.UIMENUPAGE_SHOW);
     };
 
@@ -199,7 +200,7 @@ export class UIGamePage extends UIPage {
           this.stateManager.resetActiveModal();
         }
       }
-      return
+      return;
     };
     ///////////////////////// События модального окна: результаты игры
     this.eventManager.on(
@@ -238,11 +239,10 @@ export class UIGamePage extends UIPage {
   onClickRestartGame() {
     if (this.isRestartGameModalShow) return;
     this.modalShow(this.elements.restartGameModal);
-    this.stateManager.setActiveModal(
-      this.elements.restartGameModal,      
-      () => this.onClickRestartGameModalClose()
+    this.stateManager.setActiveModal(this.elements.restartGameModal, () =>
+      this.onClickRestartGameModalClose()
     );
-      this.isRestartGameModalShow = true;
+    this.isRestartGameModalShow = true;
     // setTimeout(() => this.eventManager.emit(GameEvents.UI_ANIMATE_DEAL_CARDS), 1000);
   }
 
@@ -284,9 +284,8 @@ export class UIGamePage extends UIPage {
     );
     this.elements.gameResultsModalBody.innerHTML = modalBody;
     this.modalShow(this.elements.gameResultsModal);
-    this.stateManager.setActiveModal(
-      this.elements.gameResultsModal,
-      () => this.onClickGameResultsModalClose()
+    this.stateManager.setActiveModal(this.elements.gameResultsModal, () =>
+      this.onClickGameResultsModalClose()
     );
   }
 
@@ -306,7 +305,7 @@ export class UIGamePage extends UIPage {
   //////////////////////////
 
   async onclickShuffleBtn() {
-    if (!this.stateManager.getIsRunning()) return
+    if (!this.stateManager.getIsRunning()) return;
     const { stock, waste } = this.state.cardsComponents;
     await this.eventManager.emitAsync(
       GameEvents.SHUFFLE_CARDS_TO_STOCK,
@@ -502,11 +501,20 @@ export class UIGamePage extends UIPage {
   }
 
   updateTime(time) {
+    const hours = Math.floor(time / 3600);
+    console.log("hours: ", hours);
+
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
     const formattedMinutes = minutes.toString().padStart(2, "0");
     const formattedSeconds = seconds.toString().padStart(2, "0");
-    this.elements.timeEl.textContent = `${formattedMinutes}:${formattedSeconds}`;
+    if (hours > 0) {
+      const formattedHours = hours.toString().padStart(2, "0");
+      this.elements.timeEl.textContent = `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+      // time = time % 3600; // Остаток времени после вычитания часов
+    } else {
+      this.elements.timeEl.textContent = `${formattedMinutes}:${formattedSeconds}`;
+    }
   }
 
   modalShow(modal) {

@@ -26,25 +26,38 @@ export class GameInit {
   }
 
   init() {
-    // 1. Инициализация менеджеров
+    // 1. Инициализация компонентов
+    this.initComponents()
+
+    // 2. Установка начального имени игрока в input
+    this.eventManager.emit(GameEvents.SET_NAME_IN_INPUT);
+
+    // 3. Инициализация слушателей событий
+    this.setupEventListeners();
+  }
+
+  initComponents() {
     this.eventManager = new EventManager();
     this.storage = new Storage(this.eventManager);
     this.stateManager = new StateManager(this.eventManager, this.storage);
-    this.translator = new Translator()
-    this.autoMoveManager = new AutoMoveManager(this.eventManager, this.stateManager)
+    this.translator = new Translator();
+    this.autoMoveManager = new AutoMoveManager(
+      this.eventManager,
+      this.stateManager
+    );
     this.translator.changeLanguage(this.stateManager.state.settings.language);
     this.achievementSystem = new AchievementSystem(
       this.eventManager,
       this.stateManager,
       this.storage,
-      this.translator,
+      this.translator
     );
     this.shopNavigation = new ShopNavigation();
     this.uiManager = new UIManager(
       this.eventManager,
       this.stateManager,
       this.translator,
-      this.shopNavigation,
+      this.shopNavigation
     );
     this.audioManager = new AudioManager(this.eventManager, this.stateManager);
     this.cardsSystem = new CardsSystem(this.eventManager, this.stateManager);
@@ -62,7 +75,7 @@ export class GameInit {
       this.stateManager,
       this.cardsSystem,
       this.audioManager,
-      this.translator,
+      this.translator
     );
     this.renderStaticElements = new RenderStaticElements(this.eventManager);
     this.renderStockElement = new RenderStockElement(
@@ -80,8 +93,6 @@ export class GameInit {
       this.storage,
       this.stateManager
     );
-    this.eventManager.emit(GameEvents.SET_NAME_IN_INPUT);
-    this.setupEventListeners();
   }
 
   setupEventListeners() {
@@ -94,20 +105,29 @@ export class GameInit {
       GameEvents.GAME_RESTART,
       async () => await this.gameRestart()
     );
-    // this.eventManager.on(GameEvents.START_PLAY_TIME, () =>
-    //   this.startTimeInterval()
-    // );
+    this.eventManager.on(GameEvents.START_PLAY_TIME, (time) =>
+
+      this.startTimeInterval(time)
+    );
     this.eventManager.on(GameEvents.STOP_PLAY_TIME, () =>
       this.stopTimeInterval()
     );
   }
 
-  startTimeInterval() {
+  pauseTimeInterval() {
+    this.startTimeInterval();
+    const timeForGamePause = Date.now()
+  }
+
+  startTimeInterval(time) {
     if (this.timeInterval) return; // Уже запущен
 
-    this.startTime = Date.now();
+    this.startTime = time;
+    console.log('this.startTime: ', this.startTime);    
     this.timeInterval = setInterval(() => {
       const elapsed = (Date.now() - this.startTime) / 1000;
+      console.log('elapsed: ', elapsed);
+      
       this.stateManager.state.game.playTime = elapsed;
       this.eventManager.emit(GameEvents.TIME_UPDATE, elapsed);
     }, 100); // Обновление каждые 100мс (10 FPS)
@@ -168,7 +188,6 @@ export class GameInit {
       this.cardsSystem.stock,
       this.cardsSystem.tableaus
     );
-    this.stateManager.setIsRunning(true);
   }
 
   update(deltaTime) {
