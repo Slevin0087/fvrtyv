@@ -4,7 +4,7 @@ import {
   AnimationOperators,
 } from "../../utils/Constants.js";
 import { UIConfig } from "../../configs/UIConfig.js";
-import { GameConfig } from "../../configs/GameConfig.js";
+import { GameConfig, PlayerConfigs } from "../../configs/GameConfig.js";
 import { Animator } from "../../utils/Animator.js";
 
 export class UndoSystem {
@@ -16,6 +16,7 @@ export class UndoSystem {
     this.cardContainers = GameConfig.cardContainers;
     this.subtraction = AnimationOperators.SUBTRACTION;
     this.textUndoUsed = "undoUsed";
+    this.countUndoUsedForIncrement = PlayerConfigs.undo.countUsedForIncrement;
     this.cardMoveDuration = UIConfig.animations.cardMoveDuration;
 
     this.setupEventListeners();
@@ -56,7 +57,7 @@ export class UndoSystem {
 
     this.stateManager.setIsAnimateCardFomStockToWaste(true);
 
-    const lastMove = this.state.game.lastMoves.pop();
+    const lastMove = this.state.plater.lastMoves.pop();
     for (const { card, from } of lastMove) {
       card.isUndo = true;
       if (card.openCard) {
@@ -99,7 +100,7 @@ export class UndoSystem {
         from,
       });
     }
-    this.stateManager.incrementGameStat(this.textUndoUsed);
+    this.stateManager.incrementUndoUsed(this.countUndoUsedForIncrement);
     this.stateManager.setIsAnimateCardFomStockToWaste(false);
   }
 

@@ -39,6 +39,7 @@ export const GameEvents = {
   UI_SETTINGS_SHOW: "ui:settings:show",
   UI_STATEPLAYER_SHOW: "ui:stateplayer:show",
   UI_SHOP_SHOW: "ui:shop:show",
+  UI_UPDATE_GAME_PAGE: "ui:update:game:page",
   HINT_SHOW: 'hint:show',
   HINT_USED: 'hint:used',
   HINT_BTN_CLICK: 'hint:btn:click',

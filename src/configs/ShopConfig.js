@@ -47,7 +47,7 @@ export const ShopConfig = {
     //   },
     // },
     {
-      id: "classic_faces2",
+      id: "start_classic_faces",
       name: "Классические2",
       type: "faces",
       bgType: "images",
@@ -55,7 +55,7 @@ export const ShopConfig = {
       owned: false,
       isBought: false,
       price: 0,
-      styleClass: "classic-faces",
+      styleClass: "start-classic-faces",
       description: "Стандартный дизайн карт",
       rarity: "common",
       unlockCondition: null,
@@ -189,7 +189,7 @@ export const ShopConfig = {
 
     // === Рубашки карт ===
     {
-      id: "classic_back_img1",
+      id: "start_classic_back_img",
       name: "Классическая рубашка",
       type: "backs",
       bgType: "images",
@@ -197,7 +197,7 @@ export const ShopConfig = {
       owned: false,
       isBought: false,
       price: 0,
-      styleClass: "classic-back",
+      styleClass: "start-classic-back-img",
       description: "Классическая рубашка",
       rarity: "common",
       unlockCondition: null,
@@ -447,7 +447,7 @@ export const ShopConfig = {
 
     // === Фоны ===
     {
-      id: "classic_fon",
+      id: "green_classic_fon",
       name: "Классический зелёный",
       type: "backgrounds",
       bgType: "styles",
@@ -468,7 +468,7 @@ export const ShopConfig = {
     },
     ///////////////////////////
     {
-      id: "classic_fon1",
+      id: "green_classic_fon_img",
       name: "Классический зелёный",
       type: "backgrounds",
       bgType: "styles",
@@ -476,7 +476,7 @@ export const ShopConfig = {
       owned: false,
       isBought: false,
       price: 0,
-      styleClass: "classic-fon1",
+      styleClass: "green-classic-fon-img",
       description: "Классический фон",
       rarity: "rare",
       unlockCondition: { score: 1000 },

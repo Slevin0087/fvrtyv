@@ -66,7 +66,7 @@ export class StateManager {
       this.savePlayerStats();
     });
     this.eventManager.on(GameEvents.PLAYER_NAME_SET, (name) => {
-      this.setPlayerName(name)
+      this.setPlayerName(name);
       this.savePlayerStats();
     });
 
@@ -189,7 +189,7 @@ export class StateManager {
     );
 
     this.eventManager.on(GameEvents.UP_HITUSED_STATE, (count) =>
-      this.updateHintUsed(count)
+      this.incrementHintUsed(count)
     );
 
     this.eventManager.on(GameEvents.SET_DEALING_CARDS, (value) => {
@@ -220,6 +220,14 @@ export class StateManager {
 
   incrementGamesPlayed(count) {
     this.state.player.gamesPlayed += count;
+  }
+
+  incrementUndoUsed(count) {
+    this.state.player.undoUsed += count;
+  }
+
+  decrementHintUsed(count) {
+    this.state.player.hintQuantity -= count;
   }
 
   setPlayerName(name) {
@@ -308,26 +316,26 @@ export class StateManager {
   }
 
   resetScore(score) {
-    this.state.game.score = score;
+    // this.state.game.score = score;
     this.state.stateForAchievements.score = score;
   }
 
   setTime(time) {
-    console.log('time: ', time);
-    
+    console.log("time: ", time);
+
     this.state.game.playTime = time;
   }
 
   setPlayerFirstCardClick(boolean) {
-    this.state.game.playerFirstCardClick = boolean;
+    this.state.player.playerFirstCardClick = boolean;
   }
 
   getPlayerFirstCardClick() {
-    return this.state.game.playerFirstCardClick;
+    return this.state.player.playerFirstCardClick;
   }
 
   resetMoves(n) {
-    this.state.game.moves = n;
+    // this.state.game.moves = n;
     this.state.stateForAchievements.moves = n;
   }
 
@@ -410,18 +418,17 @@ export class StateManager {
     //     lastMove,
     //   ];
     // } else {
-    this.state.game.lastMoves = [
+    this.state.player.lastMoves = [
       ...(lastMovesLengths >= this.state.player.lastMoveQuantity
-        ? this.state.game.lastMoves.slice(1)
-        : this.state.game.lastMoves),
+        ? this.state.player.lastMoves.slice(1)
+        : this.state.player.lastMoves),
       lastMove,
     ];
     // }
-    console.log("this.state.game.lastMoves:", this.state.game.lastMoves);
   }
 
   resetLastMoves() {
-    this.state.game.lastMoves = [];
+    this.state.player.lastMoves = [];
   }
 
   // resetLastMoves() {
@@ -430,7 +437,7 @@ export class StateManager {
   // }
 
   getLastMovesLengths() {
-    return this.state.game.lastMoves.length;
+    return this.state.player.lastMoves.length;
   }
 
   updateMoves(n) {
@@ -526,21 +533,27 @@ export class StateManager {
   }
 
   updateScore(points) {
-    this.state.game.score += points;
+    // this.state.game.score += points;
+    this.state.player.totalScores += points;
     this.state.stateForAchievements.score += points;
-    if (this.state.game.score > this.state.player.highestScore) {
-      this.state.player.highestScore = this.state.game.score;
+    if (
+      this.state.stateForAchievements.score > this.state.player.highestScore
+    ) {
+      this.state.player.highestScore = this.state.stateForAchievements.score;
       this.storage.setPlayerStats(this.state.player);
       this.eventManager.emit(GameEvents.CREAT_ELEMENT_FOR_HIGHEST_SCORE);
     }
-    this.eventManager.emit(GameEvents.SCORE_UPDATE, this.state.game.score);
+    this.eventManager.emit(
+      GameEvents.SCORE_UPDATE,
+      this.state.stateForAchievements.score
+    );
     this.eventManager.emit(
       GameEvents.CHECK_GET_ACHIEVEMENTS,
       this.typeScoreCheckAchievements
     );
   }
 
-  updateHintUsed(count) {
+  incrementHintUsed(count) {
     this.state.game.hintUsed += count;
   }
 

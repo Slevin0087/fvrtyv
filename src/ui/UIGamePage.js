@@ -1,7 +1,7 @@
 import { UIPage } from "./UIPage.js";
 import { GameEvents } from "../utils/Constants.js";
 import { UIConfig, UIGameUnicodeIcons } from "../configs/UIConfig.js";
-import { GameConfig } from "../configs/GameConfig.js";
+import { GameConfig, PlayerConfigs } from "../configs/GameConfig.js";
 import { Animator } from "../utils/Animator.js";
 
 export class UIGamePage extends UIPage {
@@ -9,6 +9,7 @@ export class UIGamePage extends UIPage {
     super(eventManager, stateManager, "game-interface");
     this.state = stateManager.state;
     this.translator = translator;
+    this.countHintUsedForIncrement = PlayerConfigs.hint.countUsedForIncrement;
     this.elements = {
       messageEl: document.getElementById("message"),
       scoreEl: document.getElementById("points-in-game"),
@@ -69,6 +70,9 @@ export class UIGamePage extends UIPage {
   }
 
   setupEventListeners() {
+    this.eventManager.on(GameEvents.UI_UPDATE_GAME_PAGE, () => {
+      this.updateUI();
+    });
     this.elements.restartGameBtn.onclick = () => this.onClickRestartGame();
 
     this.elements.restartGameModalAgainBtn.onclick = async () =>
@@ -120,7 +124,7 @@ export class UIGamePage extends UIPage {
     });
 
     this.eventManager.on(GameEvents.UP_MOVES, () => {
-      this.updateMoves(this.state.game.moves);
+      this.updateMoves(this.state.stateForAchievements.moves);
     });
 
     this.eventManager.on(GameEvents.UP_UNDO_CONTAINER, (n) =>
@@ -229,8 +233,9 @@ export class UIGamePage extends UIPage {
     this.elements.gameResultsModalClose.onclick = () =>
       this.onClickGameResultsModalClose();
 
-    this.elements.gameResultsModalApply.onclick = async () =>
+    this.elements.gameResultsModalApply.onclick = async () => {
       await this.onClickGameResultsModalApply();
+    };
     //////////////////////////////////////////////////
 
     this.eventManager.on(GameEvents.SET_DEALING_CARDS, (value) => {
@@ -256,9 +261,9 @@ export class UIGamePage extends UIPage {
     this.modalHide(this.elements.restartGameModal);
     this.isRestartGameModalShow = false;
     this.stateManager.setIsRunning(false);
-    this.updateUI();
     await this.eventManager.emitAsync(GameEvents.GAME_RESTART);
     this.eventManager.emit(GameEvents.RESET_STATE_FOR_NEW_GAME);
+    this.updateUI();
   }
 
   onClickRestartGameModalCancel() {
@@ -305,9 +310,9 @@ export class UIGamePage extends UIPage {
     this.modalHide(this.elements.gameResultsModal);
     this.isGameResultsModalShow = false;
     this.stateManager.setIsRunning(false);
-    this.updateUI();
     await this.eventManager.emitAsync(GameEvents.GAME_RESTART);
     this.eventManager.emit(GameEvents.RESET_STATE_FOR_NEW_GAME);
+    this.updateUI();
   }
 
   //////////////////////////
@@ -323,9 +328,9 @@ export class UIGamePage extends UIPage {
   }
 
   updateUI() {
-    this.updateScore(this.state.game.score);
+    this.updateScore(this.state.stateForAchievements.score);
     this.updateTime(this.state.game.playTime);
-    this.updateMoves(this.state.game.moves);
+    this.updateMoves(this.state.stateForAchievements.moves);
     this.upUndoCounter(this.stateManager.getLastMovesLengths());
     if (this.stateManager.getNeedVideoForHints()) {
       this.upHintCounter(UIGameUnicodeIcons.VIDEO);
@@ -491,6 +496,7 @@ export class UIGamePage extends UIPage {
       this.state.hintCounterState -= 1;
       this.upHintCounter(this.state.hintCounterState);
     }
+    this.stateManager.incrementHintUsed(this.countHintUsedForIncrement);
     this.eventManager.emit(GameEvents.UP_HITUSED_STATE, 1);
   }
 
@@ -552,7 +558,7 @@ export class UIGamePage extends UIPage {
     this.page.className = "";
     const styleClass = this.state.player.selectedItems.backgrounds.styleClass;
     this.page.classList.add("game-interface", styleClass);
-    this.updateUI();
+    // this.updateUI();
     this.creatElementForHighestScore();
   }
 }

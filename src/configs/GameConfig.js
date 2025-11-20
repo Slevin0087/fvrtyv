@@ -70,3 +70,15 @@ export const HintsRules = {
     firstOpenDownCard: 1,
   },
 };
+
+export const PlayerConfigs = {
+  initialCoins: 1000,
+  initialHints: 3,
+  initialUndos: 3,
+  hint: {
+    countUsedForIncrement: 1,
+  },
+  undo: {
+    countUsedForIncrement: 1,
+  }
+};

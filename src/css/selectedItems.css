@@ -231,7 +231,7 @@
 .green-field-fon,
 .green-field2-fon,
 .green-field3-fon,
-.classic-fon1,
+.green-classic-fon-img,
 .classic-fon2,
 .red-tree-fon {
   background-size: cover;
@@ -240,7 +240,7 @@
 }
 
 /* Base mobile (320px+) background images */
-.classic-fon1 {
+.green-classic-fon-img {
   background-image: url("../assets/shop/fons/fon1.png");
 }
 .classic-fon2 {
