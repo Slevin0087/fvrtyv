@@ -516,7 +516,7 @@ export class UIGamePage extends UIPage {
 
   updateTime(time) {
     const hours = Math.floor(time / 3600);
-    console.log("hours: ", hours);
+    // console.log("hours: ", hours);
 
     const minutes = Math.floor((time % 3600) / 60);
     const seconds = Math.floor(time % 60);

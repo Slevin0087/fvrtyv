@@ -321,7 +321,7 @@ export class StateManager {
   }
 
   setTime(time) {
-    console.log("time: ", time);
+    // console.log("time: ", time);
 
     this.state.game.playTime = time;
   }
@@ -405,6 +405,8 @@ export class StateManager {
   // }
 
   updateLastMoves(lastMove) {
+    console.log('lastMove в StateManager:', lastMove);
+    
     // const { source, lastMove } = params;
     // console.log("source, moveData:", source, lastMove);
 
