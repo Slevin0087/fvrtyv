@@ -61,11 +61,12 @@ export class StateManager {
   setupEventListeners() {
     this.eventManager.on(GameEvents.FIRST_CARD_CLICK, () => {
       this.setPlayerFirstCardClick(true);
-      this.state.player.gamesPlayed++;
+      this.incrementGamesPlayed(1);
+      this.setIsPaused(false);
       this.savePlayerStats();
     });
     this.eventManager.on(GameEvents.PLAYER_NAME_SET, (name) => {
-      this.state.player.name = name;
+      this.setPlayerName(name)
       this.savePlayerStats();
     });
 
@@ -118,11 +119,12 @@ export class StateManager {
       this.setIsPaused(false);
     });
 
-    this.eventManager.onAsync(GameEvents.SET_NEW_GAME, () => {
+    this.eventManager.on(GameEvents.RESET_STATE_FOR_NEW_GAME, () => {
       this.resetScore(0);
       this.setTime(0);
       this.resetLastMoves();
       this.resetMoves(0);
+      this.resetAchievementsActive();
       this.resetIsNoHints(false);
       this.getDealingCardsValue();
       this.setPlayerFirstCardClick(false);
@@ -214,6 +216,14 @@ export class StateManager {
     this.eventManager.on(GameEvents.TIME_UPDATE, (time) => {
       this.setTime(time);
     });
+  }
+
+  incrementGamesPlayed(count) {
+    this.state.player.gamesPlayed += count;
+  }
+
+  setPlayerName(name) {
+    this.state.player.name = name;
   }
 
   setIsRunning(boolean) {
@@ -440,9 +450,16 @@ export class StateManager {
   setIsDealingCardsAnimation(boolean) {
     this.state.isDealingCardsAnimation = boolean;
   }
+  getIsDealingCardsAnimation() {
+    return this.state.isDealingCardsAnimation;
+  }
 
   setIsAnimateCardFomStockToWaste(boolean) {
     this.state.isAnimateCardFomStockToWaste = boolean;
+  }
+
+  getIsAnimateCardFomStockToWaste() {
+    return this.state.isAnimateCardFomStockToWaste;
   }
 
   setIsUndoCardAnimation(boolean) {

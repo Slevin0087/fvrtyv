@@ -65,9 +65,7 @@ export class UIGamePage extends UIPage {
 
   init() {
     super.init();
-    // this.cardsAndContainersScaler
     this.updateUI();
-    // this.elements.gameResultsModalBody.innerHTML = this.createGameResultsModalBody()
   }
 
   setupEventListeners() {
@@ -88,6 +86,11 @@ export class UIGamePage extends UIPage {
 
     this.elements.menuBtn.onclick = () => {
       if (!this.stateManager.getIsRunning()) return;
+      console.log(
+        "this.stateManager.getIsPaused(): ",
+        this.stateManager.getIsPaused()
+      );
+
       if (!this.stateManager.getIsPaused()) {
         this.eventManager.emit(GameEvents.SET_GAME_PAUSE_STATUS, true);
         this.eventManager.emit(GameEvents.PAUSE_PLAY_TIME);
@@ -253,8 +256,9 @@ export class UIGamePage extends UIPage {
     this.modalHide(this.elements.restartGameModal);
     this.isRestartGameModalShow = false;
     this.stateManager.setIsRunning(false);
-    await this.eventManager.emitAsync(GameEvents.GAME_RESTART);
     this.updateUI();
+    await this.eventManager.emitAsync(GameEvents.GAME_RESTART);
+    this.eventManager.emit(GameEvents.RESET_STATE_FOR_NEW_GAME);
   }
 
   onClickRestartGameModalCancel() {
@@ -301,8 +305,9 @@ export class UIGamePage extends UIPage {
     this.modalHide(this.elements.gameResultsModal);
     this.isGameResultsModalShow = false;
     this.stateManager.setIsRunning(false);
-    await this.eventManager.emitAsync(GameEvents.GAME_RESTART);
     this.updateUI();
+    await this.eventManager.emitAsync(GameEvents.GAME_RESTART);
+    this.eventManager.emit(GameEvents.RESET_STATE_FOR_NEW_GAME);
   }
 
   //////////////////////////
@@ -507,8 +512,9 @@ export class UIGamePage extends UIPage {
     const hours = Math.floor(time / 3600);
     console.log("hours: ", hours);
 
-    const minutes = Math.floor(time / 60);
+    const minutes = Math.floor((time % 3600) / 60);
     const seconds = Math.floor(time % 60);
+
     const formattedMinutes = minutes.toString().padStart(2, "0");
     const formattedSeconds = seconds.toString().padStart(2, "0");
     if (hours > 0) {

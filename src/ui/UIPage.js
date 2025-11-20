@@ -37,16 +37,9 @@ export class UIPage {
 
   show() {
     this.page.classList.remove("hidden");
-    this.onShow();
   }
 
   hide() {
     this.page.classList.add("hidden");
-    this.onHide();
   }
-
-  // Методы для переопределения
-  onShow() {}
-  onHide() {}
-  render() {}
 }

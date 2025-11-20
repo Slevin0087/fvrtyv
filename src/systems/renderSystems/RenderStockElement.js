@@ -60,14 +60,14 @@ export class RenderStockElement {
   async handleStockElement(stock, waste) {
     if (
       !this.isClickAllowed ||
-      !this.state.game.isRunning ||
-      this.state.isDealingCardsAnimation
+      !this.stateManager.getIsRunning() ||
+      this.stateManager.getIsDealingCardsAnimation()
     ) {
       return; // Если клики запрещены или выполняется перемещение карты из waste,
       //  то ничего не делаем
     }
-    if (!this.state.game.playerFirstCardClick) {
-      this.state.game.playerFirstCardClick = true;
+    if (!this.stateManager.getPlayerFirstCardClick()) {
+      this.stateManager.setPlayerFirstCardClick(true);
       this.eventManager.emit(GameEvents.START_PLAY_TIME, Date.now());
     }
     if (stock.stockCardPosition < 0 && waste.isEmpty()) {
@@ -83,9 +83,6 @@ export class RenderStockElement {
       this.isClickAllowed = false;
       stock.recycleWaste(waste);
       this.renderStockCards(stock);
-      // waste.element.querySelectorAll(".card").forEach((el) => {
-      //   el.remove();
-      // });
       waste.element.innerHTML = "";
       await this.delay(this.clickLimitTime);
       this.isClickAllowed = true; // Разрешаем клики после задержки
@@ -105,7 +102,6 @@ export class RenderStockElement {
 
       for (const card of nTopCardsReverse) {
         topThreeCards = waste.topThreeCards;
-        console.log("topThreeCards = waste.topThreeCards: ", topThreeCards);
 
         if (topThreeCards.length > 0) {
           oldOffsetsTopThreeCards = topThreeCards.map((card) => {
@@ -156,13 +152,11 @@ export class RenderStockElement {
 
         await this.flipCard(card);
 
-        console.log("oldOffsetsTopThreeCards: ", oldOffsetsTopThreeCards);
         if (oldOffsetsTopThreeCards.length > 0) {
           await Animator.animateCardFomStockToWaste(oldOffsetsTopThreeCards);
         }
       }
 
-      console.log("lastMovesForStock: ", lastMovesForStock);
       const lastMove = lastMovesForStock.toReversed();
       this.logicSystemsInit.undoSystem.updateLastMoves(lastMove);
 
@@ -213,9 +207,7 @@ export class RenderStockElement {
     const backStyle = this.state.player.selectedItems.backs;
     if (backStyle.bgType === "images") {
       cardElement.style.backgroundImage = `url(${backStyle.previewImage.img})`;
-      // cardElement.style.backgroundSize = "contain";
       const bgPositions = Helpers.calculateCardBackPosition(backStyle);
-
       cardElement.style.backgroundPosition = `${bgPositions.x}% ${bgPositions.y}%`;
     } else {
       cardElement.classList.add(backStyle.styleClass);
@@ -248,17 +240,15 @@ export class RenderStockElement {
 
     this.stateManager.setIsDealingCardsAnimation(true);
     if (stock.isEmpty() && !waste.isEmpty()) {
-      console.log("stock.isEmpty() && !waste.isEmpty()");
       const cards = waste.cards.toReversed();
       for (const card of cards) {
-        const move = await this.eventManager.emitAsync(
+        await this.eventManager.emitAsync(
           GameEvents.BACK_MOVE_CARDS_TO_STOCK,
           stock,
           card,
           "stock",
           this.backMoveCardsToStockDuration
         );
-        await move;
       }
 
       const shCards = Helpers.shuffleArray(stock.cards);
@@ -266,15 +256,11 @@ export class RenderStockElement {
       stock.addCards(shCards);
       await Animator.animateShuffleCardsToStock(stock.cards);
     } else if (!stock.isEmpty() && waste.isEmpty()) {
-      console.log("!stock.isEmpty() && waste.isEmpty()");
-
       const shCards = Helpers.shuffleArray(stock.cards);
       stock.cards = [];
       stock.addCards(shCards);
       await Animator.animateShuffleCardsToStock(stock.cards);
     } else if (!stock.isEmpty() && !waste.isEmpty()) {
-      console.log("!stock.isEmpty() && !waste.isEmpty()");
-
       const cards = waste.cards.toReversed();
       for (const card of cards) {
         await this.eventManager.emitAsync(
@@ -302,42 +288,3 @@ export class RenderStockElement {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 }
-
-// // // Создаем анимации для всех карт
-// const animations = stock.cards.map((card, index) => {
-//   return new Promise((resolve, reject) => {
-//     const cardElement = card.domElement;
-
-//     const animate = cardElement.animate(
-//       [
-//         { transform: "translate(0, 0) rotate(0deg)", offset: 0 },
-//         {
-//           transform: `translate(${(Math.random() - 0.5) * 25}px, ${
-//             (Math.random() - 0.5) * 15
-//           }px) rotate(${(Math.random() - 0.5) * 40}deg)`,
-//           offset: 0.5,
-//         },
-//         { transform: "translate(0, 0) rotate(0deg)", offset: 1 },
-//       ],
-
-//       {
-//         duration: 600 + Math.random() * 400,
-//         delay: index * 80,
-//         easing: "cubic-bezier(0.4, 0, 0.2, 1)",
-//       }
-//     );
-
-//     animate.onfinish = () => {
-//       cardElement.style.transform = `translate(${card.positionData.offsetX}px, ${card.positionData.offsetY}px)`;
-//       cardElement.style.zIndex = `${card.positionData.zIndex}`;
-//       resolve();
-//     };
-
-//     animate.oncancel = () => {
-//       reject(new Error("Animation was cancelled"));
-//     };
-//   });
-// });
-
-// // Ждем завершения всех анимаций
-// await Promise.all(animations);

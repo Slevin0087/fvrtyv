@@ -27,11 +27,6 @@ export class HintSystem {
   }
 
   async provide() {
-    console.log(
-      "this.hintsOfObviousMoves.getHints: ",
-      this.hintsOfObviousMoves.getHints()
-    );
-
     ///////////////////////// Расскоментить, для теста закомментил
     if (
       // this.state.hintCounterState === 0 ||
@@ -188,57 +183,5 @@ export class HintSystem {
         }, 2000);
       }
     });
-  }
-
-  findBestHint() {
-    const gameComponents = this.state.cardsComponents;
-    // Сначала проверяем карты в waste
-    const wasteCard = gameComponents.waste.getTopCard();
-    if (wasteCard) {
-      // Проверяем foundation
-      for (let i = 0; i < gameComponents.foundations.length; i++) {
-        if (
-          gameComponents.foundations[i].canAccept(wasteCard, gameComponents)
-        ) {
-          return {
-            card: wasteCard,
-            target: `foundation-${i}`,
-            type: "waste-to-foundation",
-          };
-        }
-      }
-
-      // Проверяем tableau
-      for (let i = 0; i < gameComponents.tableaus.length; i++) {
-        if (gameComponents.tableaus[i].canAccept(wasteCard)) {
-          return {
-            card: wasteCard,
-            target: `tableau-${i}`,
-            type: "waste-to-tableau",
-          };
-        }
-      }
-    }
-
-    // Затем проверяем tableau
-    for (let i = 0; i < gameComponents.tableaus.length; i++) {
-      const tableau = gameComponents.tableaus[i];
-      const topCard = tableau.getTopCard();
-
-      if (!topCard) continue;
-
-      // Проверяем foundation
-      for (let j = 0; j < gameComponents.foundations.length; j++) {
-        if (gameComponents.foundations[j].canAccept(topCard, gameComponents)) {
-          return {
-            card: topCard,
-            target: `foundation-${j}`,
-            type: "tableau-to-foundation",
-          };
-        }
-      }
-    }
-
-    return null;
   }
 }

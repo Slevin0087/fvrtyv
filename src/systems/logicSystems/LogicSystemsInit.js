@@ -98,14 +98,13 @@ export class LogicSystemsInit {
   }
 
   handleCardClick(card) {
-    
     if (this.winSystem.check()) return;
     if (
-      this.state.isDealingCardsAnimation ||
-      this.state.isAnimateCardFomStockToWaste
+      this.stateManager.getIsDealingCardsAnimation() ||
+      this.stateManager.getIsAnimateCardFomStockToWaste()
     )
-    return;
-    if (!this.state.game.playerFirstCardClick) {
+      return;
+    if (!this.stateManager.getPlayerFirstCardClick()) {
       this.eventManager.emit(GameEvents.FIRST_CARD_CLICK);
       this.eventManager.emit(GameEvents.START_PLAY_TIME, Date.now());
     }

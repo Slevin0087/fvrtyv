@@ -55,6 +55,7 @@ export const GameEvents = {
   RESET_ONPOINTERDOWN_TO_CARD: 'reset:onpointerdown:to:card',
   RESET_ONPOINTERMOVE_TO_CARD: 'reset:onpointermove:to:card',
   RESET_ONPOINTERUP_TO_CARD: 'reset:onpointerup:to:card',
+  RESET_STATE_FOR_NEW_GAME: "reset:state:for:new:game",
   SET_NAME_IN_INPUT: "set:name:in:input",
   SET_ACTIV_PAGE: "set:activ:page",
   PLAYER_NAME_SET: "player:name:set",

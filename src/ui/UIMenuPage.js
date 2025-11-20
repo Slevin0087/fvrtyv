@@ -17,6 +17,7 @@ export class UIMenuPage extends UIPage {
   setupEventListeners() {
     this.elements.newGameBtn.onclick = async () => {
       await this.eventManager.emitAsync(GameEvents.SET_NEW_GAME);
+      this.eventManager.emit(GameEvents.RESET_STATE_FOR_NEW_GAME);
     };
 
     this.elements.continueBtn.onclick = () => {
@@ -26,10 +27,9 @@ export class UIMenuPage extends UIPage {
         this.stateManager.getIsRunning() &&
         this.stateManager.getPlayerFirstCardClick()
       ) {
+        this.stateManager.setIsPaused(false);
         this.eventManager.emit(GameEvents.CONTINUE_PLAY_TIME);
       }
-      this.stateManager.setIsRunning(true);
-      this.stateManager.setIsPaused(false);
     };
 
     this.elements.settingsBtn.onclick = () => {
@@ -45,19 +45,17 @@ export class UIMenuPage extends UIPage {
     };
 
     this.elements.exitBtn.onclick = () => {
-      this.eventManager.emit("game:exit", this);
-      this.eventManager.emit("game:end");
+      console.log("click exit");
     };
   }
 
   show() {
     super.show();
+    if (!this.stateManager.getIsPaused()) {
+      this.stateManager.setIsPaused(true);
+    }
     if (this.stateManager.state.game.isRunning) {
       this.elements.continueBtn.style.display = "block";
     } else this.elements.continueBtn.style.display = "none";
-  }
-
-  updateContinueButton(visible) {
-    this.elements.continueBtn.style.display = visible ? "block" : "none";
   }
 }

@@ -39,7 +39,6 @@ export class UINamePage extends UIPage {
   }
 
   handleSkip() {
-    // this.eventManager.emit(GameEvents.PLAYER_NAME_SET, this.state.player.name);
     this.eventManager.emit(GameEvents.UI_NAME_HIDE);
   }
 

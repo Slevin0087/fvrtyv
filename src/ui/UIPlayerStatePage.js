@@ -20,7 +20,7 @@ export class UIPlayerStatePage extends UIPage {
       fastestWin = "00:00";
     } else {
       const hours = Math.floor(storagePlayer.fastestWin / 3600);
-      const minutes = Math.floor(storagePlayer.fastestWin / 60);
+      const minutes = Math.floor((storagePlayer.fastestWin % 3600) / 60);
       const seconds = Math.floor(storagePlayer.fastestWin % 60);
       const formattedMinutes = minutes.toString().padStart(2, "0");
       const formattedSeconds = seconds.toString().padStart(2, "0");
@@ -31,6 +31,8 @@ export class UIPlayerStatePage extends UIPage {
         fastestWin = `${formattedMinutes}:${formattedSeconds}`;
       }
     }
+    console.log('fastestWin: ', fastestWin);
+    
     let playerName = "";
     if (statePlayer.name === "") {
       playerName = document.getElementById("player-name").placeholder;
