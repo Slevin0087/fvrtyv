@@ -123,7 +123,7 @@ export class CardMovementSystem {
 
   async openNextCardIfNeeded(source) {
     if (!source.startsWith(this.cardContainers.tableau)) return null;
-console.log('source: ', source);
+    console.log("source: ", source);
 
     const index = parseInt(source.split("-")[1]);
 
@@ -131,11 +131,7 @@ console.log('source: ', source);
     const card = tableau.getTopCard();
     if (card && !card.faceUp) {
       card.flip(true);
-      const promiseEventCardFlip = this.eventManager.emitAsync(
-        GameEvents.CARD_FLIP,
-        card
-      );
-      await promiseEventCardFlip;
+      await this.eventManager.emitAsync(GameEvents.CARD_FLIP, card);
 
       // Добавление картам событий: onpointerdown, onpointermove, onpointerup
       this.eventManager.emit(

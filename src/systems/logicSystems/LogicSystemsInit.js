@@ -119,20 +119,7 @@ export class LogicSystemsInit {
     cardMoveDuration,
   }) {
     const source = this.movementSystem.getCardSource(card);
-    // let openCard = null
-    console.log("const source: ", source);
-
     const elementFrom = this.movementSystem.getElementFrom(source);
-    if (!source.startsWith(GameConfig.cardContainers.stock)) {
-      const lastMove = [
-        {
-          card,
-          from: source,
-          to: `${containerToName}-${containerToIndex}`,
-        },
-      ];
-      this.undoSystem.updateLastMoves(lastMove);
-    }
     const cardParentFoundationElForUndo = card.parentElement;
     await Animator.animateCardMove(
       card,
@@ -182,14 +169,23 @@ export class LogicSystemsInit {
 
     await this.handleOpenCard(card, source);
 
-    if (
-      containerToName === GameConfig.cardContainers.foundation &&
-      this.state.settings.assistanceInCollection
-    ) {
-      console.log("в if (containerToName");
-
-      await this.autoCardMoveToFoundations();
+    if (!source.startsWith(GameConfig.cardContainers.stock)) {
+      const lastMove = [
+        {
+          card,
+          from: source,
+          to: `${containerToName}-${containerToIndex}`,
+        },
+      ];
+      this.undoSystem.updateLastMoves(lastMove);
     }
+
+    // if (
+    //   containerToName === GameConfig.cardContainers.foundation &&
+    //   this.state.settings.assistanceInCollection
+    // ) {
+      await this.autoCardMoveToFoundations();
+    // }
 
     if (this.winSystem.check()) {
       await this.winSystem.handleWin();
@@ -201,7 +197,6 @@ export class LogicSystemsInit {
 
     card.openCard = openCard;
     if (openCard) {
-      console.log("В if (openCard): ", card, openCard);
       const score = GameConfig.rules.scoreForCardFlip;
       this.eventManager.emit(
         GameEvents.UI_ANIMATION_POINTS_EARNED,

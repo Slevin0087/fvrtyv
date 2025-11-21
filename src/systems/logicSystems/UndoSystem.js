@@ -62,6 +62,8 @@ export class UndoSystem {
       const cardToLastMove = this.findCardToLastMove(cardData);
       // card.isUndo = true;
       cardToLastMove.isUndo = true;
+      console.log('openCardData: ', openCardData);
+      
       if (openCardData) {
         const openCardToLastMove = this.findCardToLastMove(openCardData);;
         const score = GameConfig.rules.scoreForCardFlip;
@@ -315,6 +317,8 @@ export class UndoSystem {
       const openCardData = card.openCard
         ? { suit: card.openCard.suit, value: card.openCard.value }
         : null;
+        console.log('const openCardData: ', openCardData);
+        
       return { cardData, openCardData, from, to };
     });
     this.stateManager.updateLastMoves(convertedLastMove);
