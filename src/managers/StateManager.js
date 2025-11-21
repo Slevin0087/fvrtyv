@@ -130,6 +130,7 @@ export class StateManager {
       this.setPlayerFirstCardClick(false);
       this.setIsRunning(true);
       this.setIsPaused(false);
+      console.log("после this.setIsPaused(false);", this.state.game.isPaused);
     });
 
     this.eventManager.on(GameEvents.SET_DIFFICUTY_CHANGE, (value) => {
@@ -145,8 +146,8 @@ export class StateManager {
     this.eventManager.on(GameEvents.GAME_END, () => {
       this.setIsRunning(false);
       this.resetLastMoves();
-      this.saveAllData();
       this.setIsPaused(true);
+      this.saveAllData();
     });
 
     this.eventManager.on(GameEvents.SET_GAME_PAUSE_STATUS, (boolean) => {
@@ -405,8 +406,8 @@ export class StateManager {
   // }
 
   updateLastMoves(lastMove) {
-    console.log('lastMove в StateManager:', lastMove);
-    
+    console.log("lastMove в StateManager:", lastMove);
+
     // const { source, lastMove } = params;
     // console.log("source, moveData:", source, lastMove);
 
@@ -526,12 +527,18 @@ export class StateManager {
   }
 
   setIsPaused(boolean) {
+    console.log("setIsPaused: ", boolean);
+
     this.state.game.isPaused = boolean;
   }
 
+  // getIsPaused() {
+  //   const GameStats = this.storage.getGameStats();
+  //   return GameStats.isPaused;
+  // }
+
   getIsPaused() {
-    const GameStats = this.storage.getGameStats();
-    return GameStats.isPaused;
+    return this.state.game.isPaused;
   }
 
   updateScore(points) {

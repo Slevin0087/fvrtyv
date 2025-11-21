@@ -99,6 +99,9 @@ export class LogicSystemsInit {
 
   handleCardClick(card) {
     if (this.winSystem.check()) return;
+    console.log(this.stateManager.getIsDealingCardsAnimation(),
+      this.stateManager.getIsAnimateCardFomStockToWaste());
+    
     if (
       this.stateManager.getIsDealingCardsAnimation() ||
       this.stateManager.getIsAnimateCardFomStockToWaste()
@@ -180,14 +183,12 @@ export class LogicSystemsInit {
       this.undoSystem.updateLastMoves(lastMove);
     }
 
-    // if (
-    //   containerToName === GameConfig.cardContainers.foundation &&
-    //   this.state.settings.assistanceInCollection
-    // ) {
-    if (this.state.settings.assistanceInCollection) {
+    if (
+      containerToName === GameConfig.cardContainers.foundation &&
+      this.state.settings.assistanceInCollection
+    ) {
       await this.autoCardMoveToFoundations();
     }
-    // }
 
     if (this.winSystem.check()) {
       await this.winSystem.handleWin();

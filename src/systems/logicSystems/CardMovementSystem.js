@@ -19,8 +19,11 @@ export class CardMovementSystem {
   setupEventListeners() {}
 
   async handleCardClick(card) {
+    console.log(this.stateManager.getIsPaused());
+    
     if (!card.faceUp || this.stateManager.getIsPaused()) return false;
-
+    console.log('после условий');
+    
     const gameComponents = this.state.cardsComponents;
     const usedAutoCollectCards = this.state.usedAutoCollectCards;
 

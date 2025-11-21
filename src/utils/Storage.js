@@ -144,7 +144,6 @@ export class Storage {
     this.defaultGameStats = {
       isRunning: false,
       isPaused: false,
-      // playerFirstCardClick: false,
       playTime: 0,
     };
 

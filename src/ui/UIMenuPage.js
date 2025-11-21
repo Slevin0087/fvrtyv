@@ -52,10 +52,7 @@ export class UIMenuPage extends UIPage {
 
   show() {
     super.show();
-    if (!this.stateManager.getIsPaused()) {
-      this.stateManager.setIsPaused(true);
-    }
-    if (this.stateManager.state.game.isRunning) {
+    if (this.stateManager.getIsRunning()) {
       this.elements.continueBtn.style.display = "block";
     } else this.elements.continueBtn.style.display = "none";
   }

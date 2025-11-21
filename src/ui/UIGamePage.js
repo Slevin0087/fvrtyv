@@ -96,7 +96,7 @@ export class UIGamePage extends UIPage {
       );
 
       if (!this.stateManager.getIsPaused()) {
-        this.eventManager.emit(GameEvents.SET_GAME_PAUSE_STATUS, true);
+        this.stateManager.setIsPaused(true)
         this.eventManager.emit(GameEvents.PAUSE_PLAY_TIME);
       }
       this.eventManager.emit(GameEvents.UIMENUPAGE_SHOW);
@@ -261,8 +261,12 @@ export class UIGamePage extends UIPage {
     this.modalHide(this.elements.restartGameModal);
     this.isRestartGameModalShow = false;
     this.stateManager.setIsRunning(false);
+    console.log('runn', this.stateManager.getIsPaused());
+    
     await this.eventManager.emitAsync(GameEvents.GAME_RESTART);
     this.eventManager.emit(GameEvents.RESET_STATE_FOR_NEW_GAME);
+    console.log('runn после', this.stateManager.getIsPaused());
+
     this.updateUI();
   }
 

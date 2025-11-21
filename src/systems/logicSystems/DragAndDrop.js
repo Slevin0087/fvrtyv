@@ -142,6 +142,8 @@ export class DragAndDrop {
     if (!this.currentDraggingCard) return;
     if (!this.isDragging) {
       if (!this.stateManager.state.settings.assistanceInCardClick) return;
+      console.log('в onPointerUp не драг, а клик, эмитим событие CARD_CLICK');
+      
       this.eventManager.emit(GameEvents.CARD_CLICK, this.cards[0]);
       this.resetDragState();
       return;
