@@ -184,7 +184,9 @@ export class LogicSystemsInit {
     //   containerToName === GameConfig.cardContainers.foundation &&
     //   this.state.settings.assistanceInCollection
     // ) {
+    if (this.state.settings.assistanceInCollection) {
       await this.autoCardMoveToFoundations();
+    }
     // }
 
     if (this.winSystem.check()) {
