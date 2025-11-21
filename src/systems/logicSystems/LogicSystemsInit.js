@@ -220,7 +220,7 @@ export class LogicSystemsInit {
   }
 
   async autoCardMoveToFoundations() {
-    const foundations = this.state.cardsComponents.foundations;
+    const foundations = this.stateManager.getCardsComponents().foundations;
     let foundationsNotIsEmpty = [];
     for (let foundation of foundations) {
       if (!foundation.isEmpty()) {
@@ -230,11 +230,11 @@ export class LogicSystemsInit {
 
     if (foundationsNotIsEmpty.length > 0) {
       for (let foundation of foundationsNotIsEmpty) {
-        const waste = this.state.cardsComponents.waste;
+        const waste = this.stateManager.getCardsComponents().waste;
         const wasteTopCard = waste.getTopCard();
         if (
           wasteTopCard &&
-          foundation.canAccept(wasteTopCard, this.state.cardsComponents)
+          foundation.canAccept(wasteTopCard, this.stateManager.getCardsComponents())
         ) {
           await this.handleCardMove({
             card: wasteTopCard,
@@ -244,12 +244,12 @@ export class LogicSystemsInit {
           });
         } else {
           console.log("!wasteTopCard");
-          const tableaus = this.state.cardsComponents.tableaus;
+          const tableaus = this.stateManager.getCardsComponents().tableaus;
           for (let tableau of tableaus) {
             const tableauTopCard = tableau.getTopCard();
             if (
               tableauTopCard &&
-              foundation.canAccept(tableauTopCard, this.state.cardsComponents)
+              foundation.canAccept(tableauTopCard, this.stateManager.getCardsComponents())
             ) {
               await this.handleCardMove({
                 card: tableauTopCard,
@@ -266,7 +266,7 @@ export class LogicSystemsInit {
 
   async cardsCollect() {
     this.stateManager.setUsedAutoCollectCards(true);
-    const { tableaus, stock, waste } = this.state.cardsComponents;
+    const { tableaus, stock, waste } = this.stateManager.getCardsComponents();
     await this.autoCollectCards(tableaus, stock, waste);
     this.stateManager.setUsedAutoCollectCards(false);
   }
@@ -275,7 +275,7 @@ export class LogicSystemsInit {
     // Проверяем условие выхода
     if (this.winSystem.check()) return;
     else {
-      const gameComponents = this.state.cardsComponents;
+      const gameComponents = this.stateManager.getCardsComponents();
       for (const tableau of tableaus) {
         if (tableau.cards.length > 0) {
           const card = tableau.cards[tableau.cards.length - 1];

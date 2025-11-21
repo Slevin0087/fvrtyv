@@ -148,6 +148,7 @@ export class Storage {
     };
 
     this.defaultSettingsStats = {
+      musicEnabled: false,
       soundEnabled: false,
       assistanceInCollection: false,
       assistanceInCardClick: true,

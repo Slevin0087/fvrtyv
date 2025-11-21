@@ -24,6 +24,7 @@ export const Translations = {
       //   settinsGame: {
       setting_title: "Settings",
       music_volume: "Volume:",
+      span_music_off_in: "Music:",
       span_sound_off_in: "Sounds:",
       c_setting_item: "Complexity:",
       option_easy: "Easy",
@@ -150,6 +151,7 @@ export const Translations = {
       //   settinsGame: {
       setting_title: "Настройки",
       music_volume: "Громкость:",
+      span_music_off_in: "Музыка:",
       span_sound_off_in: "Звуки:",
       c_setting_item: "Сложность:",
       option_easy: "Лёгкая",
@@ -290,6 +292,7 @@ export const Translations = {
       //   settinsGame: {
       setting_title: "Анырг|алра",
       music_volume: "Абжьы акъару:",
+      span_music_off_in: "Ауарад:",
       span_sound_off_in: "Абыжьква:",
       c_setting_item: "Абаргвыра:",
       option_easy: "Майра",
@@ -431,6 +434,7 @@ export const Translations = {
       //   settinsGame: {
       setting_title: "Ayarlar",
       music_volume: "Hacim:",
+      span_music_off_in: "Müzik:",
       span_sound_off_in: "Sesler:",
       c_setting_item: "Karmaşıklık:",
       option_easy: "Işık",

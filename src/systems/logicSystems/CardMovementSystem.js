@@ -24,7 +24,7 @@ export class CardMovementSystem {
     if (!card.faceUp || this.stateManager.getIsPaused()) return false;
     console.log('после условий');
     
-    const gameComponents = this.state.cardsComponents;
+    const gameComponents = this.stateManager.getCardsComponents();
     const usedAutoCollectCards = this.state.usedAutoCollectCards;
 
     // Проверка foundation
@@ -99,14 +99,14 @@ export class CardMovementSystem {
   getElementFrom(source) {
     if (source.startsWith(this.cardContainers.tableau)) {
       const index = parseInt(source.split("-")[1]);
-      return this.state.cardsComponents.tableaus[index];
+      return this.stateManager.getCardsComponents().tableaus[index];
     } else if (source.startsWith(this.cardContainers.foundation)) {
       const index = parseInt(source.split("-")[1]);
-      return this.state.cardsComponents.foundations[index];
+      return this.stateManager.getCardsComponents().foundations[index];
     } else if (source.startsWith(this.cardContainers.stock)) {
-      return this.state.cardsComponents.stock;
+      return this.stateManager.getCardsComponents().stock;
     } else if (source.startsWith(this.cardContainers.waste)) {
-      return this.state.cardsComponents.waste;
+      return this.stateManager.getCardsComponents().waste;
     }
   }
 
@@ -130,7 +130,7 @@ export class CardMovementSystem {
 
     const index = parseInt(source.split("-")[1]);
 
-    const tableau = this.state.cardsComponents.tableaus[index];
+    const tableau = this.stateManager.getCardsComponents().tableaus[index];
     const card = tableau.getTopCard();
     if (card && !card.faceUp) {
       card.flip(true);

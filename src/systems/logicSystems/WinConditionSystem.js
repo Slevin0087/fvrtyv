@@ -1,8 +1,6 @@
 import { GameEvents, AnimationOperators } from "../../utils/Constants.js";
 import { GameConfig } from "../../configs/GameConfig.js";
 import { AudioName } from "../../utils/Constants.js";
-import { UIConfig } from "../../configs/UIConfig.js";
-import { Animator } from "../../utils/Animator.js";
 
 export class WinConditionSystem {
   constructor(eventManager, stateManager, audioManager, translator) {
@@ -37,7 +35,7 @@ export class WinConditionSystem {
   async handleWin() {
     console.log("В HANDLEWIIIIIIIIIIIIIIIIN");
 
-    if (this.state.isAutoCollectBtnShow) {
+    if (this.stateManager.getIsAutoCollectBtnShow()) {
       this.eventManager.emit(GameEvents.COLLECT_BTN_HIDDEN);
     }
 
@@ -88,22 +86,22 @@ export class WinConditionSystem {
     );
 
     // Проверяем без подсказок ли победа
-    if (this.state.game.hintsUsed === 0) {
+    if (this.stateManager.getHintsUsed() === 0) {
       this.stateManager.incrementStat(this.textWinsWithoutHints);
     }
 
     // Проверяем быструю победу, время меньше ли чем в прошлый раз
-    if (this.state.game.playTime < this.state.player.fastestWin) {
-      this.state.player.fastestWin = this.state.game.playTime;
+    if (this.stateManager.getTime() < this.stateManager.getFastestWin()) {
+      this.stateManager.setFastestWin(this.stateManager.getTime());
     }
 
     // Проверяем количество ходов, меньше ли чем в прошлый раз
-    if (this.state.game.moves < this.state.game.minPossibleMoves) {
-      this.state.game.minPossibleMoves = this.state.game.moves;
+    if (this.stateManager.getMoves() < this.stateManager.getMinPossibleMoves()) {
+      this.stateManager.setMinPossibleMoves(this.stateManager.getMoves());
     }
 
     // // Проверяется без отмен хода ли победа
-    if (this.state.game.undoUsed === 0) {
+    if (this.stateManager.getUndoUsed() === 0) {
       this.stateManager.incrementStat(this.textWinsWithoutUndo);
     }
   }

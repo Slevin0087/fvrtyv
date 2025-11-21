@@ -29,7 +29,7 @@ export class CardsManager {
       stock: new Stock(),
       // waste: new Waste(),
     };
-    this.eventManager.emit(GameEvents.SET_CARDS_COMPONENTS, this.components);
+    this.stateManager.setCardsComponents(this.components)
   }
 
   registerSystems() {

@@ -8,6 +8,7 @@ export class UISettingsPage extends UIPage {
     this.translator = translator;
     this.elements = {
       backBtn: document.getElementById("back-to-menu"),
+      musicToggle: document.getElementById("music-toggle"),
       soundToggle: document.getElementById("sound-toggle"),
       assistanceInCollection: document.getElementById(
         "assistance-in-collection"
@@ -44,6 +45,10 @@ export class UISettingsPage extends UIPage {
   setupEventListeners() {
     super.setupEventListeners();
 
+    this.elements.musicToggle.onchange = (e) => {
+      this.eventManager.emit(GameEvents.SET_MUSIC_TOGGLE, e.target.checked);
+    };
+
     this.elements.soundToggle.onchange = (e) => {
       this.eventManager.emit(GameEvents.SET_SOUND_TOGGLE, e.target.checked);
     };
@@ -62,13 +67,13 @@ export class UISettingsPage extends UIPage {
       );
     };
 
-    // this.elements.difficultySelect.onchange = (e) => {
-    //   this.eventManager.emit(GameEvents.SET_DIFFICUTY_CHANGE, e.target.value);
-    // };
+    this.elements.languageSelected.onchange = (e) => {
+      this.onChangeLanguage(e);
+    };
 
-    this.elements.languageSelected.onchange = (e) => this.onChangeLanguage(e);
-
-    this.elements.musicVolume.oninput = (e) => this.onInputMusicVolume(e);
+    this.elements.musicVolume.oninput = (e) => {
+      this.onInputMusicVolume(e);
+    };
 
     this.setEventsDealingCardsBtns();
     // this.elements.dealingCardsOne.onchange = (e) =>
@@ -84,12 +89,10 @@ export class UISettingsPage extends UIPage {
   }
 
   onChangeDealingCards(e) {
-    if (
-      e.target.value === String(this.stateManager.state.player.dealingCards)
-    ) {
+    if (e.target.value === String(this.stateManager.getDealingCards())) {
       return;
     }
-    if (!this.stateManager.state.player.isDontShowAgainDealingCardsModal) {
+    if (!this.stateManager.getIsDontShowAgainDealingCardsModal()) {
       if (e.target) {
         console.log("Больше не показывать модуль dealingCardsModal IF");
         const value = Number(e.target.value);
@@ -107,9 +110,7 @@ export class UISettingsPage extends UIPage {
           this.onClickDealingCardsModalItsClear(value);
       }
       return;
-    } else if (
-      this.stateManager.state.player.isDontShowAgainDealingCardsModal
-    ) {
+    } else if (this.stateManager.getIsDontShowAgainDealingCardsModal()) {
       console.log("Больше не показывать модуль dealingCardsModal ELSE");
 
       if (e.target) {
@@ -129,7 +130,7 @@ export class UISettingsPage extends UIPage {
   }
 
   onClickDealingCardsModalDontShowAgain(boolean) {
-    this.stateManager.setdontShowAgainDealingCardsModal(boolean);
+    this.stateManager.setIsDontShowAgainDealingCardsModal(boolean);
     this.elements.dealingCardsModal.classList.add("hidden");
   }
 
@@ -236,15 +237,14 @@ export class UISettingsPage extends UIPage {
   }
 
   render() {
-    const settings = this.state.settings;
-    this.elements.soundToggle.checked = settings.soundEnabled;
+    this.elements.musicToggle.checked = this.stateManager.getMusicEnabled();
+    this.elements.soundToggle.checked = this.stateManager.getSoundEnabled();
     this.elements.assistanceInCollection.checked =
-      settings.assistanceInCollection;
+      this.stateManager.getAssistanceInCollection();
     this.elements.assistanceInCardClick.checked =
-      settings.assistanceInCardClick;
-    // this.elements.difficultySelect.value = settings.difficulty;
-    this.elements.languageSelected.value = settings.language;
-    this.elements.musicVolume.value = settings.musicVolume * 100;
+      this.stateManager.getAssistanceInCardClick();
+    this.elements.languageSelected.value = this.stateManager.getLanguage();
+    this.elements.musicVolume.value = this.stateManager.getMusicVolume() * 100;
     this.setPropertyStyleVolume(this.elements.musicVolume);
     this.setActiveDealingCardsBtns();
   }
@@ -256,7 +256,7 @@ export class UISettingsPage extends UIPage {
 
   setActiveDealingCardsBtns() {
     Object.values(this.elements.dealingCardsBtns).forEach((btn) => {
-      if (btn.value === String(this.stateManager.state.player.dealingCards)) {
+      if (btn.value === String(this.stateManager.getDealingCards())) {
         btn.classList.add("active-dealing-cards-btn");
         btn.disabled = true;
       } else {

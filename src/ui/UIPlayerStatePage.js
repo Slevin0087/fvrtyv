@@ -13,6 +13,7 @@ export class UIPlayerStatePage extends UIPage {
   render() {
     const statePlayer = this.state.player;
     const stateGame = this.state.game;
+    const stateForAchievements = this.state.stateForAchievements;
     const storagePlayer = this.stateManager.storage.getPlayerStats();
     console.log("storagePlayer.fastestWin: ", storagePlayer.fastestWin);
     let fastestWin = "";
@@ -76,7 +77,7 @@ export class UIPlayerStatePage extends UIPage {
       </div>
       <div class='wrap-line'>
         <dt class="left-td" data-i18n="player_state_moves">Ходов за игру:</dt>
-        <dd class="right-td">${stateGame.moves}</dd>
+        <dd class="right-td">${stateForAchievements.moves}</dd>
       </div>
       <div class='wrap-line'>
         <dt class="left-td" data-i18n="all_player_state_moves">Ходов за всё время:</dt>

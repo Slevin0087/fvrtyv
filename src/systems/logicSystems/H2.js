@@ -211,7 +211,6 @@ export class H2 {
 
   getFoundationToTableauHints(tableauCard, fromTableau, foundation) {
     const hints = [];
-    // const foundations = this.stateManager.state.cardsComponents.foundations;
     // for (const foundation of foundations) {
     const foundationСards = foundation.cards;
     for (const foundationСard of foundationСards) {
@@ -281,7 +280,7 @@ export class H2 {
     tableauCard
   ) {
     const hints = [];
-    const tableaus = this.stateManager.state.cardsComponents.tableaus;
+    const tableaus = this.stateManager.getCardsComponents().tableaus;
     for (const tableau of tableaus) {
       if (tableau !== fromTableau && tableau.canAccept(foundationCard)) {
         hints.push(
@@ -310,7 +309,7 @@ export class H2 {
 
   tryMoveNonTopFoundationCard(foundation, fromTableau, tableauCard) {
     const hints = [];
-    const tableaus = this.stateManager.state.cardsComponents.tableaus;
+    const tableaus = this.stateManager.getCardsComponents().tableaus;
     const foundationTopCards = foundation.getTopCardsToHints(card);
     const hintsToTopCards = [];
     let toContainer = null;
@@ -445,7 +444,7 @@ export class H2 {
   // Получить все открытые карты, которые блокируют закрытые
   getAllBlockedOpenCards() {
     const blockedCards = [];
-    const tableaus = this.stateManager.state.cardsComponents.tableaus;
+    const tableaus = this.stateManager.getCardsComponents().tableaus;
 
     tableaus.forEach((tableau) => {
       const cards = tableau.cards || [];
@@ -487,7 +486,7 @@ export class H2 {
   getSimilarInValueAndColorCard(firstCard, fromContainer) {
     console.log("firstCard: ", firstCard);
 
-    const tableaus = this.stateManager.state.cardsComponents.tableaus;
+    const tableaus = this.stateManager.getCardsComponents().tableaus;
 
     for (const tableau of tableaus) {
       if (tableau.cards.length === 0) continue;
@@ -539,11 +538,11 @@ export class H2 {
         description: `Переместить ${card} в другой столбец чтобы освободить скрытые карты`,
       }));
     } else {
-      const waste = this.stateManager.state.cardsComponents.waste;
+      const waste = this.stateManager.getCardsComponents().waste;
       if (fromContainer !== waste) {
         const wasteTopCard = waste.getTopCard();
         if (wasteTopCard && this.isSuitableCardToTableau(card, wasteTopCard)) {
-          for (const tableau of this.stateManager.state.cardsComponents
+          for (const tableau of this.stateManager.getCardsComponents()
             .tableaus) {
             if (tableau.canAccept(wasteTopCard)) {
               hints.push(
@@ -578,7 +577,7 @@ export class H2 {
   // Проверить перемещение в foundations
   checkFoundationMove(card, fromContainer, nextCards = []) {
     const hints = [];
-    const cardsComponents = this.stateManager.state.cardsComponents;
+    const cardsComponents = this.stateManager.getCardsComponents();
     for (const foundation of cardsComponents.foundations) {
       if (foundation.canAccept(card, cardsComponents)) {
         hints.push(
@@ -640,7 +639,7 @@ export class H2 {
   // Проверить перемещение в другой tableau
   checkTableauMove(card, fromContainer, nextCards) {
     const hints = [];
-    const tableaus = this.stateManager.state.cardsComponents.tableaus;
+    const tableaus = this.stateManager.getCardsComponents().tableaus;
 
     for (const tableau of tableaus) {
       if (tableau.canAccept(card) && tableau !== fromContainer) {
@@ -683,13 +682,13 @@ export class H2 {
   }
 
   findSuitableFoundations(card) {
-    const foundations = this.stateManager.state.cardsComponents.foundations;
+    const foundations = this.stateManager.getCardsComponents().foundations;
     return foundations.find((foundation) => foundation.canAcceptForHints(card));
   }
 
   getHintsToCardFromWaste() {
     const hints = [];
-    const waste = this.stateManager.state.cardsComponents.waste;
+    const waste = this.stateManager.getCardsComponents().waste;
     const card = waste.getTopCard();
     if (!card) return [];
     // Проверяем все возможные ходы для этой карты
@@ -700,10 +699,10 @@ export class H2 {
 
   getHintsFromWasteToTableau(fromCard, fromContainer, nextCards) {
     const hints = [];
-    const waste = this.stateManager.state.cardsComponents.waste;
+    const waste = this.stateManager.getCardsComponents().waste;
     const wasteTopCard = waste.getTopCard();
     if (wasteTopCard && this.isSuitableCardToTableau(fromCard, wasteTopCard)) {
-      for (const tableau of this.stateManager.state.cardsComponents.tableaus) {
+      for (const tableau of this.stateManager.getCardsComponents().tableaus) {
         if (tableau.canAccept(wasteTopCard)) {
           hints.push(
             this.createHint(
@@ -739,7 +738,7 @@ export class H2 {
 
   getAllBlockedCardsToFreeUpSpace() {
     const blockedCards = [];
-    const tableaus = this.stateManager.state.cardsComponents.tableaus;
+    const tableaus = this.stateManager.getCardsComponents().tableaus;
 
     const firstCardValueKingTableaus = tableaus.filter((tableau) => {
       return tableau.cards[0]?.value === this.cardVAlueKing;
@@ -786,7 +785,7 @@ export class H2 {
     const hints = [];
 
     // Подсказка открыть новую карту
-    const stock = this.stateManager.state.cardsComponents.stock;
+    const stock = this.stateManager.getCardsComponents().stock;
     if (stock && stock.cards && stock.cards.length > 0) {
       hints.push(
         this.createHint(
@@ -805,8 +804,8 @@ export class H2 {
   getStockAndWasteHints() {
     const hints = [];
 
-    const stock = this.stateManager.state.cardsComponents.stock;
-    const waste = this.stateManager.state.cardsComponents.waste;
+    const stock = this.stateManager.getCardsComponents().stock;
+    const waste = this.stateManager.getCardsComponents().waste;
 
     if (stock.isEmpty() < 0 && waste.isEmpty()) {
       return [];
@@ -839,7 +838,7 @@ export class H2 {
 
   getAllHintsToFoundations(fromCard, fromContainer, nextCards) {
     const hints = [];
-    const cardsComponents = this.stateManager.state.cardsComponents;
+    const cardsComponents = this.stateManager.getCardsComponents();
     for (const foundation of cardsComponents.foundations) {
       const toFoundationOrCard = foundation.isEmpty()
         ? foundation

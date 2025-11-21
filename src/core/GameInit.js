@@ -97,27 +97,27 @@ export class GameInit {
   }
 
   setupEventListeners() {
-    this.fullScreenBtn.onclick = (e) =>
+    this.fullScreenBtn.onclick = (e) => {
       this.eventManager.emit(GameEvents.FULL_SCREEN_BTN, e);
+    };
     this.eventManager.onAsync(GameEvents.SET_NEW_GAME, async () => {
       await this.setGame();
     });
-    this.eventManager.onAsync(
-      GameEvents.GAME_RESTART,
-      async () => await this.gameRestart()
-    );
-    this.eventManager.on(GameEvents.START_PLAY_TIME, (time) =>
-      this.startTimeInterval(time)
-    );
-    this.eventManager.on(GameEvents.STOP_PLAY_TIME, () =>
-      this.stopTimeInterval()
-    );
-    this.eventManager.on(GameEvents.PAUSE_PLAY_TIME, () =>
-      this.pauseTimeInterval()
-    );
-    this.eventManager.on(GameEvents.CONTINUE_PLAY_TIME, () =>
-      this.continueTimeInterval()
-    );
+    this.eventManager.onAsync(GameEvents.GAME_RESTART, async () => {
+      await this.gameRestart();
+    });
+    this.eventManager.on(GameEvents.START_PLAY_TIME, (time) => {
+      this.startTimeInterval(time);
+    });
+    this.eventManager.on(GameEvents.STOP_PLAY_TIME, () => {
+      this.stopTimeInterval();
+    });
+    this.eventManager.on(GameEvents.PAUSE_PLAY_TIME, () => {
+      this.pauseTimeInterval();
+    });
+    this.eventManager.on(GameEvents.CONTINUE_PLAY_TIME, () => {
+      this.continueTimeInterval();
+    });
   }
 
   pauseTimeInterval() {
@@ -125,7 +125,7 @@ export class GameInit {
     this.updatePauseAndStopTime(Date.now());
   }
 
-  continueTimeInterval() {   
+  continueTimeInterval() {
     const pausedDuration = Date.now() - this.pauseAndStopTime;
     this.updateStartTime(this.startTime + pausedDuration);
     this.startTimeInterval(this.startTime);
@@ -141,7 +141,7 @@ export class GameInit {
     }, 100); // Обновление каждые 100мс (10 FPS)
   }
 
-  stopTimeInterval() {    
+  stopTimeInterval() {
     if (this.timeInterval) {
       clearInterval(this.timeInterval);
       this.setTimeInterval(null);
@@ -156,23 +156,24 @@ export class GameInit {
 
   async setGame() {
     this.cardsSystem.setCardsContainers();
+    const cardsComponents = this.stateManager.getCardsComponents()
     this.gameSetupSystem.setCards(
-      this.cardsSystem.deck,
-      this.cardsSystem.stock
+      cardsComponents.deck,
+      cardsComponents.stock
     );
 
     this.renderStaticElements.render(
-      this.cardsSystem.foundations,
-      this.cardsSystem.tableaus
+      cardsComponents.foundations,
+      cardsComponents.tableaus
     );
 
     this.renderStockElement.render(
-      this.cardsSystem.stock,
-      this.cardsSystem.waste
+      cardsComponents.stock,
+      cardsComponents.waste
     );
     await this.gameSetupSystem.dealTableauCards(
-      this.cardsSystem.stock,
-      this.cardsSystem.tableaus
+      cardsComponents.stock,
+      cardsComponents.tableaus
     );
   }
 

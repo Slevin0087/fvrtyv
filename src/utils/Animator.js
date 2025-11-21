@@ -376,10 +376,6 @@ export class Animator {
     h4.textContent = h4TextContent;
     div.className = "info-ach";
     div.id = "ach-info";
-    // div.innerHTML = `
-    //   <span class="ach-info-span-black">${title}:${" "}</span>
-    //   <span class="ach-info-span-title-description" id="ach-info-span">${description}</span>`;
-    // setTimeout(() => {
     div.innerHTML = `
         <span class="ach-info-span-black">${spanRedStart}:${" "}</span>
         <span class="ach-info-span-yellow" id="ach-info-span">${reward}x${dealingCards}${" "}</span>
@@ -388,7 +384,6 @@ export class Animator {
       domElementTop.innerHTML = "";
       domElementBottom.innerHTML = "";
     }, duration / 2);
-    // }, duration / 2);
   }
 
   static animationSpansAch(spanElement, deltaX, deltaY, duration, n = 3) {

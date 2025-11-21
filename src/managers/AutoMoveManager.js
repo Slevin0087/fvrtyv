@@ -32,13 +32,13 @@ export class AutoMoveManager {
     try {
       let nextCard = null;
       let fromTableau = null;
-      const tableaus = this.state.cardsComponents.tableaus;
+      const tableaus = this.stateManager.getCardsComponents().tableaus;
 
       for (let tableau of tableaus) {
         const tableauTopCard = tableau.getTopCard();
         if (
           tableauTopCard &&
-          foundation.canAccept(tableauTopCard, this.state.cardsComponents)
+          foundation.canAccept(tableauTopCard, this.stateManager.getCardsComponents())
         ) {
           nextCard = tableauTopCard;
           fromTableau = tableau;
@@ -79,7 +79,7 @@ export class AutoMoveManager {
         // Ищем карту в столбцах
         const cardInTableaus = this.findCardInTableaus(
           card,
-          this.state.cardsComponents
+          this.stateManager.getCardsComponents()
         );
         if (cardInTableaus && this.canAutoMoveFromTableau(cardInTableaus)) {
           resolve(cardInTableaus);

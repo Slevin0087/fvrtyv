@@ -85,7 +85,7 @@ export class DragAndDrop {
   onPointerDown(event) {
     // console.log("ЗАХОД В onPointerDown");
 
-    if (this.state.cardsComponents.foundations.every((f) => f.isComplete()))
+    if (this.stateManager.getCardsComponents().foundations.every((f) => f.isComplete()))
       return;
     if (this.stateManager.getIsAnimateCardFomStockToWaste()) return;
     const { target, x, y } = event;
@@ -102,7 +102,7 @@ export class DragAndDrop {
     // this.currentDraggingCard = target;
     this.currentDraggingCardSource =
       this.currentDraggingCard.dataset[this.dataCardParent];
-    this.gameComponents = this.state.cardsComponents;
+    this.gameComponents = this.stateManager.getCardsComponents();
     this.cards = this.getCards(
       this.currentDraggingCardSource,
       this.gameComponents
@@ -460,7 +460,7 @@ export class DragAndDrop {
           this.scoringSystem.addPoints(-score);
       }
 
-      if (this.state.cardsComponents.foundations.every((f) => f.isComplete())) {
+      if (this.stateManager.getCardsComponents().foundations.every((f) => f.isComplete())) {
         this.eventManager.on(GameEvents.HANDLE_WIN);
       }
 

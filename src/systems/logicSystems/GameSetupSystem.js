@@ -1,6 +1,5 @@
 import { GameEvents, AnimationDurations } from "../../utils/Constants.js";
 import { UIConfig } from "../../configs/UIConfig.js";
-import { GameConfig } from "../../configs/GameConfig.js";
 import { Animator } from "../../utils/Animator.js";
 
 export class GameSetupSystem {
@@ -37,12 +36,10 @@ export class GameSetupSystem {
   setCards(deck, stock) {
     deck.reset();
     const stockCards = [];
-    this.state.faceDownCards = [];
+    this.stateManager.resetFaceDownCards();
 
     while (!deck.isEmpty()) {
       const card = deck.deal();
-      console.log('while card: ', card);
-      
       stockCards.push(card);
     }
     stock.addCards(stockCards);
@@ -65,7 +62,6 @@ export class GameSetupSystem {
       if (isFaceUp) card.flip(true);
       await this.animateCardMove(card, tableau);
       if (isFaceUp) {
-
         await this.flipCard(card);
         // Добавление картам событий: onpointerdown, onpointermove, onpointerup
         this.eventManager.emit(

@@ -11,8 +11,8 @@ export class WasteSystem {
   async upTopThreeCards() {
     console.log('upTopThreeCards');
     
-    const waste = this.stateManager.state.cardsComponents.waste;
-    const stock = this.stateManager.state.cardsComponents.stock;
+    const waste = this.stateManager.getCardsComponents().waste;
+    const stock = this.stateManager.getCardsComponents().stock;
     if (stock.stockCardPosition < 0 && waste.isEmpty()) {
       stock.element.querySelector(".stock-span").textContent = "";
     }

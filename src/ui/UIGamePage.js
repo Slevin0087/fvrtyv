@@ -10,6 +10,7 @@ export class UIGamePage extends UIPage {
     this.state = stateManager.state;
     this.translator = translator;
     this.countHintUsedForIncrement = PlayerConfigs.hint.countUsedForIncrement;
+    this.countHintUsedForDecrement = PlayerConfigs.hint.countUsedForDecrement;
     this.elements = {
       messageEl: document.getElementById("message"),
       scoreEl: document.getElementById("points-in-game"),
@@ -90,13 +91,8 @@ export class UIGamePage extends UIPage {
 
     this.elements.menuBtn.onclick = () => {
       if (!this.stateManager.getIsRunning()) return;
-      console.log(
-        "this.stateManager.getIsPaused(): ",
-        this.stateManager.getIsPaused()
-      );
-
       if (!this.stateManager.getIsPaused()) {
-        this.stateManager.setIsPaused(true)
+        this.stateManager.setIsPaused(true);
         this.eventManager.emit(GameEvents.PAUSE_PLAY_TIME);
       }
       this.eventManager.emit(GameEvents.UIMENUPAGE_SHOW);
@@ -261,11 +257,11 @@ export class UIGamePage extends UIPage {
     this.modalHide(this.elements.restartGameModal);
     this.isRestartGameModalShow = false;
     this.stateManager.setIsRunning(false);
-    console.log('runn', this.stateManager.getIsPaused());
-    
+    console.log("runn", this.stateManager.getIsPaused());
+
     await this.eventManager.emitAsync(GameEvents.GAME_RESTART);
     this.eventManager.emit(GameEvents.RESET_STATE_FOR_NEW_GAME);
-    console.log('runn после', this.stateManager.getIsPaused());
+    console.log("runn после", this.stateManager.getIsPaused());
 
     this.updateUI();
   }
@@ -488,20 +484,14 @@ export class UIGamePage extends UIPage {
     this.elements.controlBtnsContainer.append(btn);
   }
 
-  getModalData(data) {
-    console.log("в getModalData(data): ", data);
-
-    return data;
-  }
-
   hintUsed() {
     if (!this.stateManager.getNeedVideoForHints()) {
       // временное if, для теста, потом убрать
-      this.state.hintCounterState -= 1;
-      this.upHintCounter(this.state.hintCounterState);
+      this.stateManager.decrementHintCounterState(this.countHintUsedForDecrement);
+      this.upHintCounter(this.stateManager.getHintCounterState());
     }
     this.stateManager.incrementHintUsed(this.countHintUsedForIncrement);
-    this.eventManager.emit(GameEvents.UP_HITUSED_STATE, 1);
+    this.eventManager.emit(GameEvents.UP_HITUSED_STATE, this.countHintUsedForIncrement);
   }
 
   hintNotif(dataI18n) {

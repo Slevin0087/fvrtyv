@@ -1,5 +1,8 @@
 import { GameEvents } from "../../utils/Constants.js";
-import { currency, AchievementsConfig } from "../../configs/AchievementsConfig.js";
+import {
+  currency,
+  AchievementsConfig,
+} from "../../configs/AchievementsConfig.js";
 import { Animator } from "../../utils/Animator.js";
 
 export class AchievementSystem {
@@ -9,7 +12,7 @@ export class AchievementSystem {
     this.state = this.stateManager.state;
     this.storage = storage;
     // this.achievements = this.loadAchievements();
-    this.translator = translator
+    this.translator = translator;
     this.achievements = AchievementsConfig;
     this.isAchShow = false;
     this.showAchsQueue = [];
@@ -169,9 +172,6 @@ export class AchievementSystem {
     const showAchievement = async () => {
       this.isAchShow = true;
 
-      // state.unlocked.push(a.id);
-      // this.setActiveAchievement(state, a, statePlayer);
-      // this.storage.setPlayerStats(state);
       const scoreEl = document.getElementById("points-in-game");
       const notifDivTop = document.getElementById("notif-div-top");
       const notifDivBottom = document.getElementById("notif-div-bottom");
@@ -179,8 +179,10 @@ export class AchievementSystem {
       const shows = [];
       shows.push(
         new Promise((resolve) => {
-          const { h4TextContent, spanRedStart } = this.translator.tAchOther(a.icon)
-          const currency = this.translator.tAch(a.id, 'currency')
+          const { h4TextContent, spanRedStart } = this.translator.tAchOther(
+            a.icon
+          );
+          const currency = this.translator.tAch(a.id, "currency");
           Animator.animationTextAchievement(
             notifDivTop,
             notifDivBottom,
@@ -197,14 +199,16 @@ export class AchievementSystem {
           setTimeout(resolve, 3000); // 5000ms + 500ms buffer
         })
       );
-      shows.push(
-        new Promise((resolve) => {
-          this.eventManager.emit(GameEvents.UP_ACHIEVENT_ICON, true);
+      if (a.life === "one") {
+        shows.push(
+          new Promise((resolve) => {
+            this.eventManager.emit(GameEvents.UP_ACHIEVENT_ICON, true);
 
-          Animator.animateAchievementText(achievementsIconEl);
-          setTimeout(resolve, 2500); // duration анимации + buffer
-        })
-      );
+            Animator.animateAchievementText(achievementsIconEl);
+            setTimeout(resolve, 2500); // duration анимации + buffer
+          })
+        );
+      }
       if (a.currency === currency.SCORE) {
         console.log("вввввввввввввв iiiiiiiiiiiiiiiiifffffffffffffffff");
         this.eventManager.emit(GameEvents.ADD_POINTS, a.reward);
@@ -220,7 +224,7 @@ export class AchievementSystem {
 
       await Promise.all(shows);
       console.log("после промисОлл");
-      this.eventManager.emit(GameEvents.CREAT_ELEMENT_FOR_HIGHEST_SCORE)
+      this.eventManager.emit(GameEvents.CREAT_ELEMENT_FOR_HIGHEST_SCORE);
       this.isAchShow = false;
       this.processQueue();
     };

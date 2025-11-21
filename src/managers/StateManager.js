@@ -1,6 +1,5 @@
 import { GameEvents } from "../utils/Constants.js";
 import { GameConfig } from "../configs/GameConfig.js";
-import { achType, achCheckName } from "../configs/AchievementsConfig.js";
 
 export class StateManager {
   constructor(eventManager, storage) {
@@ -23,17 +22,18 @@ export class StateManager {
 
   getInitialState() {
     return {
-      stateForAchievements: {
-        fastestWin: 0,
-        moves: 0,
-        score: 0,
-        winsWithoutHints: 0,
-        winsWithoutUndo: 0,
-        minPossibleMoves: Infinity,
-        unlockedMany: [],
-        activeId: "",
-        active: {},
-      },
+      stateForAchievements: GameConfig.stateForAchievements,
+      // {
+      //   fastestWin: 0,
+      //   moves: 0,
+      //   score: 0,
+      //   winsWithoutHints: 0,
+      //   winsWithoutUndo: 0,
+      //   minPossibleMoves: Infinity,
+      //   unlockedMany: [],
+      //   activeId: "",
+      //   active: {},
+      // },
       cardsComponents: null,
       faceDownCards: [],
       modalsState: {
@@ -71,29 +71,19 @@ export class StateManager {
     });
 
     this.eventManager.on(GameEvents.INCREMENT_COINS, (coins) => {
-      this.state.player.coins += coins;
+      this.incrementCoins(coins);
       this.savePlayerStats();
     });
 
     this.eventManager.on(GameEvents.DECREMENT_COINS, (coins) => {
-      this.state.player.coins -= coins;
+      this.decrementCoins(coins);
       this.savePlayerStats();
     });
 
-    this.eventManager.on(
-      GameEvents.SET_ACTIV_PAGE,
-      (page) => (this.state.ui.activePage = page)
-    );
-
-    this.eventManager.on(
-      GameEvents.SET_CURRENT_GAME,
-      (currentGame) => (this.state.currentGame = currentGame)
-    );
-
-    this.eventManager.on(
-      GameEvents.SET_CARDS_COMPONENTS,
-      (components) => (this.state.cardsComponents = components)
-    );
+    // this.eventManager.on(
+    //   GameEvents.SET_CARDS_COMPONENTS,
+    //   (components) => (this.state.cardsComponents = components)
+    // );
 
     this.eventManager.on(GameEvents.GAME_NEW, () => {
       this.setIsRunning(true);
@@ -130,16 +120,10 @@ export class StateManager {
       this.setPlayerFirstCardClick(false);
       this.setIsRunning(true);
       this.setIsPaused(false);
-      console.log("после this.setIsPaused(false);", this.state.game.isPaused);
-    });
-
-    this.eventManager.on(GameEvents.SET_DIFFICUTY_CHANGE, (value) => {
-      this.state.settings.difficulty = value;
-      this.saveGameSettings();
     });
 
     this.eventManager.on(GameEvents.SET_LANGUAGE_CHANGE, (value) => {
-      this.state.settings.language = value;
+      this.setLanguage(value);
       this.saveGameSettings();
     });
 
@@ -160,22 +144,27 @@ export class StateManager {
     });
 
     this.eventManager.on(GameEvents.SET_SOUND_TOGGLE, (enabled) => {
-      this.state.settings.soundEnabled = enabled;
+      this.setSoundEnabled(enabled);
+      this.saveGameSettings();
+    });
+
+    this.eventManager.on(GameEvents.SET_MUSIC_TOGGLE, (enabled) => {
+      this.setMusicEnabled(enabled);
       this.saveGameSettings();
     });
 
     this.eventManager.on(GameEvents.SET_ASSISTANCE_IN_COLLECTION, (enabled) => {
-      this.state.settings.assistanceInCollection = enabled;
+      this.setAssistanceInCollection(enabled);
       this.saveGameSettings();
     });
 
     this.eventManager.on(GameEvents.SET_ASSISTANCE_IN_CARD_CLICK, (enabled) => {
-      this.state.settings.assistanceInCardClick = enabled;
+      this.setAssistanceInCardClick(enabled);
       this.saveGameSettings();
     });
 
     this.eventManager.on(GameEvents.SET_MUSIC_VOLUME, (value) => {
-      this.state.settings.musicVolume = value;
+      this.setMusicVolume(value);
       this.saveGameSettings();
     });
 
@@ -194,7 +183,7 @@ export class StateManager {
     );
 
     this.eventManager.on(GameEvents.SET_DEALING_CARDS, (value) => {
-      this.state.player.dealingCards = value;
+      this.setDealingCards(value);
       this.savePlayerStats();
     });
 
@@ -219,12 +208,91 @@ export class StateManager {
     });
   }
 
+  setAssistanceInCollection(enabled) {
+    this.state.settings.assistanceInCollection = enabled;
+  }
+
+  getAssistanceInCollection() {
+    return this.state.settings.assistanceInCollection;
+  }
+
+  setAssistanceInCardClick(enabled) {
+    this.state.settings.assistanceInCardClick = enabled;
+  }
+
+  getAssistanceInCardClick() {
+    return this.state.settings.assistanceInCardClick;
+  }
+
+  setMusicEnabled(enabled) {
+    this.state.settings.musicEnabled = enabled;
+  }
+
+  getMusicEnabled() {
+    return this.state.settings.musicEnabled;
+  }
+
+  setSoundEnabled(enabled) {
+    this.state.settings.soundEnabled = enabled;
+  }
+
+  setLanguage(value) {
+    this.state.settings.language = value;
+  }
+
+  setMusicVolume(value) {
+    this.state.settings.musicVolume = value;
+  }
+
+  getMusicVolume() {
+    return this.state.settings.musicVolume;
+  }
+
+  setDealingCards(value) {
+    this.state.player.dealingCards = value;
+  }
+
+  getDealingCards() {
+    return this.state.player.dealingCards;
+  }
+
+  getLanguage() {
+    return this.state.settings.language;
+  }
+
+  getSoundEnabled() {
+    return this.state.settings.soundEnabled;
+  }
+
+  setCardsComponents(components) {
+    this.state.cardsComponents = components;
+  }
+  getCardsComponents() {
+    return this.state.cardsComponents;
+  }
+
+  setActivePage(page) {
+    this.state.ui.activePage = page;
+  }
+
+  incrementCoins(count) {
+    this.state.player.coins += count;
+  }
+
+  decrementCoins(count) {
+    this.state.player.coins -= count;
+  }
+
   incrementGamesPlayed(count) {
     this.state.player.gamesPlayed += count;
   }
 
   incrementUndoUsed(count) {
     this.state.player.undoUsed += count;
+  }
+
+  getUndoUsed() {
+    return this.state.player.undoUsed;
   }
 
   decrementHintUsed(count) {
@@ -241,17 +309,6 @@ export class StateManager {
 
   getIsRunning() {
     return this.state.game.isRunning;
-  }
-
-  getAllData() {
-    // Загрузка сохраненных данных
-    this.getGameStats();
-    this.loadPlayerStats();
-    this.loadGameSettings();
-    // Загрузка магазина
-    this.state.shop.purchasedItems = this.storage.getPurchasedItems();
-    this.state.player.coins = this.storage.getCoins();
-    this.state.achievements.unlocked = this.storage.getUnlockedAchievements();
   }
 
   getGameStats() {
@@ -285,9 +342,13 @@ export class StateManager {
     // }
   }
 
-  setdontShowAgainDealingCardsModal(boolean) {
+  setIsDontShowAgainDealingCardsModal(boolean) {
     this.state.player.isDontShowAgainDealingCardsModal = boolean;
     this.savePlayerStats();
+  }
+
+  getIsDontShowAgainDealingCardsModal() {
+    return this.state.player.isDontShowAgainDealingCardsModal;
   }
 
   saveAllData() {
@@ -317,14 +378,29 @@ export class StateManager {
   }
 
   resetScore(score) {
-    // this.state.game.score = score;
     this.state.stateForAchievements.score = score;
   }
 
   setTime(time) {
-    // console.log("time: ", time);
-
     this.state.game.playTime = time;
+  }
+
+  getTime() {
+    return this.state.game.playTime;
+  }
+
+  // setHintsUsed()
+
+  getHintsUsed() {
+    return this.state.player.hintsUsed;
+  }
+
+  setFastestWin(time) {
+    this.state.player.fastestWin = time;
+  }
+
+  getFastestWin() {
+    this.state.player.fastestWin;
   }
 
   setPlayerFirstCardClick(boolean) {
@@ -336,7 +412,6 @@ export class StateManager {
   }
 
   resetMoves(n) {
-    // this.state.game.moves = n;
     this.state.stateForAchievements.moves = n;
   }
 
@@ -348,6 +423,10 @@ export class StateManager {
 
   resetIsNoHints(boolean) {
     this.state.isNoHints = boolean;
+  }
+
+  resetFaceDownCards() {
+    this.state.faceDownCards = [];
   }
 
   resetIscreateVictoryConfetti(boolean) {
@@ -392,61 +471,39 @@ export class StateManager {
     return false;
   }
 
-  // updateLastMove(moveData) {
-  //   console.log("moveData:", moveData);
-
-  //   this.state.game.lastMove = [
-  //     ...(this.state.game.lastMove.length >= this.state.player.lastMoveQuantity
-  //       ? this.state.game.lastMove.slice(1)
-  //       : this.state.game.lastMove),
-  //     moveData,
-  //   ];
-  //   console.log("this.state.game.lastMove:", this.state.game.lastMove);
-
-  // }
-
   updateLastMoves(lastMove) {
-    console.log("lastMove в StateManager:", lastMove);
-
-    // const { source, lastMove } = params;
-    // console.log("source, moveData:", source, lastMove);
-
     const lastMovesLengths = this.getLastMovesLengths();
-
-    // if (source.startsWith(this.cardContainers.stock)) {
-    //   this.state.game.lastMoves.stockLastMoves = [
-    //     ...(lastMovesLengths >= this.state.player.lastMoveQuantity
-    //       ? this.state.game.lastMoves.stockLastMoves.slice(1)
-    //       : this.state.game.lastMoves.stockLastMoves),
-    //     lastMove,
-    //   ];
-    // } else {
     this.state.player.lastMoves = [
       ...(lastMovesLengths >= this.state.player.lastMoveQuantity
         ? this.state.player.lastMoves.slice(1)
         : this.state.player.lastMoves),
       lastMove,
     ];
-    // }
   }
 
   resetLastMoves() {
     this.state.player.lastMoves = [];
   }
 
-  // resetLastMoves() {
-  //   this.state.game.lastMoves.otherLastMoves = [];
-  //   this.state.game.lastMoves.stockLastMoves = [];
-  // }
-
   getLastMovesLengths() {
     return this.state.player.lastMoves.length;
   }
 
   updateMoves(n) {
-    this.state.game.moves += n;
     this.state.stateForAchievements.moves += n;
     this.state.player.totalMoves += n;
+  }
+
+  getMoves() {
+    return this.state.stateForAchievements.moves;
+  }
+
+  getMinPossibleMoves() {
+    return this.state.stateForAchievements.minPossibleMoves;
+  }
+
+  setMinPossibleMoves(count) {
+    this.state.stateForAchievements.minPossibleMoves = count;
   }
 
   upDealingCardsValue(value) {
@@ -527,8 +584,6 @@ export class StateManager {
   }
 
   setIsPaused(boolean) {
-    console.log("setIsPaused: ", boolean);
-
     this.state.game.isPaused = boolean;
   }
 
@@ -564,6 +619,14 @@ export class StateManager {
 
   incrementHintUsed(count) {
     this.state.game.hintUsed += count;
+  }
+
+  decrementHintCounterState(count) {
+    this.state.hintCounterState -= count;
+  }
+
+  getHintCounterState() {
+    return this.state.hintCounterState;
   }
 
   incrementGameStat(statName, amount = 1) {

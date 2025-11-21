@@ -63,6 +63,18 @@ export const GameConfig = {
     setFAndTContainers: "fAndT",
     getFAndTContainers: "data-f-and-t",
   },
+
+  stateForAchievements: {
+    fastestWin: 0,
+    moves: 0,
+    score: 0,
+    winsWithoutHints: 0,
+    winsWithoutUndo: 0,
+    minPossibleMoves: Infinity,
+    unlockedMany: [],
+    activeId: "",
+    active: {},
+  },
 };
 
 export const HintsRules = {
@@ -77,8 +89,9 @@ export const PlayerConfigs = {
   initialUndos: 3,
   hint: {
     countUsedForIncrement: 1,
+    countUsedForDecrement: 1,
   },
   undo: {
     countUsedForIncrement: 1,
-  }
+  },
 };

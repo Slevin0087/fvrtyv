@@ -44,23 +44,17 @@ export class AudioManager {
       "./src/assets/sounds/background.mp3",
       true
     );
-    this.backgroundMusic.volume = this.stateManager.state.settings.musicVolume;
+    this.backgroundMusic.volume = this.stateManager.getMusicVolume();
   }
 
   setupEventListeners() {
-    this.eventManager.on("audio:toggle", (enabled) =>
-      this.toggleAllSounds(enabled)
-    );
-    this.eventManager.on("music:volume", (volume) =>
-      this.setMusicVolume(volume)
-    );
-    this.eventManager.on("effects:volume", (volume) =>
-      this.setEffectsVolume(volume)
+    this.eventManager.on(GameEvents.SET_MUSIC_TOGGLE, (enabled) =>
+      this.toggleAllMusic(enabled)
     );
 
-    this.eventManager.on(GameEvents.SET_SOUND_TOGGLE, (enabled) =>
-      this.toggleAllSounds(enabled)
-    );
+    // this.eventManager.on(GameEvents.SET_SOUND_TOGGLE, (enabled) =>
+    //   this.toggleAllSounds(enabled)
+    // );
 
     this.eventManager.on(GameEvents.AUDIO_CARD_CLICK, () =>
       this.play(AudioName.CLICK)
@@ -82,10 +76,6 @@ export class AudioManager {
       this.play(AudioAchievements.UP_ACH)
     );
 
-    this.eventManager.on("game:start", () => this.playMusic());
-    this.eventManager.on("game:pause", () => this.pauseMusic());
-    this.eventManager.on("game:resume", () => this.resumeMusic());
-    this.eventManager.on("game:exit", () => this.stopMusic());
     this.eventManager.on(GameEvents.SETTINGS_MUSIC_VOLUME, () =>
       this.setMusicVolume()
     );
@@ -116,10 +106,10 @@ export class AudioManager {
   }
 
   play(name) {
-    console.log('play(name): ', name);
-    
+    console.log("play(name): ", name);
+
     if (
-      // !this.stateManager.state.settings.soundEnabled ||
+      !this.stateManager.getSoundEnabled() ||
       !this.sounds.has(name)
     )
       return;
@@ -131,6 +121,10 @@ export class AudioManager {
       sound
         .play()
         .catch((e) => console.error(`Error playing sound ${name}:`, e));
+      console.log(
+        "this.stateManager.state.settings.effectsVolume: ",
+        this.stateManager.state.settings.effectsVolume
+      );
     } catch (e) {
       console.error(`Error with sound ${name}:`, e);
     }
@@ -164,17 +158,22 @@ export class AudioManager {
   }
 
   resumeMusic() {
-    if (this.backgroundMusic && this.stateManager.state.settings.soundEnabled) {
+    if (this.backgroundMusic && this.stateManager.getMusicEnabled()) {
       this.backgroundMusic
         .play()
         .catch((e) => console.error("Error resuming music:", e));
     }
   }
 
-  toggleAllSounds(enabled) {
+  toggleAllMusic(enabled) {
     enabled ? this.resumeMusic() : this.pauseMusic();
     // this.saveSettings();
   }
+
+  // toggleAllSounds(enabled) {
+  //   enabled ? this.resumeMusic() : this.pauseMusic();
+  //   // this.saveSettings();
+  // }
 
   setMusicVolume() {
     if (this.backgroundMusic) {

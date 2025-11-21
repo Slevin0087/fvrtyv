@@ -102,10 +102,7 @@ export class UIManager {
 
     this.eventManager.on(GameEvents.UIMENUPAGE_SHOW, () => {
       this.pageShow(UIConfig.pages.UIMenuPage);
-      this.eventManager.emit(
-        GameEvents.SET_ACTIV_PAGE,
-        this.components.uiMenuPage
-      );
+      this.stateManager.setActivePage(this.components.uiMenuPage);
     });
 
     this.eventManager.on(GameEvents.UI_SHOP_SHOW, () => {
@@ -130,10 +127,7 @@ export class UIManager {
 
     this.eventManager.on(GameEvents.GAME_CONTINUE, () => {
       this.pageShow(UIConfig.pages.UIGamePage);
-      this.eventManager.emit(
-        GameEvents.SET_ACTIV_PAGE,
-        this.components.uiGamePage
-      );
+      this.stateManager.setActivePage(this.components.uiGamePage);
     });
 
     this.eventManager.on(
@@ -212,7 +206,7 @@ export class UIManager {
     }
   }
 
-  hideAll(arg = null) {
+  hideAll() {
     this.pages.forEach((page) => {
       page.page.classList.add("hidden");
     });

@@ -110,7 +110,7 @@ export class UndoSystem {
 
   async reverseMove({ card, from }) {
     const [fromType, fromIndex] = this.parseTargetId(from);
-    const gameComponents = this.state.cardsComponents;
+    const gameComponents = this.stateManager.getCardsComponents();
 
     if (fromType === this.cardContainers.tableau) {
       const containerTo = gameComponents.tableaus[fromIndex];
@@ -338,7 +338,7 @@ export class UndoSystem {
   }
 
   findCardToLastMove(cardData) {
-    const { stock, waste, foundations, tableaus } = this.state.cardsComponents;
+    const { stock, waste, foundations, tableaus } = this.stateManager.getCardsComponents();
     const allCards = [
       ...stock.cards,
       ...waste.cards,

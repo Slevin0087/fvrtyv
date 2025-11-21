@@ -27,19 +27,6 @@ export class CardsSystem {
     this.eventManager.on(GameEvents.CHANGE_CARDS_STYLES, () =>
       this.setCardsStyles()
     );
-    // this.eventManager.on(GameEvents.IS_FACE_DOWN_CARD, (card) =>
-    //   this.isFaceDownCard(card)
-    // );
-
-    // this.eventManager.on(GameEvents.UP_FACE_DOWN_CARD, (card) =>
-    //   this.updateFaceDownCard(card)
-    // );
-    // this.eventManager.on(GameEvents.CARD_CLICK, (card) => this.handleCardClick(card));
-    // this.eventManager.on(GameEvents.CARD_DRAG_START, (card, element) =>
-    //   this.handleDragStart(card, element)
-    // );
-    // this.eventManager.on(GameEvents.CARD_DRAG_END, () => this.handleDragEnd());
-    // this.eventManager.on(GameEvents.CARD_DROP, (target) => this.handleDrop(target));
   }
 
   setCardsContainers() {
@@ -48,14 +35,14 @@ export class CardsSystem {
     this.tableaus = Array.from({ length: 7 }, (_, i) => new Tableau(i));
     this.stock = new Stock();
     this.waste = new Waste();
-    
-    this.eventManager.emit(GameEvents.SET_CARDS_COMPONENTS, {
+    const cardsComponents = {
       deck: this.deck,
       foundations: this.foundations,
       tableaus: this.tableaus,
       stock: this.stock,
       waste: this.waste,
-    });
+    }
+    this.stateManager.setCardsComponents(cardsComponents)
   }
 
   getCardStyles() {
@@ -63,37 +50,6 @@ export class CardsSystem {
       backStyle: this.state.player.selectedItems.backs,
       faceStyle: this.state.player.selectedItems.faces,
     };
-  }
-
-  handleCard(card) {
-    // card.domElement.addEventListener("click", () => {
-      this.eventManager.emit(GameEvents.CARD_CLICK, card);
-    // });
-  }
-
-  // removeHandleCard(card) {
-  //   card.domElement.removeEventListener("click", () => {
-  //     this.eventManager.emit(GameEvents.CARD_CLICK, card);
-  //   });
-  // }
-
-  selectCard(card) {
-    this.deselectCard();
-    this.selectedCard = card;
-
-    // Визуальное выделение карты
-    this.eventManager.emit("card:select", card);
-
-    // Подсветка возможных ходов
-    this.highlightValidTargets(card);
-  }
-
-  deselectCard() {
-    if (!this.selectedCard) return;
-
-    this.eventManager.emit("card:deselect", this.selectedCard);
-    this.eventManager.emit("ui:clear:highlights");
-    this.selectedCard = null;
   }
 
   highlightValidTargets(card) {
@@ -213,7 +169,7 @@ export class CardsSystem {
 
   setCardsStyles() {
     const { foundations, tableaus, stock, waste } =
-      this.state.cardsComponents;
+      this.stateManager.getCardsComponents();
     foundations?.forEach((foundation) =>
       this.circleCardsComponents(foundation)
     );
