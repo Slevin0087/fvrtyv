@@ -89,17 +89,15 @@ export class UIShopPage extends UIPage {
     });
 
     // Обновляем баланс
-    this.updateBalance(this.state.player.coins);
-    // Helpers.updateLanShopBalance(this.state.player.coins);
+    this.updateBalance(this.stateManager.getCoins());
+    // Helpers.updateLanShopBalance(this.stateManager.getCoins());
   }
 
   createShopItemElement(item, index) {
     const containerElement = document.createElement("div");
-    const selectedItems = this.state.player.selectedItems;
-    const selectedItem = selectedItems[item.type];
+    const selectedItem = this.stateManager.getSelectedItemOne(item.type);
     const isOwned = item.id === selectedItem.id;
-    const purchasedItems = this.state.player.purchasedItems;
-    const purchasedItem = purchasedItems[item.type];
+    const purchasedItem = this.stateManager.getPurchasedItemOne(item.type);
     const isItemBuy = purchasedItem.ids.includes(item.id);
 
     containerElement.className = `item-container ${isOwned ? "owned" : ""}`;
@@ -190,7 +188,7 @@ export class UIShopPage extends UIPage {
       if (item.styles) Object.assign(shopItem.style, item.styles);
       else if (item.previewImage) {
         const img = document.createElement("img");
-        img.className = 'img-type-bg'
+        img.className = "img-type-bg";
         img.src = item.previewImage;
         shopItem.append(img);
       }
@@ -299,7 +297,9 @@ export class UIShopPage extends UIPage {
   handleBtnClick(item, isOwned, isItemBuy) {
     if (isItemBuy && !isOwned) {
       this.eventManager.emit(GameEvents.SET_SELECTED_ITEMS, item);
-      this.eventManager.emit(GameEvents.CHANGE_CARDS_STYLES);
+      if (item.category === "cardFace" || item.category === "cardBack") {
+        this.eventManager.emit(GameEvents.CHANGE_CARDS_STYLES, item);
+      }
       this.render(this.state.shop, ShopConfig);
     } else if (!isItemBuy && !isOwned) {
       this.eventManager.emit(GameEvents.SHOP_ITEM_PURCHASE, item);

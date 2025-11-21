@@ -253,12 +253,20 @@ export class AnimationSystem {
           cardDomElement.innerHTML = "";
           cardDomElement.className = "";
           if (backStyle.bgType === "images") {
-            this.resetCardDomElementBgImage(card);
+            this.eventManager.emit(GameEvents.RESET_CARD_BG_IMAGE, card);
           }
           if (faceStyle.bgType === "styles") {
-            this.addCardFrontClass(faceStyle, card);
+            this.eventManager.emit(
+              GameEvents.ADD_CARD_FRONT_CLASS,
+              faceStyle,
+              card
+            );
           } else if (faceStyle.bgType === "images") {
-            this.addCardFrontImage(card, faceStyle);
+            this.eventManager.emit(
+              GameEvents.ADD_CARD_FRONT_IMAGE,
+              card,
+              faceStyle
+            );
           }
           cardDomElement.classList.add("card-front", card.color);
         },
@@ -288,13 +296,21 @@ export class AnimationSystem {
           card.domElement.innerHTML = "";
           card.domElement.className = "";
           if (faceStyle.bgType === "images") {
-            this.resetCardDomElementBgImage(card);
+            this.eventManager.emit(GameEvents.RESET_CARD_BG_IMAGE, card);
           }
           if (backStyle.bgType === "styles") {
-            this.addCardBackClass(backStyle, card.domElement);
+            this.eventManager.emit(
+              GameEvents.ADD_CARD_BACK_CLASS,
+              backStyle,
+              card.domElement
+            );
           }
           if (backStyle.bgType === "images") {
-            this.addCardBackImage(backStyle, card.domElement);
+            this.eventManager.emit(
+              GameEvents.ADD_CARD_BACK_IMAGE,
+              backStyle,
+              card.domElement
+            );
           }
           card.domElement.classList.add("card-back");
         },
@@ -394,48 +410,5 @@ export class AnimationSystem {
       const nextAnimation = this.animationsQueue.shift();
       nextAnimation();
     }
-  }
-
-  addCardFrontClass(faceStyle, card) {
-    const topSymbol = document.createElement("span");
-    topSymbol.className = "card-symbol top";
-    topSymbol.textContent = card.getSymbol();
-
-    const centerSymbol = document.createElement("span");
-    centerSymbol.className = "card-symbol center";
-    centerSymbol.textContent = card.suit;
-
-    const bottomSymbol = document.createElement("span");
-    bottomSymbol.className = "card-symbol bottom";
-    bottomSymbol.textContent = card.getSymbol();
-    card.domElement.classList.add(faceStyle.styleClass);
-    card.domElement.append(topSymbol, centerSymbol, bottomSymbol);
-  }
-
-  addCardFrontImage(card, faceStyle) {
-    card.domElement.style.backgroundImage = `url(${faceStyle.previewImage.img})`;
-    const elementPositions = Helpers.calculateCardBgSpriteSheetPosition(
-      card.suit,
-      card.value,
-      faceStyle.previewImage.manyColumns,
-      faceStyle.previewImage.manyLines
-    );
-    card.domElement.style.backgroundPosition = `${elementPositions.x}% ${elementPositions.y}%`;
-  }
-
-  addCardBackClass(backStyle, cardDomElement) {
-    cardDomElement.classList.add(backStyle.styleClass);
-  }
-
-  addCardBackImage(backStyle, cardDomElement) {
-    cardDomElement.style.backgroundImage = `url(${backStyle.previewImage.img})`;
-    const bgPositions = Helpers.calculateCardBackPosition(backStyle);
-    cardDomElement.style.backgroundPosition = `${bgPositions.x}% ${bgPositions.y}%`;
-  }
-
-  resetCardDomElementBgImage(card) {
-    card.domElement.style.backgroundImage = "";
-    card.domElement.style.backgroundSize = "";
-    card.domElement.style.backgroundPosition = "";
   }
 }

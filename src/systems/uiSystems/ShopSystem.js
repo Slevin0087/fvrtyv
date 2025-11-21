@@ -83,12 +83,7 @@ export class ShopSystem {
   }
 
   setSelectedItems(item) {
-    // this.state.player.selectedItems[item.type].id = item.id;
-    // this.state.player.selectedItems[item.type].styleClass = item.styleClass;
-    // this.state.player.selectedItems[item.type].bgType = item.bgType;
-
-    this.state.player.selectedItems[item.type] = item;
-
+    this.stateManager.setSelectedItems(item);
     this.stateManager.savePlayerStats();
   }
 

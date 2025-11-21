@@ -236,10 +236,6 @@ export class StateManager {
     this.state.settings.soundEnabled = enabled;
   }
 
-  setLanguage(value) {
-    this.state.settings.language = value;
-  }
-
   setMusicVolume(value) {
     this.state.settings.musicVolume = value;
   }
@@ -252,8 +248,20 @@ export class StateManager {
     this.state.player.dealingCards = value;
   }
 
+  setEffectsVolume(value) {
+    this.state.settings.effectsVolume = value;
+  }
+
+  getEffectsVolume() {
+    return this.state.settings.effectsVolume;
+  }
+
   getDealingCards() {
     return this.state.player.dealingCards;
+  }
+
+  setLanguage(value) {
+    this.state.settings.language = value;
   }
 
   getLanguage() {
@@ -273,6 +281,30 @@ export class StateManager {
 
   setActivePage(page) {
     this.state.ui.activePage = page;
+  }
+
+  setSelectedItems(item) {
+    this.state.player.selectedItems[item.type] = item;
+  }
+
+  getSelectedItems() {
+    return this.state.player.selectedItems;
+  }
+
+  getSelectedItemOne(itemType) {
+    return this.state.player.selectedItems[itemType];
+  }
+
+  getPurchasedItems() {
+    return this.state.player.purchasedItems;
+  }
+
+  getPurchasedItemOne(itemType) {
+    return this.state.player.purchasedItems[itemType];
+  }
+
+  getCoins() {
+    return this.state.player.coins;
   }
 
   incrementCoins(count) {

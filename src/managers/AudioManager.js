@@ -106,25 +106,15 @@ export class AudioManager {
   }
 
   play(name) {
-    console.log("play(name): ", name);
-
-    if (
-      !this.stateManager.getSoundEnabled() ||
-      !this.sounds.has(name)
-    )
-      return;
+    if (!this.stateManager.getSoundEnabled() || !this.sounds.has(name)) return;
 
     try {
       const sound = this.sounds.get(name);
       sound.currentTime = 0;
-      sound.volume = this.stateManager.state.settings.effectsVolume;
+      sound.volume = this.stateManager.getEffectsVolume();
       sound
         .play()
         .catch((e) => console.error(`Error playing sound ${name}:`, e));
-      console.log(
-        "this.stateManager.state.settings.effectsVolume: ",
-        this.stateManager.state.settings.effectsVolume
-      );
     } catch (e) {
       console.error(`Error with sound ${name}:`, e);
     }
@@ -167,7 +157,6 @@ export class AudioManager {
 
   toggleAllMusic(enabled) {
     enabled ? this.resumeMusic() : this.pauseMusic();
-    // this.saveSettings();
   }
 
   // toggleAllSounds(enabled) {
@@ -177,18 +166,7 @@ export class AudioManager {
 
   setMusicVolume() {
     if (this.backgroundMusic) {
-      this.backgroundMusic.volume =
-        this.stateManager.state.settings.musicVolume;
+      this.backgroundMusic.volume = this.stateManager.getMusicVolume();
     }
-  }
-
-  setEffectsVolume(volume) {
-    volume = Math.max(0, Math.min(1, volume));
-    this.stateManager.state.settings.effectsVolume = volume;
-    // this.saveSettings();
-  }
-
-  getState() {
-    return { ...this.stateManager.state.settings };
   }
 }

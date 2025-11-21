@@ -4,6 +4,7 @@ import { Tableau } from "../../core/Tableau.js";
 import { Stock } from "../../core/Stock.js";
 import { Waste } from "../../core/Waste.js";
 import { GameEvents } from "../../utils/Constants.js";
+import { Helpers } from "../../utils/Helpers.js";
 
 export class CardsSystem {
   constructor(eventManager, stateManager) {
@@ -24,8 +25,34 @@ export class CardsSystem {
   }
 
   setupEventListeners() {
-    this.eventManager.on(GameEvents.CHANGE_CARDS_STYLES, () =>
-      this.setCardsStyles()
+    this.eventManager.on(GameEvents.CHANGE_CARDS_STYLES, (item) =>
+      this.setCardsStyles(item)
+    );
+
+    this.eventManager.on(GameEvents.RESET_CARD_BG_IMAGE, (card) => {
+      this.resetCardDomElementBgImage(card);
+    });
+
+    this.eventManager.on(GameEvents.ADD_CARD_FRONT_IMAGE, (card, faceStyle) => {
+      this.addCardFrontImage(card, faceStyle);
+    });
+
+    this.eventManager.on(GameEvents.ADD_CARD_FRONT_CLASS, (faceStyle, card) => {
+      this.addCardFrontClass(faceStyle, card);
+    });
+
+    this.eventManager.on(
+      GameEvents.ADD_CARD_BACK_IMAGE,
+      (backStyle, cardDomElement) => {
+        this.addCardBackImage(backStyle, cardDomElement);
+      }
+    );
+
+    this.eventManager.on(
+      GameEvents.ADD_CARD_BACK_CLASS,
+      (backStyle, cardDomElement) => {
+        this.addCardBackClass(backStyle, cardDomElement);
+      }
     );
   }
 
@@ -41,8 +68,8 @@ export class CardsSystem {
       tableaus: this.tableaus,
       stock: this.stock,
       waste: this.waste,
-    }
-    this.stateManager.setCardsComponents(cardsComponents)
+    };
+    this.stateManager.setCardsComponents(cardsComponents);
   }
 
   getCardStyles() {
@@ -157,7 +184,7 @@ export class CardsSystem {
       );
       this.faceDownCards = newC;
     } else if (this.faceDownCards.length <= 0) {
-      alert('Все карты открылись');
+      alert("Все карты открылись");
       this.eventManager.emit(GameEvents.COLLECT_BTN_SHOW);
       // document.getElementById('blinking-text').classList.remove('hidden');
     }
@@ -167,15 +194,59 @@ export class CardsSystem {
     this.faceDownCards.push(card);
   }
 
-  setCardsStyles() {
-    const { foundations, tableaus, stock, waste } =
-      this.stateManager.getCardsComponents();
-    foundations?.forEach((foundation) =>
-      this.circleCardsComponents(foundation)
-    );
-    tableaus?.forEach((tableau) => this.circleCardsComponents(tableau));
-    this.circleCardsComponents(stock);
-    this.circleCardsComponents(waste);
+  setCardsStyles(item) {
+    if (item.category !== "cardFace" && item.category !== "cardBack") {
+      return;
+    } else {
+      const { foundations, tableaus, stock, waste } =
+        this.stateManager.getCardsComponents();
+      const tableausCards = tableaus.flatMap((t) => t.cards);
+      const foundationsCards = foundations.flatMap((f) => f.cards);
+      const allCards = [
+        ...tableausCards,
+        ...foundationsCards,
+        ...stock.cards,
+        ...waste.cards,
+      ];
+      const selectedItem = this.stateManager.getSelectedItemOne(item.type);
+      console.log("selectedItem: ", selectedItem);
+      if (selectedItem.bgType === "images") {
+        if (item.category === "cardBack") {
+          for (const card of allCards) {
+            if (!card.faceUp) {
+              card.domElement.style.backgroundImage = `url(${selectedItem.previewImage.img})`;
+              const bgPositions =
+                Helpers.calculateCardBackPosition(selectedItem);
+              card.domElement.style.backgroundPosition = `${bgPositions.x}% ${bgPositions.y}%`;
+            } else {
+              continue;
+            }
+          }
+        } else if (item.category === "cardFace") {
+          for (const card of allCards) {
+            if (card.faceUp) {
+              this.resetCardDomElementBgImage(card);
+              card.domElement.style.backgroundImage = `url(${selectedItem.previewImage.img})`;
+              const bgPositions = Helpers.calculateCardBgSpriteSheetPosition(
+                card.suit,
+                card.value,
+                selectedItem.previewImage.manyColumns,
+                selectedItem.previewImage.manyLines
+              );
+              card.domElement.style.backgroundPosition = `${bgPositions.x}% ${bgPositions.y}%`;
+            } else {
+              continue;
+            }
+          }
+        }
+      } else {
+        if (item.category === "cardBack") {
+          card.domElement.classList.add(selectedItem.styleClass);
+        } else if (item.category === "cardFace") {
+          card.domElement.classList.add(selectedItem.styleClass);
+        }
+      }
+    }
   }
 
   circleCardsComponents(cardsComponent) {
@@ -189,5 +260,48 @@ export class CardsSystem {
         card.domElement.classList.add("card", card.color, backStyle);
       }
     });
+  }
+
+  resetCardDomElementBgImage(card) {
+    card.domElement.style.backgroundImage = "";
+    card.domElement.style.backgroundSize = "";
+    card.domElement.style.backgroundPosition = "";
+  }
+
+  addCardFrontImage(card, faceStyle) {
+    card.domElement.style.backgroundImage = `url(${faceStyle.previewImage.img})`;
+    const elementPositions = Helpers.calculateCardBgSpriteSheetPosition(
+      card.suit,
+      card.value,
+      faceStyle.previewImage.manyColumns,
+      faceStyle.previewImage.manyLines
+    );
+    card.domElement.style.backgroundPosition = `${elementPositions.x}% ${elementPositions.y}%`;
+  }
+
+  addCardFrontClass(faceStyle, card) {
+    const topSymbol = document.createElement("span");
+    topSymbol.className = "card-symbol top";
+    topSymbol.textContent = card.getSymbol();
+
+    const centerSymbol = document.createElement("span");
+    centerSymbol.className = "card-symbol center";
+    centerSymbol.textContent = card.suit;
+
+    const bottomSymbol = document.createElement("span");
+    bottomSymbol.className = "card-symbol bottom";
+    bottomSymbol.textContent = card.getSymbol();
+    card.domElement.classList.add(faceStyle.styleClass);
+    card.domElement.append(topSymbol, centerSymbol, bottomSymbol);
+  }
+
+  addCardBackImage(backStyle, cardDomElement) {
+    cardDomElement.style.backgroundImage = `url(${backStyle.previewImage.img})`;
+    const bgPositions = Helpers.calculateCardBackPosition(backStyle);
+    cardDomElement.style.backgroundPosition = `${bgPositions.x}% ${bgPositions.y}%`;
+  }
+
+  addCardBackClass(backStyle, cardDomElement) {
+    cardDomElement.classList.add(backStyle.styleClass);
   }
 }
