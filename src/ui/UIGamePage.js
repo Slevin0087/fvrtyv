@@ -44,6 +44,9 @@ export class UIGamePage extends UIPage {
 
       // Модальное окно: результаты игры
       gameResultsModal: document.getElementById("game-results-modal"),
+      gameResultsModalVictoryMainBadge: document.getElementById(
+        "game_results_modalvictory_main_badge"
+      ),
       gameResultsModalTitle: document.getElementById(
         "game_results_modal_title"
       ),
@@ -90,6 +93,8 @@ export class UIGamePage extends UIPage {
     };
 
     this.elements.menuBtn.onclick = () => {
+      console.log('this.stateManager.getIsRunning(): ', this.stateManager.getIsRunning());
+      
       if (!this.stateManager.getIsRunning()) return;
       if (!this.stateManager.getIsPaused()) {
         this.stateManager.setIsPaused(true);
@@ -256,13 +261,11 @@ export class UIGamePage extends UIPage {
   async onClickRestartGameModalAgain() {
     this.modalHide(this.elements.restartGameModal);
     this.isRestartGameModalShow = false;
-    this.stateManager.setIsRunning(false);
-    console.log("runn", this.stateManager.getIsPaused());
-
-    await this.eventManager.emitAsync(GameEvents.GAME_RESTART);
+    this.eventManager.emit(GameEvents.STOP_PLAY_TIME);
     this.eventManager.emit(GameEvents.RESET_STATE_FOR_NEW_GAME);
-    console.log("runn после", this.stateManager.getIsPaused());
-
+    await this.eventManager.emitAsync(GameEvents.GAME_RESTART);
+    this.stateManager.setIsRunning(true)
+    this.stateManager.setIsPaused(false)
     this.updateUI();
   }
 
@@ -294,6 +297,13 @@ export class UIGamePage extends UIPage {
       textEarnedWinLeftPathForResultModal,
       textEarnedWinRightPathForResultModal
     );
+    const title = this.translator.t("game_results_modal_title");
+    this.elements.gameResultsModalTitle.textContent = title;
+    const badgeText = this.translator.t("game_results_modalvictory_main_badge");
+    this.elements.gameResultsModalVictoryMainBadge.textContent = badgeText;
+    this.elements.gameResultsModalApply.textContent = this.translator.t(
+      "btn_game_results_modal_apply"
+    );
     this.elements.gameResultsModalBody.innerHTML = modalBody;
     this.modalShow(this.elements.gameResultsModal);
     this.stateManager.setActiveModal(this.elements.gameResultsModal, () =>
@@ -309,9 +319,10 @@ export class UIGamePage extends UIPage {
   async onClickGameResultsModalApply() {
     this.modalHide(this.elements.gameResultsModal);
     this.isGameResultsModalShow = false;
-    this.stateManager.setIsRunning(false);
-    await this.eventManager.emitAsync(GameEvents.GAME_RESTART);
     this.eventManager.emit(GameEvents.RESET_STATE_FOR_NEW_GAME);
+    await this.eventManager.emitAsync(GameEvents.GAME_RESTART);
+    this.stateManager.setIsRunning(true);
+    this.stateManager.setIsPaused(false)
     this.updateUI();
   }
 
@@ -339,8 +350,11 @@ export class UIGamePage extends UIPage {
     }
     this.upAchievementIcon(this.stateManager.getAchievements().active.icon);
 
-    console.log('this.stateManager.getDealingCards(): ', this.stateManager.getDealingCards());
-    
+    console.log(
+      "this.stateManager.getDealingCards(): ",
+      this.stateManager.getDealingCards()
+    );
+
     if (
       this.stateManager.getDealingCards() ===
       GameConfig.rules.defaultDealingCards
@@ -444,7 +458,7 @@ export class UIGamePage extends UIPage {
     textEarnedWinRightPathForResultModal
   ) {
     const score = this.translator.t("game_results_modal_score");
-    const scoreValue = this.state.game.score;
+    const scoreValue = this.stateManager.getScore();
     return `<dl class="game-results-modal-table table">
       <div class="game-results-modal-wrap-line">
         <dt
@@ -489,11 +503,16 @@ export class UIGamePage extends UIPage {
   hintUsed() {
     if (!this.stateManager.getNeedVideoForHints()) {
       // временное if, для теста, потом убрать
-      this.stateManager.decrementHintCounterState(this.countHintUsedForDecrement);
+      this.stateManager.decrementHintCounterState(
+        this.countHintUsedForDecrement
+      );
       this.upHintCounter(this.stateManager.getHintCounterState());
     }
     this.stateManager.incrementHintUsed(this.countHintUsedForIncrement);
-    this.eventManager.emit(GameEvents.UP_HITUSED_STATE, this.countHintUsedForIncrement);
+    this.eventManager.emit(
+      GameEvents.UP_HITUSED_STATE,
+      this.countHintUsedForIncrement
+    );
   }
 
   hintNotif(dataI18n) {
@@ -552,7 +571,8 @@ export class UIGamePage extends UIPage {
 
   show() {
     this.page.className = "";
-    const styleClass = this.stateManager.getSelectedItems().backgrounds.styleClass;
+    const styleClass =
+      this.stateManager.getSelectedItems().backgrounds.styleClass;
     this.page.classList.add("game-interface", styleClass);
     this.updateUI();
     this.creatElementForHighestScore();

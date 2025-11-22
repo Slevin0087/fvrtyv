@@ -1,11 +1,16 @@
-import { GameEvents, AnimationDurations } from "../../utils/Constants.js";
+import {
+  GameEvents,
+  AnimationDurations,
+  AudioName,
+} from "../../utils/Constants.js";
 import { UIConfig } from "../../configs/UIConfig.js";
 import { Animator } from "../../utils/Animator.js";
 
 export class GameSetupSystem {
-  constructor(eventManager, stateManager) {
+  constructor(eventManager, stateManager, audioManager) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
+    this.audioManager = audioManager;
     this.state = this.stateManager.state;
     this.cardMoveDuration = UIConfig.animations.cardMoveDuration;
     this.startMoveSpeed = UIConfig.animations.startMoveSpeed;
@@ -17,10 +22,6 @@ export class GameSetupSystem {
   setupEventListeners() {
     this.eventManager.on(GameEvents.IS_FACE_DOWN_CARD, (card) =>
       this.isFaceDownCard(card)
-    );
-
-    this.eventManager.on(GameEvents.UP_FACE_DOWN_CARD, (card) =>
-      this.updateFaceDownCard(card)
     );
 
     this.eventManager.on(GameEvents.ADD_CARD_CLICK, (card) => {
@@ -36,8 +37,6 @@ export class GameSetupSystem {
   setCards(deck, stock) {
     deck.reset();
     const stockCards = [];
-    this.stateManager.resetFaceDownCards();
-
     while (!deck.isEmpty()) {
       const card = deck.deal();
       stockCards.push(card);
@@ -78,7 +77,7 @@ export class GameSetupSystem {
         );
         ///////////////////////////////
       } else if (!isFaceUp) {
-        this.updateFaceDownCard(card);
+        this.stateManager.pushFaceDownCard(card);
       }
     } catch (error) {
       throw new Error(error);
@@ -87,14 +86,31 @@ export class GameSetupSystem {
 
   async animateCardMove(card, tableau) {
     try {
-      await Animator.animateStockCardMove(
+      // this.eventManager.emit(GameEvents.AUDIO_CARD_MOVE);
+      const promiseAnimate = Animator.animateStockCardMove(
         {
           card,
           tableau,
         },
         this.startMoveSpeed
       );
-      this.eventManager.emit(GameEvents.AUDIO_CARD_MOVE);
+      if (this.stateManager.getSoundEnabled()) {
+        const audioCardMove = this.audioManager.getSound(AudioName.CARD_MOVE);
+
+        const audioPlaySpeed =
+          this.startMoveSpeed / (audioCardMove.duration * 100);
+
+        audioCardMove.playbackRate = audioPlaySpeed;
+
+        const promiseAudio = audioCardMove.play().catch((error) => {
+          console.warn("Звук не воспроизведён:", error.name);
+          return Promise.resolve();
+        });
+
+        await Promise.all([promiseAudio, promiseAnimate]);
+      } else {
+        await promiseAnimate;
+      }
     } catch (error) {
       console.log(error);
       throw error;
@@ -116,9 +132,9 @@ export class GameSetupSystem {
   }
 
   isFaceDownCard(card) {
-    if (this.state.faceDownCards.length > 0) {
+    if (this.stateManager.getFaceDownCards().length > 0) {
       this.filterFaceDownCards(card);
-      if (this.state.faceDownCards.length <= 0) {
+      if (this.stateManager.getFaceDownCards().length <= 0) {
         // alert("Все карты открылись");
         this.eventManager.emit(GameEvents.COLLECT_BTN_SHOW);
         return;
@@ -129,10 +145,10 @@ export class GameSetupSystem {
   }
 
   filterFaceDownCards(card) {
-    const newC = this.state.faceDownCards.filter(
+    const newFaceDownCards = this.state.faceDownCards.filter(
       (cardFaceDoun) => cardFaceDoun !== card
     );
-    this.state.faceDownCards = newC;
+    this.stateManager.upFaceDownCards(newFaceDownCards);
   }
 
   updateFaceDownCard(card) {

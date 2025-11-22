@@ -250,21 +250,20 @@ export class Animator {
     return new Promise((resolve, reject) => {
       const tl = gsap.timeline({
         onComplete: () => {
-          eventManager.emit(GameEvents.AUDIO_CARD_FLIP);
           resolve();
         },
         onError: () => {
           reject(new Error("Card flip animation failed"));
         },
       });
-
+      
       // Первая половина анимации - поворот на 90 градусов
       tl.to(card.domElement, {
         rotationY: deg,
         duration: duration / 2,
         ease: "power1.out",
         onComplete: () => {
-          console.log("flipCard card: ", card);
+          eventManager.emit(GameEvents.AUDIO_CARD_FLIP);
           if (onHalfFlip) onHalfFlip();
         },
       });

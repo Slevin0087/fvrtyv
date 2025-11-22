@@ -100,6 +100,9 @@ export class AudioManager {
 
   createAudio(path, loop = false) {
     const audio = new Audio(path);
+    console.log('audio createAudio: ', audio);
+    console.log('path: ', path);
+    
     audio.loop = loop;
     audio.preload = "auto";
     return audio;
@@ -110,6 +113,8 @@ export class AudioManager {
 
     try {
       const sound = this.sounds.get(name);
+      console.log('sound: ', sound);
+      
       sound.currentTime = 0;
       sound.volume = this.stateManager.getEffectsVolume();
       sound
@@ -118,6 +123,10 @@ export class AudioManager {
     } catch (e) {
       console.error(`Error with sound ${name}:`, e);
     }
+  }
+
+  getSound(name) {
+    return this.sounds.get(name);
   }
 
   playMusic() {

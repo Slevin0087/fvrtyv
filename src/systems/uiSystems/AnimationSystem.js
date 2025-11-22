@@ -2,6 +2,7 @@ import {
   GameEvents,
   AnimationDurations,
   AnimationDegs,
+  AudioName,
 } from "../../utils/Constants.js";
 import { Animator } from "../../utils/Animator.js";
 import { UIConfig } from "../../configs/UIConfig.js";
@@ -9,9 +10,10 @@ import { Helpers } from "../../utils/Helpers.js";
 import { AnimationsVictory } from "../../utils/AnimationsVictory.js";
 
 export class AnimationSystem {
-  constructor(eventManager, stateManager, cardsSystem) {
+  constructor(eventManager, stateManager, cardsSystem, audioManager) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
+    this.audioManager = audioManager;
     this.state = this.stateManager.state;
     this.cardsSystem = cardsSystem;
     this.animationsQueue = [];
@@ -19,6 +21,7 @@ export class AnimationSystem {
     this.cardMoveDuration = UIConfig.animations.cardMoveDuration;
     this.startMoveSpeed = UIConfig.animations.startMoveSpeed;
     this.cardFlipDuration = UIConfig.animations.cardFlipDuration;
+
     this.cardStockFlipDuration = UIConfig.animations.cardStockFlipDuration;
     this.wasteCardFlip = AnimationDurations.WASTE_CARD_FLIP;
     this.degsCardFlip = AnimationDegs.CARD_FLIP;
@@ -57,6 +60,9 @@ export class AnimationSystem {
     });
 
     this.eventManager.onAsync(GameEvents.CARD_FLIP, async (card) => {
+      this.cardFlipDuration = this.audioManager.getSound(
+        AudioName.CARD_FLIP
+      ).duration;
       await this.animateCardFlip(
         card,
         this.degsCardFlip,
@@ -65,6 +71,9 @@ export class AnimationSystem {
     });
 
     this.eventManager.on(GameEvents.CARD_FLIP, async (card) => {
+      this.cardFlipDuration = this.audioManager.getSound(
+        AudioName.CARD_FLIP
+      ).duration;
       await this.animateCardFlip(
         card,
         this.degsCardFlip,
@@ -73,6 +82,9 @@ export class AnimationSystem {
     });
 
     this.eventManager.on(GameEvents.BACK_CARD_FLIP, async (card) => {
+      this.cardFlipDuration = this.audioManager.getSound(
+        AudioName.CARD_FLIP
+      ).duration;
       await this.animateBackCardFlip(
         card,
         this.degsBackCardFlip,
@@ -81,6 +93,9 @@ export class AnimationSystem {
     });
 
     this.eventManager.onAsync(GameEvents.BACK_CARD_FLIP, async (card) => {
+      this.cardFlipDuration = this.audioManager.getSound(
+        AudioName.CARD_FLIP
+      ).duration;
       await this.animateBackCardFlip(
         card,
         this.degsBackCardFlip,
@@ -240,13 +255,16 @@ export class AnimationSystem {
   }
 
   async animateCardFlip(card, deg, duration) {
+    console.log("duration: ", duration);
+
     if (!card.domElement || card.isAnimating) return;
     try {
       const cardDomElement = card.domElement;
       const { backStyle, faceStyle } = this.cardsSystem.getCardStyles();
 
       card.isAnimating = true;
-      await Animator.flipCard(
+
+      const promiseAnimate = Animator.flipCard(
         card,
         () => {
           // Колбэк на середине анимации (90 градусов)
@@ -274,6 +292,24 @@ export class AnimationSystem {
         this.eventManager,
         duration
       );
+
+      if (this.stateManager.getSoundEnabled()) {
+        const audioCardMove = this.audioManager.getSound(AudioName.CARD_FLIP);
+
+        // const audioPlaySpeed =
+        //   this.startMoveSpeed / (audioCardMove.duration * 100);
+
+        // audioCardMove.playbackRate = audioPlaySpeed;
+
+        const promiseAudio = audioCardMove.play().catch((error) => {
+          console.warn("Звук не воспроизведён:", error.name);
+          return Promise.resolve();
+        });
+
+        await Promise.all([promiseAudio, promiseAnimate]);
+      } else {
+        await promiseAnimate;
+      }
     } catch (error) {
       console.error("Card flip failed:", error);
       throw error;

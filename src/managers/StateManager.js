@@ -96,18 +96,18 @@ export class StateManager {
       this.setPlayerFirstCardClick(false);
     });
 
-    this.eventManager.onAsync(GameEvents.GAME_RESTART, () => {
-      this.resetScore(0);
-      this.setTime(0);
-      this.resetLastMoves();
-      this.resetMoves(0);
-      this.resetAchievementsActive();
-      this.resetIsNoHints(false);
-      this.getDealingCardsValue();
-      this.setPlayerFirstCardClick(false);
-      this.setIsRunning(true);
-      this.setIsPaused(false);
-    });
+    // this.eventManager.onAsync(GameEvents.GAME_RESTART, () => {
+    //   this.resetScore(0);
+    //   this.setTime(0);
+    //   this.resetLastMoves();
+    //   this.resetMoves(0);
+    //   this.resetAchievementsActive();
+    //   this.resetIsNoHints(false);
+    //   this.getDealingCardsValue();
+    //   this.setPlayerFirstCardClick(false);
+    //   this.setIsRunning(true);
+    //   this.setIsPaused(false);
+    // });
 
     this.eventManager.on(GameEvents.RESET_STATE_FOR_NEW_GAME, () => {
       this.resetScore(0);
@@ -116,10 +116,11 @@ export class StateManager {
       this.resetMoves(0);
       this.resetAchievementsActive();
       this.resetIsNoHints(false);
+      this.resetFaceDownCards();
       this.getDealingCardsValue();
       this.setPlayerFirstCardClick(false);
-      this.setIsRunning(true);
-      this.setIsPaused(false);
+      this.setIsRunning(false);
+      this.setIsPaused(true);
     });
 
     this.eventManager.on(GameEvents.SET_LANGUAGE_CHANGE, (value) => {
@@ -206,6 +207,10 @@ export class StateManager {
     this.eventManager.on(GameEvents.TIME_UPDATE, (time) => {
       this.setTime(time);
     });
+
+    this.eventManager.on(GameEvents.UP_FACE_DOWN_CARD, (card) =>
+      this.pushFaceDownCard(card)
+    );
   }
 
   setAssistanceInCollection(enabled) {
@@ -469,6 +474,18 @@ export class StateManager {
     this.state.faceDownCards = [];
   }
 
+  getFaceDownCards() {
+    return this.state.faceDownCards;
+  }
+
+  pushFaceDownCard(card) {
+    this.state.faceDownCards.push(card);
+  }
+
+  upFaceDownCards(arrayCards) {
+    this.state.faceDownCards = arrayCards;
+  }
+
   resetIscreateVictoryConfetti(boolean) {
     this.state.iscreateVictoryConfetti = boolean;
   }
@@ -625,6 +642,10 @@ export class StateManager {
 
   getIsAutoCollectBtnShow() {
     return this.state.isAutoCollectBtnShow;
+  }
+
+  setIsAutoCollectBtnShow(boolean) {
+    this.state.isAutoCollectBtnShow = boolean;
   }
 
   setIsPaused(boolean) {

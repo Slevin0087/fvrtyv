@@ -739,6 +739,7 @@
   z-index: 3;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   -webkit-animation: main-badge-glow 2s ease-in-out infinite;
   animation: main-badge-glow 2s ease-in-out infinite;

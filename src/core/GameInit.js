@@ -42,6 +42,7 @@ export class GameInit {
     this.storage = new Storage(this.eventManager);
     this.stateManager = new StateManager(this.eventManager, this.storage);
     this.translator = new Translator();
+    this.audioManager = new AudioManager(this.eventManager, this.stateManager);
     this.autoMoveManager = new AutoMoveManager(
       this.eventManager,
       this.stateManager
@@ -60,16 +61,17 @@ export class GameInit {
       this.translator,
       this.shopNavigation
     );
-    this.audioManager = new AudioManager(this.eventManager, this.stateManager);
     this.cardsSystem = new CardsSystem(this.eventManager, this.stateManager);
     this.animationSystem = new AnimationSystem(
       this.eventManager,
       this.stateManager,
-      this.cardsSystem
+      this.cardsSystem,
+      this.audioManager
     );
     this.gameSetupSystem = new GameSetupSystem(
       this.eventManager,
-      this.stateManager
+      this.stateManager,
+      this.audioManager
     );
     this.logicSystemsInit = new LogicSystemsInit(
       this.eventManager,
@@ -149,7 +151,6 @@ export class GameInit {
   }
 
   async gameRestart() {
-    this.stopTimeInterval();
     this.eventManager.emit(GameEvents.COLLECT_BTN_HIDDEN);
     await this.setGame();
   }
@@ -175,6 +176,8 @@ export class GameInit {
       cardsComponents.stock,
       cardsComponents.tableaus
     );
+    console.log('this.stateManager.getFaceDownCards(): ', this.stateManager.getFaceDownCards());
+    
   }
 
   updateStartTime(time) {
