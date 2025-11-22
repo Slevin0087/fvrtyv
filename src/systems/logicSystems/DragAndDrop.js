@@ -87,7 +87,7 @@ export class DragAndDrop {
 
     if (this.stateManager.getCardsComponents().foundations.every((f) => f.isComplete()))
       return;
-    if (this.stateManager.getIsAnimateCardFomStockToWaste()) return;
+    if (this.stateManager.getIsAnimateCardFromStockToWaste()) return;
     const { target, x, y } = event;
 
     const isDraggable = target.closest(
@@ -136,12 +136,12 @@ export class DragAndDrop {
 
     if (
       this.stateManager.getIsDealingCardsAnimation() ||
-      this.stateManager.getIsAnimateCardFomStockToWaste()
+      this.stateManager.getIsAnimateCardFromStockToWaste()
     )
       return;
     if (!this.currentDraggingCard) return;
     if (!this.isDragging) {
-      if (!this.stateManager.state.settings.assistanceInCardClick) return;
+      if (!this.stateManager.getAssistanceInCardClick()) return;
       console.log('в onPointerUp не драг, а клик, эмитим событие CARD_CLICK');
       
       this.eventManager.emit(GameEvents.CARD_CLICK, this.cards[0]);

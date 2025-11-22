@@ -1,7 +1,6 @@
 import { GameEvents } from "../utils/Constants.js";
 import { EventManager } from "../managers/EventManager.js";
 import { StateManager } from "../managers/StateManager.js";
-import { AutoMoveManager } from "../managers/AutoMoveManager.js";
 import { ShopNavigation } from "../utils/ShopNavigation.js";
 import { UIManager } from "../managers/UIManager.js";
 import { AudioManager } from "../managers/AudioManager.js";
@@ -43,11 +42,7 @@ export class GameInit {
     this.stateManager = new StateManager(this.eventManager, this.storage);
     this.translator = new Translator();
     this.audioManager = new AudioManager(this.eventManager, this.stateManager);
-    this.autoMoveManager = new AutoMoveManager(
-      this.eventManager,
-      this.stateManager
-    );
-    this.translator.changeLanguage(this.stateManager.state.settings.language);
+    this.translator.changeLanguage(this.stateManager.getLanguage());
     this.achievementSystem = new AchievementSystem(
       this.eventManager,
       this.stateManager,

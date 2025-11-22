@@ -135,7 +135,7 @@ export class Animator {
   }
 
   static animateCardFomStockToWaste(arr, duration) {
-    console.log("static animateCardFomStockToWaste arr: ", arr);
+    console.log("static animateCardFomStockToWaste duration: ", duration);
     return new Promise((resolve, reject) => {
       arr.forEach(({ card, oldOffsetX, oldOffsetY }) => {
         const cardElement = card.domElement;

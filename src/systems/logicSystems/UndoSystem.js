@@ -55,7 +55,7 @@ export class UndoSystem {
       return;
     }
 
-    this.stateManager.setIsAnimateCardFomStockToWaste(true);
+    this.stateManager.setIsAnimateCardFromStockToWaste(true);
 
     const lastMove = this.state.player.lastMoves.pop();
     for (const { cardData, openCardData, from } of lastMove) {
@@ -105,7 +105,7 @@ export class UndoSystem {
       });
     }
     this.stateManager.incrementUndoUsed(this.countUndoUsedForIncrement);
-    this.stateManager.setIsAnimateCardFomStockToWaste(false);
+    this.stateManager.setIsAnimateCardFromStockToWaste(false);
   }
 
   async reverseMove({ card, from }) {
@@ -265,21 +265,21 @@ export class UndoSystem {
 
   async backMoveCardsToStock(stock, card, fromType, cardMoveDuration) {
     const containerTo = stock;
-    const asyncBackCardFlip = this.eventManager.emitAsync(
+
+    // тут уже включён звук
+    await this.eventManager.emitAsync(
       GameEvents.BACK_CARD_FLIP,
       card
     );
-    await asyncBackCardFlip;
 
-    const moveToStock = this.eventManager.emitAsync(GameEvents.CARD_MOVE, {
+    // тут тоже уже вклюён звук
+    await this.eventManager.emitAsync(GameEvents.CARD_MOVE, {
       card,
       containerToIndex: 0,
       containerTo,
       containerToName: fromType,
       cardMoveDuration,
     });
-
-    await moveToStock;
 
     //////////////////// RESET подписок на события /////////////////////////
     this.eventManager.emit(

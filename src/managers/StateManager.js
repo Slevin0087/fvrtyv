@@ -43,7 +43,7 @@ export class StateManager {
       },
       dealingCards: GameConfig.rules.defaultDealingCards,
       isDealingCardsAnimation: false,
-      isAnimateCardFomStockToWaste: false,
+      isAnimateCardFromStockToWaste: false,
       isUndoCardAnimation: false,
       isAutoCollectBtnShow: false,
       usedAutoCollectCards: false,
@@ -582,12 +582,12 @@ export class StateManager {
     return this.state.isDealingCardsAnimation;
   }
 
-  setIsAnimateCardFomStockToWaste(boolean) {
-    this.state.isAnimateCardFomStockToWaste = boolean;
+  setIsAnimateCardFromStockToWaste(boolean) {
+    this.state.isAnimateCardFromStockToWaste = boolean;
   }
 
-  getIsAnimateCardFomStockToWaste() {
-    return this.state.isAnimateCardFomStockToWaste;
+  getIsAnimateCardFromStockToWaste() {
+    return this.state.isAnimateCardFromStockToWaste;
   }
 
   setIsUndoCardAnimation(boolean) {

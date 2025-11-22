@@ -71,6 +71,8 @@ export class AnimationSystem {
     });
 
     this.eventManager.on(GameEvents.CARD_FLIP, async (card) => {
+      console.log('ddddddddddddddddd');
+      
       this.cardFlipDuration = this.audioManager.getSound(
         AudioName.CARD_FLIP
       ).duration;

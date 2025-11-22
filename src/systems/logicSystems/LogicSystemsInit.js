@@ -101,7 +101,7 @@ export class LogicSystemsInit {
     if (this.winSystem.check()) return;
     if (
       this.stateManager.getIsDealingCardsAnimation() ||
-      this.stateManager.getIsAnimateCardFomStockToWaste()
+      this.stateManager.getIsAnimateCardFromStockToWaste()
     )
       return;
     if (!this.stateManager.getPlayerFirstCardClick()) {

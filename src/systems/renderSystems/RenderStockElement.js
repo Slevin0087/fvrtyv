@@ -59,11 +59,9 @@ export class RenderStockElement {
 
   //////////// handleStockElement Срабатывает при клике по stock эелементу
   async handleStockElement(stock, waste) {
-    console.log('this.stateManager.getIsAnimateCardFomStockToWaste(): ', this.stateManager.getIsAnimateCardFomStockToWaste());
-    
     if (
       // !this.isClickAllowed ||
-      this.stateManager.getIsAnimateCardFomStockToWaste() ||
+      this.stateManager.getIsAnimateCardFromStockToWaste() ||
       !this.stateManager.getIsRunning() ||
       this.stateManager.getIsDealingCardsAnimation()
     ) {
@@ -88,7 +86,7 @@ export class RenderStockElement {
       stock.recycleWaste(waste);
       this.renderStockCards(stock);
       waste.element.innerHTML = "";
-      this.stateManager.setIsAnimateCardFomStockToWaste(false);
+      this.stateManager.setIsAnimateCardFromStockToWaste(false);
       // await this.delay(this.clickLimitTime);
       // this.isClickAllowed = true; // Разрешаем клики после задержки
       return;
@@ -100,7 +98,7 @@ export class RenderStockElement {
     let topThreeCards = [];
     let oldOffsetsTopThreeCards = [];
     if (nTopCards) {
-      this.stateManager.setIsAnimateCardFomStockToWaste(true);
+      this.stateManager.setIsAnimateCardFromStockToWaste(true);
       let lastMovesForStock = []; // Массив для дальнейшего использования в отменах хода, где карты были перемещены из stock в waste
       this.eventManager.emit(GameEvents.AUDIO_CARD_CLICK);
       const nTopCardsReverse = nTopCards.toReversed();
@@ -158,16 +156,15 @@ export class RenderStockElement {
         await this.flipCard(card);
 
         if (oldOffsetsTopThreeCards.length > 0) {
-          let duration = 0;
+          const audioCardMove = this.logicSystemsInit.audioManager.getSound(
+            AudioName.CARD_MOVE
+          );
+          const duration = audioCardMove.duration;
           const promiseAnimate = Animator.animateCardFomStockToWaste(
             oldOffsetsTopThreeCards,
             duration
           );
           if (this.stateManager.getSoundEnabled()) {
-            const audioCardMove = this.logicSystemsInit.audioManager.getSound(
-              AudioName.CARD_MOVE
-            );
-            duration = audioCardMove.duration / 5;
             const promiseAudio = audioCardMove.play().catch((error) => {
               console.warn("Звук не воспроизведён:", error.name);
               return Promise.resolve();
@@ -209,7 +206,7 @@ export class RenderStockElement {
       }
     }
 
-    this.stateManager.setIsAnimateCardFomStockToWaste(false);
+    this.stateManager.setIsAnimateCardFromStockToWaste(false);
     await this.delay(this.clickLimitTime);
     this.isClickAllowed = true; // Разрешаем клики после задержки
   }
