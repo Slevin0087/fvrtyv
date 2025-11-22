@@ -1,4 +1,4 @@
-import { GameEvents, AnimationOperators } from "../../utils/Constants.js";
+import { GameEvents, AnimationOperators, AudioName } from "../../utils/Constants.js";
 import { GameConfig } from "../../configs/GameConfig.js";
 import { GameSetupSystem } from "./GameSetupSystem.js";
 import { CardMovementSystem } from "./CardMovementSystem.js";
@@ -99,9 +99,6 @@ export class LogicSystemsInit {
 
   handleCardClick(card) {
     if (this.winSystem.check()) return;
-    console.log(this.stateManager.getIsDealingCardsAnimation(),
-      this.stateManager.getIsAnimateCardFomStockToWaste());
-    
     if (
       this.stateManager.getIsDealingCardsAnimation() ||
       this.stateManager.getIsAnimateCardFomStockToWaste()
@@ -124,7 +121,7 @@ export class LogicSystemsInit {
     const source = this.movementSystem.getCardSource(card);
     const elementFrom = this.movementSystem.getElementFrom(source);
     const cardParentFoundationElForUndo = card.parentElement;
-    await Animator.animateCardMove(
+    const promiseAnimate = Animator.animateCardMove(
       card,
       source,
       elementFrom,
@@ -132,6 +129,17 @@ export class LogicSystemsInit {
       this.movementSystem,
       cardMoveDuration
     );
+    if (this.stateManager.getSoundEnabled()) {
+      const audioCardMove = this.audioManager.getSound(AudioName.CARD_MOVE);
+      const promiseAudio = audioCardMove.play().catch((error) => {
+        console.warn("Звук не воспроизведён:", error.name);
+        return Promise.resolve();
+      });
+
+      await Promise.all([promiseAudio, promiseAnimate]);
+    } else {
+      await promiseAnimate;
+    }
     if (source.startsWith(GameConfig.cardContainers.waste)) {
       await this.wasteSystem.upTopThreeCards();
     }
@@ -234,7 +242,10 @@ export class LogicSystemsInit {
         const wasteTopCard = waste.getTopCard();
         if (
           wasteTopCard &&
-          foundation.canAccept(wasteTopCard, this.stateManager.getCardsComponents())
+          foundation.canAccept(
+            wasteTopCard,
+            this.stateManager.getCardsComponents()
+          )
         ) {
           await this.handleCardMove({
             card: wasteTopCard,
@@ -249,7 +260,10 @@ export class LogicSystemsInit {
             const tableauTopCard = tableau.getTopCard();
             if (
               tableauTopCard &&
-              foundation.canAccept(tableauTopCard, this.stateManager.getCardsComponents())
+              foundation.canAccept(
+                tableauTopCard,
+                this.stateManager.getCardsComponents()
+              )
             ) {
               await this.handleCardMove({
                 card: tableauTopCard,

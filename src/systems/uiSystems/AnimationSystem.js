@@ -324,8 +324,9 @@ export class AnimationSystem {
     try {
       const { backStyle, faceStyle } = this.cardsSystem.getCardStyles();
       card.isAnimating = true;
+      card.flip(false);
 
-      await Animator.flipCard(
+      const promiseAnimate = Animator.flipCard(
         card,
         () => {
           // Колбэк на середине анимации (90 градусов)
@@ -354,7 +355,17 @@ export class AnimationSystem {
         this.eventManager,
         duration
       );
-      card.flip(false);
+      if (this.stateManager.getSoundEnabled()) {
+        const audioCardMove = this.audioManager.getSound(AudioName.CARD_FLIP);
+        const promiseAudio = audioCardMove.play().catch((error) => {
+          console.warn("Звук не воспроизведён:", error.name);
+          return Promise.resolve();
+        });
+
+        await Promise.all([promiseAudio, promiseAnimate]);
+      } else {
+        await promiseAnimate;
+      }
       card.isAnimating = false;
     } catch (error) {
       throw new Error(error);

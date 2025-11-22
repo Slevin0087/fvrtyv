@@ -86,7 +86,6 @@ export class GameSetupSystem {
 
   async animateCardMove(card, tableau) {
     try {
-      // this.eventManager.emit(GameEvents.AUDIO_CARD_MOVE);
       const promiseAnimate = Animator.animateStockCardMove(
         {
           card,

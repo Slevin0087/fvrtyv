@@ -20,13 +20,16 @@ export class CardMovementSystem {
 
   async handleCardClick(card) {
     console.log(this.stateManager.getIsPaused());
-    
+
     if (!card.faceUp || this.stateManager.getIsPaused()) return false;
-    console.log('после условий');
-    
+    console.log("после условий");
+
     const gameComponents = this.stateManager.getCardsComponents();
     const usedAutoCollectCards = this.state.usedAutoCollectCards;
-
+    const audioCardMove = this.audioManager.getSound(
+      AudioName.CARD_MOVE
+    );
+    this.cardMoveDuration = audioCardMove.duration * 100
     // Проверка foundation
     for (let i = 0; i < gameComponents.foundations.length; i++) {
       if (gameComponents.foundations[i].canAccept(card, gameComponents)) {

@@ -64,9 +64,10 @@ export class AudioManager {
       this.play(AudioName.CARD_FLIP)
     );
 
-    this.eventManager.on(GameEvents.AUDIO_CARD_MOVE, () =>
-      this.play(AudioName.CARD_MOVE)
-    );
+    this.eventManager.on(GameEvents.AUDIO_CARD_MOVE, () => {
+      console.log("AUDIO_CARD_MOVE");
+      this.play(AudioName.CARD_MOVE);
+    });
 
     this.eventManager.on(GameEvents.AUDIO_UP_SCORE, () =>
       this.play(AudioName.UP_SCORE)
@@ -100,21 +101,23 @@ export class AudioManager {
 
   createAudio(path, loop = false) {
     const audio = new Audio(path);
-    console.log('audio createAudio: ', audio);
-    console.log('path: ', path);
-    
+    console.log("audio createAudio: ", audio);
+    console.log("path: ", path);
+
     audio.loop = loop;
     audio.preload = "auto";
     return audio;
   }
 
   play(name) {
+    console.log('name: ', name);
+    
     if (!this.stateManager.getSoundEnabled() || !this.sounds.has(name)) return;
 
     try {
       const sound = this.sounds.get(name);
-      console.log('sound: ', sound);
-      
+      console.log("sound: ", sound);
+
       sound.currentTime = 0;
       sound.volume = this.stateManager.getEffectsVolume();
       sound

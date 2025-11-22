@@ -2,6 +2,7 @@ import {
   GameEvents,
   AnimationDurations,
   AnimationDegs,
+  AudioName,
 } from "../../utils/Constants.js";
 import { gamePageElements } from "../../utils/gamePageElements.js";
 import { GameConfig } from "../../configs/GameConfig.js";
@@ -58,8 +59,11 @@ export class RenderStockElement {
 
   //////////// handleStockElement Срабатывает при клике по stock эелементу
   async handleStockElement(stock, waste) {
+    console.log('this.stateManager.getIsAnimateCardFomStockToWaste(): ', this.stateManager.getIsAnimateCardFomStockToWaste());
+    
     if (
-      !this.isClickAllowed ||
+      // !this.isClickAllowed ||
+      this.stateManager.getIsAnimateCardFomStockToWaste() ||
       !this.stateManager.getIsRunning() ||
       this.stateManager.getIsDealingCardsAnimation()
     ) {
@@ -80,15 +84,16 @@ export class RenderStockElement {
         GameEvents.UP_UNDO_CONTAINER,
         this.stateManager.getLastMovesLengths()
       );
-      this.isClickAllowed = false;
+      // this.isClickAllowed = false;
       stock.recycleWaste(waste);
       this.renderStockCards(stock);
       waste.element.innerHTML = "";
-      await this.delay(this.clickLimitTime);
-      this.isClickAllowed = true; // Разрешаем клики после задержки
+      this.stateManager.setIsAnimateCardFomStockToWaste(false);
+      // await this.delay(this.clickLimitTime);
+      // this.isClickAllowed = true; // Разрешаем клики после задержки
       return;
     }
-    this.isClickAllowed = false;
+    // this.isClickAllowed = false;
     const nOfCards = this.state.dealingCards; // СЕЙЧАС ЭТО РАВНО 3
     const nTopCards = stock.getNTopCards(nOfCards);
     console.log("nTopCards: ", nTopCards);
@@ -153,7 +158,25 @@ export class RenderStockElement {
         await this.flipCard(card);
 
         if (oldOffsetsTopThreeCards.length > 0) {
-          await Animator.animateCardFomStockToWaste(oldOffsetsTopThreeCards);
+          let duration = 0;
+          const promiseAnimate = Animator.animateCardFomStockToWaste(
+            oldOffsetsTopThreeCards,
+            duration
+          );
+          if (this.stateManager.getSoundEnabled()) {
+            const audioCardMove = this.logicSystemsInit.audioManager.getSound(
+              AudioName.CARD_MOVE
+            );
+            duration = audioCardMove.duration / 5;
+            const promiseAudio = audioCardMove.play().catch((error) => {
+              console.warn("Звук не воспроизведён:", error.name);
+              return Promise.resolve();
+            });
+
+            await Promise.all([promiseAudio, promiseAnimate]);
+          } else {
+            await promiseAnimate;
+          }
         }
       }
 

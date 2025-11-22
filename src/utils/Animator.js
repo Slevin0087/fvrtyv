@@ -134,11 +134,10 @@ export class Animator {
     await Promise.all(animationPromises);
   }
 
-  static animateCardFomStockToWaste(arr) {
+  static animateCardFomStockToWaste(arr, duration) {
     console.log("static animateCardFomStockToWaste arr: ", arr);
     return new Promise((resolve, reject) => {
       arr.forEach(({ card, oldOffsetX, oldOffsetY }) => {
-        const duration = 3;
         const cardElement = card.domElement;
 
         // Получаем начальные координаты карты
@@ -163,7 +162,7 @@ export class Animator {
             { transform: `translate(${newOffsetX}px, ${newOffsetY}px)` },
           ],
           {
-            // duration,
+            duration,
             easing: "linear",
           }
         );
@@ -263,7 +262,6 @@ export class Animator {
         duration: duration / 2,
         ease: "power1.out",
         onComplete: () => {
-          eventManager.emit(GameEvents.AUDIO_CARD_FLIP);
           if (onHalfFlip) onHalfFlip();
         },
       });
