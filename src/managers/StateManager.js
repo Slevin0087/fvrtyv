@@ -343,6 +343,10 @@ export class StateManager {
     return this.state.game.isRunning;
   }
 
+  getAchievements() {
+    return this.state.player.achievements;
+  }
+
   getGameStats() {
     const savedGameState = this.storage.getGameStats();
     if (savedGameState && this.validator.isGameStateValid(savedGameState)) {
@@ -411,6 +415,10 @@ export class StateManager {
 
   resetScore(score) {
     this.state.stateForAchievements.score = score;
+  }
+
+  getScore() {
+    return this.state.stateForAchievements.score;
   }
 
   setTime(time) {
@@ -540,6 +548,10 @@ export class StateManager {
 
   upDealingCardsValue(value) {
     this.state.dealingCards = value;
+  }
+
+  getDealingCards() {
+    return this.state.dealingCards;
   }
 
   setUsedAutoCollectCards(boolean) {

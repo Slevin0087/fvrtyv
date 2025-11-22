@@ -39,7 +39,8 @@
   --border-radius-btn-input: 0.3em;
   --buttons-hover-focus-bg-color: rgb(119, 119, 4);
   --buttons-active-bg-color: rgb(107, 107, 46);
-  --full-screen-button-top-left: 1em;
+  --full-screen-button-top-left: 5em;
+  --full-screen-button-left: 1em;
   --full-screen-button-width: 2.5em;
   --language-switcher-bottom: calc(
     var(--full-screen-button-top-left) + var(--full-screen-button-width)
@@ -226,23 +227,43 @@ button {
 }
 
 /* Для состояний: наведение, фокус, активность */
-button:hover,
+/* button:hover,
 button:focus,
 button:active {
   color: black !important;
   -webkit-text-fill-color: black;
+} */
+
+@media (hover: hover) {
+  button:hover,
+  button:focus {
+    background-color: var(--buttons-hover-focus-bg-color);
+  }
+  button:active {
+    background-color: var(--buttons-active-bg-color);
+    cursor: none !important;
+    touch-action: none;
+  }
 }
 
-button:hover,
-button:focus {
+@media (hover: none) {
+  button:active {
+    background-color: var(--buttons-hover-focus-bg-color);
+  }
+  /* button:focus {
   background-color: var(--buttons-hover-focus-bg-color);
+} */
 }
 
-button:active {
+/* button:focus {
+  background-color: var(--buttons-hover-focus-bg-color);
+} */
+
+/* button:active {
   background-color: var(--buttons-active-bg-color);
   cursor: none !important;
   touch-action: none;
-}
+} */
 
 /**
   Приводим к единому цвету svg-элементы
@@ -339,7 +360,7 @@ body {
 
 .full-screen-button {
   position: fixed;
-  right: var(--full-screen-button-top-left);
+  right: var(--full-screen-button-left);
   bottom: var(--full-screen-button-top-left);
   /* width: var(--full-screen-button-width); */
   width: calc(var(--card-width) / 1.5);

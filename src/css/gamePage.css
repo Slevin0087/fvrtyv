@@ -357,10 +357,17 @@
   font-size: calc(var(--card-width) / 2);
 }
 
-.controls-btn-container .controls-btn:hover,
+/* .controls-btn-container .controls-btn:hover,
 .controls-btn-container .controls-btn:focus {
   background-color: #00000047;
   border: 5px outset black;
+} */
+
+@media (hover: none) {
+  .controls-btn-container .controls-btn:active {
+    background-color: #00000047;
+    border: 5px outset black;
+  }
 }
 
 /* Base mobile (320px+) - button styling already applied */

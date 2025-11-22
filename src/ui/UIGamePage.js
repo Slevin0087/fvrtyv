@@ -328,24 +328,26 @@ export class UIGamePage extends UIPage {
   }
 
   updateUI() {
-    this.updateScore(this.state.stateForAchievements.score);
-    this.updateTime(this.state.game.playTime);
-    this.updateMoves(this.state.stateForAchievements.moves);
+    this.updateScore(this.stateManager.getScore());
+    this.updateTime(this.stateManager.getTime());
+    this.updateMoves(this.stateManager.getMoves());
     this.upUndoCounter(this.stateManager.getLastMovesLengths());
     if (this.stateManager.getNeedVideoForHints()) {
       this.upHintCounter(UIGameUnicodeIcons.VIDEO);
     } else {
       this.upHintCounter(this.state.hintCounterState || 0);
     }
-    this.upAchievementIcon(this.state.player.achievements.active.icon);
+    this.upAchievementIcon(this.stateManager.getAchievements().active.icon);
 
+    console.log('this.stateManager.getDealingCards(): ', this.stateManager.getDealingCards());
+    
     if (
-      this.stateManager.state.dealingCards ===
+      this.stateManager.getDealingCards() ===
       GameConfig.rules.defaultDealingCards
     ) {
       document.getElementById("shuffle-btn")?.remove();
     } else if (
-      this.stateManager.state.dealingCards ===
+      this.stateManager.getDealingCards() ===
       GameConfig.rules.defaultDealingCardsThree
     ) {
       document.getElementById("shuffle-btn")?.remove();
@@ -550,9 +552,9 @@ export class UIGamePage extends UIPage {
 
   show() {
     this.page.className = "";
-    const styleClass = this.state.player.selectedItems.backgrounds.styleClass;
+    const styleClass = this.stateManager.getSelectedItems().backgrounds.styleClass;
     this.page.classList.add("game-interface", styleClass);
-    // this.updateUI();
+    this.updateUI();
     this.creatElementForHighestScore();
   }
 }
