@@ -560,17 +560,17 @@ export class UIGamePage extends UIPage {
     const spanClose = document.createElement("span");
     // const title = document.createElement("div");
     // const spanTitle = document.createElement("span");
-    const modalContent = document.createElement('div');
+    const modalContent = document.createElement("div");
     const message = document.createElement("div");
     const jocerElement = document.createElement("div");
-    modalBody.className = 'game-over-and-no-hints';
-    header.className = 'game-over-and-no-hints-modal-header';
-    headerClose.className = 'game-over-and-no-hints-modal-close';
-    spanClose.className = 'game-over-and-no-hints-modal-close-span';
+    modalBody.className = "game-over-and-no-hints";
+    header.className = "game-over-and-no-hints-modal-header";
+    headerClose.className = "game-over-and-no-hints-modal-close";
+    spanClose.className = "game-over-and-no-hints-modal-close-span";
     // title.className = 'game-over-and-no-hints-modal-title';
     // spanTitle.className = 'game-over-and-no-hints-modal-title-span';
-    modalContent.className = 'game-over-and-no-hints-modal-content';
-    message.className = 'game-over-and-no-hints-modal-message';
+    modalContent.className = "game-over-and-no-hints-modal-content";
+    message.className = "game-over-and-no-hints-modal-message";
     jocerElement.className = `joker-card-for-no-hints`;
     // spanTitle.setAttribute("data-i18n", 'game-over-and-no-hints-modal-title-span');
     // this.translator.updateLanOneUI(spanTitle);
@@ -578,18 +578,19 @@ export class UIGamePage extends UIPage {
     modalBody.append(modalContent);
     header.append(headerClose);
     // header.append(title)
-    headerClose.append(spanClose)
+    headerClose.append(spanClose);
     // title.append(spanTitle)
-    modalContent.append(message)
-    modalContent.append(jocerElement)
-    spanClose.id = "game-over-and-no-hints-modal-close"
-    spanClose.textContent = 'x';
+    modalContent.append(message);
+    modalContent.append(jocerElement);
+    spanClose.id = "game-over-and-no-hints-modal-close";
+    spanClose.textContent = "x";
 
     // Сообщение о проигрыше
     message.innerHTML = `
     <h2>Игра завершена</h2>
     <p>К сожалению, доступных ходов не осталось</p>`;
 
+    spanClose.onclick = () => this.onClickJokerElementForNoHintsModalClose(modalBody);
     // Создаем элемент карты JOKER
     const facesStyle = this.stateManager.getSelectedItems().faces;
     if (facesStyle.bgType === "images") {
@@ -600,6 +601,13 @@ export class UIGamePage extends UIPage {
       jocerElement.classList.add(facesStyle.styleClass);
     }
     this.modalShow(modalBody);
+        this.stateManager.setActiveModal(modalBody, () =>
+      this.onClickJokerElementForNoHintsModalClose(modalBody)
+    );
+  }
+
+  onClickJokerElementForNoHintsModalClose(modal) {
+    this.modalHide(modal);
   }
 
   modalShow(modal) {
