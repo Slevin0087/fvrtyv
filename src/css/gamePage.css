@@ -462,9 +462,10 @@
   z-index: 10001;
   /* opacity: 0; */
   transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  max-width: 500px;
   overflow: hidden;
   font-family: "Arial", sans-serif;
+  min-width: max-content;
+  max-width: 90%;
 }
 
 .restart-game-modal-close-span {
@@ -508,7 +509,7 @@
 
 .game-results-modal-its_apply-btn,
 .game-restart-modal-cancel-btn,
-.game-restart-modal-again-btnб
+.game-restart-modal-again-btn,
 .game-over-and-no-hints-modal-result-btn {
   background: linear-gradient(135deg, #ff6b00 0%, #ff0000 100%);
   color: white;
@@ -545,7 +546,8 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.6);
   z-index: 10001;
   transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  max-width: 500px;
+  min-width: max-content;
+  max-width: 90%;
   font-family: "Arial", sans-serif;
   overflow: hidden;
 }
