@@ -641,6 +641,8 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
+  gap: 1rem;
+  padding: 1rem;
 }
 
 .game-over-and-no-hints-modal-message {
