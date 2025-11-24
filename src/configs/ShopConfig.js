@@ -426,7 +426,7 @@ export const ShopConfig = {
       unlockCondition: null,
       previewImage: {
         spriteSheet: false,
-        img: "./src/assets/cardsImages/joker1.png",
+        img: "./src/assets/cardsImages/joker2.png",
         manyLines: 1,
         manyColumns: 4,
         bgPositionX: 0,
