@@ -558,8 +558,8 @@ export class UIGamePage extends UIPage {
     const header = document.createElement("div");
     const headerClose = document.createElement("div");
     const spanClose = document.createElement("span");
-    const title = document.createElement("div");
-    const spanTitle = document.createElement("span");
+    // const title = document.createElement("div");
+    // const spanTitle = document.createElement("span");
     const modalContent = document.createElement('div');
     const message = document.createElement("div");
     const jocerElement = document.createElement("div");
@@ -567,19 +567,19 @@ export class UIGamePage extends UIPage {
     header.className = 'game-over-and-no-hints-modal-header';
     headerClose.className = 'game-over-and-no-hints-modal-close';
     spanClose.className = 'game-over-and-no-hints-modal-close-span';
-    title.className = 'game-over-and-no-hints-modal-title';
-    spanTitle.className = 'game-over-and-no-hints-modal-title-span';
+    // title.className = 'game-over-and-no-hints-modal-title';
+    // spanTitle.className = 'game-over-and-no-hints-modal-title-span';
     modalContent.className = 'game-over-and-no-hints-modal-content';
     message.className = 'game-over-and-no-hints-modal-message';
     jocerElement.className = `joker-card-for-no-hints`;
-    spanTitle.setAttribute("data-i18n", 'game-over-and-no-hints-modal-title-span');
-    this.translator.updateLanOneUI(spanTitle);
+    // spanTitle.setAttribute("data-i18n", 'game-over-and-no-hints-modal-title-span');
+    // this.translator.updateLanOneUI(spanTitle);
     modalBody.append(header);
     modalBody.append(modalContent);
     header.append(headerClose);
-    header.append(title)
+    // header.append(title)
     headerClose.append(spanClose)
-    title.append(spanTitle)
+    // title.append(spanTitle)
     modalContent.append(message)
     modalContent.append(jocerElement)
     spanClose.id = "game-over-and-no-hints-modal-close"

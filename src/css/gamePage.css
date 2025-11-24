@@ -564,6 +564,13 @@
   border-bottom: 2px solid #ffb347;
 }
 
+.game-over-and-no-hints-modal-header {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
 .restart-game-modal-close,
 .game-results-modal-close,
 .game-over-and-no-hints-modal-close {
@@ -593,7 +600,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
 }
 
 .restart-game-modal-close-span:hover,
