@@ -508,7 +508,8 @@
 
 .game-results-modal-its_apply-btn,
 .game-restart-modal-cancel-btn,
-.game-restart-modal-again-btn {
+.game-restart-modal-again-btnб
+.game-over-and-no-hints-modal-result-btn {
   background: linear-gradient(135deg, #ff6b00 0%, #ff0000 100%);
   color: white;
   box-shadow: 0 4px 15px rgba(255, 107, 0, 0.4),
@@ -522,7 +523,8 @@
 .game-restart-modal-again-btn:hover,
 .game-results-modal-its_apply-btn:focus,
 .game-restart-modal-cancel-btn:focus,
-.game-restart-modal-again-btn:focus {
+.game-restart-modal-again-btn:focus,
+.game-over-and-no-hints-modal-result-btn {
   background: linear-gradient(135deg, #ff0000 0%, #ff6b00 100%);
   box-shadow: 0 6px 20px rgba(255, 0, 0, 0.6),
     inset 0 1px 0 rgba(255, 255, 255, 0.5);

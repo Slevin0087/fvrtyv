@@ -36,9 +36,9 @@ export const Translations = {
       assistance_in_collection_p: "automatically move cards to the home",
 
       assistance_in_card_click: "Click on the cards:",
-      assistance_in_card_click_p: 'the ability to click on the map',
+      assistance_in_card_click_p: "the ability to click on the map",
 
-      //   }, 
+      //   },
       //   shopGame: {
       shop_title: "Shop",
       balance: "Balance: ",
@@ -103,7 +103,7 @@ export const Translations = {
       dealing_cards_modal_right_td: "for watching 🎬",
 
       // модальное окно: результаты игры //////////////////////////////////////////
-      game_results_modalvictory_main_badge: 'Victory!',
+      game_results_modalvictory_main_badge: "Victory!",
       game_results_modal_title: "Game results:",
       btn_game_results_modal_apply: "New game!",
       game_results_modal_score: "Score:",
@@ -119,6 +119,12 @@ export const Translations = {
       hint_no_hints: "No moves!",
       hint_turn_deck: "Turn the deck over",
       hint_click_auto_collect_btn: 'Click: "Collect Cards"',
+
+      /////// gameOverAndNoHintsModal
+      game_over_and_no_hints_modal_result_btn: "game results",
+      game_over_and_no_hints_modal_message_h2: 'Game over!',
+      game_over_and_no_hints_modal_message_p: 'Unfortunately, there are no moves left available, but you can use:',
+      ////////////////////////////////
     },
     plurals: {
       coins: (count) => `${count} ${count === 1 ? "khusynka" : "khusynks"}`,
@@ -163,9 +169,9 @@ export const Translations = {
       assistance_in_collection_p: "автоматически перемещать карты в дом",
 
       assistance_in_card_click: "Клик по картам:",
-      assistance_in_card_click_p: 'возможность нажать на карту',
+      assistance_in_card_click_p: "возможность нажать на карту",
 
-      //   }, 
+      //   },
       //   shopGame: {
       shop_title: "Магазин",
       balance: "Баланс: ",
@@ -229,7 +235,7 @@ export const Translations = {
       dealing_cards_modal_right_td: "за просмотр 🎬",
 
       // модальное окно: результаты игры //////////////////////////////////////////
-      game_results_modalvictory_main_badge: 'Победа!',
+      game_results_modalvictory_main_badge: "Победа!",
       game_results_modal_title: "Результаты игры:",
       btn_game_results_modal_apply: "Новая игра!",
       game_results_modal_score: "Очки:",
@@ -245,6 +251,12 @@ export const Translations = {
       hint_no_hints: "Нет ходов!",
       hint_turn_deck: "Переверните колоду",
       hint_click_auto_collect_btn: 'Нажмите: "Собрать карты"',
+
+      /////// gameOverAndNoHintsModal
+      game_over_and_no_hints_modal_result_btn: "результаты игры",
+      game_over_and_no_hints_modal_message_h2: 'Игра завершена!',
+      game_over_and_no_hints_modal_message_p: 'К сожалению, доступных ходов не осталось, но можете использовать:',
+      ////////////////////////////////
     },
     plurals: {
       coins: (count) => {
@@ -304,9 +316,9 @@ export const Translations = {
       assistance_in_collection_p: "ак|артква дара дара атдзы йаквылуашт|",
 
       assistance_in_card_click: "Ак|артква арыквх|ара:",
-      assistance_in_card_click_p: 'ак|рт| у(б)заквх|арныс',
+      assistance_in_card_click_p: "ак|рт| у(б)заквх|арныс",
 
-      //   }, 
+      //   },
       //   shopGame: {
       shop_title: "Аткван",
       balance: "Ахча: ",
@@ -371,7 +383,7 @@ export const Translations = {
       dealing_cards_modal_right_td: "уапшрык|вын 🎬",
 
       // модальное окно: результаты игры //////////////////////////////////////////
-      game_results_modalvictory_main_badge: 'Айг|айра!',
+      game_results_modalvictory_main_badge: "Айг|айра!",
       game_results_modal_title: "Ахъвмарра арезультатква:",
       btn_game_results_modal_apply: "Хъвмарра ш|ыц!",
       game_results_modal_score: "Апхьадзараква:",
@@ -387,6 +399,12 @@ export const Translations = {
       hint_no_hints: "Йгьаъам ацараква!",
       hint_turn_deck: "Аколода йацарпа",
       hint_click_auto_collect_btn: 'У(б)аквх|а: "Ак|артква азк|к|ра"',
+
+      /////// gameOverAndNoHintsModal
+      game_over_and_no_hints_modal_result_btn: "ахъвмарра арезультатква",
+      game_over_and_no_hints_modal_message_h2: 'Ахъвмарра йалгат|!',
+      game_over_and_no_hints_modal_message_p: 'Ацараква йгьаъахым, ауи ак|вымк|ва йыузычпушт|:',
+      ////////////////////////////////
     },
     plurals: {
       coins: (count) => {
@@ -514,7 +532,7 @@ export const Translations = {
       //////////////////////////////////////////////////////////////////////////
 
       // модальное окно: результаты игры //////////////////////////////////////////
-      game_results_modalvictory_main_badge: 'Zafer!',
+      game_results_modalvictory_main_badge: "Zafer!",
       game_results_modal_title: "Maç sonuçları:",
       btn_game_results_modal_apply: "Yeni oyun!",
       game_results_modal_score: "Gözlük:",
@@ -530,6 +548,12 @@ export const Translations = {
       hint_no_hints: "Hareket yok!",
       hint_turn_deck: "Desteyi ters çevir",
       hint_click_auto_collect_btn: 'Tıkla: "Kartları Topla"',
+
+      /////// gameOverAndNoHintsModal
+      game_over_and_no_hints_modal_result_btn: "oyun sonuçları",
+      game_over_and_no_hints_modal_message_h2: 'Oyun bitti!',
+      game_over_and_no_hints_modal_message_p: 'Unfortunately, there are no moves left available, but you can use:',
+      ////////////////////////////////
     },
     plurals: {
       coins: (count) => {
