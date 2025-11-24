@@ -233,7 +233,8 @@
 .green-field3-fon,
 .green-classic-fon-img,
 .classic-fon2,
-.red-tree-fon {
+.red-tree-fon,
+.ice-fon {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -248,6 +249,9 @@
 }
 .red-tree-fon {
   background-image: url("../assets/shop/fons/fon3.png");
+}
+.ice-fon {
+  background-image: url("../assets/shop/fons/fon4.png");
 }
 .green-path-fon {
   background-image: url("../assets/shop/fons/fon_1_350.jpg");
