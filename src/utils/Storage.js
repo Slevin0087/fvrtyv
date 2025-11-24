@@ -22,7 +22,7 @@ export class Storage {
       fastestWin: Infinity,
       gamesPlayed: 0,
       cardsFlipped: 0,
-      hintsUsed: 0,      
+      hintsUsed: 0,
       undoUsed: 0,
       winsWithoutHints: 0,
       winsWithoutUndo: 0,
@@ -60,7 +60,8 @@ export class Storage {
           unlockCondition: null,
           previewImage: {
             spriteSheet: true,
-            img: "./src/assets/cardsImages/Frame_65@4x.png",
+            img: "./src/assets/cardsImages/classic_cards_mini.png",
+            joker: "./src/assets/cardsImages/classic_cards_joker_mini.png",
             manyLines: 4,
             manyColumns: 13,
             styles: {
@@ -448,8 +449,8 @@ export class Storage {
 
   // === Game State ===
   setGameStats(gameStats) {
-    console.log('setGameStats(gameStats): ', gameStats);
-    
+    console.log("setGameStats(gameStats): ", gameStats);
+
     try {
       localStorage.setItem("gameStats", JSON.stringify(gameStats));
       return true;

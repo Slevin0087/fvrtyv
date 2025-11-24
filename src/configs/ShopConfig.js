@@ -61,7 +61,8 @@ export const ShopConfig = {
       unlockCondition: null,
       previewImage: {
         spriteSheet: true,
-        img: "./src/assets/cardsImages/Frame_65@4x.png",
+        img: "./src/assets/cardsImages/classic_cards_mini.png",
+        joker: "./src/assets/cardsImages/classic_cards_joker_mini.png",
         manyLines: 4,
         manyColumns: 13,
         styles: {
@@ -74,34 +75,35 @@ export const ShopConfig = {
         },
       },
     },
-    {
-      id: "wasted_classic_faces",
-      name: "Классические2",
-      type: "faces",
-      bgType: "images",
-      category: "cardFace",
-      owned: false,
-      isBought: false,
-      price: 100,
-      styleClass: "wasted-classic-faces",
-      description: "Стандартный дизайн карт",
-      rarity: "common",
-      unlockCondition: null,
-      previewImage: {
-        spriteSheet: true,
-        img: "./src/assets/cardsImages/fff2.png",
-        manyLines: 4,
-        manyColumns: 13,
-        styles: {
-          borderRadius: "0.5vw",
-          padding: "0",
-        },
-        shopStyles: {
-          borderRadius: "0.5vw",
-          padding: "0",
-        },
-      },
-    },
+    // {
+    //   id: "wasted_classic_faces",
+    //   name: "Классические2",
+    //   type: "faces",
+    //   bgType: "images",
+    //   category: "cardFace",
+    //   owned: false,
+    //   isBought: false,
+    //   price: 100,
+    //   styleClass: "wasted-classic-faces",
+    //   description: "Стандартный дизайн карт",
+    //   rarity: "common",
+    //   unlockCondition: null,
+    //   previewImage: {
+    //     spriteSheet: true,
+    //     img: "./src/assets/cardsImages/old_cards_2_mini.png",
+    //     joker: "./src/assets/cardsImages/old_cards_2_joker_mini.png",
+    //     manyLines: 4,
+    //     manyColumns: 13,
+    //     styles: {
+    //       borderRadius: "0.5vw",
+    //       padding: "0",
+    //     },
+    //     shopStyles: {
+    //       borderRadius: "0.5vw",
+    //       padding: "0",
+    //     },
+    //   },
+    // },
     {
       id: "old_classic_faces",
       name: "Классические2",
@@ -117,7 +119,8 @@ export const ShopConfig = {
       unlockCondition: null,
       previewImage: {
         spriteSheet: true,
-        img: "./src/assets/cardsImages/Frame_67@4x.png",
+        img: "./src/assets/cardsImages/old_cards_2_mini.png",
+        joker: "./src/assets/cardsImages/old_cards_2_joker_mini.png",
         manyLines: 4,
         manyColumns: 13,
         styles: {
