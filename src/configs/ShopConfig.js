@@ -89,7 +89,7 @@ export const ShopConfig = {
       unlockCondition: null,
       previewImage: {
         spriteSheet: true,
-        img: "./src/assets/cardsImages/Frame_66@4x.png",
+        img: "./src/assets/cardsImages/fff2.png",
         manyLines: 4,
         manyColumns: 13,
         styles: {
