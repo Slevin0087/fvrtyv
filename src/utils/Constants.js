@@ -43,6 +43,7 @@ export const GameEvents = {
   HINT_SHOW: 'hint:show',
   HINT_USED: 'hint:used',
   HINT_BTN_CLICK: 'hint:btn:click',
+  HINT_BTN_CLICK_AND_NO_HINTS: 'hint:btn:click:and:no:hints',
   HINT_NOTIF: 'hint:notif',
   UP_HITUSED_STATE: 'up:hintused:state',
   UI_NAME_HIDE: "ui:name:hide",

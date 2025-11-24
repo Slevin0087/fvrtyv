@@ -224,7 +224,7 @@ export class RenderStockElement {
     cardElement.className = `card-back`;
     cardElement.dataset.suit = card.suit;
     cardElement.dataset.value = card.value;
-    const backStyle = this.state.player.selectedItems.backs;
+    const backStyle = this.stateManager.getSelectedItems().backs;
     if (backStyle.bgType === "images") {
       cardElement.style.backgroundImage = `url(${backStyle.previewImage.img})`;
       const bgPositions = Helpers.calculateCardBackPosition(backStyle);

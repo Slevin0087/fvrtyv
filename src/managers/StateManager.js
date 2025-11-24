@@ -49,6 +49,7 @@ export class StateManager {
       usedAutoCollectCards: false,
       isNoHints: false,
       iscreateVictoryConfetti: false,
+      isJokerUsed: false,
       activeModal: { modal: null, handlerClose: null },
       ui: this.storage.getUIStats(),
       game: this.storage.getGameStats(),

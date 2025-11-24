@@ -438,7 +438,18 @@
 }
 
 /*  */
-.restart-game-modal {
+.game-over-and-no-hints {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 1000;
+}
+/*  */
+
+/*  */
+.restart-game-modal,
+.game-over-and-no-hints {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -544,7 +555,8 @@
 
 /* Шапка с короной */
 .restart-game-modal-header,
-.game-results-modal-header {
+.game-results-modal-header,
+.game-over-and-no-hints-modal-header {
   background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
   padding: 1.5rem 2rem;
   text-align: center;
@@ -553,7 +565,8 @@
 }
 
 .restart-game-modal-close,
-.game-results-modal-close {
+.game-results-modal-close,
+.game-over-and-no-hints-modal-close {
   position: absolute;
   top: 10px;
   right: 15px;
@@ -561,7 +574,8 @@
 }
 
 .restart-game-modal-close-span,
-.game-results-modal-close-span {
+.game-results-modal-close-span,
+.game-over-and-no-hints-modal-close-span {
   font-size: 2rem;
   color: #8b4513;
   cursor: pointer;
@@ -575,15 +589,24 @@
   background: rgba(255, 255, 255, 0.8);
 }
 
+.game-over-and-no-hints-modal-close-span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+}
+
 .restart-game-modal-close-span:hover,
-.game-results-modal-close-span:hover {
+.game-results-modal-close-span:hover,
+.game-over-and-no-hints-modal-close-span:hover {
   background: #ff6b6b;
   color: white;
   transform: rotate(90deg);
 }
 
 .restart-game-modal-title,
-.game-results-modal-title {
+.game-results-modal-title,
+.game-over-and-no-hints-modal-title {
   margin-top: 1rem;
   font-size: 1.8rem;
   font-weight: bold;
@@ -604,6 +627,20 @@
       rgba(255, 107, 0, 0.1) 0%,
       transparent 50%
     );
+}
+
+.game-over-and-no-hints-modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.game-over-and-no-hints-modal-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: black;
 }
 
 .game-results-modal-table {

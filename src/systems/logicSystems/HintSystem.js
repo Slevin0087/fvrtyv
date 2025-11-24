@@ -3,6 +3,7 @@ import { GameEvents } from "../../utils/Constants.js";
 import { UIConfig, UIGameUnicodeIcons } from "../../configs/UIConfig.js";
 // import { HintsOfObviousMoves } from "./HintsOfObviousMoves.js";
 import { H2 } from "./H2.js";
+import { Helpers } from "../../utils/Helpers.js";
 
 export class HintSystem {
   constructor(eventManager, stateManager, audioManager, translator) {
@@ -111,8 +112,9 @@ export class HintSystem {
           hintWord
         );
         setTimeout(() => {
-          this.showGameOver()
-        }, 1000)
+          this.eventManager.emit(GameEvents.HINT_BTN_CLICK_AND_NO_HINTS)
+          // this.showGameOver();
+        }, 1000);
         setTimeout(() => {
           this.eventManager.emit(GameEvents.CLEAR_NOTIF_HINT_CARDS);
           resolve();
@@ -188,28 +190,25 @@ export class HintSystem {
     });
   }
 
-  showGameOver() {
-    // Затемнение экрана
-    const overlay = document.createElement("div");
-    overlay.style.cssText = `
-        position: fixed; top: 0; left: 0; 
-        width: 100%; height: 100%;
-        background: rgba(0,0,0,0.7);
-        display: flex; align-items: center; 
-        justify-content: center; z-index: 1000;
-    `;
+  // showGameOver() {
+  //   // Затемнение экрана
+  //   const overlay = document.createElement("div");
+  //   overlay.className = `overlay-no-hints`;
+  //   // Создаем элемент карты JOKER
+    
 
-    // Сообщение о проигрыше
-    const message = document.createElement("div");
-    message.innerHTML = `
-        <div style="background: white; padding: 2rem; border-radius: 10px; text-align: center;">
-            <h2>Игра завершена</h2>
-            <p>К сожалению, доступных ходов не осталось</p>
-            <button onclick="restartGame()">Играть снова</button>
-        </div>
-    `;
+  //   // Сообщение о проигрыше
+  //   const message = document.createElement("div");
+  //   message.innerHTML = `
+  //       <div style="background: white; padding: 2rem; border-radius: 10px; text-align: center;">
+  //           <h2>Игра завершена</h2>
+  //           <p>К сожалению, доступных ходов не осталось</p>
+  //           <button onclick="restartGame()">Играть снова</button>
+  //       </div>
+  //   `;
 
-    overlay.appendChild(message);
-    document.body.appendChild(overlay);
-  }
+  //   overlay.appendChild(message);
+  //   message.append(jolerElement)
+  //   document.body.appendChild(overlay);
+  // }
 }

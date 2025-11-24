@@ -16,66 +16,66 @@ export class H2 {
 
   getHints() {
     this.hints = [];
-    if (this.stateManager.getIsNoHints()) {
-      this.hints.push(
-        this.createHint(
-          null,
-          null,
-          null,
-          null,
-          10,
-          UIConfig.dataI18nValue.HINT_NO_HINTS
-        )
-      );
-      return this.hints;
-    }
-
-    if (this.stateManager.getIsAutoCollectBtnShow()) {
-      this.hints.push(
-        this.createHint(
-          null,
-          null,
-          null,
-          null,
-          10,
-          UIConfig.dataI18nValue.HINT_CLICK_AUTO_COLLECT_BTN
-        )
-      );
-      return this.hints;
-    }
-
-    // Собираем все открытые карты, которые блокируют закрытые
-    const blockedCardsToCardsWithFaceDown = this.getAllBlockedOpenCards();
-
-    // ПРИОРИТЕТ 1: Открытие закрытых карт
-    if (blockedCardsToCardsWithFaceDown.length > 0) {
-      this.hints.push(...this.getCardsHints(blockedCardsToCardsWithFaceDown));
-    }
-
-    if (this.hints.length === 0) {
-      this.hints.push(...this.getHintsToCardFromWaste());
-    }
-
-    if (this.hints.length === 0) {
-      const blockedCardsToFreeUpSpace = this.getAllBlockedCardsToFreeUpSpace();
-      if (blockedCardsToFreeUpSpace.length > 0) {
-        this.hints.push(...this.getCardsHints(blockedCardsToFreeUpSpace));
-      }
-    }
-
-    if (this.hints.length === 0) {
-      this.hints.push(...this.getStockHint());
-    }
-
-    if (this.hints.length === 0) {
-      this.hints.push(...this.getStockAndWasteHints());
-    }
-    // this.hints.push(
-    //   ...this.getUncoverHiddenCardsHintsNextCardsOnes(
-    //     tableauAfterFirstBlockedCards
-    //   )
-    // );
+    // if (this.stateManager.getIsNoHints()) {
+    //   this.hints.push(
+    //     this.createHint(
+    //       null,
+    //       null,
+    //       null,
+    //       null,
+    //       10,
+    //       UIConfig.dataI18nValue.HINT_NO_HINTS
+    //     )
+    //   );
+    //   return this.hints;
     // }
+
+    // if (this.stateManager.getIsAutoCollectBtnShow()) {
+    //   this.hints.push(
+    //     this.createHint(
+    //       null,
+    //       null,
+    //       null,
+    //       null,
+    //       10,
+    //       UIConfig.dataI18nValue.HINT_CLICK_AUTO_COLLECT_BTN
+    //     )
+    //   );
+    //   return this.hints;
+    // }
+
+    // // Собираем все открытые карты, которые блокируют закрытые
+    // const blockedCardsToCardsWithFaceDown = this.getAllBlockedOpenCards();
+
+    // // ПРИОРИТЕТ 1: Открытие закрытых карт
+    // if (blockedCardsToCardsWithFaceDown.length > 0) {
+    //   this.hints.push(...this.getCardsHints(blockedCardsToCardsWithFaceDown));
+    // }
+
+    // if (this.hints.length === 0) {
+    //   this.hints.push(...this.getHintsToCardFromWaste());
+    // }
+
+    // if (this.hints.length === 0) {
+    //   const blockedCardsToFreeUpSpace = this.getAllBlockedCardsToFreeUpSpace();
+    //   if (blockedCardsToFreeUpSpace.length > 0) {
+    //     this.hints.push(...this.getCardsHints(blockedCardsToFreeUpSpace));
+    //   }
+    // }
+
+    // if (this.hints.length === 0) {
+    //   this.hints.push(...this.getStockHint());
+    // }
+
+    // if (this.hints.length === 0) {
+    //   this.hints.push(...this.getStockAndWasteHints());
+    // }
+    // // this.hints.push(
+    // //   ...this.getUncoverHiddenCardsHintsNextCardsOnes(
+    // //     tableauAfterFirstBlockedCards
+    // //   )
+    // // );
+    // // }
 
     if (this.hints.length === 0) {
       this.eventManager.emit(GameEvents.SET_NO_HINTS, true);

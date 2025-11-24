@@ -76,7 +76,8 @@
 }
 
 .card-front,
-.card-back {
+.card-back,
+.joker-card {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -97,7 +98,21 @@
   box-sizing: content-box;
 }
 
-.card-back {
+.joker-card-for-no-hints {
+  width: var(--card-width);
+  height: var(--card-height);
+  border-radius: var(--card-radius);
+  user-select: none;
+  touch-action: none;
+  background-origin: padding-box;
+  background-repeat: no-repeat;
+  background-clip: content-box;
+  box-sizing: content-box;
+}
+
+.card-back,
+.joker-card,
+.joker-card-for-no-hints {
   background-size: cover;
 }
 
@@ -290,7 +305,7 @@
 
 /* Height breakpoint for landscape/compact devices (500px) */
 @media (max-height: 500px) {
-  .game-interface{
+  .game-interface {
     gap: 3vh;
   }
   .game-container {

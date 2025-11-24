@@ -3,6 +3,7 @@ import { GameEvents } from "../utils/Constants.js";
 import { UIConfig, UIGameUnicodeIcons } from "../configs/UIConfig.js";
 import { GameConfig, PlayerConfigs } from "../configs/GameConfig.js";
 import { Animator } from "../utils/Animator.js";
+import { Helpers } from "../utils/Helpers.js";
 
 export class UIGamePage extends UIPage {
   constructor(eventManager, stateManager, translator) {
@@ -93,8 +94,11 @@ export class UIGamePage extends UIPage {
     };
 
     this.elements.menuBtn.onclick = () => {
-      console.log('this.stateManager.getIsRunning(): ', this.stateManager.getIsRunning());
-      
+      console.log(
+        "this.stateManager.getIsRunning(): ",
+        this.stateManager.getIsRunning()
+      );
+
       if (!this.stateManager.getIsRunning()) return;
       if (!this.stateManager.getIsPaused()) {
         this.stateManager.setIsPaused(true);
@@ -111,7 +115,9 @@ export class UIGamePage extends UIPage {
     this.eventManager.on(GameEvents.SCORE_UPDATE, (score) =>
       this.updateScore(score)
     );
-
+    this.eventManager.on(GameEvents.HINT_BTN_CLICK_AND_NO_HINTS, () => {
+      this.createJokerElementForNoHints();
+    });
     this.eventManager.on(GameEvents.COLLECT_BTN_SHOW, () => {
       this.elements.collectBtn.classList.remove("hidden");
     });
@@ -264,8 +270,8 @@ export class UIGamePage extends UIPage {
     this.eventManager.emit(GameEvents.STOP_PLAY_TIME);
     this.eventManager.emit(GameEvents.RESET_STATE_FOR_NEW_GAME);
     await this.eventManager.emitAsync(GameEvents.GAME_RESTART);
-    this.stateManager.setIsRunning(true)
-    this.stateManager.setIsPaused(false)
+    this.stateManager.setIsRunning(true);
+    this.stateManager.setIsPaused(false);
     this.updateUI();
   }
 
@@ -322,7 +328,7 @@ export class UIGamePage extends UIPage {
     this.eventManager.emit(GameEvents.RESET_STATE_FOR_NEW_GAME);
     await this.eventManager.emitAsync(GameEvents.GAME_RESTART);
     this.stateManager.setIsRunning(true);
-    this.stateManager.setIsPaused(false)
+    this.stateManager.setIsPaused(false);
     this.updateUI();
   }
 
@@ -545,6 +551,55 @@ export class UIGamePage extends UIPage {
     } else {
       this.elements.timeEl.textContent = `${formattedMinutes}:${formattedSeconds}`;
     }
+  }
+
+  createJokerElementForNoHints() {
+    const modalBody = document.createElement("div");
+    const header = document.createElement("div");
+    const headerClose = document.createElement("div");
+    const spanClose = document.createElement("span");
+    const title = document.createElement("div");
+    const spanTitle = document.createElement("span");
+    const modalContent = document.createElement('div');
+    const message = document.createElement("div");
+    const jocerElement = document.createElement("div");
+    modalBody.className = 'game-over-and-no-hints';
+    header.className = 'game-over-and-no-hints-modal-header';
+    headerClose.className = 'game-over-and-no-hints-modal-close';
+    spanClose.className = 'game-over-and-no-hints-modal-close-span';
+    title.className = 'game-over-and-no-hints-modal-title';
+    spanTitle.className = 'game-over-and-no-hints-modal-title-span';
+    modalContent.className = 'game-over-and-no-hints-modal-content';
+    message.className = 'game-over-and-no-hints-modal-message';
+    jocerElement.className = `joker-card-for-no-hints`;
+    spanTitle.setAttribute("data-i18n", 'game-over-and-no-hints-modal-title-span');
+    this.translator.updateLanOneUI(spanTitle);
+    modalBody.append(header);
+    modalBody.append(modalContent);
+    header.append(headerClose);
+    header.append(title)
+    headerClose.append(spanClose)
+    title.append(spanTitle)
+    modalContent.append(message)
+    modalContent.append(jocerElement)
+    spanClose.id = "game-over-and-no-hints-modal-close"
+    spanClose.textContent = 'x';
+
+    // Сообщение о проигрыше
+    message.innerHTML = `
+    <h2>Игра завершена</h2>
+    <p>К сожалению, доступных ходов не осталось</p>`;
+
+    // Создаем элемент карты JOKER
+    const facesStyle = this.stateManager.getSelectedItems().faces;
+    if (facesStyle.bgType === "images") {
+      jocerElement.style.backgroundImage = `url(${facesStyle.previewImage.joker})`;
+      const bgPositions = Helpers.calculateCardBackPosition(facesStyle);
+      jocerElement.style.backgroundPosition = `${bgPositions.x}% ${bgPositions.y}%`;
+    } else {
+      jocerElement.classList.add(facesStyle.styleClass);
+    }
+    this.modalShow(modalBody);
   }
 
   modalShow(modal) {
