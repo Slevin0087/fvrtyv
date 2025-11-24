@@ -411,6 +411,38 @@ export const ShopConfig = {
         },
       },
     },
+    {
+      id: "joker1",
+      name: "Классическая рубашка",
+      type: "backs",
+      bgType: "images",
+      category: "cardBack",
+      owned: false,
+      isBought: false,
+      price: 0,
+      styleClass: "classic-back",
+      description: "Классическая рубашка",
+      rarity: "common",
+      unlockCondition: null,
+      previewImage: {
+        spriteSheet: false,
+        img: "./src/assets/cardsImages/joker1.png",
+        manyLines: 1,
+        manyColumns: 4,
+        bgPositionX: 0,
+        bgPositionY: 0,
+        styles: {
+          borderRadius: "0.5vw",
+          padding: "0",
+        },
+        shopStyles: {
+          borderRadius: "0.5vw",
+          padding: "0",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        },
+      },
+    },
     //////////////////////////////////////////
     {
       id: "classic_back",
