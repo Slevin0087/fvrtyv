@@ -29,12 +29,12 @@ export class CardMovementSystem {
     const audioCardMove = this.audioManager.getSound(
       AudioName.CARD_MOVE
     );
-    this.cardMoveDuration = audioCardMove.duration * 100
+    this.cardMoveDuration = audioCardMove.duration * 10000 // поменять 10000 на 100, для теста поменял 100 на 10000
 
     // Проверка foundation
     for (let i = 0; i < gameComponents.foundations.length; i++) {
       if (gameComponents.foundations[i].canAccept(card, gameComponents)) {
-        if (!usedAutoCollectCards) this.audioManager.play(AudioName.CLICK);
+        // if (!usedAutoCollectCards) this.audioManager.play(AudioName.CLICK); // расскоментить, закомментил для теста
         const containerTo = gameComponents.foundations[i];
         const containerToName = this.cardContainers.foundation;
         await this.eventManager.emitAsync(GameEvents.CARD_MOVE, {
@@ -51,7 +51,7 @@ export class CardMovementSystem {
     // Проверка tableau
     for (let i = 0; i < gameComponents.tableaus.length; i++) {
       if (gameComponents.tableaus[i].canAccept(card)) {
-        if (!usedAutoCollectCards) this.audioManager.play(AudioName.CLICK);
+        // if (!usedAutoCollectCards) this.audioManager.play(AudioName.CLICK); // расскоментить, закомментил для теста
         const containerTo = gameComponents.tableaus[i];
         const containerToName = this.cardContainers.tableau;
         await this.eventManager.emitAsync(GameEvents.CARD_MOVE, {
