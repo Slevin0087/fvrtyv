@@ -7,6 +7,7 @@
   ); /* Responsive gap for 900px+ viewports */
   --padding-sb: 0.7em;
   --padding-bc: 0.3em;
+  --padding-modal-content: 0.5rem;
   --top-right-bc: -50%;
   --min-width-bc: calc(var(--card-width) / 2);
   --font-size-bc: calc(var(--card-width) / 4);
@@ -330,6 +331,7 @@
 
 .joker-card-for-no-hints {
   position: relative;
+  cursor: pointer;
 }
 
 .joker-card-for-no-hints-span-video {
@@ -500,7 +502,7 @@
 }
 
 .restart-game-modal-content {
-  padding: 1rem;
+  padding: var(--padding-modal-content);
   background: radial-gradient(
       circle at 10% 20%,
       rgba(255, 215, 0, 0.1) 0%,
@@ -623,7 +625,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.3rem;
+  font-size: 2rem;
+  line-height: 1;
 }
 
 .restart-game-modal-close-span:hover,
@@ -664,7 +667,7 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  gap: 1rem;
+  gap: 3rem;
   padding-top: 1rem;
 }
 
@@ -673,7 +676,7 @@
   flex-direction: column;
   align-items: center;
   color: black;
-  padding: 0 1rem;
+  padding: 0 var(--padding-modal-content);
 }
 
 .game-results-modal-table {

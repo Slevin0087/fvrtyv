@@ -121,7 +121,7 @@ export const Translations = {
       hint_click_auto_collect_btn: 'Click: "Collect Cards"',
 
       /////// gameOverAndNoHintsModal
-      game_over_and_no_hints_modal_result_btn: "game results",
+      game_over_and_no_hints_modal_result_btn: "Game results",
       game_over_and_no_hints_modal_title_span: 'Game over!',
       game_over_and_no_hints_modal_message_p: 'Unfortunately, there are no moves left available, but you can use:',
       ////////////////////////////////
@@ -253,7 +253,7 @@ export const Translations = {
       hint_click_auto_collect_btn: 'Нажмите: "Собрать карты"',
 
       /////// gameOverAndNoHintsModal
-      game_over_and_no_hints_modal_result_btn: "результаты игры",
+      game_over_and_no_hints_modal_result_btn: "Результаты игры",
       game_over_and_no_hints_modal_title_span: 'Игра завершена!',
       game_over_and_no_hints_modal_message_p: 'К сожалению, доступных ходов не осталось, но можете использовать:',
       ////////////////////////////////
@@ -401,7 +401,7 @@ export const Translations = {
       hint_click_auto_collect_btn: 'У(б)аквх|а: "Ак|артква азк|к|ра"',
 
       /////// gameOverAndNoHintsModal
-      game_over_and_no_hints_modal_result_btn: "ахъвмарра арезультатква",
+      game_over_and_no_hints_modal_result_btn: "Ахъвмарра арезультатква",
       game_over_and_no_hints_modal_title_span: 'Ахъвмарра йалгат|!',
       game_over_and_no_hints_modal_message_p: 'Ацараква йгьаъахым, ауи ак|вымк|ва йыузычпушт|:',
       ////////////////////////////////
@@ -550,9 +550,9 @@ export const Translations = {
       hint_click_auto_collect_btn: 'Tıkla: "Kartları Topla"',
 
       /////// gameOverAndNoHintsModal
-      game_over_and_no_hints_modal_result_btn: "oyun sonuçları",
+      game_over_and_no_hints_modal_result_btn: "Oyun sonuçları",
       game_over_and_no_hints_modal_title_span: 'Oyun bitti!',
-      game_over_and_no_hints_modal_message_p: 'Unfortunately, there are no moves left available, but you can use:',
+      game_over_and_no_hints_modal_message_p: 'Maalesef, kullanılabilecek hamle kalmadı, ancak şunları kullanabilirsiniz:',
       ////////////////////////////////
     },
     plurals: {

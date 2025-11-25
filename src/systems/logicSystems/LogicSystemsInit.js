@@ -330,6 +330,11 @@ export class LogicSystemsInit {
     }
   }
 
+  async handleJokerCardMoveFromStockToTableaus(jokerCard) {
+    if (!this.stateManager.getJokerUsed() || this.winSystem.check()) return;
+
+  }
+
   // Вспомогательная функция задержки
   delay(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));

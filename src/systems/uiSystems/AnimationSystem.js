@@ -71,8 +71,8 @@ export class AnimationSystem {
     });
 
     this.eventManager.on(GameEvents.CARD_FLIP, async (card) => {
-      console.log('ddddddddddddddddd');
-      
+      console.log("ddddddddddddddddd");
+
       this.cardFlipDuration = this.audioManager.getSound(
         AudioName.CARD_FLIP
       ).duration;
@@ -151,6 +151,21 @@ export class AnimationSystem {
     this.eventManager.on(GameEvents.UI_ANIMATE_WIN, () =>
       this.playWinAnimation()
     );
+
+    this.eventManager.onAsync(GameEvents.ANIMATE_JOKER_FLIP, async (jokerCard) => {
+      this.cardFlipDuration = this.audioManager.getSound(
+        AudioName.CARD_FLIP
+      ).duration;
+      await this.animateJokerCardFlip(
+        jokerCard,
+        this.degsCardFlip,
+        this.cardFlipDuration
+      );
+    });
+
+    this.eventManager.on(GameEvents.SET_BG_FOR_JOKER_ELEMENT, (jokerElement, faceStyles) => {
+      this.setBgForJokerElement(jokerElement, faceStyles)
+    })
   }
 
   // registerComponents() {
@@ -318,6 +333,71 @@ export class AnimationSystem {
     } finally {
       card.isAnimating = false;
     }
+  }
+
+  async animateJokerCardFlip(card, deg, duration) {
+    console.log("duration: ", duration);
+
+    if (!card.domElement || card.isAnimating) return;
+    try {
+      const cardDomElement = card.domElement;
+      const { backStyle, faceStyle } = this.cardsSystem.getCardStyles();
+
+      card.isAnimating = true;
+
+      const promiseAnimate = Animator.flipCard(
+        card,
+        () => {
+          // Колбэк на середине анимации (90 градусов)
+          cardDomElement.innerHTML = "";
+          cardDomElement.className = "";
+          if (backStyle.bgType === "images") {
+            this.eventManager.emit(GameEvents.RESET_CARD_BG_IMAGE, card);
+          }
+          cardDomElement.classList.add("joker-card");
+          this.setBgForJokerElement(cardDomElement, faceStyle)
+        },
+        deg,
+        this.eventManager,
+        duration
+      );
+
+      if (this.stateManager.getSoundEnabled()) {
+        const audioCardMove = this.audioManager.getSound(AudioName.CARD_FLIP);
+
+        // const audioPlaySpeed =
+        //   this.startMoveSpeed / (audioCardMove.duration * 100);
+
+        // audioCardMove.playbackRate = audioPlaySpeed;
+
+        const promiseAudio = audioCardMove.play().catch((error) => {
+          console.warn("Звук не воспроизведён:", error.name);
+          return Promise.resolve();
+        });
+
+        await Promise.all([promiseAudio, promiseAnimate]);
+      } else {
+        await promiseAnimate;
+      }
+    } catch (error) {
+      console.error("Card flip failed:", error);
+      throw error;
+    } finally {
+      card.isAnimating = false;
+    }
+  }
+
+  setBgForJokerElement(jokerElement, faceStyle) {
+    console.log('faceStyle: ', faceStyle);
+    
+    if (faceStyle.bgType === "images") {
+      jokerElement.style.backgroundImage = `url(${faceStyle.previewImage.joker})`;
+      const bgPositions = Helpers.calculateCardBackPosition(faceStyle);
+      jokerElement.style.backgroundPosition = `${bgPositions.x}% ${bgPositions.y}%`;
+    } else {
+      jokerElement.classList.add(faceStyle.styleClass);
+    }
+    return jokerElement;
   }
 
   async animateBackCardFlip(card, deg, duration) {

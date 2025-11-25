@@ -40,12 +40,8 @@ export class Stock extends Pile {
   addCard(card) {
     const position = this.cards.length - 1;
     card.positionData = this.getPositionData(position);
-    card.parentElement = this.element;
-    console.log('card.faceUp ДОООО: ', card.faceUp);
-    
+    card.parentElement = this.element;    
     card.flip(false);
-    console.log('card.faceUp ПОСЛЕ: ', card.faceUp);
-
     card.removeDataAttribute(GameConfig.dataAttributes.cardParent);
     card.removeDataAttribute(GameConfig.dataAttributes.dataAttributeDND);
     card.setDataAttribute(

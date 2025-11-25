@@ -1,7 +1,10 @@
 export class Joker {
   constructor() {
+    this.faceUp = false;
     this.isUndo = false;
     this.domElement = null;
+    this.suit = "♥";
+    this.value = "JOKER";
     this.positionData = {
       parent: null, // 'stock', 'waste', 'tableau-#', 'foundation-#'
       position: null,

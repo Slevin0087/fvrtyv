@@ -30,6 +30,7 @@ export class CardMovementSystem {
       AudioName.CARD_MOVE
     );
     this.cardMoveDuration = audioCardMove.duration * 100
+
     // Проверка foundation
     for (let i = 0; i < gameComponents.foundations.length; i++) {
       if (gameComponents.foundations[i].canAccept(card, gameComponents)) {

@@ -19,6 +19,10 @@ export class Pile {
     return element;
   }
 
+  addJoker(cardJoker) {
+    
+  }
+
   addCard(card) {
     // this.cards.length, а не this.cards.length - 1, для определения z-index дочерних элементов
     // у stock, foundations, tableaus, так как самый первый дочерний элимент у них span

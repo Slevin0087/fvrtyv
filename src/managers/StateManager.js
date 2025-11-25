@@ -449,6 +449,14 @@ export class StateManager {
     this.state.player.fastestWin;
   }
 
+  setJokerUsed(boolean) {
+    this.state.isJokerUsed = boolean;
+  }
+
+  getJokerUsed() {
+    return this.state.isJokerUsed;
+  }
+
   setPlayerFirstCardClick(boolean) {
     this.state.player.playerFirstCardClick = boolean;
   }

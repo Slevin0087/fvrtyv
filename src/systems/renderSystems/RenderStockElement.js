@@ -43,6 +43,10 @@ export class RenderStockElement {
         await this.shuffleCardsToStock(stock, waste);
       }
     );
+
+    this.eventManager.on(GameEvents.RENDER_STOCK_CARD, (card, stockElement) => {
+      this.renderStockCard(card, stockElement)
+    })
   }
 
   render(stock, waste) {

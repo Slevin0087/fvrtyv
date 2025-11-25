@@ -4,6 +4,7 @@ import { UIConfig, UIGameUnicodeIcons } from "../configs/UIConfig.js";
 import { GameConfig, PlayerConfigs } from "../configs/GameConfig.js";
 import { Animator } from "../utils/Animator.js";
 import { Helpers } from "../utils/Helpers.js";
+import { Joker } from "../core/Joker.js";
 
 export class UIGamePage extends UIPage {
   constructor(eventManager, stateManager, translator) {
@@ -563,34 +564,39 @@ export class UIGamePage extends UIPage {
     const modalContent = document.createElement("div");
     const message = document.createElement("div");
     const messageP = document.createElement("p");
-    const jocerElement = document.createElement("div");
-    const jokerSpanVideo = document.createElement('span')
-    const btnsContainer = document.createElement('div');
+
+    // Создаем элемент карты JOKER
+    const jokerElement = document.createElement("div");
+    const jokerSpanVideo = document.createElement("span");
+    const btnsContainer = document.createElement("div");
     const resultButton = document.createElement("button");
     spanClose.id = "game-over-and-no-hints-modal-close";
-    jokerSpanVideo.id = 'joker-card-for-no-hints-span-video-id'
+    jokerSpanVideo.id = "joker-card-for-no-hints-span-video-id";
     resultButton.id = "game-over-and-no-hints-modal-result-btn";
     modalBody.className = "game-over-and-no-hints";
     header.className = "game-over-and-no-hints-modal-header";
     headerClose.className = "game-over-and-no-hints-modal-close";
     spanClose.className = "game-over-and-no-hints-modal-close-span";
-    title.className = 'game-over-and-no-hints-modal-title';
+    title.className = "game-over-and-no-hints-modal-title";
 
-    spanTitle.className = 'game-over-and-no-hints-modal-title-span';
+    spanTitle.className = "game-over-and-no-hints-modal-title-span";
     modalContent.className = "game-over-and-no-hints-modal-content";
     message.className = "game-over-and-no-hints-modal-message";
     messageP.className = "game-over-and-no-hints-modal-message-p";
-    jocerElement.className = 'joker-card-for-no-hints';
-    jokerSpanVideo.className = 'joker-card-for-no-hints-span-video';
-    btnsContainer.className = 'game-over-and-no-hints-modal-btns'
+    jokerElement.className = "joker-card-for-no-hints";
+    jokerSpanVideo.className = "joker-card-for-no-hints-span-video";
+    btnsContainer.className = "game-over-and-no-hints-modal-btns";
     resultButton.className = "game-over-and-no-hints-modal-result-btn";
     spanClose.textContent = "x";
-    jokerSpanVideo.textContent = UIGameUnicodeIcons.VIDEO
+    jokerSpanVideo.textContent = UIGameUnicodeIcons.VIDEO;
     resultButton.setAttribute(
       "data-i18n",
       "game_over_and_no_hints_modal_result_btn"
     );
-    spanTitle.setAttribute("data-i18n", 'game_over_and_no_hints_modal_title_span');
+    spanTitle.setAttribute(
+      "data-i18n",
+      "game_over_and_no_hints_modal_title_span"
+    );
     messageP.setAttribute(
       "data-i18n",
       "game_over_and_no_hints_modal_message_p"
@@ -602,30 +608,36 @@ export class UIGamePage extends UIPage {
     modalBody.append(header);
     modalBody.append(modalContent);
     header.append(headerClose);
-    header.append(title)
+    header.append(title);
     headerClose.append(spanClose);
-    title.append(spanTitle)
+    title.append(spanTitle);
     modalContent.append(message);
     message.append(messageP);
-    modalContent.append(jocerElement);
+    modalContent.append(jokerElement);
     modalContent.append(btnsContainer);
-    jocerElement.append(jokerSpanVideo)
-    btnsContainer.append(resultButton)
+    jokerElement.append(jokerSpanVideo);
+    btnsContainer.append(resultButton);
 
     spanClose.onclick = () =>
       this.onClickJokerElementForNoHintsModalClose(modalBody);
+
+    jokerElement.onclick = async () =>
+      await this.onClickJokerElementForNoHintsModalJoker(modalBody);
+
     resultButton.onclick = () =>
       this.onClickJokerElementForNoHintsModalResultButton(modalBody);
 
-    // Создаем элемент карты JOKER
-    const facesStyle = this.stateManager.getSelectedItems().faces;
-    if (facesStyle.bgType === "images") {
-      jocerElement.style.backgroundImage = `url(${facesStyle.previewImage.joker})`;
-      const bgPositions = Helpers.calculateCardBackPosition(facesStyle);
-      jocerElement.style.backgroundPosition = `${bgPositions.x}% ${bgPositions.y}%`;
-    } else {
-      jocerElement.classList.add(facesStyle.styleClass);
-    }
+    // устанавливаем backgroundImage для jokerElement
+    const faceStyles = this.stateManager.getSelectedItems().faces;
+    console.log("faceStyles: ", faceStyles);
+
+    this.eventManager.emit(
+      GameEvents.SET_BG_FOR_JOKER_ELEMENT,
+      jokerElement,
+      faceStyles
+    );
+    // this.setBgForJokerElement(jokerElement);
+
     this.modalShow(modalBody);
     this.stateManager.setActiveModal(modalBody, () =>
       this.onClickJokerElementForNoHintsModalClose(modalBody)
@@ -638,6 +650,42 @@ export class UIGamePage extends UIPage {
 
   onClickJokerElementForNoHintsModalClose(modal) {
     this.modalHide(modal);
+  }
+
+  async onClickJokerElementForNoHintsModalJoker(modalBody) {
+    this.stateManager.setJokerUsed(true);
+    const jokerCard = new Joker();
+
+    // рендер joker карты в stock, как карту с faceDown
+    this.renderCardToStock(jokerCard);
+    jokerCard.domElement.style.zIndex = "100";
+
+    this.modalHide(modalBody);
+    await this.eventManager.emitAsync(GameEvents.ANIMATE_JOKER_FLIP, jokerCard);
+    // document.querySelector('body').append(jokerCard.domElement)
+  }
+
+  createJokerDomElement(id, className) {
+    const jokerElement = document.createElement("div");
+    jokerElement.id = id;
+    jokerElement.className = className;
+    return jokerElement;
+  }
+
+  jookerCardFlip(jokerCard) {
+    // const jokerElement = this.createJokerDomElement("joker-card", "joker-card");
+
+    // устанавливаем backgroundImage для jokerElement
+    // this.setBgForJokerElement(jokerElement);
+
+    // jokerCard.domElement = jokerElement;
+
+    return jokerCard;
+  }
+
+  renderCardToStock(card) {
+    const stock = this.stateManager.getCardsComponents().stock;
+    this.eventManager.emit(GameEvents.RENDER_STOCK_CARD, card, stock.element);
   }
 
   modalShow(modal) {
