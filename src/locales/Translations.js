@@ -122,7 +122,7 @@ export const Translations = {
 
       /////// gameOverAndNoHintsModal
       game_over_and_no_hints_modal_result_btn: "game results",
-      game_over_and_no_hints_modal_message_h2: 'Game over!',
+      game_over_and_no_hints_modal_title_span: 'Game over!',
       game_over_and_no_hints_modal_message_p: 'Unfortunately, there are no moves left available, but you can use:',
       ////////////////////////////////
     },
@@ -254,7 +254,7 @@ export const Translations = {
 
       /////// gameOverAndNoHintsModal
       game_over_and_no_hints_modal_result_btn: "результаты игры",
-      game_over_and_no_hints_modal_message_h2: 'Игра завершена!',
+      game_over_and_no_hints_modal_title_span: 'Игра завершена!',
       game_over_and_no_hints_modal_message_p: 'К сожалению, доступных ходов не осталось, но можете использовать:',
       ////////////////////////////////
     },
@@ -402,7 +402,7 @@ export const Translations = {
 
       /////// gameOverAndNoHintsModal
       game_over_and_no_hints_modal_result_btn: "ахъвмарра арезультатква",
-      game_over_and_no_hints_modal_message_h2: 'Ахъвмарра йалгат|!',
+      game_over_and_no_hints_modal_title_span: 'Ахъвмарра йалгат|!',
       game_over_and_no_hints_modal_message_p: 'Ацараква йгьаъахым, ауи ак|вымк|ва йыузычпушт|:',
       ////////////////////////////////
     },
@@ -551,7 +551,7 @@ export const Translations = {
 
       /////// gameOverAndNoHintsModal
       game_over_and_no_hints_modal_result_btn: "oyun sonuçları",
-      game_over_and_no_hints_modal_message_h2: 'Oyun bitti!',
+      game_over_and_no_hints_modal_title_span: 'Oyun bitti!',
       game_over_and_no_hints_modal_message_p: 'Unfortunately, there are no moves left available, but you can use:',
       ////////////////////////////////
     },

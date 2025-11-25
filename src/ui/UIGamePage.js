@@ -558,63 +558,65 @@ export class UIGamePage extends UIPage {
     const header = document.createElement("div");
     const headerClose = document.createElement("div");
     const spanClose = document.createElement("span");
-    // const title = document.createElement("div");
-    // const spanTitle = document.createElement("span");
+    const title = document.createElement("div");
+    const spanTitle = document.createElement("span");
     const modalContent = document.createElement("div");
     const message = document.createElement("div");
-    const messageH2 = document.createElement("h2");
     const messageP = document.createElement("p");
     const jocerElement = document.createElement("div");
+    const jokerSpanVideo = document.createElement('span')
+    const btnsContainer = document.createElement('div');
     const resultButton = document.createElement("button");
     spanClose.id = "game-over-and-no-hints-modal-close";
+    jokerSpanVideo.id = 'joker-card-for-no-hints-span-video-id'
     resultButton.id = "game-over-and-no-hints-modal-result-btn";
     modalBody.className = "game-over-and-no-hints";
     header.className = "game-over-and-no-hints-modal-header";
     headerClose.className = "game-over-and-no-hints-modal-close";
     spanClose.className = "game-over-and-no-hints-modal-close-span";
-    // title.className = 'game-over-and-no-hints-modal-title';
-    // spanTitle.className = 'game-over-and-no-hints-modal-title-span';
+    title.className = 'game-over-and-no-hints-modal-title';
+
+    spanTitle.className = 'game-over-and-no-hints-modal-title-span';
     modalContent.className = "game-over-and-no-hints-modal-content";
     message.className = "game-over-and-no-hints-modal-message";
-    messageH2.className = "game-over-and-no-hints-modal-message-h2";
     messageP.className = "game-over-and-no-hints-modal-message-p";
-    jocerElement.className = `joker-card-for-no-hints`;
+    jocerElement.className = 'joker-card-for-no-hints';
+    jokerSpanVideo.className = 'joker-card-for-no-hints-span-video';
+    btnsContainer.className = 'game-over-and-no-hints-modal-btns'
     resultButton.className = "game-over-and-no-hints-modal-result-btn";
     spanClose.textContent = "x";
+    jokerSpanVideo.textContent = UIGameUnicodeIcons.VIDEO
     resultButton.setAttribute(
       "data-i18n",
       "game_over_and_no_hints_modal_result_btn"
     );
-    messageH2.setAttribute(
-      "data-i18n",
-      "game_over_and_no_hints_modal_message_h2"
-    );
+    spanTitle.setAttribute("data-i18n", 'game_over_and_no_hints_modal_title_span');
     messageP.setAttribute(
       "data-i18n",
       "game_over_and_no_hints_modal_message_p"
     );
 
     this.translator.updateLanOneUI(resultButton);
-    this.translator.updateLanOneUI(messageH2);
     this.translator.updateLanOneUI(messageP);
-    // spanTitle.setAttribute("data-i18n", 'game_over_and_no_hints_modal_title_span');
-    // this.translator.updateLanOneUI(spanTitle);
+    this.translator.updateLanOneUI(spanTitle);
     modalBody.append(header);
     modalBody.append(modalContent);
     header.append(headerClose);
-    // header.append(title)
+    header.append(title)
     headerClose.append(spanClose);
-    // title.append(spanTitle)
+    title.append(spanTitle)
     modalContent.append(message);
-    message.append(messageH2);
     message.append(messageP);
     modalContent.append(jocerElement);
-    modalContent.append(resultButton);
+    modalContent.append(btnsContainer);
+    jocerElement.append(jokerSpanVideo)
+    btnsContainer.append(resultButton)
 
     spanClose.onclick = () =>
       this.onClickJokerElementForNoHintsModalClose(modalBody);
     resultButton.onclick = () =>
       this.onClickJokerElementForNoHintsModalResultButton(modalBody);
+
     // Создаем элемент карты JOKER
     const facesStyle = this.stateManager.getSelectedItems().faces;
     if (facesStyle.bgType === "images") {

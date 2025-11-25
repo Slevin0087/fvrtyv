@@ -328,6 +328,29 @@
   min-height: var(--min-width-bc);
 }
 
+.joker-card-for-no-hints {
+  position: relative;
+}
+
+.joker-card-for-no-hints-span-video {
+  position: absolute;
+  padding: var(--padding-bc);
+  display: flex;
+  justify-content: center;
+  background-color: rgba(0, 0, 0);
+  top: calc(var(--top-right-bc) + 1.5rem);
+  right: calc(var(--top-right-bc) + 1rem);
+  font-size: var(--font-size-bc);
+  color: yellow;
+  -webkit-text-fill-color: yellow;
+  border-radius: 50%;
+  pointer-events: none;
+  line-height: 1;
+  align-items: center;
+  min-width: var(--min-width-bc);
+  min-height: var(--min-width-bc);
+}
+
 .controls-btn-container {
   position: absolute;
   display: flex;
@@ -377,6 +400,10 @@
     padding-top: 0.25rem;
     padding-bottom: 0.25rem;
     font-size: clamp(0.7rem, 2.5vw, 0.5rem);
+  }
+
+  .game-over-and-no-hints-modal-title {
+    font-size: 1.5rem;
   }
 
   .span-notif-hint-cards,
@@ -436,16 +463,6 @@
     right: 50%;
   }
 }
-
-/*  */
-.game-over-and-no-hints {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
-  z-index: 1000;
-}
-/*  */
 
 /*  */
 .restart-game-modal,
@@ -517,6 +534,7 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
   position: relative;
   overflow: hidden;
+  min-width: 30%;
 }
 
 .game-results-modal-its_apply-btn:hover,
@@ -525,7 +543,8 @@
 .game-results-modal-its_apply-btn:focus,
 .game-restart-modal-cancel-btn:focus,
 .game-restart-modal-again-btn:focus,
-.game-over-and-no-hints-modal-result-btn {
+.game-over-and-no-hints-modal-result-btn:hover,
+.game-over-and-no-hints-modal-result-btn:focus {
   background: linear-gradient(135deg, #ff0000 0%, #ff6b00 100%);
   box-shadow: 0 6px 20px rgba(255, 0, 0, 0.6),
     inset 0 1px 0 rgba(255, 255, 255, 0.5);
@@ -568,12 +587,12 @@
   border-bottom: 2px solid #ffb347;
 }
 
-.game-over-and-no-hints-modal-header {
+/* .game-over-and-no-hints-modal-header {
   width: 100%;
   display: flex;
   justify-content: end;
   align-items: center;
-}
+} */
 
 .restart-game-modal-close,
 .game-results-modal-close,
@@ -646,7 +665,7 @@
   align-items: center;
   width: 100%;
   gap: 1rem;
-  padding: 1rem;
+  padding-top: 1rem;
 }
 
 .game-over-and-no-hints-modal-message {
@@ -654,6 +673,7 @@
   flex-direction: column;
   align-items: center;
   color: black;
+  padding: 0 1rem;
 }
 
 .game-results-modal-table {
@@ -717,7 +737,8 @@
 
 /* Кнопка */
 .game-restart-modal-btns,
-.game-results-modal-btns {
+.game-results-modal-btns,
+.game-over-and-no-hints-modal-btns {
   padding: 1.5rem 2rem;
   background: linear-gradient(
     135deg,
@@ -727,6 +748,13 @@
   border-top: 2px solid #ffd700;
   text-align: center;
   font-size: calc(var(--card-width) / 3);
+}
+
+.game-over-and-no-hints-modal-btns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 /* .game-results-modal-its_apply-btn {
