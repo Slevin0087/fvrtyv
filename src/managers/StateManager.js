@@ -15,8 +15,8 @@ export class StateManager {
     this.state = this.getInitialState();
     this.upDealingCardsValue(this.state.player.dealingCards);
     this.state.stateForAchievements.minPossibleMoves =
-      this.state.player.minPossibleMoves;
-    this.state.hintCounterState = this.state.player.hintQuantity;
+      this.getMinPossibleMoves();
+    this.state.hintCounterState = this.getHintQuantity();
     this.setupEventListeners();
   }
 
@@ -352,6 +352,14 @@ export class StateManager {
 
   decrementHintUsed(count) {
     this.state.player.hintQuantity -= count;
+  }
+
+  getHintQuantity() {
+    return this.state.player.hintQuantity
+  }
+
+  getMinPossibleMoves() {
+    return this.state.player.minPossibleMoves
   }
 
   setPlayerName(name) {
