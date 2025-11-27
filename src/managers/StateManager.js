@@ -274,8 +274,17 @@ export class StateManager {
     this.state.settings.language = value;
   }
 
+  
   getLanguage() {
     return this.state.settings.language;
+  }
+
+  setMode(value) {
+    this.state.settings.mode = value
+  }
+
+  getMode() {
+    return this.state.settings.mode
   }
 
   getSoundEnabled() {

@@ -155,6 +155,7 @@ export class Storage {
       assistanceInCardClick: true,
       theme: "default",
       language: "ru",
+      mode: 'classic',
       musicVolume: 0.2,
       effectsVolume: 0.9,
       cardFaceStyle: "classic",

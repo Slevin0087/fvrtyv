@@ -19,6 +19,7 @@ export class UISettingsPage extends UIPage {
       // difficultySelect: document.getElementById("difficulty"),
       musicVolume: document.getElementById("music-volume"),
       languageSelected: document.getElementById("language-selected"),
+      modesSelected: document.getElementById("modes-selected"),
       dealingCardsBtns: {
         dealingCardsOne: document.getElementById("dealing_cards-one"),
         dealingCardsThree: document.getElementById("dealing_cards-three"),
@@ -71,6 +72,10 @@ export class UISettingsPage extends UIPage {
       this.onChangeLanguage(e);
     };
 
+    this.elements.modesSelected.onchange = (e) => {
+      this.onChangeModes(e);
+    };
+
     this.elements.musicVolume.oninput = (e) => {
       this.onInputMusicVolume(e);
     };
@@ -86,6 +91,10 @@ export class UISettingsPage extends UIPage {
   onChangeLanguage(e) {
     this.translator.changeLanguage(e.target.value);
     this.eventManager.emit(GameEvents.SET_LANGUAGE_CHANGE, e.target.value);
+  }
+
+  onChangeModes(e) {
+    this.eventManager.emit(GameEvents.SET_MODES_CHANGE, e.target.value);
   }
 
   onChangeDealingCards(e) {
@@ -244,6 +253,7 @@ export class UISettingsPage extends UIPage {
     this.elements.assistanceInCardClick.checked =
       this.stateManager.getAssistanceInCardClick();
     this.elements.languageSelected.value = this.stateManager.getLanguage();
+    this.elements.modesSelected.value = this.stateManager.getMode();
     this.elements.musicVolume.value = this.stateManager.getMusicVolume() * 100;
     this.setPropertyStyleVolume(this.elements.musicVolume);
     this.setActiveDealingCardsBtns();
