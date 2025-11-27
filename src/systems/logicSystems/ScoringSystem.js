@@ -32,7 +32,7 @@ export class ScoringSystem {
   }
 
     calculatePointsWithDealingCards(score) {
-    const dealingCards = this.stateManager.state.dealingCards;
+    const dealingCards = this.stateManager.getDealingCards();
 
     return Math.round(score * dealingCards);
   }

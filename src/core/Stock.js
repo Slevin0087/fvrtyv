@@ -1,5 +1,4 @@
 import { Pile } from "./Pile.js";
-import { Waste } from "./Waste.js";
 import { UIConfig } from "../configs/UIConfig.js";
 import { GameConfig } from "../configs/GameConfig.js";
 

@@ -29,7 +29,7 @@ export class Card {
       : "black";
   }
 
-  flip(boolean) {   
+  flip(boolean) {
     this.faceUp = boolean;
   }
 
@@ -81,5 +81,23 @@ export class Card {
   removeDataAttribute(nameAttribite) {
     if (!this.domElement) return;
     this.domElement.removeAttribute(nameAttribite);
+  }
+
+  getPoints() {
+    const pointsMap = {
+      2: 2,
+      3: 3,
+      4: 4,
+      5: 5,
+      6: 6,
+      7: 7,
+      8: 8,
+      9: 9,
+      10: 10,
+      JACK: 10,
+      QUEEN: 10,
+      KING: 10,
+    };
+    return pointsMap[this.value] || 0;
   }
 }

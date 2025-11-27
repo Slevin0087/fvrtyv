@@ -185,7 +185,7 @@ export class StateManager {
     );
 
     this.eventManager.on(GameEvents.SET_DEALING_CARDS, (value) => {
-      this.setDealingCards(value);
+      this.setDealingCardsPlayer(value);
       this.savePlayerStats();
     });
 
@@ -250,7 +250,7 @@ export class StateManager {
     return this.state.settings.musicVolume;
   }
 
-  setDealingCards(value) {
+  setDealingCardsPlayer(value) {
     this.state.player.dealingCards = value;
   }
 
@@ -262,7 +262,11 @@ export class StateManager {
     return this.state.settings.effectsVolume;
   }
 
-  getDealingCards() {
+  getPlayerState() {
+    return this.state.player
+  }
+
+  getDealingCardsPlayer() {
     return this.state.player.dealingCards;
   }
 
@@ -287,6 +291,10 @@ export class StateManager {
 
   setActivePage(page) {
     this.state.ui.activePage = page;
+  }
+
+  getActivePage() {
+    return this.state.ui.activePage
   }
 
   setSelectedItems(item) {
@@ -339,6 +347,10 @@ export class StateManager {
 
   setPlayerName(name) {
     this.state.player.name = name;
+  }
+
+  getPlayerName() {
+    return this.state.player.name
   }
 
   setIsRunning(boolean) {
@@ -601,6 +613,10 @@ export class StateManager {
 
   setIsUndoCardAnimation(boolean) {
     this.state.isUndoCardAnimation = boolean;
+  }
+
+  getIsUndoCardAnimation() {
+    return this.state.isUndoCardAnimation
   }
 
   setIsNoHints(boolean) {

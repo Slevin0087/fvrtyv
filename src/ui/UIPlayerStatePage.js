@@ -11,8 +11,7 @@ export class UIPlayerStatePage extends UIPage {
   }
 
   render() {
-    const statePlayer = this.state.player;
-    const stateGame = this.state.game;
+    const statePlayer = this.stateManager.getPlayerState();
     const stateForAchievements = this.state.stateForAchievements;
     const storagePlayer = this.stateManager.storage.getPlayerStats();
     console.log("storagePlayer.fastestWin: ", storagePlayer.fastestWin);

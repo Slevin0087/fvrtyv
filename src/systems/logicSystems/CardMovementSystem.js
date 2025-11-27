@@ -16,7 +16,13 @@ export class CardMovementSystem {
     this.setupEventListeners();
   }
 
-  setupEventListeners() {}
+  setupEventListeners() {
+    this.eventManager.onAsync(
+      GameEvents.JOKER_HANDLE,
+      async (jokerCard, tableaus) =>
+        await this.handleJokerCard(jokerCard, tableaus)
+    );
+  }
 
   async handleCardClick(card) {
     console.log(this.stateManager.getIsPaused());
@@ -26,10 +32,8 @@ export class CardMovementSystem {
 
     const gameComponents = this.stateManager.getCardsComponents();
     const usedAutoCollectCards = this.state.usedAutoCollectCards;
-    const audioCardMove = this.audioManager.getSound(
-      AudioName.CARD_MOVE
-    );
-    this.cardMoveDuration = audioCardMove.duration * 10000 // поменять 10000 на 100, для теста поменял 100 на 10000
+    const audioCardMove = this.audioManager.getSound(AudioName.CARD_MOVE);
+    this.cardMoveDuration = audioCardMove.duration * 10000; // поменять 10000 на 100, для теста поменял 100 на 10000
 
     // Проверка foundation
     for (let i = 0; i < gameComponents.foundations.length; i++) {
@@ -67,6 +71,31 @@ export class CardMovementSystem {
 
     if (!usedAutoCollectCards) this.audioManager.play(AudioName.INFO);
     return false;
+  }
+
+  async handleJokerCard(jokerCard, tableaus) {
+    for (let i = 0; i < tableaus.length; i++) {
+      if (tableaus[i].isEmpty()) {
+        await this.eventManager.emitAsync(
+          GameEvents.JOKER_CARD_MOVE,
+          jokerCard,
+          tableaus[i]
+        );
+      }
+      if (tableaus[i].canAccept(card)) {
+        // if (!usedAutoCollectCards) this.audioManager.play(AudioName.CLICK); // расскоментить, закомментил для теста
+        const containerTo = gameComponents.tableaus[i];
+        const containerToName = this.cardContainers.tableau;
+        await this.eventManager.emitAsync(GameEvents.CARD_MOVE, {
+          card,
+          containerToIndex: i,
+          containerTo,
+          containerToName,
+          cardMoveDuration: this.cardMoveDuration,
+        });
+        return true;
+      }
+    }
   }
 
   async isCardMoveToFoundations(card, gameComponents) {

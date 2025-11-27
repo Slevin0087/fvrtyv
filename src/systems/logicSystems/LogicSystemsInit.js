@@ -1,4 +1,8 @@
-import { GameEvents, AnimationOperators, AudioName } from "../../utils/Constants.js";
+import {
+  GameEvents,
+  AnimationOperators,
+  AudioName,
+} from "../../utils/Constants.js";
 import { GameConfig } from "../../configs/GameConfig.js";
 import { GameSetupSystem } from "./GameSetupSystem.js";
 import { CardMovementSystem } from "./CardMovementSystem.js";
@@ -91,6 +95,14 @@ export class LogicSystemsInit {
     this.eventManager.onAsync(GameEvents.CARD_MOVE, async (data) => {
       await this.handleCardMove(data);
     });
+
+    this.eventManager.onAsync(
+      GameEvents.JOKER_CARD_MOVE,
+      async (jokerCard, tableaus) => {
+        await this.handleJokerCardMoveFromStockToTableaus(jokerCard, tableaus);
+      }
+    );
+
     this.eventManager.on(GameEvents.CARDS_COLLECT, () => this.cardsCollect());
     this.eventManager.on(GameEvents.HINT_BTN_CLICK, () =>
       this.hintSystem.provide()
@@ -330,9 +342,10 @@ export class LogicSystemsInit {
     }
   }
 
-  async handleJokerCardMoveFromStockToTableaus(jokerCard) {
+  async handleJokerCardMoveFromStockToTableaus(jokerCard, tableau) {
     if (!this.stateManager.getJokerUsed() || this.winSystem.check()) return;
-
+    const source = this.movementSystem.getCardSource(jokerCard);
+    const elementFrom = this.movementSystem.getElementFrom(source);
   }
 
   // Вспомогательная функция задержки

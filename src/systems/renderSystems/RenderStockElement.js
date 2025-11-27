@@ -46,6 +46,7 @@ export class RenderStockElement {
 
     this.eventManager.on(GameEvents.RENDER_STOCK_CARD, (card, stockElement) => {
       this.renderStockCard(card, stockElement)
+      this.updateStockCardPosition(card)
     })
   }
 
@@ -96,7 +97,7 @@ export class RenderStockElement {
       return;
     }
     // this.isClickAllowed = false;
-    const nOfCards = this.state.dealingCards; // СЕЙЧАС ЭТО РАВНО 3
+    const nOfCards = this.stateManager.getDealingCards(); // СЕЙЧАС ЭТО РАВНО 3
     const nTopCards = stock.getNTopCards(nOfCards);
     console.log("nTopCards: ", nTopCards);
     let topThreeCards = [];

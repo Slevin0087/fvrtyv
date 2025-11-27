@@ -16,7 +16,7 @@ export class UIManager {
     this.translator = translator;
     this.shopNavigation = shopNavigation;
     this.pages = new Map();
-    this.activePage = this.stateManager.state.ui.activePage;
+    this.activePage = this.stateManager.getActivePage();
     this.spinner = document.getElementById("loader");
 
     this.init();
@@ -26,7 +26,11 @@ export class UIManager {
     this.registerPages();
     this.setupEventListeners();
     this.hideAll();
-    this.showByName(this.activePage);
+    if (!this.stateManager.getPlayerName()) {
+      this.showByName(this.activePage);
+    } else {
+      this.pageShow(UIConfig.pages.UIMenuPage);
+    }
   }
 
   registerPages() {

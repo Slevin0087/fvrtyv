@@ -256,7 +256,7 @@ export class UISettingsPage extends UIPage {
 
   setActiveDealingCardsBtns() {
     Object.values(this.elements.dealingCardsBtns).forEach((btn) => {
-      if (btn.value === String(this.stateManager.getDealingCards())) {
+      if (btn.value === String(this.stateManager.getDealingCardsPlayer())) {
         btn.classList.add("active-dealing-cards-btn");
         btn.disabled = true;
       } else {

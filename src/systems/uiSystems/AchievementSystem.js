@@ -186,7 +186,7 @@ export class AchievementSystem {
           Animator.animationTextAchievement(
             notifDivTop,
             notifDivBottom,
-            this.state.dealingCards,
+            this.stateManager.getDealingCards(),
             {
               h4TextContent,
               spanRedStart,
@@ -202,7 +202,7 @@ export class AchievementSystem {
       if (a.life === "one") {
         shows.push(
           new Promise((resolve) => {
-            this.eventManager.emit(GameEvents.UP_ACHIEVENT_ICON, true);
+            this.eventManager.emit(GameEvents.UP_ACHIEVENT_ICON);
 
             Animator.animateAchievementText(achievementsIconEl);
             setTimeout(resolve, 2500); // duration анимации + buffer

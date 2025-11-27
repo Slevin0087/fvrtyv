@@ -115,6 +115,8 @@ export const GameEvents = {
   CARD_MOVED: "card:moved",
   CARD_MOVE: "card:move",
   UNDO_MOVE: "undo:move",
+  JOKER_HANDLE: "joker:handle",
+  JOKER_CARD_MOVE: "joker:card:move",
   ANIMATE_UNDO_TO_WASTE: "animate:undo:to:waste",
   CARD_MOVE_COMPLETED: "card:move:completed",
   STOCK_CLICK: "stock:click",

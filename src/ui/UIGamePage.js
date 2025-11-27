@@ -132,7 +132,7 @@ export class UIGamePage extends UIPage {
     });
 
     this.eventManager.on(GameEvents.UP_MOVES, () => {
-      this.updateMoves(this.state.stateForAchievements.moves);
+      this.updateMoves(this.stateManager.state.stateForAchievements.moves);
     });
 
     this.eventManager.on(GameEvents.UP_UNDO_CONTAINER, (n) =>
@@ -144,16 +144,13 @@ export class UIGamePage extends UIPage {
     );
 
     this.elements.undoBtn.onclick = async () => {
-      if (this.state.isUndoCardAnimation) return;
+      if (this.stateManager.getIsUndoCardAnimation()) return;
       await this.eventManager.emitAsync(GameEvents.UNDO_MOVE);
       this.upUndoCounter(this.stateManager.getLastMovesLengths());
     };
 
-    this.eventManager.on(GameEvents.UP_ACHIEVENT_ICON, (boolean) =>
-      this.upAchievementIcon(
-        this.state.player.achievements.active.icon,
-        boolean
-      )
+    this.eventManager.on(GameEvents.UP_ACHIEVENT_ICON, () =>
+      this.upAchievementIcon(this.stateManager.getAchievements().active.icon)
     );
 
     this.eventManager.on(GameEvents.UP_ACHIEVENT_DIV, (a) =>
@@ -192,15 +189,6 @@ export class UIGamePage extends UIPage {
       }
     );
 
-    // this.elements.shuffleBtn.onclick = () => {
-    //   const { stock, waste } = this.state.cardsComponents;
-    //   this.eventManager.emitAsync(
-    //     GameEvents.SHUFFLE_CARDS_TO_STOCK,
-    //     stock,
-    //     waste
-    //   );
-    // };
-
     this.eventManager.on(GameEvents.CLEAR_NOTIF_HINT_CARDS, () => {
       this.elements.notifToasts.innerHTML = "";
     });
@@ -212,7 +200,7 @@ export class UIGamePage extends UIPage {
     this.elements.modalsWindows.onclick = (e) => {
       if (e.target === this.elements.modalsWindows) {
         console.log("клик по modalsWindows");
-        const { modal, handlerClose } = this.stateManager.state.activeModal;
+        const { modal, handlerClose } = this.stateManager.getActiveModal();
         if (modal && handlerClose) {
           handlerClose();
           this.stateManager.resetActiveModal();
@@ -337,7 +325,7 @@ export class UIGamePage extends UIPage {
 
   async onclickShuffleBtn() {
     if (!this.stateManager.getIsRunning()) return;
-    const { stock, waste } = this.state.cardsComponents;
+    const { stock, waste } = this.stateManager.getCardsComponents();
     await this.eventManager.emitAsync(
       GameEvents.SHUFFLE_CARDS_TO_STOCK,
       stock,
@@ -353,7 +341,7 @@ export class UIGamePage extends UIPage {
     if (this.stateManager.getNeedVideoForHints()) {
       this.upHintCounter(UIGameUnicodeIcons.VIDEO);
     } else {
-      this.upHintCounter(this.state.hintCounterState || 0);
+      this.upHintCounter(this.stateManager.getHintCounterState() || 0);
     }
     this.upAchievementIcon(this.stateManager.getAchievements().active.icon);
 
@@ -382,7 +370,7 @@ export class UIGamePage extends UIPage {
 
   updateScore(score) {
     this.elements.scoreEl.innerHTML = `🌟 <span class='score-span'>
-    x${this.state.dealingCards}</span>: ${score}`;
+    x${this.stateManager.getDealingCards()}</span>: ${score}`;
   }
 
   updateMoves(n) {
@@ -397,13 +385,8 @@ export class UIGamePage extends UIPage {
     this.elements.hintCounter.textContent = n;
   }
 
-  upAchievementIcon(icon, animate = false) {
+  upAchievementIcon(icon) {
     this.elements.achievementsIconEl.textContent = `🏆: ${icon}`;
-    // if (animate) {
-    //   const span = document.getElementById("achievements_span");
-    //   this.eventManager.emit(GameEvents.AUDIO_UP_ACH);
-    //   Animator.animateAchievementText(span);
-    // }
   }
 
   creatElementForHighestScore() {
@@ -413,7 +396,7 @@ export class UIGamePage extends UIPage {
     div.className = "div-highest-score";
     span.className = "span-highest-score";
     const recordWord = this.translator.t(dataI18n);
-    span.textContent = `${recordWord} 🌟: ${this.state.player.highestScore}`;
+    span.textContent = `${recordWord} 🌟: ${this.stateManager.state.player.highestScore}`;
     div.append(span);
     this.elements.notifDivTop.innerHTML = "";
     this.elements.notifDivTop.append(div);
@@ -656,10 +639,17 @@ export class UIGamePage extends UIPage {
     this.stateManager.setJokerUsed(true);
     const jokerCard = new Joker();
 
+    // добавляем joker карту в stock
+    const { tableaus, stock } = this.stateManager.getCardsComponents()
+    stock.addCard(jokerCard)
+    console.log('stock.cards: ', stock.cards);
+    
+    // перемещение joker карты в tableaus
+    this.jokerMoveToTableaus(jokerCard, tableaus)
+
     // рендер joker карты в stock, как карту с faceDown
     this.renderCardToStock(jokerCard);
-    jokerCard.domElement.style.zIndex = "100";
-
+    await this.eventManager.emitAsync(GameEvents.JOKER_HANDLE, jokerCard, tableaus)
     this.modalHide(modalBody);
     await this.eventManager.emitAsync(GameEvents.ANIMATE_JOKER_FLIP, jokerCard);
     // document.querySelector('body').append(jokerCard.domElement)
