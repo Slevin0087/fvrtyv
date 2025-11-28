@@ -75,19 +75,22 @@ export class CardMovementSystem {
 
   async handleJokerCard(jokerCard, tableaus) {
     for (let i = 0; i < tableaus.length; i++) {
-      if (tableaus[i].isEmpty()) {
-        await this.eventManager.emitAsync(
-          GameEvents.JOKER_CARD_MOVE,
-          jokerCard,
-          tableaus[i]
-        );
-      }
-      if (tableaus[i].canAccept(card)) {
-        // if (!usedAutoCollectCards) this.audioManager.play(AudioName.CLICK); // расскоментить, закомментил для теста
-        const containerTo = gameComponents.tableaus[i];
+      console.log('handleJokerCard');
+      
+      // if (tableaus[i].isEmpty()) {
+      //   await this.eventManager.emitAsync(
+      //     GameEvents.JOKER_CARD_MOVE,
+      //     jokerCard,
+      //     tableaus[i]
+      //   );
+      // }
+      if (tableaus[i].canAccept(jokerCard)) {
+        console.log('вввввввввв');
+        
+        const containerTo = tableaus[i];
         const containerToName = this.cardContainers.tableau;
         await this.eventManager.emitAsync(GameEvents.CARD_MOVE, {
-          card,
+          card: jokerCard,
           containerToIndex: i,
           containerTo,
           containerToName,

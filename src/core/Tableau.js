@@ -11,7 +11,7 @@ export class Tableau extends Pile {
 
   addCard(card) {
     const getPropertyValueCardWidth = this.element.offsetWidth;
-    this.overlapY = getPropertyValueCardWidth / 4
+    this.overlapY = getPropertyValueCardWidth / 4;
     super.addCard(card);
   }
 
@@ -25,12 +25,22 @@ export class Tableau extends Pile {
   }
 
   canAccept(card) {
+    console.log("card: ", card);
+
     if (card.value === "A") return false;
     if (!card.faceUp) return false;
-    if (this.isEmpty()) return card.value === "K";
-
-    const topCard = this.getTopCard();
-    return card.isOppositeColor(topCard) && card.isNextInSequence(topCard);
+    if (this.isEmpty()) {
+      if (card.value === "K") return true;
+      if (card.value === "JOKER") return true;
+    } else {
+      console.log('else');
+      
+      if (card.value === "JOKER") return true;
+      const topCard = this.getTopCard();
+      console.log('topCard: ', topCard);
+      if (topCard.value === 'JOKER') return true
+      return card.isOppositeColor(topCard) && card.isNextInSequence(topCard);
+    }
   }
 
   flipTopCard() {

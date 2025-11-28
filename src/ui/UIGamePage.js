@@ -642,17 +642,16 @@ export class UIGamePage extends UIPage {
     // добавляем joker карту в stock
     const { tableaus, stock } = this.stateManager.getCardsComponents()
     stock.addCard(jokerCard)
-    console.log('stock.cards: ', stock.cards);
     
     // перемещение joker карты в tableaus
-    this.jokerMoveToTableaus(jokerCard, tableaus)
-
+    
     // рендер joker карты в stock, как карту с faceDown
-    this.renderCardToStock(jokerCard);
-    await this.eventManager.emitAsync(GameEvents.JOKER_HANDLE, jokerCard, tableaus)
     this.modalHide(modalBody);
+    this.renderCardToStock(jokerCard);
     await this.eventManager.emitAsync(GameEvents.ANIMATE_JOKER_FLIP, jokerCard);
-    // document.querySelector('body').append(jokerCard.domElement)
+    jokerCard.flip(true)
+    await this.eventManager.emitAsync(GameEvents.JOKER_HANDLE, jokerCard, tableaus)
+    this.jokerMoveToTableaus(jokerCard, tableaus)
   }
 
   createJokerDomElement(id, className) {
@@ -662,15 +661,8 @@ export class UIGamePage extends UIPage {
     return jokerElement;
   }
 
-  jookerCardFlip(jokerCard) {
-    // const jokerElement = this.createJokerDomElement("joker-card", "joker-card");
-
-    // устанавливаем backgroundImage для jokerElement
-    // this.setBgForJokerElement(jokerElement);
-
-    // jokerCard.domElement = jokerElement;
-
-    return jokerCard;
+  jokerMoveToTableaus(jokerCard, tableaus) {
+    
   }
 
   renderCardToStock(card) {
