@@ -94,8 +94,8 @@
             <!-- <label for="music-volume">Громкость:</label>
             <input type="text" id="music-volume" name="name" /> -->
             <div class="volume-control container-setting-item">
-              <label for="music-volume" data-i18n="music_volume"
-                >Громкость:</label
+              <span class="span-volume-change" data-i18n="music_volume"
+                >Громкость:</span
               >
               <input
                 type="range"
@@ -107,8 +107,8 @@
               />
             </div>
             <div class="setting-off-in-music container-setting-item">
-              <label class="span-music-off-in" data-i18n="span_music_off_in"
-                >Музыка:</label
+              <span class="span-music-off-in" data-i18n="span_music_off_in"
+                >Музыка:</span
               >
               <label class="setting-label">
                 <input type="checkbox" id="music-toggle" />
@@ -119,26 +119,16 @@
               <!-- <label class="setting-label"
                 >Звуки: <input type="checkbox" id="sound-toggle" checked
               /></label> -->
-              <label class="span-sound-off-in" data-i18n="span_sound_off_in"
-                >Звуки:</label
+              <span class="span-sound-off-in" data-i18n="span_sound_off_in"
+                >Звуки:</span
               >
               <label class="setting-label">
                 <input type="checkbox" id="sound-toggle" />
                 <span class="slider"></span>
               </label>
             </div>
-            <!-- <div class="c-setting-item">
-              <label data-i18n="c_setting_item">Сложность:</label>
-              <select id="difficulty">
-                <option value="easy" data-i18n="option_easy">Лёгкая</option>
-                <option value="medium" selected data-i18n="option_medium">
-                  Средняя
-                </option>
-                <option value="hard" data-i18n="option_hard">Сложная</option>
-              </select>
-            </div> -->
             <div class="c-setting-item container-setting-item">
-              <label data-i18n="dealing_cards">Раздача карт по:</label>
+              <span class="span-dealing-cards" data-i18n="dealing_cards">Раздача карт по:</span>
               <div class="dealing-cards-btns">
                 <button type="button" id="dealing_cards-one" value="1">
                   1
@@ -147,37 +137,18 @@
                   3
                 </button>
               </div>
-              <!-- <div>
-                <input
-                  type="radio"
-                  id="dealing_cards-one"
-                  name="dealing_cards"
-                  value="1"
-                />
-                <label for="dealing_cards-one">1</label>
-
-                <input
-                  type="radio"
-                  id="dealing_cards-three"
-                  name="dealing_cards"
-                  value="3"
-                />
-                <label for="dealing_cards-three">3</label>
-              </div> -->
+     
             </div>
 
             <div
               class="setting-assistance-in-collection container-setting-item"
             >
-              <!-- <label class="setting-label"
-                >Звуки: <input type="checkbox" id="sound-toggle" checked
-              /></label> -->
               <div class="assistance-in-collection-div">
-                <label
+                <span
                   class="span-assistance-in-collection"
                   data-i18n="assistance_in_collection"
                   >Быстрая игра:
-                </label>
+                </span>
                 <p
                   class="setting-assistance-in-collection-p"
                   data-i18n="assistance_in_collection_p"
@@ -195,15 +166,13 @@
             <div
               class="setting-assistance-in-card-click container-setting-item"
             >
-              <!-- <label class="setting-label"
-                >Звуки: <input type="checkbox" id="sound-toggle" checked
-              /></label> -->
+
               <div class="assistance-in-card-click-div">
-                <label
+                <span
                   class="span-assistance-in-card-click"
                   data-i18n="assistance_in_card_click"
                   >Клик по картам:
-                </label>
+                </span>
                 <p
                   class="setting-assistance-in-card-click-p"
                   data-i18n="assistance_in_card_click_p"
@@ -219,7 +188,7 @@
             <!-- конец: клик по картам -->
 
             <div class="c-setting-item container-setting-item">
-              <label data-i18n="ln_setting_item">Язык:</label>
+              <span class="span-language" data-i18n="ln_setting_item">Язык:</span>
               <select id="language-selected" class="selected">
                 <option value="ru" selected data-i18n="ru_btn">Русский</option>
                 <option value="en" data-i18n="en_btn">Английский</option>
@@ -230,7 +199,7 @@
 
             <!-- режим игры-начало -->
             <div class="c-setting-item container-setting-item">
-              <label data-i18n="modes_setting_item">Режим игры:</label>
+              <span class="span-modes" data-i18n="modes_setting_item">Режим игры:</span>
               <select id="modes-selected" class="selected">
                 <option value="classic" selected data-i18n="modes_classic_btn">Классический</option>
                 <option value="vegas" data-i18n="modes_vegas_btn">Вегас</option>

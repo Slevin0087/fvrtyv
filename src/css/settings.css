@@ -140,9 +140,15 @@
 .span-music-off-in,
 .span-sound-off-in,
 .span-assistance-in-collection,
-.span-assistance-in-card-click {
+.span-assistance-in-card-click,
+.span-volume-change,
+.span-dealing-cards,
+.span-language,
+.span-modes {
   border: 0 solid;
   background: var(--back-color-settings-el);
+  padding: 0.5em;
+  border-radius: var(--border-radius-btn-input);
 }
 
 .setting-label input {
@@ -425,9 +431,11 @@ input[type="range"]::-moz-range-track {
   -webkit-text-fill-color: black; /* Для старых версий */
 }
 
-.selected:hover {
-  /* background-color: #f5f5f5; */
-  background-color: white;
+@media (hover: hover) {
+  .selected:hover {
+    cursor: pointer;
+    background-color: white;
+  }
 }
 
 /* Base mobile (320px+) - default styles already set */
