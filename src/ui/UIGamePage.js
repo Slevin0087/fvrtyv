@@ -369,12 +369,12 @@ export class UIGamePage extends UIPage {
   }
 
   updateScore(score) {
-    this.elements.scoreEl.innerHTML = `🌟 <span class='score-span'>
-    x${this.stateManager.getDealingCards()}</span>: ${score}`;
+    this.elements.scoreEl.innerHTML = `🌟 <span class='score-card-dealing-span'>
+    x${this.stateManager.getDealingCards()}</span><span class='score-span'>: ${score}</span>`;
   }
 
   updateMoves(n) {
-    this.elements.movesEl.textContent = `👣: ${n}`;
+    this.elements.movesEl.innerHTML = `👣<span class="moves-score-span">: ${n}</span>`;
   }
 
   upUndoCounter(n) {
@@ -386,18 +386,22 @@ export class UIGamePage extends UIPage {
   }
 
   upAchievementIcon(icon) {
-    this.elements.achievementsIconEl.textContent = `🏆: ${icon}`;
+    this.elements.achievementsIconEl.innerHTML = `🏆<span class="achievements-icon-span">: ${icon}</span>`;
   }
 
   creatElementForHighestScore() {
     const dataI18n = UIConfig.dataI18nValue.STATUS_BAR_RECORD_WORD;
     const div = document.createElement("div");
-    const span = document.createElement("span");
+    const spanRecordWord = document.createElement("span");
+    const spanScore = document.createElement("span");
     div.className = "div-highest-score";
-    span.className = "span-highest-score";
+    spanRecordWord.className = "span-highest-score-record-word";
+    spanScore.className = "span-highest-score";
     const recordWord = this.translator.t(dataI18n);
-    span.textContent = `${recordWord} 🌟: ${this.stateManager.state.player.highestScore}`;
-    div.append(span);
+    spanRecordWord.textContent = `${recordWord} 🌟`;
+    spanScore.textContent = `: ${this.stateManager.state.player.highestScore}`;
+    div.append(spanRecordWord);
+    div.append(spanScore);
     this.elements.notifDivTop.innerHTML = "";
     this.elements.notifDivTop.append(div);
   }
@@ -506,6 +510,8 @@ export class UIGamePage extends UIPage {
   }
 
   hintNotif(dataI18n) {
+    console.log('hintNotif');
+    
     if (this.hintNotifyShowTimerId) clearTimeout(this.hintNotifyShowTimerId);
     this.elements.notifDivBottom.innerHTML = "";
     const p = document.createElement("p");
@@ -640,18 +646,22 @@ export class UIGamePage extends UIPage {
     const jokerCard = new Joker();
 
     // добавляем joker карту в stock
-    const { tableaus, stock } = this.stateManager.getCardsComponents()
-    stock.addCard(jokerCard)
-    
+    const { tableaus, stock } = this.stateManager.getCardsComponents();
+    stock.addCard(jokerCard);
+
     // перемещение joker карты в tableaus
-    
+
     // рендер joker карты в stock, как карту с faceDown
     this.modalHide(modalBody);
     this.renderCardToStock(jokerCard);
     await this.eventManager.emitAsync(GameEvents.ANIMATE_JOKER_FLIP, jokerCard);
-    jokerCard.flip(true)
-    await this.eventManager.emitAsync(GameEvents.JOKER_HANDLE, jokerCard, tableaus)
-    this.jokerMoveToTableaus(jokerCard, tableaus)
+    jokerCard.flip(true);
+    await this.eventManager.emitAsync(
+      GameEvents.JOKER_HANDLE,
+      jokerCard,
+      tableaus
+    );
+    this.jokerMoveToTableaus(jokerCard, tableaus);
   }
 
   createJokerDomElement(id, className) {
@@ -661,9 +671,7 @@ export class UIGamePage extends UIPage {
     return jokerElement;
   }
 
-  jokerMoveToTableaus(jokerCard, tableaus) {
-    
-  }
+  jokerMoveToTableaus(jokerCard, tableaus) {}
 
   renderCardToStock(card) {
     const stock = this.stateManager.getCardsComponents().stock;

@@ -128,7 +128,9 @@
               </label>
             </div>
             <div class="c-setting-item container-setting-item">
-              <span class="span-dealing-cards" data-i18n="dealing_cards">Раздача карт по:</span>
+              <span class="span-dealing-cards" data-i18n="dealing_cards"
+                >Раздача карт по:</span
+              >
               <div class="dealing-cards-btns">
                 <button type="button" id="dealing_cards-one" value="1">
                   1
@@ -137,7 +139,6 @@
                   3
                 </button>
               </div>
-     
             </div>
 
             <div
@@ -166,7 +167,6 @@
             <div
               class="setting-assistance-in-card-click container-setting-item"
             >
-
               <div class="assistance-in-card-click-div">
                 <span
                   class="span-assistance-in-card-click"
@@ -188,7 +188,9 @@
             <!-- конец: клик по картам -->
 
             <div class="c-setting-item container-setting-item">
-              <span class="span-language" data-i18n="ln_setting_item">Язык:</span>
+              <span class="span-language" data-i18n="ln_setting_item"
+                >Язык:</span
+              >
               <select id="language-selected" class="selected">
                 <option value="ru" selected data-i18n="ru_btn">Русский</option>
                 <option value="en" data-i18n="en_btn">Английский</option>
@@ -199,12 +201,20 @@
 
             <!-- режим игры-начало -->
             <div class="c-setting-item container-setting-item">
-              <span class="span-modes" data-i18n="modes_setting_item">Режим игры:</span>
+              <span class="span-modes" data-i18n="modes_setting_item"
+                >Режим игры:</span
+              >
               <select id="modes-selected" class="selected">
-                <option value="classic" selected data-i18n="modes_classic_btn">Классический</option>
+                <option value="classic" selected data-i18n="modes_classic_btn">
+                  Классический
+                </option>
                 <option value="vegas" data-i18n="modes_vegas_btn">Вегас</option>
-                <option value="timed" data-i18n="modes_timed_btn">На время</option>
-                <option value="relax" data-i18n="modes_relax_btn">Расслабленный</option>
+                <option value="timed" data-i18n="modes_timed_btn">
+                  На время
+                </option>
+                <option value="relax" data-i18n="modes_relax_btn">
+                  Расслабленный
+                </option>
               </select>
             </div>
             <!-- режим игры-конец -->
@@ -350,16 +360,22 @@
         <div class="status-bar info-container" id="info-top">
           <div class="status-bar-row-top">
             <div class="points points-game">
-              <span id="points-in-game">0</span>
+              <span class="points-in-game" id="points-in-game">0</span>
             </div>
             <div class="notif-div-top" id="notif-div-top"></div>
-            <span class="moves" id="moves_span"></span>
+            <div class="moves-div">
+              <span class="moves" id="moves_span"></span>
+            </div>
           </div>
 
           <div class="status-bar-row-bottom">
-            <div class="timer">🕰️ <span id="time-display">00:00</span></div>
+            <div class="timer">
+              🕰️ <span class="time-display" id="time-display">00:00</span>
+            </div>
             <div class="notif-div-bottom" id="notif-div-bottom"></div>
-            <span class="achievements-span" id="achievements_span"></span>
+            <div class="achievements-div">
+              <span class="achievements-span" id="achievements_span"></span>
+            </div>
           </div>
         </div>
         <div class="game-container" id="game-container">
