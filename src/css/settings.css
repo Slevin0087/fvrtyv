@@ -420,6 +420,9 @@ input[type="range"]::-moz-range-track {
   background-position: right 12px center;
   min-width: fit-content;
   width: calc(var(--card-width) * 2.5);
+  -webkit-tap-highlight-color: transparent; /* Убирает синюю подсветку */
+  text-emphasis-color: black; /* Для Safari */
+  -webkit-text-fill-color: black; /* Для старых версий */
 }
 
 .selected:hover {
