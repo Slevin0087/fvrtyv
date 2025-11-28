@@ -73,7 +73,7 @@
   border: 1px solid rgb(75, 38, 11);
   background-color: chocolate;
   border-radius: 10px;
-  padding: 3px;
+  padding: 2px;
 }
 
 /* .status-bar span, */
@@ -115,7 +115,7 @@
 .info-ach {
   background-color: chocolate;
   border-radius: 10px;
-  padding: 3px;
+  padding: 2px;
   line-height: 1;
   display: flex;
   flex-direction: row;
