@@ -45,7 +45,8 @@
 }
 
 .status-bar span {
-  color: white;
+  /* color: white; */
+  color: black;
 }
 
 .points-timer {
