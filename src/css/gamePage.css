@@ -44,9 +44,15 @@
   color: yellow;
 }
 
-.status-bar span {
+.status-bar span,
+.notif-div-bottom span {
   /* color: white; */
   color: black;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  line-height: 1;
 }
 
 .points-timer {
@@ -83,6 +89,17 @@
   justify-content: space-between;
   flex-shrink: 0;
   align-items: center;
+  background-color: chocolate;
+  border-radius: 10px;
+  padding: 2px;
+  line-height: 1;
+}
+
+.notif-div-top,
+.notif-div-bottom {
+  background-color: chocolate;
+  border-radius: 10px;
+  padding: 2px;
 }
 
 .notif-div-bottom {
@@ -110,10 +127,22 @@
 
 .status-bar-row-top .ach-div-h4 {
   color: #caec08;
+  line-height: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  /* font-size: 0.5rem; */
 }
 
 .status-bar .span-notif-shuffled-cards {
   color: blue;
+  line-height: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.5rem;
 }
 
 .notif-div-bottom {
