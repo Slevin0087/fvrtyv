@@ -8,6 +8,7 @@ export class UIGreetingsPage extends UIPage {
     this.stateManager = stateManager;
     this.elements = {
       playGameBtn: document.getElementById("greetings-page-btn-play-game"),
+      otherSettingsP: document.getElementById("greetings-game-mode-choice-p"),
     };
   }
 
@@ -17,6 +18,9 @@ export class UIGreetingsPage extends UIPage {
       this.stateManager.saveGameState();
       await this.onClickPlayGameBtn();
     };
+    this.elements.otherSettingsP.onclick = () => {
+      this.onClickOtherSettingsP();
+    };
   }
 
   async onClickPlayGameBtn() {
@@ -25,5 +29,9 @@ export class UIGreetingsPage extends UIPage {
     this.stateManager.setIsRunning(true);
     this.stateManager.setIsPaused(false);
     this.eventManager.emit(GameEvents.UI_UPDATE_GAME_PAGE);
+  }
+
+  onClickOtherSettingsP() {
+    this.eventManager.emit(GameEvents.UI_SETTINGS_SHOW);
   }
 }
