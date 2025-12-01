@@ -178,7 +178,7 @@
   }
 }
 
-@media (max-height: 750px) and (max-width: 450px) {  /* Скрываем десктопный список */
+@media (max-height: 750px) and (max-width: 650px) {  /* Скрываем десктопный список */
   .desktop-version {
     display: none !important;
   }
