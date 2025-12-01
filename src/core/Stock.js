@@ -8,6 +8,7 @@ export class Stock extends Pile {
     this.overlapX = UIConfig.layout.card.stockOverlapX;
     this.overlapY = UIConfig.layout.card.stockOverlapY; // Небольшое смещение для стока
     this.element = this.createPileElement();
+    this.spanElement = this.element.querySelector(".stock-span")
     this.stockCardPosition = 0;
   }
 

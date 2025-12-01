@@ -7,8 +7,9 @@ import { Helpers } from "../utils/Helpers.js";
 import { Joker } from "../core/Joker.js";
 
 export class UIGamePage extends UIPage {
-  constructor(eventManager, stateManager, translator) {
+  constructor(eventManager, stateManager, gameModesManager, translator) {
     super(eventManager, stateManager, "game-interface");
+    this.gameModesManager = gameModesManager
     this.state = stateManager.state;
     this.translator = translator;
     this.countHintUsedForIncrement = PlayerConfigs.hint.countUsedForIncrement;

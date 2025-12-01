@@ -15,6 +15,7 @@ import { AnimationSystem } from "../systems/uiSystems/AnimationSystem.js";
 import { ShopSystem } from "../systems/uiSystems/ShopSystem.js";
 import { Translator } from "../utils/Translator.js";
 import { AchievementSystem } from "../systems/uiSystems/AchievementSystem.js";
+import { GameModesManager } from "../managers/GameModesManager.js";
 
 export class GameInit {
   constructor() {
@@ -40,6 +41,7 @@ export class GameInit {
     this.eventManager = new EventManager();
     this.storage = new Storage(this.eventManager);
     this.stateManager = new StateManager(this.eventManager, this.storage);
+    this.gameModesManager = new GameModesManager(this.eventManager, this.storage)
     this.translator = new Translator();
     this.audioManager = new AudioManager(this.eventManager, this.stateManager);
     this.translator.changeLanguage(this.stateManager.getLanguage());
@@ -47,12 +49,14 @@ export class GameInit {
       this.eventManager,
       this.stateManager,
       this.storage,
+      this.gameModesManager,
       this.translator
     );
     this.shopNavigation = new ShopNavigation();
     this.uiManager = new UIManager(
       this.eventManager,
       this.stateManager,
+      this.gameModesManager,
       this.translator,
       this.shopNavigation
     );
@@ -79,7 +83,8 @@ export class GameInit {
     this.renderStockElement = new RenderStockElement(
       this.eventManager,
       this.stateManager,
-      this.logicSystemsInit
+      this.logicSystemsInit,
+      this.gameModesManager,
     );
     this.renderingSystem = new RenderingSystemsInit(
       this.eventManager,

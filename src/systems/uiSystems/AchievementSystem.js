@@ -6,11 +6,18 @@ import {
 import { Animator } from "../../utils/Animator.js";
 
 export class AchievementSystem {
-  constructor(eventManager, stateManager, storage, translator) {
+  constructor(
+    eventManager,
+    stateManager,
+    storage,
+    gameModesManager,
+    translator
+  ) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
     this.state = this.stateManager.state;
     this.storage = storage;
+    this.gameModesManager = gameModesManager;
     // this.achievements = this.loadAchievements();
     this.translator = translator;
     this.achievements = AchievementsConfig;
@@ -72,7 +79,7 @@ export class AchievementSystem {
   checkAchievements(type) {
     const playerState = this.storage.getPlayerStats();
     const { unlocked } = playerState.achievements;
-    const { unlockedMany } = this.state.stateForAchievements;
+    const { unlockedMany } = this.stateManager.getStateForAchievements();
     const achievementsFilter = this.achievements.filter(
       (a) =>
         a.type === type &&
@@ -82,7 +89,9 @@ export class AchievementSystem {
     console.log("achievementsFilter:", achievementsFilter);
     achievementsFilter.map((a) => {
       const state =
-        a.life === "one" ? this.state.player : this.state.stateForAchievements;
+        a.life === "one"
+          ? this.stateManager.getPlayerState()
+          : this.stateManager.getStateForAchievements();
       if (a.life === "one") {
         if (a.condition(state)) {
           state.achievements.unlocked.push(a.id);
@@ -158,11 +167,9 @@ export class AchievementSystem {
   }
 
   setActiveAchievement(a, many = false) {
-    this.state.player.achievements.activeId = a.id;
-    this.state.player.achievements.active = a;
+    this.stateManager.setActiveAchievementOne(a);
     if (many) {
-      this.state.stateForAchievements.activeId = a.id;
-      this.state.stateForAchievements.active = a;
+      this.stateManager.setActiveAchievementMany(a);
     }
   }
 

@@ -37,7 +37,48 @@
     <div id="app" class="app-container">
       <!-- Кнопка развернуть/свернуть окно -->
       <button class="full-screen-button" id="full-screen-btn">[ ]</button>
-
+      <div id="greetings-page" class="greetings-page">
+        <div class="greetings-game-mode-choice-container">
+          <h1 class="greetings-page-h1">Добро пожаловать!</h1>
+          <h4 class="greetings-game-mode-choice-h4">
+            Хотите сменить режим игры?
+          </h4>
+          <ul class="game-mode-select">
+            <li>
+              <label class="game-mode-option">
+                <input type="radio" name="game-mode" value="CLASSIC" checked />
+                <span class="game-mode-text">Классический</span>
+              </label>
+            </li>
+            <li>
+              <label class="game-mode-option">
+                <input type="radio" name="game-mode" value="VEGAS" />
+                <span class="game-mode-text">Вегас</span>
+              </label>
+            </li>
+            <li>
+              <label class="game-mode-option">
+                <input type="radio" name="game-mode" value="TIMED" />
+                <span class="game-mode-text">На время</span>
+              </label>
+            </li>
+            <li>
+              <label class="game-mode-option">
+                <input type="radio" name="game-mode" value="EXPERT" />
+                <span class="game-mode-text">Эксперт</span>
+              </label>
+            </li>
+            <li>
+              <label class="game-mode-option">
+                <input type="radio" name="game-mode" value="RELAXED" />
+                <span class="game-mode-text">Расслабленный</span>
+              </label>
+            </li>
+          </ul>
+          <p class="greetings-game-mode-choice-p">остальные настройки</p>
+        </div>
+        <button id="greetings-page-btn-play-game" class="greetings-page-btn-play-game">Играть</button>
+      </div>
       <div id="player-page" class="name-page hidden">
         <form id="player-form" class="player-form">
           <div class="page-content">

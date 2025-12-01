@@ -11,13 +11,13 @@ import { Animator } from "../../utils/Animator.js";
 import { Helpers } from "../../utils/Helpers.js";
 
 export class RenderStockElement {
-  constructor(eventManager, stateManager, logicSystemsInit, cardsSystem) {
+  constructor(eventManager, stateManager, logicSystemsInit, gameModesManager) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
     this.state = this.stateManager.state;
     this.logicSystemsInit = logicSystemsInit;
+    this.gameModesManager = gameModesManager;
     this.gamePageElements = gamePageElements;
-    this.cardsSystem = cardsSystem;
     this.wasteCardFlip = AnimationDurations.WASTE_CARD_FLIP;
     this.degsCardFlip = AnimationDegs.CARD_FLIP;
     this.cardContainers = GameConfig.cardContainers;
@@ -45,9 +45,9 @@ export class RenderStockElement {
     );
 
     this.eventManager.on(GameEvents.RENDER_STOCK_CARD, (card, stockElement) => {
-      this.renderStockCard(card, stockElement)
-      this.updateStockCardPosition(card)
-    })
+      this.renderStockCard(card, stockElement);
+      this.updateStockCardPosition(card);
+    });
   }
 
   render(stock, waste) {
@@ -76,12 +76,20 @@ export class RenderStockElement {
     if (!this.stateManager.getPlayerFirstCardClick()) {
       this.stateManager.setPlayerFirstCardClick(true);
       this.eventManager.emit(GameEvents.START_PLAY_TIME, Date.now());
+    }    
+    if (!this.gameModesManager.getIsRedeals()) return;
+    if (stock.stockCardPosition === 0) {
+      this.gameModesManager.upMaxRedealsCounts();
+      this.gameModesManager.setIsRedeals();
+      if (!this.gameModesManager.getIsRedeals()) {
+        stock.spanElement.textContent = "";
+      }
     }
     if (stock.stockCardPosition < 0 && waste.isEmpty()) {
-      stock.element.querySelector(".stock-span").textContent = "";
+      stock.spanElement.textContent = "";
       return;
     } else if (stock.stockCardPosition < 0) {
-      stock.element.querySelector(".stock-span").textContent = "↺";
+      stock.spanElement.textContent = "↺";
       this.eventManager.emit(GameEvents.RESET_LAST_MOVES);
       this.eventManager.emit(
         GameEvents.UP_UNDO_CONTAINER,
@@ -212,8 +220,8 @@ export class RenderStockElement {
     }
 
     this.stateManager.setIsAnimateCardFromStockToWaste(false);
-    await this.delay(this.clickLimitTime);
-    this.isClickAllowed = true; // Разрешаем клики после задержки
+    // await this.delay(this.clickLimitTime);
+    // this.isClickAllowed = true; // Разрешаем клики после задержки
   }
 
   renderStockCards(stock) {

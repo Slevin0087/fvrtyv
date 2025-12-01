@@ -1,4 +1,5 @@
 import { GameEvents } from "../utils/Constants.js";
+import { UIGreetingsPage } from "../ui/UIGreetingsPage.js";
 import { UINamePage } from "../ui/UINamePage.js";
 import { UIMenuPage } from "../ui/UIMenuPage.js";
 import { UIGamePage } from "../ui/UIGamePage.js";
@@ -9,10 +10,17 @@ import { UINotificationPage } from "../ui/UINotificationPage.js";
 import { UIConfig } from "../configs/UIConfig.js";
 
 export class UIManager {
-  constructor(eventManager, stateManager, translator, shopNavigation) {
+  constructor(
+    eventManager,
+    stateManager,
+    gameModesManager,
+    translator,
+    shopNavigation
+  ) {
     this.components = {};
     this.eventManager = eventManager;
     this.stateManager = stateManager;
+    this.gameModesManager = gameModesManager;
     this.translator = translator;
     this.shopNavigation = shopNavigation;
     this.pages = new Map();
@@ -29,12 +37,27 @@ export class UIManager {
     if (!this.stateManager.getPlayerName()) {
       this.showByName(this.activePage);
     } else {
-      this.pageShow(UIConfig.pages.UIMenuPage);
+      console.log(
+        "this.stateManager.getGreetingsPageUsed(): ",
+        this.stateManager.getGreetingsPageUsed()
+      );
+
+      if (!this.stateManager.getGreetingsPageUsed()) {
+        console.log("ggggggggggg");
+
+        this.pageShow(UIConfig.pages.UIGreetingsPage);
+      } else {
+        this.pageShow(UIConfig.pages.UIMenuPage);
+      }
     }
   }
 
   registerPages() {
     // Автоматическая регистрация всех страниц
+    this.registerPageForTranslation(
+      UIConfig.pages.UIGreetingsPage,
+      UIGreetingsPage
+    );
     this.registerPage(UIConfig.pages.UINamePage, UINamePage);
     this.registerPage(UIConfig.pages.UIMenuPage, UIMenuPage);
     this.registerPageForTranslation(UIConfig.pages.UIGamePage, UIGamePage);
@@ -63,6 +86,7 @@ export class UIManager {
     const page = new PageClass(
       this.eventManager,
       this.stateManager,
+      this.gameModesManager,
       this.translator
     );
     this.pages.set(name, page);
@@ -101,7 +125,11 @@ export class UIManager {
     });
 
     this.eventManager.on(GameEvents.UI_NAME_HIDE, () => {
-      this.pageShow(UIConfig.pages.UIMenuPage);
+      if (!this.stateManager.getGreetingsPageUsed()) {
+        this.pageShow(UIConfig.pages.UIGreetingsPage);
+      } else {
+        this.pageShow(UIConfig.pages.UIMenuPage);
+      }
     });
 
     this.eventManager.on(GameEvents.UIMENUPAGE_SHOW, () => {

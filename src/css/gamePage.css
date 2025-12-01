@@ -57,7 +57,8 @@
 .points-in-game,
 .timer,
 .div-highest-score,
-.moves {
+.moves,
+.achievements-span {
   color: black;
   display: flex;
   flex-direction: row;
@@ -74,7 +75,6 @@
 .time-display,
 .span-highest-score,
 .moves-score-span,
-.achievements-span,
 .achievements-icon-span {
   color: black;
   display: flex;

@@ -4,7 +4,6 @@ import { GameEvents } from "../utils/Constants.js";
 export class UINamePage extends UIPage {
   constructor(eventManager, stateManager) {
     super(eventManager, stateManager, "player-page");
-    this.state = stateManager.state;
     this.elements = {
       form: document.getElementById("player-form"),
       input: document.getElementById("player-name"),
@@ -23,10 +22,9 @@ export class UINamePage extends UIPage {
   }
 
   setNameInInput() {
+    const getPlayerName = this.stateManager.getPlayerName();
     const value =
-      this.state.player.name === ""
-        ? this.elements.input.placeholder
-        : this.state.player.name;
+      getPlayerName === "" ? this.elements.input.placeholder : getPlayerName;
     this.elements.input.value = value;
   }
 
@@ -51,11 +49,6 @@ export class UINamePage extends UIPage {
   hideError() {
     this.elements.errorMsg.classList.add("hidden");
     this.elements.submitBtn.disabled = false;
-  }
-
-  saveName(name) {
-    this.state.player.name = name;
-    this.stateManager.storage.savePlayerStats(this.state.player);
   }
 
   show() {

@@ -1,9 +1,9 @@
 import { UIPage } from "./UIPage.js";
 
 export class UIPlayerStatePage extends UIPage {
-  constructor(eventManager, stateManager, translator) {
+  constructor(eventManager, stateManager, gameModesManager, translator) {
     super(eventManager, stateManager, "player-state");
-    this.state = stateManager.state;
+    this.gameModesManager = gameModesManager
     this.translator = translator;
     this.elements = {
       backBtn: document.getElementById("btn-back-st-player"),
@@ -12,7 +12,7 @@ export class UIPlayerStatePage extends UIPage {
 
   render() {
     const statePlayer = this.stateManager.getPlayerState();
-    const stateForAchievements = this.state.stateForAchievements;
+    const stateForAchievements = this.stateManager.getStateForAchievements();
     const storagePlayer = this.stateManager.storage.getPlayerStats();
     console.log("storagePlayer.fastestWin: ", storagePlayer.fastestWin);
     let fastestWin = "";

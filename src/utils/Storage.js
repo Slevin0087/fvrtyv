@@ -146,6 +146,7 @@ export class Storage {
       isRunning: false,
       isPaused: false,
       playTime: 0,
+      greetingsPageUsed: false,
     };
 
     this.defaultSettingsStats = {
@@ -155,7 +156,7 @@ export class Storage {
       assistanceInCardClick: true,
       theme: "default",
       language: "ru",
-      mode: 'CLASSIC',
+      // mode: "CLASSIC",
       musicVolume: 0.2,
       effectsVolume: 0.9,
       cardFaceStyle: "classic",
@@ -367,6 +368,16 @@ export class Storage {
       return [];
     }
   }
+
+  getItem(key) {
+    try {
+      const state = JSON.parse(localStorage.getItem(key));
+      return state || null;
+    } catch (e) {
+      console.error(`Error loading ${key}:`, e);
+      return null;
+    }
+  }
   ///////////////////////////////////////////////////////////////////////////////
 
   /////////////////////////////// CLEARS /////////////////////////////////////////////////////
@@ -376,6 +387,10 @@ export class Storage {
 
   clearSessionData() {
     sessionStorage.removeItem("gameSession");
+  }
+
+  clearItem(name) {
+    localStorage.removeItem(name);
   }
 
   // === Helpers ===
@@ -489,6 +504,10 @@ export class Storage {
       ...stats,
     };
     localStorage.setItem("shopStats", JSON.stringify(shopStats));
+  }
+
+  saveItem(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
   }
 
   // === Session Data ===

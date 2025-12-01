@@ -15,27 +15,27 @@
 /* ============================================
    1. SYSTEM - Global styles and normalization
    ============================================ */
-@import './style.css';
-@import './hidden.css';
+@import "./style.css";
+@import "./hidden.css";
 
 /* ============================================
    2. PAGES - Page-specific layouts
    ============================================ */
-@import './menu.css';
-@import './namePage.css';
-@import './gamePage.css';
-@import './playerStatePage.css';
-@import './settings.css';
+@import "./greetingsPage.css";
+@import "./menu.css";
+@import "./namePage.css";
+@import "./gamePage.css";
+@import "./playerStatePage.css";
+@import "./settings.css";
 
 /* ============================================
    3. COMPONENTS - Reusable UI components
    ============================================ */
-@import './shop.css';
-@import './selectedItems.css';
+@import "./shop.css";
+@import "./selectedItems.css";
 
 /* ============================================
    4. ANIMATIONS - Animation effects
    ============================================ */
-@import './foundationsAnimations.css';
-@import './cardsContainers.css';
-
+@import "./foundationsAnimations.css";
+@import "./cardsContainers.css";

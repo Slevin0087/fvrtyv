@@ -1,0 +1,159 @@
+.greetings-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* background-color: yellow; */
+  background-color: cadetblue;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  gap: 1rem;
+  /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
+  background-image: url("../assets/cardsImages/FrameForgreetings.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.greetings-page-h1 {
+  color: black;
+  font-weight: 800;
+  padding-bottom: 15px;
+  letter-spacing: -0.5px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid #40cc16;
+}
+
+.greetings-game-mode-choice-container {
+  /* background-color: blueviolet; */
+  color: brown;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+
+  background: rgba(255, 255, 255, 0.95);
+  background: linear-gradient(135deg, #A92C2C 0%, #7F9A5E 68%);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 30px;
+  margin: 30px 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 2px solid #40cc16;
+}
+
+.greetings-game-mode-choice-h4 {
+  font-size: 20px;
+  color: #2d3748;
+  /* margin-top: 30px; */
+  margin-bottom: 25px;
+  font-weight: 600;
+}
+
+.game-mode-select {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.game-mode-option {
+  display: flex;
+  align-items: center;
+  /* padding: 10px; */
+  cursor: pointer;
+  border-radius: 6px;
+  background-color: #ff6b00;
+  transition: background 0.3s;
+  color: black;
+
+  padding: 16px 20px;
+  margin: 10px 0;
+  /* background: white; */
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid #e2e8f0;
+  position: relative;
+  overflow: hidden;
+}
+
+.game-mode-option:hover {
+  background: #f5f5f5;
+
+  transform: translateY(-2px);
+  border-color: #667eea;
+  box-shadow: 0 10px 20px rgba(102, 126, 234, 0.15);
+}
+
+.game-mode-option:active {
+  transform: translateY(0);
+}
+
+.game-mode-option input {
+  margin-right: 10px;
+}
+
+.game-mode-text {
+  font-size: 16px;
+  user-select: none;
+}
+
+.greetings-game-mode-choice-p {
+  color: red;
+  cursor: pointer;
+
+  margin-top: 25px;
+  /* color: #718096; */
+  font-size: 24px;
+  font-weight: 500;
+  padding-top: 20px;
+  border-top: 1px solid #40cc16;
+}
+
+.greetings-page-btn-play-game {
+  background: linear-gradient(135deg, #ff6b00 0%, #ff0000 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(255, 107, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+  min-width: 10%;
+}
+
+.greetings-page-btn-play-game:hover,
+.greetings-page-btn-play-game:focus {
+  background: linear-gradient(135deg, #ff0000 0%, #ff6b00 100%);
+  box-shadow: 0 6px 20px rgba(255, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* Адаптивность */
+@media (max-width: 600px) {
+  .greetings-page {
+    background-image: url("../assets/cardsImages/FrameForgreetingsSmall.png");
+  }
+  .greetings-page-h1 {
+    font-size: 32px;
+  }
+
+  .greetings-game-mode-choice-container {
+    padding: 20px;
+  }
+
+  .game-mode-text {
+    font-size: 16px;
+  }
+
+  .greetings-page-btn-play-game {
+    padding: 18px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 850px) {
+  .greetings-page {
+    background-image: url("../assets/cardsImages/FrameForgreetingsSmall.png");
+  }
+}

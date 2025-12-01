@@ -10,6 +10,7 @@ const UIModalFooterBtnsEventIds = {
 
 const UIConfig = {
   pages: {
+    UIGreetingsPage: 'UIGreetingsPage',
     UINamePage: "UINamePage",
     UIMenuPage: "UIMenuPage",
     UIGamePage: "UIGamePage",

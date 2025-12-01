@@ -263,7 +263,7 @@ export class StateManager {
   }
 
   getPlayerState() {
-    return this.state.player
+    return this.state.player;
   }
 
   getDealingCardsPlayer() {
@@ -274,17 +274,16 @@ export class StateManager {
     this.state.settings.language = value;
   }
 
-  
   getLanguage() {
     return this.state.settings.language;
   }
 
   setMode(value) {
-    this.state.settings.mode = value
+    this.state.settings.mode = value;
   }
 
   getMode() {
-    return this.state.settings.mode
+    return this.state.settings.mode;
   }
 
   getSoundEnabled() {
@@ -303,7 +302,7 @@ export class StateManager {
   }
 
   getActivePage() {
-    return this.state.ui.activePage
+    return this.state.ui.activePage;
   }
 
   setSelectedItems(item) {
@@ -355,11 +354,11 @@ export class StateManager {
   }
 
   getHintQuantity() {
-    return this.state.player.hintQuantity
+    return this.state.player.hintQuantity;
   }
 
   getMinPossibleMoves() {
-    return this.state.player.minPossibleMoves
+    return this.state.player.minPossibleMoves;
   }
 
   setPlayerName(name) {
@@ -367,7 +366,7 @@ export class StateManager {
   }
 
   getPlayerName() {
-    return this.state.player.name
+    return this.state.player.name;
   }
 
   setIsRunning(boolean) {
@@ -504,6 +503,16 @@ export class StateManager {
     this.state.stateForAchievements.active = {};
   }
 
+  setActiveAchievementOne(a) {
+    this.state.player.achievements.activeId = a.id;
+    this.state.player.achievements.active = a;
+  }
+
+  setActiveAchievementMany(a) {
+    this.state.stateForAchievements.activeId = a.id;
+    this.state.stateForAchievements.active = a;
+  }
+
   resetIsNoHints(boolean) {
     this.state.isNoHints = boolean;
   }
@@ -589,6 +598,10 @@ export class StateManager {
     this.state.player.totalMoves += n;
   }
 
+  getStateForAchievements() {
+    return this.state.stateForAchievements;
+  }
+
   getMoves() {
     return this.state.stateForAchievements.moves;
   }
@@ -607,6 +620,14 @@ export class StateManager {
 
   getDealingCards() {
     return this.state.dealingCards;
+  }
+
+  getGreetingsPageUsed() {
+    return this.state.game.greetingsPageUsed
+  }
+
+  setGreetingsPageUsed(boolean) {
+    this.state.game.greetingsPageUsed = boolean
   }
 
   setUsedAutoCollectCards(boolean) {
@@ -633,7 +654,7 @@ export class StateManager {
   }
 
   getIsUndoCardAnimation() {
-    return this.state.isUndoCardAnimation
+    return this.state.isUndoCardAnimation;
   }
 
   setIsNoHints(boolean) {
