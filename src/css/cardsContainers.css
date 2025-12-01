@@ -176,20 +176,27 @@
   border-radius: var(--card-radius);
 }
 
-.stock-span {
-  display: block;
+.stock-span,
+.foundation-span,
+.tableau-span {
+  /* display: block; */
   max-width: 100%;
   max-height: 100%;
   font-size: var(--card-width);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 1;
+  color: black;
 }
 
-.foundation-span,
+/* .foundation-span,
 .tableau-span {
   display: block;
   max-width: 100%;
   max-height: 100%;
   font-size: var(--card-width);
-}
+} */
 
 /* Общий стиль для всех контейнеров */
 .pile-foundation,
