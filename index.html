@@ -43,7 +43,7 @@
           <h4 class="greetings-game-mode-choice-h4">
             Хотите сменить режим игры?
           </h4>
-          <ul class="game-mode-select">
+          <ul class="game-mode-select desktop-version">
             <li>
               <label class="game-mode-option">
                 <input type="radio" name="game-mode" value="CLASSIC" checked />
@@ -75,9 +75,26 @@
               </label>
             </li>
           </ul>
+
+          <!-- Мобильная версия (выпадающий список) -->
+          <div class="mobile-version">
+            <select class="game-mode-select-mobile">
+              <option value="CLASSIC" selected>Классический</option>
+              <option value="VEGAS">Вегас</option>
+              <option value="TIMED">На время</option>
+              <option value="EXPERT">Эксперт</option>
+              <option value="RELAXED">Расслабленный</option>
+            </select>
+          </div>
+
           <p class="greetings-game-mode-choice-p">остальные настройки</p>
         </div>
-        <button id="greetings-page-btn-play-game" class="greetings-page-btn-play-game">Играть</button>
+        <button
+          id="greetings-page-btn-play-game"
+          class="greetings-page-btn-play-game"
+        >
+          Играть
+        </button>
       </div>
       <div id="player-page" class="name-page hidden">
         <form id="player-form" class="player-form">

@@ -157,3 +157,15 @@
     background-image: url("../assets/cardsImages/FrameForgreetingsSmall.png");
   }
 }
+
+@media (max-height: 750px) and (max-width: 450px) {  /* Скрываем десктопный список */
+  .desktop-version {
+    display: none !important;
+  }
+  
+  /* Показываем мобильную версию */
+  .mobile-version {
+    display: block;
+    margin: 15px 0;
+  }
+}
