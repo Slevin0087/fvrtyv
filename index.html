@@ -40,6 +40,9 @@
       <div id="greetings-page" class="greetings-page">
         <div class="greetings-game-mode-choice-container">
           <h1 class="greetings-page-h1">Добро пожаловать!</h1>
+          <!-- <div id="game-modes-select-container" class="game-modes-select-container">
+
+          </div> -->
           <h4 class="greetings-game-mode-choice-h4">
             Хотите сменить режим игры?
           </h4>
@@ -86,8 +89,24 @@
               <option value="RELAXED">Расслабленный</option>
             </select>
           </div>
-
-          <p id="greetings-game-mode-choice-p" class="greetings-game-mode-choice-p">остальные настройки</p>
+          <div
+            id="game-rules-text-container"
+            class="game-rules-text-container hidden"
+          >
+            <h1 class="game-rules-text--h1">Правила игры:</h1>
+          </div>
+          <p
+            id="game-rules-text-p"
+            class="game-rules-text-p"
+          >
+            Правила игры
+          </p>
+          <p
+            id="greetings-game-mode-choice-p"
+            class="greetings-game-mode-choice-p"
+          >
+            остальные настройки
+          </p>
         </div>
         <button
           id="greetings-page-btn-play-game"

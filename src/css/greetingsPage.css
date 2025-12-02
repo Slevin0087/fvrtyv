@@ -45,20 +45,16 @@
   --shadow-light: rgba(0, 0, 0, 0.1);
   --shadow-dark: rgba(0, 0, 0, 0.3);
   --shadow-dark-p-after: rgba(0, 0, 0);
-
 }
 
 /* Заголовок */
 .greetings-page-h1 {
   color: var(--text-dark);
   font-weight: 900;
-  /* padding-bottom: 20px; */
   letter-spacing: -0.8px;
   text-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   border-bottom: 3px solid var(--primary-green);
   position: relative;
-  /* font-size: 3rem; */
-  /* margin-bottom: 25px; */
   text-align: center;
   background: linear-gradient(
     135deg,
@@ -87,60 +83,9 @@
   border-radius: 3px;
 }
 
-/* Контейнер с режимами игры */
-/* .greetings-game-mode-choice-container {
-  color: var(--text-light);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1.5rem;
-
-  background: linear-gradient(135deg, 
-    rgba(26, 26, 46, 0.95) 0%, 
-    rgba(64, 204, 22, 0.1) 50%, 
-    rgba(127, 154, 94, 0.05) 100%);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-radius: 24px;
-  padding: 40px 30px;
-  box-shadow: 
-    0 20px 60px var(--shadow-dark),
-    0 0 0 1px rgba(64, 204, 22, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  border: 2px solid transparent;
-  background-clip: padding-box;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-} */
-
-/* .greetings-game-mode-choice-container::before {
-  content: '';
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: linear-gradient(135deg, 
-    var(--primary-green) 0%, 
-    var(--accent-blue) 50%, 
-    var(--primary-orange) 100%);
-  border-radius: 25px;
-  z-index: -1;
-  opacity: 0.5;
-  transition: opacity 0.4s;
-} */
-
-/* .greetings-game-mode-choice-container:hover::before {
-  opacity: 0.8;
-} */
-
 .greetings-game-mode-choice-h4 {
   font-size: 1.5rem;
-  /* color: var(--text-light); */
   color: black;
-  /* margin-bottom: 30px; */
   font-weight: 600;
   text-align: center;
   text-shadow: 0 2px 4px var(--shadow-dark);
@@ -175,7 +120,7 @@
   padding: 18px 25px;
   margin: 12px 0;
   cursor: pointer;
-  border-radius: 16px;
+  border-radius: 12px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border: 2px solid yellow;
   position: relative;
@@ -264,22 +209,23 @@
 }
 
 /* Параграф с настройками */
-.greetings-game-mode-choice-p {
+.greetings-game-mode-choice-p,
+.game-rules-text-p {
   /* color: var(--primary-green); */
   color: red;
   cursor: pointer;
   /* margin-top: 30px; */
   font-size: 1.2rem;
   font-weight: 500;
-  padding-top: 25px;
-  border-top: 2px solid rgba(64, 204, 22, 0.3);
+  border-bottom: 2px solid rgba(64, 204, 22, 0.3);
   position: relative;
   text-align: center;
   transition: all 0.3s;
   text-shadow: 0 1px 2px var(--shadow-dark);
 }
 
-.greetings-game-mode-choice-p:hover {
+.greetings-game-mode-choice-p:hover,
+.game-rules-text-p:hover {
   color: var(--accent-blue);
   transform: translateY(-2px);
   border-top-color: var(--accent-blue);
@@ -287,6 +233,12 @@
 
 .greetings-game-mode-choice-p::after {
   content: "⚙️";
+  margin-left: 10px;
+  filter: drop-shadow(0 0px 4px var(--shadow-dark-p-after));
+}
+
+.game-rules-text-p::after {
+  content: "📜";
   margin-left: 10px;
   filter: drop-shadow(0 0px 4px var(--shadow-dark-p-after));
 }
@@ -392,8 +344,7 @@
 /* Адаптивность */
 @media (max-width: 768px) {
   .greetings-page-h1 {
-    font-size: 2.5rem;
-    padding-bottom: 15px;
+    font-size: 1.8rem;
   }
 
   .greetings-game-mode-choice-container {
@@ -403,11 +354,11 @@
 
   .greetings-game-mode-choice-h4 {
     font-size: 1.3rem;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
   }
 
   .game-mode-option {
-    padding: 16px 20px;
+    padding: 12px 15px;
     margin: 10px 0;
   }
 
@@ -446,7 +397,6 @@
   }
 
   .greetings-game-mode-choice-h4 {
-    margin-bottom: 15px;
     font-size: 1.2rem;
   }
 }
@@ -484,7 +434,7 @@
 @media (max-height: 397px) {
   .greetings-game-mode-choice-container {
     margin: 10px 0;
-    padding: 15px 10px;
+    padding: 10px 5px;
   }
 
   .greetings-page-h1 {
@@ -509,8 +459,8 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  gap: 1.5rem;
-  padding: 40px 30px;
+  gap: 1.2rem;
+  padding: 30px 20px;
 
   background: linear-gradient(135deg, #fff9e6 0%, #ffeaa7 100%);
   border: 3px solid #ffd700;
