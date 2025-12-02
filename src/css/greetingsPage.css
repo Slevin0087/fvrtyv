@@ -12,7 +12,7 @@
   /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
   background-image: url("../assets/cardsImages/FrameForgreetings.png");
   background-size: cover;
-  background-position: center;
+  background-position: top;
   background-repeat: no-repeat;
 }
 
@@ -35,7 +35,7 @@
   gap: 1rem;
 
   background: rgba(255, 255, 255, 0.95);
-  background: linear-gradient(135deg, #A92C2C 0%, #7F9A5E 68%);
+  background: linear-gradient(135deg, #a92c2c 0%, #7f9a5e 68%);
   backdrop-filter: blur(10px);
   border-radius: 20px;
   padding: 30px;
@@ -152,12 +152,12 @@
   }
 }
 
- .mobile-version {
-    display: none;
- }
+.mobile-version {
+  display: none;
+}
 
 .game-mode-select-mobile {
-      appearance: none;
+  appearance: none;
   background-color: var(--btn-active);
   padding: 8px 25px 8px 8px;
   border: 1px solid #ddd;
@@ -183,10 +183,47 @@
   .desktop-version {
     display: none !important;
   }
-  
+
+  /* Показываем мобильную версию */
+  .mobile-version {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 15px 0;
+  }
+}
+
+@media (max-height: 500px) {
+  .greetings-game-mode-choice-container {
+    margin: 15px 0;
+  }
+  .greetings-page-h1 {
+    font-size: 1.5rem;
+    padding-bottom: 5px;
+  }
+  .greetings-game-mode-choice-container {
+    gap: 0.5rem;
+  }
+  .greetings-game-mode-choice-h4 {
+    margin-bottom: 5px;
+  }
+  .greetings-game-mode-choice-p {
+    padding-top: 5px;
+  }
   /* Показываем мобильную версию */
   .mobile-version {
     display: block;
     margin: 15px 0;
+  }
+}
+
+@media (max-height: 397px) {
+  .greetings-game-mode-choice-container {
+    margin: 0;
+  }
+  .greetings-game-mode-choice-p {
+    padding-top: 0;
+    margin-top: 5px;
   }
 }

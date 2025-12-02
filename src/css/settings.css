@@ -228,7 +228,20 @@ input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   width: var(--height-width-circle);
   height: var(--height-width-circle);
-  background: #4caf50;
+  /* background: #4caf50; */
+    background: 
+    /* Царапины */
+    linear-gradient(45deg, transparent 49%, rgba(0,0,0,0.1) 50%, transparent 51%),
+    linear-gradient(-45deg, transparent 49%, rgba(0,0,0,0.1) 50%, transparent 51%),
+    linear-gradient(90deg, transparent 49%, rgba(0,0,0,0.05) 50%, transparent 51%),
+    /* Металл */
+    /* linear-gradient(145deg, #d4d4d4, #b8b8b8); */
+    #4caf50;
+  background-size: 5px 5px, 5px 5px, 3px 3px, auto;
+    box-shadow: 
+    0 3px 6px rgba(0,0,0,0.2),
+    inset 0 -2px 4px rgba(0,0,0,0.2),
+    inset 0 2px 4px rgba(255,255,255,0.6);
   border-radius: calc(var(--height-width-circle) / 2);
   cursor: pointer;
 }
@@ -545,3 +558,96 @@ input[type="range"]::-moz-range-track {
     font-size: 1.5rem;
   }
 }
+
+.slider::before {
+  position: absolute;
+  content: "";
+  height: 38px;
+  width: 38px;
+  left: -2px;
+  bottom: -2px;
+  background: 
+    /* Царапины */
+    linear-gradient(45deg, transparent 49%, rgba(0,0,0,0.1) 50%, transparent 51%),
+    linear-gradient(-45deg, transparent 49%, rgba(0,0,0,0.1) 50%, transparent 51%),
+    linear-gradient(90deg, transparent 49%, rgba(0,0,0,0.05) 50%, transparent 51%),
+    /* Металл */
+    /* linear-gradient(145deg, #d4d4d4, #b8b8b8); */
+    #4caf50;
+  background-size: 5px 5px, 5px 5px, 3px 3px, auto;
+  transition: 0.4s;
+  border-radius: 50%;
+  box-shadow: 
+    0 3px 6px rgba(0,0,0,0.2),
+    inset 0 -2px 4px rgba(0,0,0,0.2),
+    inset 0 2px 4px rgba(255,255,255,0.6);
+}
+
+input:checked + .slider::before {
+  transform: translateX(32px);
+}
+
+/* .slider::before {
+  position: absolute;
+  content: "";
+  height: 38px;
+  width: 38px;
+  left: -2px;
+  bottom: -2px;
+  background: 
+    linear-gradient(45deg, transparent 48%, rgba(0,0,0,0.25) 49%, rgba(0,0,0,0.25) 51%, transparent 52%),
+    linear-gradient(-45deg, transparent 48%, rgba(0,0,0,0.25) 49%, rgba(0,0,0,0.25) 51%, transparent 52%),
+    linear-gradient(90deg, transparent 48%, rgba(0,0,0,0.15) 49%, rgba(0,0,0,0.15) 51%, transparent 52%),
+    linear-gradient(145deg, #4caf50, #3d8b40);
+  background-size: 6px 6px, 6px 6px, 4px 4px, auto;
+  transition: 0.4s;
+  border-radius: 50%;
+  box-shadow: 
+    0 3px 8px rgba(0,0,0,0.3),
+    inset 0 -2px 5px rgba(0,0,0,0.25),
+    inset 0 2px 5px rgba(255,255,255,0.4);
+}
+
+input:checked + .slider::before {
+  transform: translateX(32px);
+} */
+
+/* .slider::before {
+  position: absolute;
+  content: "";
+  height: 38px;
+  width: 38px;
+  left: -2px;
+  bottom: -2px;
+    background: 
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,0.3) 0%, transparent 60%),
+    radial-gradient(circle at 80% 80%, rgba(255,255,255,0.2) 0%, transparent 60%),
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 2px,
+      rgba(255,255,255,0.5) 3px,
+      transparent 4px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 2px,
+      rgba(255,255,255,0.3) 3px,
+      transparent 4px
+    ),
+    linear-gradient(145deg, #4caf50, #1b5e20);
+  transition: 0.4s;
+  border-radius: 50%;
+  box-shadow: 
+    0 5px 15px rgba(0,0,0,0.4),
+    inset 0 -3px 8px rgba(0,0,0,0.4),
+    inset 0 3px 8px rgba(255,255,255,0.6),
+    0 0 0 1px rgba(0,0,0,0.1);
+}
+
+input:checked + .slider::before {
+  transform: translateX(32px);
+} */
+
+
