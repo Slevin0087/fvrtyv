@@ -119,7 +119,7 @@
   /* padding-left: var(--settings-padding-left-right);
   padding-right: var(--settings-padding-left-right); */
   /* padding: var(--settings-padding-left-right); */
-  padding: calc(var(--card-width) / 10);
+  padding: calc(var(--card-width) / 10) calc(var(--card-width) / 5);
   border-bottom: 1px solid #c5b310;
 }
 
