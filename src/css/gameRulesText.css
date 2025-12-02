@@ -3,7 +3,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
   height: 100%;
 }
 
@@ -71,7 +70,8 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem;
+  /* gap: 1rem; */
+  padding-top: 1rem;
 }
 
 .game-rules-h2 {
@@ -84,9 +84,14 @@
 }
 
 .rules-section {
-  background-color: #f7fafc;
+  /* background-color: #f7fafc; */
+  background-color: #dda2a2;
   padding: 5px;
   width: 100%;
+  margin-bottom: 1rem;
+  padding: 5px;
+  border: 2px solid rgb(255, 0, 0);
+  border-radius: 15px;
 }
 
 .mode-title-name {
@@ -96,6 +101,9 @@
 
 .game-mode {
   margin-bottom: 1rem;
+  padding: 5px;
+  border: 2px solid rgb(255, 0, 0);
+  border-radius: 10px;
 }
 
 /*  */
@@ -117,6 +125,26 @@
   color: #4c51bf;
   font-size: 1.1rem;
   margin-top: 3px;
+}
+
+.footer-game-rules {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  line-height: 1;
+  margin-bottom: 1rem;
+}
+
+.luck-message {
+  color: red;
+  font-weight: 600;
+}
+
+.footer-note {
+  color: black;
+  padding: 0.5rem;
 }
 
 /*  */
