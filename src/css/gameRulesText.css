@@ -1,0 +1,14 @@
+.game-rules-text-container {
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  /* height: 100%; */
+  /* Скрываем стандартный скроллбар */
+  scrollbar-width: none; /* Firefox */
+  scroll-snap-type: x mandatory;
+  color: black;
+}
+
+main {
+    color: black;
+}
