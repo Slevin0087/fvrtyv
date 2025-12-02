@@ -44,6 +44,8 @@
   --accent-purple: #764ba2;
   --shadow-light: rgba(0, 0, 0, 0.1);
   --shadow-dark: rgba(0, 0, 0, 0.3);
+  --shadow-dark-p-after: rgba(0, 0, 0);
+
 }
 
 /* Заголовок */
@@ -286,7 +288,7 @@
 .greetings-game-mode-choice-p::after {
   content: "⚙️";
   margin-left: 10px;
-  filter: drop-shadow(0 2px 2px var(--shadow-dark));
+  filter: drop-shadow(0 0px 4px var(--shadow-dark-p-after));
 }
 
 /* Выпадающий список для мобильной версии */
