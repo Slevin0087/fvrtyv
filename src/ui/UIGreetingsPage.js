@@ -48,12 +48,10 @@ export class UIGreetingsPage extends UIPage {
 
   onClickGameRulesP() {
     this.elements.gameRulesContainer.classList.remove("hidden");
-    this.elements.contentContainer.classList.add("overFlowY");
     this.elements.modeChoiceContainer.classList.add("hidden");
   }
 
   onClickGameRulesClose() {
-    this.elements.contentContainer.classList.remove("overFlowY");
     this.elements.modeChoiceContainer.classList.remove("hidden");
     this.elements.gameRulesContainer.classList.add("hidden");
   }

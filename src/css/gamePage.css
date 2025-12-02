@@ -443,11 +443,13 @@
   font-size: calc(var(--card-width) / 2);
 }
 
-/* .controls-btn-container .controls-btn:hover,
-.controls-btn-container .controls-btn:focus {
-  background-color: #00000047;
-  border: 5px outset black;
-} */
+@media (hover: hover) {
+  .controls-btn-container .controls-btn:hover,
+  .controls-btn-container .controls-btn:focus {
+    background-color: #00000047;
+    border: 5px outset black;
+  }
+}
 
 @media (hover: none) {
   .controls-btn-container .controls-btn:active {
@@ -690,12 +692,24 @@
   line-height: 1;
 }
 
-.restart-game-modal-close-span:hover,
-.game-results-modal-close-span:hover,
-.game-over-and-no-hints-modal-close-span:hover {
-  background: #ff6b6b;
-  color: white;
-  transform: rotate(90deg);
+@media (hover: hover) {
+  .restart-game-modal-close-span:hover,
+  .game-results-modal-close-span:hover,
+  .game-over-and-no-hints-modal-close-span:hover {
+    background: #ff6b6b;
+    color: white;
+    transform: rotate(90deg);
+  }
+}
+
+@media (hover: none) {
+  .restart-game-modal-close-span:active,
+  .game-results-modal-close-span:active,
+  .game-over-and-no-hints-modal-close-span:active {
+    background: #ff6b6b;
+    color: white;
+    transform: rotate(90deg);
+  }
 }
 
 .restart-game-modal-title,

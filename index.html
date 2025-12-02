@@ -118,6 +118,9 @@
             class="game-rules-text-container hidden"
           >
             <div class="game-rules-text-header">
+              <div class="game-rules-text-title">
+                <span class="game-rules-text-title-span">Правила игры:</span>
+              </div>
               <div class="game-rules-text-close">
                 <span
                   class="game-rules-text-close-span"
@@ -125,22 +128,14 @@
                   >&times;</span
                 >
               </div>
-              <div class="game-rules-text-title">
-                <span>Правила игры:</span>
-              </div>
             </div>
             <!-- Game Rules контент: начало -->
-            <!-- Декоративные уголки -->
-            <div class="card-corner corner-tl"></div>
-            <div class="card-corner corner-tr"></div>
-            <div class="card-corner corner-bl"></div>
-            <div class="card-corner corner-br"></div>
             <main class="game-rules-text-main">
               <!-- Общая цель -->
               <section class="rules-section goal-section">
                 <div class="section-header">
                   <i class="fas fa-bullseye"></i>
-                  <h2>Общая цель</h2>
+                  <h2 class="game-rules-h2">Общая цель</h2>
                 </div>
                 <div class="section-content">
                   <p>
@@ -156,7 +151,7 @@
               <section class="rules-section zones-section">
                 <div class="section-header">
                   <i class="fas fa-map"></i>
-                  <h2>Игровые зоны</h2>
+                  <h2 class="game-rules-h2">Игровые зоны</h2>
                 </div>
                 <div class="section-content">
                   <ul>
@@ -188,7 +183,7 @@
               <section class="rules-section actions-section">
                 <div class="section-header">
                   <i class="fas fa-mouse-pointer"></i>
-                  <h2>Основные действия</h2>
+                  <h2 class="game-rules-h2">Основные действия</h2>
                 </div>
                 <div class="section-content">
                   <ul>
@@ -215,7 +210,7 @@
               <section class="rules-section modes-section">
                 <div class="section-header">
                   <i class="fas fa-gamepad"></i>
-                  <h2>Режимы игры</h2>
+                  <h2 class="game-rules-h2">Режимы игры</h2>
                 </div>
                 <div class="section-content">
                   <!-- Классический режим -->
@@ -223,37 +218,31 @@
                     <div class="mode-header">
                       <div class="mode-title">
                         <span class="mode-icon">🏆</span>
-                        <span>1. Классический</span>
+                        <span class="mode-title-name">1. Классический</span>
                         <span class="mode-difficulty difficulty-easy"
                           >Стандарт</span
                         >
                       </div>
                     </div>
                     <p>Стандартные правила пасьянса</p>
-                    <div class="mode-rules">
-                      <div class="rule-item">
-                        <i class="fas fa-draw-polygon rule-icon"></i>
+                    <ul>
+                      <li>
                         <span
                           >Вытягивание по <strong>3 карты</strong> из
                           колоды</span
                         >
-                      </div>
-                      <div class="rule-item">
-                        <i class="fas fa-redo rule-icon"></i>
+                      </li>
+                      <li>
                         <span><strong>1 пересдача</strong> доступна</span>
-                      </div>
-                      <div class="rule-item">
-                        <i class="fas fa-undo rule-icon"></i>
+                      </li>
+                      <li>
                         <span
                           ><strong>5 отмен</strong> и
                           <strong>3 подсказки</strong> за игру</span
                         >
-                      </div>
-                      <div class="rule-item">
-                        <i class="fas fa-bolt rule-icon"></i>
-                        <span>Автозавершение включено</span>
-                      </div>
-                    </div>
+                      </li>
+                      <li><span>Автозавершение включено</span></li>
+                    </ul>
                     <p>
                       <strong>Награда:</strong> +10 хусынков за победу, +25 за
                       идеальную игру (без отмен/подсказок)
@@ -265,34 +254,28 @@
                     <div class="mode-header">
                       <div class="mode-title">
                         <span class="mode-icon">💰</span>
-                        <span>2. Вегасский</span>
+                        <span class="mode-title-name">2. Вегасский</span>
                         <span class="mode-difficulty difficulty-medium"
                           >Накопительный</span
                         >
                       </div>
                     </div>
                     <p>Режим с накопительным счетом и ставками</p>
-                    <div class="mode-rules">
-                      <div class="rule-item">
-                        <i class="fas fa-draw-polygon rule-icon"></i>
+                    <ul>
+                      <li>
                         <span>Вытягивание по <strong>1 карте</strong></span>
-                      </div>
-                      <div class="rule-item">
-                        <i class="fas fa-times-circle rule-icon"></i>
+                      </li>
+                      <li>
                         <span><strong>Без пересдач</strong></span>
-                      </div>
-                      <div class="rule-item">
-                        <i class="fas fa-undo rule-icon"></i>
+                      </li>
+                      <li>
                         <span
                           >Только <strong>2 отмены</strong>, подсказки
                           отсутствуют</span
                         >
-                      </div>
-                      <div class="rule-item">
-                        <i class="fas fa-chart-line rule-icon"></i>
-                        <span>Накопительный счет между играми</span>
-                      </div>
-                    </div>
+                      </li>
+                      <li><span>Накопительный счет между играми</span></li>
+                    </ul>
                     <p>
                       <strong>Экономика:</strong> Входная плата 15 хусынков,
                       возможен выигрыш до 100 хусынков
@@ -304,37 +287,33 @@
                     <div class="mode-header">
                       <div class="mode-title">
                         <span class="mode-icon">⏱️</span>
-                        <span>3. На время</span>
+                        <span class="mode-title-name">3. На время</span>
                         <span class="mode-difficulty difficulty-hard"
                           >Гонка</span
                         >
                       </div>
                     </div>
                     <p>Гонка против времени</p>
-                    <div class="mode-rules">
-                      <div class="rule-item">
-                        <i class="fas fa-clock rule-icon"></i>
+                    <ul>
+                      <li>
                         <span>Лимит: <strong>3 минуты</strong> на игру</span>
-                      </div>
-                      <div class="rule-item">
-                        <i class="fas fa-stopwatch rule-icon"></i>
+                      </li>
+                      <li>
                         <span
                           >Дополнительный лимит:
                           <strong>10 секунд на ход</strong></span
                         >
-                      </div>
-                      <div class="rule-item">
-                        <i class="fas fa-undo rule-icon"></i>
+                      </li>
+                      <li>
                         <span
                           ><strong>2 отмены</strong> и
                           <strong>1 подсказка</strong></span
                         >
-                      </div>
-                      <div class="rule-item">
-                        <i class="fas fa-tachometer-alt rule-icon"></i>
+                      </li>
+                      <li>
                         <span>Бонусы за скорость и оставшееся время</span>
-                      </div>
-                    </div>
+                      </li>
+                    </ul>
                     <p>
                       <strong>Награда:</strong> до 40 хусынков за быструю победу
                     </p>
@@ -345,36 +324,32 @@
                     <div class="mode-header">
                       <div class="mode-title">
                         <span class="mode-icon">🧠</span>
-                        <span>4. Эксперт</span>
+                        <span class="mode-title-name">4. Эксперт</span>
                         <span class="mode-difficulty difficulty-expert"
                           >Сложный</span
                         >
                       </div>
                     </div>
                     <p>Максимальная сложность для профессионалов</p>
-                    <div class="mode-rules">
-                      <div class="rule-item">
-                        <i class="fas fa-footstep rule-icon"></i>
+                    <ul>
+                      <li>
                         <span>Лимит: <strong>200 ходов</strong> на игру</span>
-                      </div>
-                      <div class="rule-item">
-                        <i class="fas fa-undo rule-icon"></i>
+                      </li>
+                      <li>
                         <span
                           ><strong>3 отмены</strong> и
                           <strong>2 подсказки</strong></span
                         >
-                      </div>
-                      <div class="rule-item">
-                        <i class="fas fa-exclamation-triangle rule-icon"></i>
+                      </li>
+                      <li>
                         <span>Штраф за ходы из отбоя на игровое поле</span>
-                      </div>
-                      <div class="rule-item">
-                        <i class="fas fa-ban rule-icon"></i>
+                      </li>
+                      <li>
                         <span
                           >Запрещены пустые перемещения между столбцами</span
                         >
-                      </div>
-                    </div>
+                      </li>
+                    </ul>
                     <p>
                       <strong>Награда:</strong> до 55 хусынков за победу с
                       бонусами
@@ -386,34 +361,30 @@
                     <div class="mode-header">
                       <div class="mode-title">
                         <span class="mode-icon">😌</span>
-                        <span>5. Расслабленный</span>
+                        <span class="mode-title-name">5. Расслабленный</span>
                         <span class="mode-difficulty difficulty-easy"
                           >Обучение</span
                         >
                       </div>
                     </div>
                     <p>Для обучения и отдыха</p>
-                    <div class="mode-rules">
-                      <div class="rule-item">
-                        <i class="fas fa-infinity rule-icon"></i>
+                    <ul>
+                      <li>
                         <span
                           ><strong>Безлимитные</strong> пересдачи, отмены и
                           подсказки</span
                         >
-                      </div>
-                      <div class="rule-item">
-                        <i class="fas fa-robot rule-icon"></i>
+                      </li>
+                      <li>
                         <span>Автоподсказки и автозавершение</span>
-                      </div>
-                      <div class="rule-item">
-                        <i class="fas fa-graduation-cap rule-icon"></i>
+                      </li>
+                      <li>
                         <span>Режим обучения включен</span>
-                      </div>
-                      <div class="rule-item">
-                        <i class="fas fa-calendar-day rule-icon"></i>
+                      </li>
+                      <li>
                         <span>Ежедневная награда за игру</span>
-                      </div>
-                    </div>
+                      </li>
+                    </ul>
                     <p>
                       <strong>Награда:</strong> бонусы за первую победу и
                       ежедневную игру
@@ -426,7 +397,7 @@
               <section class="rules-section scoring-section">
                 <div class="section-header">
                   <i class="fas fa-chart-bar"></i>
-                  <h2>Система очков</h2>
+                  <h2 class="game-rules-h2">Система очков</h2>
                 </div>
                 <div class="section-content">
                   <p>Очки начисляются за:</p>
@@ -471,7 +442,7 @@
               <section class="rules-section currency-section">
                 <div class="section-header">
                   <i class="fas fa-coins"></i>
-                  <h2>Хусынки (игровая валюта)</h2>
+                  <h2 class="game-rules-h2">Хусынки (игровая валюта)</h2>
                 </div>
                 <div class="section-content">
                   <p>Хусынки начисляются за:</p>
@@ -491,7 +462,7 @@
               <section class="rules-section tips-section">
                 <div class="section-header">
                   <i class="fas fa-lightbulb"></i>
-                  <h2>Стратегические советы</h2>
+                  <h2 class="game-rules-h2">Стратегические советы</h2>
                 </div>
                 <div class="section-content">
                   <div class="tips-grid">
@@ -543,7 +514,7 @@
               <section class="rules-section win-section">
                 <div class="section-header">
                   <i class="fas fa-flag-checkered"></i>
-                  <h2>Условия победы</h2>
+                  <h2 class="game-rules-h2">Условия победы</h2>
                 </div>
                 <div class="section-content">
                   <ul>
@@ -553,16 +524,16 @@
                   </ul>
                 </div>
               </section>
+              <div class="luck-message">
+                <i class="fas fa-club"></i>
+                Удачи в игре!
+                <i class="fas fa-spade"></i>
+              </div>
+              <p class="footer-note">
+                Косынка с джокером • 5 режимов сложности • Динамические правила
+              </p>
             </main>
 
-            <div class="luck-message">
-              <i class="fas fa-club"></i>
-              Удачи в игре!
-              <i class="fas fa-spade"></i>
-            </div>
-            <p class="footer-note">
-              Косынка с джокером • 5 режимов сложности • Динамические правила
-            </p>
             <!-- Game Rules контент: конец -->
           </div>
         </div>

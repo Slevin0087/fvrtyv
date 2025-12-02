@@ -348,7 +348,7 @@
   }
 
   .greetings-page-content-container {
-    padding: 30px 20px;
+    /* padding: 30px 20px; */
     border-radius: 20px;
   }
 
@@ -387,7 +387,7 @@
   }
 
   .greetings-page-content-container {
-    padding: 25px 20px;
+    /* padding: 25px 20px; */
     gap: 1rem;
   }
 
@@ -404,7 +404,7 @@
 @media (max-height: 500px) {
   .greetings-page-content-container {
     margin: 15px 0;
-    padding: 20px 15px;
+    /* padding: 20px 15px; */
   }
 
   .greetings-page-h1 {
@@ -432,7 +432,7 @@
 @media (max-height: 397px) {
   .greetings-page-content-container {
     margin: 10px 0;
-    padding: 10px 5px;
+    /* padding: 10px 5px; */
   }
 
   .greetings-page-h1 {
@@ -466,6 +466,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
+  padding: 10px;
 }
 
 .greetings-page-content-container {
@@ -474,7 +475,7 @@
   justify-content: space-between;
   align-items: center;
   gap: 1.2rem;
-  padding: 30px 20px;
+  /* padding: 30px 20px; */
 
   background: linear-gradient(135deg, #fff9e6 0%, #ffeaa7 100%);
   border: 3px solid #ffd700;
@@ -484,6 +485,8 @@
   transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   overflow: hidden;
   font-family: "Arial", sans-serif;
-  min-width: fit-content;
+  /* min-width: fit-content; */
+  max-width: fit-content;
   width: calc(var(--card-width) * 6);
+  max-height: 80%;
 }
