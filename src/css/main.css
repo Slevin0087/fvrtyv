@@ -22,6 +22,7 @@
    2. PAGES - Page-specific layouts
    ============================================ */
 @import "./greetingsPage.css";
+@import "./gameRulesText.css";
 @import "./menu.css";
 @import "./namePage.css";
 @import "./gamePage.css";
