@@ -1,5 +1,6 @@
 import { UIPage } from "./UIPage.js";
 import { GameEvents } from "../utils/Constants.js";
+import { windowResize } from "../systems/uiSystems/WindowResizeHandler.js";
 
 export class UIGreetingsPage extends UIPage {
   constructor(eventManager, stateManager) {
@@ -13,6 +14,10 @@ export class UIGreetingsPage extends UIPage {
       modeChoiceContainer: document.getElementById(
         "greetings-game-mode-choice-container"
       ),
+      desktopVersion: document.getElementById(
+        "game-mode-select-desktop-version"
+      ),
+      mobileVersion: document.getElementById("game-mode-select-mobile-version"),
       playGameBtn: document.getElementById("greetings-page-btn-play-game"),
       gameRulesContainer: document.getElementById("game-rules-text-container"),
       gameRulesP: document.getElementById("game-rules-text-p"),
@@ -58,5 +63,28 @@ export class UIGreetingsPage extends UIPage {
 
   onClickOtherSettingsP() {
     this.eventManager.emit(GameEvents.UI_SETTINGS_SHOW);
+  }
+
+  resizeGameModeSelected = (dimensions) => {
+    console.log('в resizeGameModeSelected');
+    
+    const { availableWidth, availableHeight } = dimensions;
+    if (availableHeight < 750) {
+      this.elements.desktopVersion.classList.add("hidden");
+      this.elements.mobileVersion.classList.remove("hidden");
+    } else {
+      this.elements.mobileVersion.classList.add("hidden");
+      this.elements.desktopVersion.classList.remove("hidden");
+    }
+  }
+
+  show() {
+    windowResize.addListener(this.resizeGameModeSelected);
+    super.show();
+  }
+
+  hide() {
+    windowResize.removeListener(this.resizeGameModeSelected)
+    super.hide()
   }
 }

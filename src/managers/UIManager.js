@@ -70,7 +70,7 @@ export class UIManager {
       UIConfig.pages.UIPlayerStatePage,
       UIPlayerStatePage
     );
-    this.registerPage(UIConfig.pages.UINotificationPage, UINotificationPage);
+    // this.registerPage(UIConfig.pages.UINotificationPage, UINotificationPage);
   }
 
   registerPage(name, PageClass) {
@@ -240,7 +240,10 @@ export class UIManager {
 
   hideAll() {
     this.pages.forEach((page) => {
-      page.page.classList.add("hidden");
+      console.log('page: ', page);
+      
+      // page.page.classList.add("hidden");
+      page.hide()
     });
   }
 

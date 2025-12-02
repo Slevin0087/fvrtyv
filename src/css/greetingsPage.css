@@ -245,9 +245,14 @@
 
 /* Выпадающий список для мобильной версии */
 .mobile-version {
-  display: none;
+  /* display: none; */
   width: 100%;
   max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 15px 0;
 }
 
 .game-mode-select-mobile {
@@ -374,17 +379,9 @@
 }
 
 @media (max-height: 750px) {
-  .desktop-version {
-    display: none !important;
-  }
-
-  .mobile-version {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: 15px 0;
-  }
+  /* .desktop-version {
+    display: none;
+  } */
 
   .greetings-page-content-container {
     /* padding: 25px 20px; */
