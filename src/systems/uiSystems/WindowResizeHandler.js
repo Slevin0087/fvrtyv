@@ -45,6 +45,10 @@ class WindowResizeHandler {
   getDimensions() {
     return {
       //
+      screenY: window.screenY,
+      //
+      availTop: window.screen,
+      //
       locationbar: window.locationbar,
       //
       isMobileDevice: this.isMobileDevice(),
