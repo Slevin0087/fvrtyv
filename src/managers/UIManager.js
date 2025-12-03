@@ -198,7 +198,7 @@ export class UIManager {
       div.style.color = "withe";
       div.className = "div-test";
       const ddd = isTouchDevice;
-      div.textContent = `11${ddd}`;
+      div.textContent = `isTouchDevice${ddd}`;
       document.querySelector("body").append(div);
 
       // const isAppleDevice = !!(window.ApplePaySetupFeature || window.webkit);
