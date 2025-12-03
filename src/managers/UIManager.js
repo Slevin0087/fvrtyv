@@ -175,41 +175,47 @@ export class UIManager {
     const isIOS = () => {
       // 1. Проверка User-Agent
       const userA = navigator.userAgent;
+      console.log("userA: ", userA);
+
       const isIOSUserAgent = /(iPad|iPhone|iPod)/gi.test(userA);
+      console.log("isIOSUserAgent: ", isIOSUserAgent);
 
       // 2. Проверка по поведенческим особенностям
       const isTouchDevice = "ontouchstart" in window;
-      const isAppleDevice = window.ApplePaySetupFeature || window.webkit;
+      console.log("isTouchDevice: ", isTouchDevice);
+
+      // const isAppleDevice = !!(window.ApplePaySetupFeature || window.webkit);
+      // console.log('window.webkit: ', window.webkit);
 
       // 3. Проверка полноэкранного API
       const isFullscreenSupported =
         document.fullscreenEnabled ||
         document.webkitFullscreenEnabled ||
         document.webkitSupportsFullscreen;
+        console.log('isFullscreenSupported: ', isFullscreenSupported);
+        
+      console.log("&&&&&: ", isIOSUserAgent && isTouchDevice && !isFullscreenSupported);
 
-      return (
-        (isIOSUserAgent || isAppleDevice) &&
-        isTouchDevice &&
-        !isFullscreenSupported
-      );
+      return isIOSUserAgent && isTouchDevice && isFullscreenSupported;
     };
 
+    console.log("isIOS(): ", isIOS());
     // Обработка iOS
-    if (isIOS()) {
-      // Специальная обработка для видео/iframe
-      const videoElements = document.getElementsByTagName("video");
-      if (videoElements.length > 0) {
-        videoElements[0].webkitEnterFullscreen();
-        fullScreenBtn.textContent = "_";
-        return;
-      }
+    // if (isIOS()) {
+    //   // Специальная обработка для видео/iframe
+    //   const videoElements = document.getElementsByTagName("video");
+    //   if (videoElements.length > 0) {
+    //     videoElements[0].webkitEnterFullscreen();
+    //     fullScreenBtn.textContent = "_";
+    //     return;
+    //   }
 
-      // Показываем инструкцию для iOS
-      alert(
-        "На iPhone:\n1. Нажмите кнопку 'Поделиться'\n2. Выберите 'На экран «Домой»'\n3. Откройте сайт из главного экрана"
-      );
-      return;
-    }
+    //   // Показываем инструкцию для iOS
+    //   alert(
+    //     "На iPhone:\n1. Нажмите кнопку 'Поделиться'\n2. Выберите 'На экран «Домой»'\n3. Откройте сайт из главного экрана"
+    //   );
+    //   return;
+    // }
 
     // Стандартная реализация для других платформ
     if (!document.fullscreenElement) {
@@ -240,7 +246,7 @@ export class UIManager {
 
   hideAll() {
     this.pages.forEach((page) => {
-      page.hide()
+      page.hide();
     });
   }
 
