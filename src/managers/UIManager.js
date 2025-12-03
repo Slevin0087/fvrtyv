@@ -183,25 +183,25 @@ export class UIManager {
     console.log("isPWA: ", isPWA);
 
     if (isIOS) {
+      const div = document.createElement("div");
+      div.style.width = "100px";
+      div.style.height = "100px";
+      div.style.position = "absolute";
+      div.style.left = "10%";
+      div.style.top = "30%";
+      div.style.transform = "translateX(-10%)";
+      div.style.backgroundColor = "blue";
+      div.style.color = "withe";
+      div.className = "div-test";
+      const ddd = isPWA;
+      div.textContent = `11${ddd}`;
+      document.querySelector("body").append(div);
       if (isPWA) {
-        const div = document.createElement("div");
-        div.style.width = "100px";
-        div.style.height = "100px";
-        div.style.position = "absolute";
-        div.style.left = "10%";
-        div.style.top = "30%";
-        div.style.transform = "translateX(-10%)";
-        div.style.backgroundColor = "blue";
-        div.style.color = "withe";
-        div.className = "div-test";
-        const ddd = isPWA;
-        div.textContent = `11${ddd}`;
-        document.querySelector("body").append(div);
         return;
       }
       // Если не PWA - показываем инструкцию по установке
-      this.showIOSInstallPrompt();
-      return;
+      // this.showIOSInstallPrompt();
+      // return;
     }
 
     // Стандартная реализация для других платформ
