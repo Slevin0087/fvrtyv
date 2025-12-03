@@ -177,12 +177,12 @@ export class UIManager {
       const userA = navigator.userAgent;
       console.log("userA: ", userA);
       const div = document.createElement("div");
-      div.style.width = "30px";
-      div.style.height = "100px";
+      div.style.width = "200px";
+      div.style.height = "300px";
       div.style.position = "absolute";
-      div.style.right = "30%";
+      div.style.right = "5%";
       div.style.top = "30%";
-      div.style.transform = "translateX(-50%)";
+      div.style.transform = "translateX(-5%)";
       div.style.backgroundColor = "blue";
       div.style.color = "withe";
       div.className = "div-test";
@@ -217,12 +217,12 @@ export class UIManager {
 
     console.log("isIOS(): ", isIOS());
     const div = document.createElement("div");
-    div.style.width = "30px";
+    div.style.width = "100px";
     div.style.height = "100px";
     div.style.position = "absolute";
-    div.style.left = "30%";
+    div.style.left = "10%";
     div.style.top = "30%";
-    div.style.transform = "translateX(-50%)";
+    div.style.transform = "translateX(-10%)";
     div.style.backgroundColor = "blue";
     div.style.color = "withe";
     div.className = "div-test";
