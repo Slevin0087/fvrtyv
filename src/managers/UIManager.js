@@ -209,7 +209,7 @@ export class UIManager {
       div.style.backgroundColor = "blue";
       div.style.color = "withe";
       div.className = "div-test";
-      div.textContent = isFullscreenSupported
+      div.textContent = `${isFullscreenSupported}, ${isTouchDevice}, ${isIOSUserAgent}`
       document.querySelector('body').append(div)
       return isIOSUserAgent && isTouchDevice && isFullscreenSupported;
     };
