@@ -182,6 +182,10 @@ export class UIManager {
       div.style.position = "absolute";
       div.style.right = "5%";
       div.style.top = "30%";
+      div.style.display = 'flex'
+      div.style.flexDirection = 'column'
+      div.style.justifyContent = 'center'
+      div.style.alignItems = 'center'
       div.style.transform = "translateX(-5%)";
       div.style.backgroundColor = "blue";
       div.style.color = "withe";
