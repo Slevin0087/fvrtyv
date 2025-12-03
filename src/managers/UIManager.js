@@ -194,7 +194,7 @@ export class UIManager {
       div.style.color = "withe";
       div.className = "div-test";
       const ddd = window.navigator.standalone;
-      div.textContent = `11${ddd}`;
+      div.textContent = `standalone: ${ddd}`;
       document.querySelector("body").append(div);
       if (isPWA) {
         return;
