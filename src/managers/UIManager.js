@@ -176,6 +176,19 @@ export class UIManager {
       // 1. Проверка User-Agent
       const userA = navigator.userAgent;
       console.log("userA: ", userA);
+      const div = document.createElement("div");
+      div.style.width = "30px";
+      div.style.height = "100px";
+      div.style.position = "absolute";
+      div.style.right = "30%";
+      div.style.top = "30%";
+      div.style.transform = "translateX(-50%)";
+      div.style.backgroundColor = "blue";
+      div.style.color = "withe";
+      div.className = "div-test";
+      const ddd = userA;
+      div.textContent = `11${ddd}`;
+      document.querySelector("body").append(div);
 
       const isIOSUserAgent = /(iPad|iPhone|iPod)/gi.test(userA);
       console.log("isIOSUserAgent: ", isIOSUserAgent);
@@ -201,7 +214,7 @@ export class UIManager {
 
       return isIOSUserAgent && isTouchDevice && isFullscreenSupported;
     };
-    
+
     console.log("isIOS(): ", isIOS());
     const div = document.createElement("div");
     div.style.width = "30px";
@@ -213,8 +226,9 @@ export class UIManager {
     div.style.backgroundColor = "blue";
     div.style.color = "withe";
     div.className = "div-test";
-    div.textContent = `11${isIOS()}`
-    document.querySelector('body').append(div)
+    const ddd = isIOS();
+    div.textContent = `11${ddd}`;
+    document.querySelector("body").append(div);
     // Обработка iOS
     // if (isIOS()) {
     //   // Специальная обработка для видео/iframe
