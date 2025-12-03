@@ -171,56 +171,78 @@ export class UIManager {
   }
 
   toggleFullscreen(fullScreenBtn) {
+    const ua = navigator.userAgent.toLowerCase();
+    const isIOS =
+      /(iphone|ipad|ipod)/.test(ua) ||
+      (/macintosh.*safari/.test(ua) && "ontouchstart" in window);
+
+    // Проверяем PWA режим
+    const isPWA =
+      window.navigator.standalone ||
+      window.matchMedia("(display-mode: standalone)").matches;
+    console.log("isPWA: ", isPWA);
+
+    if (isIOS) {
+      if (isPWA) {
+        return;
+      }
+      // Если не PWA - показываем инструкцию по установке
+      this.showIOSInstallPrompt();
+      return;
+    }
+
+    
+
     // Проверка iOS/Safari (современный способ)
-    const isIOS = () => {
-      // 1. Проверка User-Agent
-      const userA = navigator.userAgent;
-      console.log("userA: ", userA);
+    // const isIOS = () => {
+    //   // 1. Проверка User-Agent
+    //   const userA = navigator.userAgent;
+    //   console.log("userA: ", userA);
 
-      const isIOSUserAgent = /(iPad|iPhone|iPod)/gi.test(userA);
-      console.log("isIOSUserAgent: ", isIOSUserAgent);
+    //   const isIOSUserAgent = /(iPad|iPhone|iPod)/gi.test(userA);
+    //   console.log("isIOSUserAgent: ", isIOSUserAgent);
 
-      const isSafari = /Safari/i.test(ua) && !/Chrome|CriOS/i.test(ua);
-      // 2. Проверка по поведенческим особенностям
-      const isTouchDevice = "ontouchstart" in window;
-      console.log("isTouchDevice: ", isTouchDevice);
+    //   const isSafari = /Safari/i.test(ua) && !/Chrome|CriOS/i.test(ua);
+    //   // 2. Проверка по поведенческим особенностям
+    //   const isTouchDevice = "ontouchstart" in window;
+    //   console.log("isTouchDevice: ", isTouchDevice);
 
-      // const isAppleDevice = !!(window.ApplePaySetupFeature || window.webkit);
-      // console.log('window.webkit: ', window.webkit);
+    //   // const isAppleDevice = !!(window.ApplePaySetupFeature || window.webkit);
+    //   // console.log('window.webkit: ', window.webkit);
 
-      const div = document.createElement("div");
-      div.style.width = "200px";
-      div.style.height = "300px";
-      div.style.position = "absolute";
-      div.style.right = "5%";
-      div.style.top = "30%";
-      div.style.display = "flex";
-      div.style.flexDirection = "column";
-      div.style.justifyContent = "center";
-      div.style.alignItems = "center";
-      div.style.transform = "translateX(-5%)";
-      div.style.backgroundColor = "blue";
-      div.style.color = "withe";
-      div.className = "div-test";
-      const ddd = document.webkitSupportsFullscreen;
-      div.textContent = `webkitSupportsFullscreen: ${ddd}`;
-      document.querySelector("body").append(div);
-      // 3. Проверка полноэкранного API
-      const isFullscreenSupported =
-        document.fullscreenEnabled ||
-        document.webkitFullscreenEnabled ||
-        document.webkitSupportsFullscreen;
-      console.log("isFullscreenSupported: ", isFullscreenSupported);
+    //   const div = document.createElement("div");
+    //   div.style.width = "200px";
+    //   div.style.height = "300px";
+    //   div.style.position = "absolute";
+    //   div.style.right = "5%";
+    //   div.style.top = "30%";
+    //   div.style.display = "flex";
+    //   div.style.flexDirection = "column";
+    //   div.style.justifyContent = "center";
+    //   div.style.alignItems = "center";
+    //   div.style.transform = "translateX(-5%)";
+    //   div.style.backgroundColor = "blue";
+    //   div.style.color = "withe";
+    //   div.className = "div-test";
+    //   const ddd = document.webkitSupportsFullscreen;
+    //   div.textContent = `webkitSupportsFullscreen: ${ddd}`;
+    //   document.querySelector("body").append(div);
+    //   // 3. Проверка полноэкранного API
+    //   const isFullscreenSupported =
+    //     document.fullscreenEnabled ||
+    //     document.webkitFullscreenEnabled ||
+    //     document.webkitSupportsFullscreen;
+    //   console.log("isFullscreenSupported: ", isFullscreenSupported);
 
-      console.log(
-        "&&&&&: ",
-        isIOSUserAgent && isTouchDevice && !isFullscreenSupported
-      );
+    //   console.log(
+    //     "&&&&&: ",
+    //     isIOSUserAgent && isTouchDevice && !isFullscreenSupported
+    //   );
 
-      return isIOSUserAgent && isTouchDevice && isFullscreenSupported;
-    };
+    //   return isIOSUserAgent && isTouchDevice && isFullscreenSupported;
+    // };
 
-    console.log("isIOS(): ", isIOS());
+    // console.log("isIOS(): ", isIOS());
     const div = document.createElement("div");
     div.style.width = "100px";
     div.style.height = "100px";
@@ -231,8 +253,8 @@ export class UIManager {
     div.style.backgroundColor = "blue";
     div.style.color = "withe";
     div.className = "div-test";
-    const ddd = isIOS();
-    div.textContent = `11${ddd}`;
+    // const ddd = isIOS();
+    // div.textContent = `11${ddd}`;
     document.querySelector("body").append(div);
     // Обработка iOS
     // if (isIOS()) {
@@ -276,6 +298,52 @@ export class UIManager {
       exitFs.call(document);
       fullScreenBtn.textContent = "[ ]";
     }
+  }
+
+  showIOSInstallPrompt() {
+    const div = document.createElement("div");
+    div.innerHTML = `
+    <div id="ios-install" style="
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.95);
+      z-index: 9999;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+    ">
+      <h2>📱 Для полного экрана</h2>
+      <div style="margin: 30px 0; font-size: 18px; line-height: 1.8;">
+        <p>1. Откройте в <strong>Safari</strong></p>
+        <p>2. Нажмите кнопку <span style="color: #007aff;">⎊ Поделиться</span></p>
+        <p>3. Выберите <strong>"На экран «Домой»"</strong></p>
+        <p>4. Откройте с главного экрана</p>
+      </div>
+      <button id="ios-install-apply-btn" style="
+        padding: 12px 30px;
+        background: #007aff;
+        color: white;
+        border: none;
+        border-radius: 20px;
+        font-size: 16px;
+        cursor: pointer;
+      ">
+        Понятно
+      </button>
+    </div>
+  `;
+
+    const handleApplyBtn = () => {
+      div.remove();
+    };
+    document.body.appendChild(div);
+    const btn = document.getElementById("ios-install-apply-btn");
+    btn.onclick = handleApplyBtn;
   }
 
   hideAll() {
