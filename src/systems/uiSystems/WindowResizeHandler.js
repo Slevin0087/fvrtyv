@@ -44,6 +44,10 @@ class WindowResizeHandler {
 
   getDimensions() {
     return {
+      //
+      isMobileDevice: this.isMobileDevice(),
+      //
+      visualViewport: window.visualViewport,
       // Размеры окна просмотра
       innerWidth: window.innerWidth,
       innerHeight: window.innerHeight,
@@ -106,6 +110,12 @@ class WindowResizeHandler {
 
     this.listeners = [];
     this.isInitialized = false;
+  }
+
+  isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    );
   }
 }
 
