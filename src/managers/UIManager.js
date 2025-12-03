@@ -176,33 +176,34 @@ export class UIManager {
       // 1. Проверка User-Agent
       const userA = navigator.userAgent;
       console.log("userA: ", userA);
-      
+
       const isIOSUserAgent = /(iPad|iPhone|iPod)/gi.test(userA);
       console.log("isIOSUserAgent: ", isIOSUserAgent);
-      
+
+      const isSafari = /Safari/i.test(ua) && !/Chrome|CriOS/i.test(ua);
       // 2. Проверка по поведенческим особенностям
       const isTouchDevice = "ontouchstart" in window;
       console.log("isTouchDevice: ", isTouchDevice);
-      
+
       // const isAppleDevice = !!(window.ApplePaySetupFeature || window.webkit);
       // console.log('window.webkit: ', window.webkit);
-      
+
       const div = document.createElement("div");
       div.style.width = "200px";
       div.style.height = "300px";
       div.style.position = "absolute";
       div.style.right = "5%";
       div.style.top = "30%";
-      div.style.display = 'flex'
-      div.style.flexDirection = 'column'
-      div.style.justifyContent = 'center'
-      div.style.alignItems = 'center'
+      div.style.display = "flex";
+      div.style.flexDirection = "column";
+      div.style.justifyContent = "center";
+      div.style.alignItems = "center";
       div.style.transform = "translateX(-5%)";
       div.style.backgroundColor = "blue";
       div.style.color = "withe";
       div.className = "div-test";
-      const ddd = document.fullscreenEnabled;
-      div.textContent = `fullscreenEnabled: ${ddd}`;
+      const ddd = document.webkitFullscreenEnabled;
+      div.textContent = `webkitFullscreenEnabled: ${ddd}`;
       document.querySelector("body").append(div);
       // 3. Проверка полноэкранного API
       const isFullscreenSupported =
