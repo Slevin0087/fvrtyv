@@ -179,6 +179,10 @@ export class UIManager {
       
       const isIOSUserAgent = /(iPad|iPhone|iPod)/gi.test(userA);
       console.log("isIOSUserAgent: ", isIOSUserAgent);
+      
+      // 2. Проверка по поведенческим особенностям
+      const isTouchDevice = "ontouchstart" in window;
+      console.log("isTouchDevice: ", isTouchDevice);
       const div = document.createElement("div");
       div.style.width = "200px";
       div.style.height = "300px";
@@ -193,13 +197,9 @@ export class UIManager {
       div.style.backgroundColor = "blue";
       div.style.color = "withe";
       div.className = "div-test";
-      const ddd = isIOSUserAgent;
+      const ddd = isTouchDevice;
       div.textContent = `11${ddd}`;
       document.querySelector("body").append(div);
-
-      // 2. Проверка по поведенческим особенностям
-      const isTouchDevice = "ontouchstart" in window;
-      console.log("isTouchDevice: ", isTouchDevice);
 
       // const isAppleDevice = !!(window.ApplePaySetupFeature || window.webkit);
       // console.log('window.webkit: ', window.webkit);
