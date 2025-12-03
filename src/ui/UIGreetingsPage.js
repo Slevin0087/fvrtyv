@@ -69,7 +69,7 @@ export class UIGreetingsPage extends UIPage {
     console.log('в resizeGameModeSelected: ', dimensions);
     const div = document.createElement('div')
     div.style.width = '30px'
-    div.style.height = '40px'
+    div.style.height = '100px'
     div.style.position = 'absolute'
     div.style.left = '50%'
     div.style.top = '50%'
@@ -79,7 +79,7 @@ export class UIGreetingsPage extends UIPage {
     div.className = 'div-test'
     const { locationbar, isMobileDevice, visualViewport, availableWidth, availableHeight } = dimensions;
     // div.textContent = `${availableHeight}, ${isMobileDevice}`
-    div.textContent = `${locationbar}, ${availableHeight}, ${isMobileDevice}`
+    div.textContent = `${locationbar.visible}, ${availableHeight}, ${isMobileDevice}`
     document.querySelector('body').append(div)
     if (availableHeight < 750) {
       this.elements.desktopVersion.classList.add("hidden");
