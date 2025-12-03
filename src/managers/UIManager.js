@@ -183,6 +183,10 @@ export class UIManager {
       // 2. Проверка по поведенческим особенностям
       const isTouchDevice = "ontouchstart" in window;
       console.log("isTouchDevice: ", isTouchDevice);
+      
+      // const isAppleDevice = !!(window.ApplePaySetupFeature || window.webkit);
+      // console.log('window.webkit: ', window.webkit);
+      
       const div = document.createElement("div");
       div.style.width = "200px";
       div.style.height = "300px";
@@ -197,13 +201,9 @@ export class UIManager {
       div.style.backgroundColor = "blue";
       div.style.color = "withe";
       div.className = "div-test";
-      const ddd = isTouchDevice;
-      div.textContent = `isTouchDevice${ddd}`;
+      const ddd = document.fullscreenEnabled;
+      div.textContent = `fullscreenEnabled: ${ddd}`;
       document.querySelector("body").append(div);
-
-      // const isAppleDevice = !!(window.ApplePaySetupFeature || window.webkit);
-      // console.log('window.webkit: ', window.webkit);
-
       // 3. Проверка полноэкранного API
       const isFullscreenSupported =
         document.fullscreenEnabled ||
