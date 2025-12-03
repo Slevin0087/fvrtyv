@@ -192,10 +192,25 @@ export class UIManager {
         document.fullscreenEnabled ||
         document.webkitFullscreenEnabled ||
         document.webkitSupportsFullscreen;
-        console.log('isFullscreenSupported: ', isFullscreenSupported);
-        
-      console.log("&&&&&: ", isIOSUserAgent && isTouchDevice && !isFullscreenSupported);
+      console.log("isFullscreenSupported: ", isFullscreenSupported);
 
+      console.log(
+        "&&&&&: ",
+        isIOSUserAgent && isTouchDevice && !isFullscreenSupported
+      );
+
+      const div = document.createElement("div");
+      div.style.width = "30px";
+      div.style.height = "100px";
+      div.style.position = "absolute";
+      div.style.left = "30%";
+      div.style.top = "30%";
+      div.style.transform = "translateX(-50%)";
+      div.style.backgroundColor = "blue";
+      div.style.color = "withe";
+      div.className = "div-test";
+      div.textContent = isFullscreenSupported
+      document.querySelector('body').append(div)
       return isIOSUserAgent && isTouchDevice && isFullscreenSupported;
     };
 
