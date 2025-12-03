@@ -202,8 +202,8 @@ export class UIManager {
       div.style.backgroundColor = "blue";
       div.style.color = "withe";
       div.className = "div-test";
-      const ddd = document.webkitFullscreenEnabled;
-      div.textContent = `webkitFullscreenEnabled: ${ddd}`;
+      const ddd = document.webkitSupportsFullscreen;
+      div.textContent = `webkitSupportsFullscreen: ${ddd}`;
       document.querySelector("body").append(div);
       // 3. Проверка полноэкранного API
       const isFullscreenSupported =
