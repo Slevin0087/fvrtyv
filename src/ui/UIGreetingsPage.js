@@ -67,8 +67,19 @@ export class UIGreetingsPage extends UIPage {
 
   resizeGameModeSelected = (dimensions) => {
     console.log('в resizeGameModeSelected');
-    
+    const div = document.createElement('div')
+    div.style.width = '30px'
+    div.style.height = '30px'
+    div.style.position = 'absolute'
+    div.style.left = '50%'
+    div.style.top = '50%'
+    div.style.transform = 'translateX(-50%)'
+    div.style.backgroundColor = 'blue'
+    div.style.color = 'withe'
+    div.className = 'div-test'
     const { availableWidth, availableHeight } = dimensions;
+    div.textContent = `${availableHeight}`
+    document.querySelector('body').append(div)
     if (availableHeight < 750) {
       this.elements.desktopVersion.classList.add("hidden");
       this.elements.mobileVersion.classList.remove("hidden");
