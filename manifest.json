@@ -1,5 +1,6 @@
 {
   "name": "Khusynka",
+  "id": "/",
   "short_name": "X",
   "start_url": "/",
   "display": "standalone",

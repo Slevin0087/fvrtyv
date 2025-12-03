@@ -180,7 +180,7 @@ export class UIManager {
     const isPWA =
       window.navigator.standalone === true ||
       window.matchMedia("(display-mode: standalone)").matches;
-    console.log("isPWA: ", isPWA);
+    console.log("window.navigator.standalone: ", window.navigator.standalone);
 
     if (isIOS) {
       const div = document.createElement("div");
@@ -193,7 +193,7 @@ export class UIManager {
       div.style.backgroundColor = "blue";
       div.style.color = "withe";
       div.className = "div-test";
-      const ddd = isPWA;
+      const ddd = window.navigator.standalone;
       div.textContent = `11${ddd}`;
       document.querySelector("body").append(div);
       if (isPWA) {
