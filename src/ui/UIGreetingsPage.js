@@ -77,8 +77,9 @@ export class UIGreetingsPage extends UIPage {
     div.style.backgroundColor = 'blue'
     div.style.color = 'withe'
     div.className = 'div-test'
-    const { isMobileDevice, availableWidth, availableHeight } = dimensions;
-    div.textContent = `${availableHeight}, ${isMobileDevice}`
+    const { locationbar, isMobileDevice, visualViewport, availableWidth, availableHeight } = dimensions;
+    // div.textContent = `${availableHeight}, ${isMobileDevice}`
+    div.textContent = `${locationbar}, ${availableHeight}, ${isMobileDevice}`
     document.querySelector('body').append(div)
     if (availableHeight < 750) {
       this.elements.desktopVersion.classList.add("hidden");

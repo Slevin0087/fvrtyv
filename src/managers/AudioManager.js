@@ -101,17 +101,12 @@ export class AudioManager {
 
   createAudio(path, loop = false) {
     const audio = new Audio(path);
-    console.log("audio createAudio: ", audio);
-    console.log("path: ", path);
-
     audio.loop = loop;
     audio.preload = "auto";
     return audio;
   }
 
-  play(name) {
-    console.log('name: ', name);
-    
+  play(name) {    
     if (!this.stateManager.getSoundEnabled() || !this.sounds.has(name)) return;
 
     try {

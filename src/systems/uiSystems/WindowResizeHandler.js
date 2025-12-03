@@ -45,6 +45,8 @@ class WindowResizeHandler {
   getDimensions() {
     return {
       //
+      locationbar: window.locationbar,
+      //
       isMobileDevice: this.isMobileDevice(),
       //
       visualViewport: window.visualViewport,

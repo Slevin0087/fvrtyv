@@ -240,9 +240,6 @@ export class UIManager {
 
   hideAll() {
     this.pages.forEach((page) => {
-      console.log('page: ', page);
-      
-      // page.page.classList.add("hidden");
       page.hide()
     });
   }
