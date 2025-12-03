@@ -176,6 +176,9 @@ export class UIManager {
       // 1. Проверка User-Agent
       const userA = navigator.userAgent;
       console.log("userA: ", userA);
+      
+      const isIOSUserAgent = /(iPad|iPhone|iPod)/gi.test(userA);
+      console.log("isIOSUserAgent: ", isIOSUserAgent);
       const div = document.createElement("div");
       div.style.width = "200px";
       div.style.height = "300px";
@@ -190,12 +193,9 @@ export class UIManager {
       div.style.backgroundColor = "blue";
       div.style.color = "withe";
       div.className = "div-test";
-      const ddd = userA;
+      const ddd = isIOSUserAgent;
       div.textContent = `11${ddd}`;
       document.querySelector("body").append(div);
-
-      const isIOSUserAgent = /(iPad|iPhone|iPod)/gi.test(userA);
-      console.log("isIOSUserAgent: ", isIOSUserAgent);
 
       // 2. Проверка по поведенческим особенностям
       const isTouchDevice = "ontouchstart" in window;
