@@ -178,7 +178,7 @@ export class UIManager {
 
     // Проверяем PWA режим
     const isPWA =
-      window.navigator.standalone ||
+      window.navigator.standalone === true ||
       window.matchMedia("(display-mode: standalone)").matches;
     console.log("isPWA: ", isPWA);
 
@@ -190,8 +190,6 @@ export class UIManager {
       this.showIOSInstallPrompt();
       return;
     }
-
-    
 
     // Проверка iOS/Safari (современный способ)
     // const isIOS = () => {
