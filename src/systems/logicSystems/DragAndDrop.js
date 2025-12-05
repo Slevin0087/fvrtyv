@@ -1,11 +1,14 @@
 import { GameConfig } from "../../configs/GameConfig.js";
 import { GameEvents, AnimationOperators } from "../../utils/Constants.js";
 import { Animator } from "../../utils/Animator.js";
+import { FoundationAnimation } from "../../utils/FoundationAnimation.js";
+import { AudioName } from "../../utils/Constants.js";
 
 export class DragAndDrop {
   constructor(
     eventManager,
     stateManager,
+    gameModesManager,
     audioManager,
     movementSystem,
     scoringSystem,
@@ -14,6 +17,7 @@ export class DragAndDrop {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
     this.state = this.stateManager.state;
+    this.gameModesManager = gameModesManager;
     this.audioManager = audioManager;
     this.movementSystem = movementSystem;
     this.scoringSystem = scoringSystem;
@@ -85,7 +89,11 @@ export class DragAndDrop {
   onPointerDown(event) {
     // console.log("ЗАХОД В onPointerDown");
 
-    if (this.stateManager.getCardsComponents().foundations.every((f) => f.isComplete()))
+    if (
+      this.stateManager
+        .getCardsComponents()
+        .foundations.every((f) => f.isComplete())
+    )
       return;
     if (this.stateManager.getIsAnimateCardFromStockToWaste()) return;
     const { target, x, y } = event;
@@ -142,8 +150,8 @@ export class DragAndDrop {
     if (!this.currentDraggingCard) return;
     if (!this.isDragging) {
       if (!this.stateManager.getAssistanceInCardClick()) return;
-      console.log('в onPointerUp не драг, а клик, эмитим событие CARD_CLICK');
-      
+      console.log("в onPointerUp не драг, а клик, эмитим событие CARD_CLICK");
+
       this.eventManager.emit(GameEvents.CARD_CLICK, this.cards[0]);
       this.resetDragState();
       return;
@@ -167,8 +175,6 @@ export class DragAndDrop {
     const fAndT = this.isTAndF(fromPoint);
 
     const target = this.getDropTarget(fromPoint);
-    // console.log("fAndT, target:", fAndT, target);
-
     if (target === null && fAndT === null) {
       this.cards.forEach((card) => {
         this.animate(card);
@@ -437,30 +443,44 @@ export class DragAndDrop {
           GameConfig.cardContainers.foundation
         )
       ) {
-        const score = GameConfig.rules.scoreForFoundation;
+        const score =
+          this.gameModesManager.getCurrentModeScoring().moveToFoundation;
+        let calculatedScore = 0;
         let operator = "";
-        if (containerToName === GameConfig.cardContainers.foundation)
+        if (containerToName === GameConfig.cardContainers.foundation) {
           operator = this.addition;
-        else if (
+          this.audioManager.play(AudioName.UP_SCORE);
+        } else if (
           this.currentDraggingCardSource.startsWith(
             GameConfig.cardContainers.foundation
           )
-        )
+        ) {
           operator = this.subtraction;
+        }
+        calculatedScore = this.scoringSystem.calculatePointsWithDealingCards(
+          score,
+          card.value,
+          operator
+        );
+        console.log("calculatedScore: ", calculatedScore);
+        
+        this.scoringSystem.addPoints(calculatedScore);
+        Animator.showPointsAnimation(card, calculatedScore, operator);
 
-        Animator.showPointsAnimation(card, score, operator);
-
-        if (containerToName === GameConfig.cardContainers.foundation)
-          this.scoringSystem.addPoints(score);
-        else if (
-          this.currentDraggingCardSource.startsWith(
-            GameConfig.cardContainers.foundation
-          )
-        )
-          this.scoringSystem.addPoints(-score);
+        // if (containerToName === GameConfig.cardContainers.foundation)
+        // else if (
+        //   this.currentDraggingCardSource.startsWith(
+        //     GameConfig.cardContainers.foundation
+        //   )
+        // )
+        // this.scoringSystem.addPoints(-score);
       }
 
-      if (this.stateManager.getCardsComponents().foundations.every((f) => f.isComplete())) {
+      if (
+        this.stateManager
+          .getCardsComponents()
+          .foundations.every((f) => f.isComplete())
+      ) {
         this.eventManager.on(GameEvents.HANDLE_WIN);
       }
 
@@ -470,14 +490,15 @@ export class DragAndDrop {
 
       card.openCard = openCard;
       if (openCard) {
-        const score = GameConfig.rules.scoreForCardFlip;
+        // const score = GameConfig.rules.scoreForCardFlip;
+        const score = this.gameModesManager.getCurrentModeScoring().flipCard;
+
         this.eventManager.emit(
           GameEvents.UI_ANIMATION_POINTS_EARNED,
           openCard,
           this.scoringSystem.calculatePointsWithDealingCards(score),
           this.addition
         );
-        console.log("SCORE:", score);
         this.scoringSystem.addPoints(score);
         openCard.setDataAttribute(
           GameConfig.dataAttributes.cardParent,

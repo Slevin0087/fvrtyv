@@ -1,9 +1,10 @@
 import { GameEvents } from "../../utils/Constants.js";
 
 export class ScoringSystem {
-  constructor(eventManager, stateManager) {
+  constructor(eventManager, stateManager, gameModesManager) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
+    this.gameModesManager = gameModesManager;
 
     this.setupEventListeners();
   }
@@ -14,11 +15,10 @@ export class ScoringSystem {
     );
   }
 
-  addPoints(points) {
-    // const calculated = this.calculatePoints(points);
-    const calculated = this.calculatePointsWithDealingCards(points);
-    this.stateManager.updateScore(calculated);
-    return calculated;
+  addPoints(score) {
+    // const calculated = this.calculatePointsWithDealingCards(score);
+    this.stateManager.updateScore(score);
+    return score;
   }
 
   calculatePoints(score) {
@@ -31,9 +31,28 @@ export class ScoringSystem {
     return Math.round(score * multiplier);
   }
 
-    calculatePointsWithDealingCards(score) {
+  calculatePointsWithDealingCards(score, cardValue, operator = "+") {
+    const scoreUp = this.getPoints(cardValue) + score;
     const dealingCards = this.stateManager.getDealingCards();
+    const resultScore = Math.round(scoreUp * dealingCards)
+    return operator === "+" ? resultScore : -resultScore;
+  }
 
-    return Math.round(score * dealingCards);
+  getPoints(value) {
+    const pointsMap = {
+      2: 2,
+      3: 3,
+      4: 4,
+      5: 5,
+      6: 6,
+      7: 7,
+      8: 8,
+      9: 9,
+      10: 10,
+      JACK: 10,
+      QUEEN: 10,
+      KING: 10,
+    };
+    return pointsMap[value] || 0;
   }
 }

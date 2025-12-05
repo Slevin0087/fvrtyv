@@ -5,7 +5,7 @@ import { GameConfig } from "../configs/GameConfig.js";
 export class UISettingsPage extends UIPage {
   constructor(eventManager, stateManager, gameModesManager, translator) {
     super(eventManager, stateManager, "settings");
-    this.gameModesManager = gameModesManager
+    this.gameModesManager = gameModesManager;
     this.translator = translator;
     this.elements = {
       backBtn: document.getElementById("back-to-menu"),
@@ -254,10 +254,9 @@ export class UISettingsPage extends UIPage {
     this.elements.assistanceInCardClick.checked =
       this.stateManager.getAssistanceInCardClick();
     this.elements.languageSelected.value = this.stateManager.getLanguage();
-    // this.elements.modesSelected.value = this.stateManager.getMode();
-    this.elements.modesSelected.value = this.gameModesManager.getCurrentMode();
-    console.log('this.gameModesManager.getCurrentMode(): ', this.gameModesManager.getCurrentMode());
+    console.log('this.gameModesManager.getCurrentModeName(): ', this.gameModesManager.getCurrentModeName());
     
+    this.elements.modesSelected.value = this.gameModesManager.getCurrentModeName();
     this.elements.musicVolume.value = this.stateManager.getMusicVolume() * 100;
     this.setPropertyStyleVolume(this.elements.musicVolume);
     this.setActiveDealingCardsBtns();

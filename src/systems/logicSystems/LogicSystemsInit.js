@@ -21,6 +21,7 @@ export class LogicSystemsInit {
   constructor(
     eventManager,
     stateManager,
+    gameModesManager,
     cardsSystem,
     audioManager,
     translator
@@ -28,6 +29,7 @@ export class LogicSystemsInit {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
     this.state = this.stateManager.state;
+    this.gameModesManager = gameModesManager;
     this.cardsSystem = cardsSystem;
     this.audioManager = audioManager;
     this.translator = translator;
@@ -59,7 +61,8 @@ export class LogicSystemsInit {
     );
     this.scoringSystem = new ScoringSystem(
       this.eventManager,
-      this.stateManager
+      this.stateManager,
+      this.gameModesManager
     );
     this.hintSystem = new HintSystem(
       this.eventManager,
@@ -76,6 +79,7 @@ export class LogicSystemsInit {
     this.dragAndDrop = new DragAndDrop(
       this.eventManager,
       this.stateManager,
+      this.gameModesManager,
       this.audioManager,
       this.movementSystem,
       this.scoringSystem,
@@ -163,27 +167,32 @@ export class LogicSystemsInit {
       containerToName === GameConfig.cardContainers.foundation ||
       source.startsWith(GameConfig.cardContainers.foundation)
     ) {
-      const score = GameConfig.rules.scoreForFoundation;
-      let operator = "";
       let isSourceFromFoundation = false;
+      const score =
+        this.gameModesManager.getCurrentModeScoring().moveToFoundation;
+      let calculatedScore = 0;
+      let operator = "";
       if (containerToName === GameConfig.cardContainers.foundation) {
         FoundationAnimation.playSuccessAnimation(card, containerTo);
         operator = this.addition;
-        this.scoringSystem.addPoints(score);
         this.stateManager.incrementStat(
           this.textToFoundationCheckAchievements,
           this.typeToFoundationCheckAchievements
         );
+        this.eventManager.emit(GameEvents.AUDIO_UP_SCORE);
       } else if (source.startsWith(GameConfig.cardContainers.foundation)) {
         operator = this.subtraction;
         isSourceFromFoundation = !isSourceFromFoundation;
-        this.scoringSystem.addPoints(-score);
       }
-      if (operator === this.addition)
-        this.eventManager.emit(GameEvents.AUDIO_UP_SCORE);
+      calculatedScore = this.scoringSystem.calculatePointsWithDealingCards(
+        score,
+        card.value,
+        operator
+      );
+      this.scoringSystem.addPoints(calculatedScore);
       Animator.showPointsAnimation(
         card,
-        this.scoringSystem.calculatePointsWithDealingCards(score),
+        calculatedScore,
         operator,
         isSourceFromFoundation,
         cardParentFoundationElForUndo
@@ -220,14 +229,20 @@ export class LogicSystemsInit {
 
     card.openCard = openCard;
     if (openCard) {
-      const score = GameConfig.rules.scoreForCardFlip;
+      // const score = GameConfig.rules.scoreForCardFlip;
+      const score = this.gameModesManager.getCurrentModeScoring().flipCard;
+      const calculatedScore =
+        this.scoringSystem.calculatePointsWithDealingCards(
+          score,
+          openCard.value
+        );
       this.eventManager.emit(
         GameEvents.UI_ANIMATION_POINTS_EARNED,
         openCard,
-        this.scoringSystem.calculatePointsWithDealingCards(score),
+        calculatedScore,
         this.addition
       );
-      this.scoringSystem.addPoints(score);
+      this.scoringSystem.addPoints(calculatedScore);
 
       openCard.setDataAttribute(
         GameConfig.dataAttributes.cardParent,

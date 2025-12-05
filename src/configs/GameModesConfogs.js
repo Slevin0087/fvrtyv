@@ -1,3 +1,12 @@
+export const GameModesStateNamesKeys = {
+  STOCK_DRAW_COUNT: "stock-draw-count",
+  MAX_REDEALS: 'max-redeals',
+}
+
+export const GameModesNamesKeys = {
+  CURRENT_MODE: "current-mode",
+}
+
 export const GameModesIds = {
   CLASSIC: "CLASSIC",
   VEGAS: "VEGAS",

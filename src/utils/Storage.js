@@ -370,8 +370,10 @@ export class Storage {
   }
 
   getItem(key) {
-    try {
+    try {      
       const state = JSON.parse(localStorage.getItem(key));
+      console.log('state: ', state);
+      
       return state || null;
     } catch (e) {
       console.error(`Error loading ${key}:`, e);
@@ -506,7 +508,7 @@ export class Storage {
     localStorage.setItem("shopStats", JSON.stringify(shopStats));
   }
 
-  saveItem(key, value) {
+  saveItem(key, value) {    
     localStorage.setItem(key, JSON.stringify(value));
   }
 

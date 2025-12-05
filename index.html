@@ -67,43 +67,64 @@
                     value="CLASSIC"
                     checked
                   />
-                  <span class="game-mode-text">Классический</span>
+                  <span class="game-mode-text" data-i18n="modes_classic_btn"
+                    >Классический</span
+                  >
                 </label>
               </li>
               <li>
                 <label class="game-mode-option">
                   <input type="radio" name="game-mode" value="VEGAS" />
-                  <span class="game-mode-text">Вегас</span>
+                  <span class="game-mode-text" data-i18n="modes_vegas_btn"
+                    >Вегас</span
+                  >
                 </label>
               </li>
               <li>
                 <label class="game-mode-option">
                   <input type="radio" name="game-mode" value="TIMED" />
-                  <span class="game-mode-text">На время</span>
+                  <span class="game-mode-text" data-i18n="modes_timed_btn"
+                    >На время</span
+                  >
                 </label>
               </li>
               <li>
                 <label class="game-mode-option">
                   <input type="radio" name="game-mode" value="EXPERT" />
-                  <span class="game-mode-text">Эксперт</span>
+                  <span class="game-mode-text" data-i18n="modes_expert_btn"
+                    >Эксперт</span
+                  >
                 </label>
               </li>
               <li>
                 <label class="game-mode-option">
                   <input type="radio" name="game-mode" value="RELAXED" />
-                  <span class="game-mode-text">Расслабленный</span>
+                  <span class="game-mode-text" data-i18n="modes_relax_btn"
+                    >Расслабленный</span
+                  >
                 </label>
               </li>
             </ul>
 
             <!-- Мобильная версия (выпадающий список) -->
             <div id="game-mode-select-mobile-version" class="mobile-version">
-              <select class="game-mode-select-mobile">
-                <option value="CLASSIC" selected>Классический</option>
-                <option value="VEGAS">Вегас</option>
-                <option value="TIMED">На время</option>
-                <option value="EXPERT">Эксперт</option>
-                <option value="RELAXED">Расслабленный</option>
+              <select
+                id="game-mode-select-mobile"
+                class="game-mode-select-mobile"
+              >
+                <option value="CLASSIC" selected data-i18n="modes_classic_btn">
+                  Классический
+                </option>
+                <option value="VEGAS" data-i18n="modes_vegas_btn">Вегас</option>
+                <option value="TIMED" data-i18n="modes_timed_btn">
+                  На время
+                </option>
+                <option value="EXPERT" data-i18n="modes_expert_btn">
+                  Эксперт
+                </option>
+                <option value="RELAXED" data-i18n="modes_relax_btn">
+                  Расслабленный
+                </option>
               </select>
             </div>
             <div class="greetings-game-p-containers">
@@ -540,6 +561,11 @@
                   правила
                 </p>
               </div>
+              <div class="game-rules-btns-container">
+                <button id="game-rules-clear-btn" class="game-rules-clear-btn">
+                  Понятно!
+                </button>
+              </div>
             </main>
 
             <!-- Game Rules контент: конец -->
@@ -725,6 +751,9 @@
                 <option value="VEGAS" data-i18n="modes_vegas_btn">Вегас</option>
                 <option value="TIMED" data-i18n="modes_timed_btn">
                   На время
+                </option>
+                <option value="EXPERT" data-i18n="modes_expert_btn">
+                  Эксперт
                 </option>
                 <option value="RELAX" data-i18n="modes_relax_btn">
                   Расслабленный

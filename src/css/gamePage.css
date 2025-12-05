@@ -602,13 +602,31 @@
   min-width: 30%;
 }
 
-.game-results-modal-its_apply-btn:hover,
-.game-restart-modal-cancel-btn:hover,
-.game-restart-modal-again-btn:hover,
+@media (hover: hover) {
+  .game-results-modal-its_apply-btn:hover,
+  .game-restart-modal-cancel-btn:hover,
+  .game-restart-modal-again-btn:hover,
+  .game-over-and-no-hints-modal-result-btn:hover {
+    background: linear-gradient(135deg, #ff0000 0%, #ff6b00 100%);
+    box-shadow: 0 6px 20px rgba(255, 0, 0, 0.6),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  }
+}
+
+@media (hover: none) {
+  .game-results-modal-its_apply-btn:active,
+  .game-restart-modal-cancel-btn:active,
+  .game-restart-modal-again-btn:active,
+  .game-over-and-no-hints-modal-result-btn:active {
+    background: linear-gradient(135deg, #ff0000 0%, #ff6b00 100%);
+    box-shadow: 0 6px 20px rgba(255, 0, 0, 0.6),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  }
+}
+
 .game-results-modal-its_apply-btn:focus,
 .game-restart-modal-cancel-btn:focus,
 .game-restart-modal-again-btn:focus,
-.game-over-and-no-hints-modal-result-btn:hover,
 .game-over-and-no-hints-modal-result-btn:focus {
   background: linear-gradient(135deg, #ff0000 0%, #ff6b00 100%);
   box-shadow: 0 6px 20px rgba(255, 0, 0, 0.6),

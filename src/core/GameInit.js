@@ -75,6 +75,7 @@ export class GameInit {
     this.logicSystemsInit = new LogicSystemsInit(
       this.eventManager,
       this.stateManager,
+      this.gameModesManager,
       this.cardsSystem,
       this.audioManager,
       this.translator

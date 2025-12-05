@@ -5,17 +5,14 @@ class WindowResizeHandler {
     this.debounceTimeout = null;
     this.debounceDelay = 250;
 
-    // Привязываем контекст один раз и сохраняем ссылку
-    this.boundHandleResize = this.handleResize.bind(this);
     this.lastDimensions = null;
     this.hasTriggered = false; // Флаг: был ли уже triggerResize()
   }
 
   init() {
     if (this.isInitialized) return;
-
     // Используем сохраненную функцию
-    window.addEventListener("resize", this.boundHandleResize);
+    window.onresize = () => this.handleResize();
     this.isInitialized = true;
 
     // Сразу получаем начальные размеры
@@ -84,6 +81,8 @@ class WindowResizeHandler {
   }
 
   addListener(callback, immediate = true) {
+    console.log('addListener: callback: ', callback);
+    
     if (typeof callback !== "function") return this;
 
     this.listeners.push(callback);
@@ -91,11 +90,8 @@ class WindowResizeHandler {
     // Если система уже срабатывала и immediate = true
     if (immediate && this.lastDimensions) {
       // Используем микротаск (Promise) для асинхронного вызова
-      Promise.resolve().then(() => {
-        callback(this.lastDimensions);
-      });
+      callback(this.lastDimensions);
     }
-
     return this;
   }
 
@@ -112,7 +108,7 @@ class WindowResizeHandler {
     clearTimeout(this.debounceTimeout);
 
     // Удаляем обработчик, используя сохраненную функцию
-    window.removeEventListener("resize", this.boundHandleResize);
+    window.onresize = "";
 
     this.listeners = [];
     this.isInitialized = false;
