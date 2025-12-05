@@ -33,6 +33,8 @@ export class ScoringSystem {
 
   calculatePointsWithDealingCards(score, cardValue, operator = "+") {
     const scoreUp = this.getPoints(cardValue) + score;
+    console.log('scoreUp: ', scoreUp);
+    
     const dealingCards = this.stateManager.getDealingCards();
     const resultScore = Math.round(scoreUp * dealingCards)
     return operator === "+" ? resultScore : -resultScore;
@@ -40,18 +42,19 @@ export class ScoringSystem {
 
   getPoints(value) {
     const pointsMap = {
-      2: 2,
-      3: 3,
-      4: 4,
-      5: 5,
-      6: 6,
-      7: 7,
-      8: 8,
-      9: 9,
-      10: 10,
-      JACK: 10,
-      QUEEN: 10,
-      KING: 10,
+      "A": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4,
+      "5": 5,
+      "6": 6,
+      "7": 7,
+      "8": 8,
+      "9": 9,
+      "10": 10,
+      "J": 10,
+      "Q": 10,
+      "K": 10,
     };
     return pointsMap[value] || 0;
   }

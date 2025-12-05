@@ -8,10 +8,18 @@ import { GameConfig, PlayerConfigs } from "../../configs/GameConfig.js";
 import { Animator } from "../../utils/Animator.js";
 
 export class UndoSystem {
-  constructor(eventManager, stateManager, audioManager) {
+  constructor(
+    eventManager,
+    stateManager,
+    gameModesManager,
+    scoringSystem,
+    audioManager
+  ) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
     this.state = this.stateManager.state;
+    this.gameModesManager = gameModesManager;
+    this.scoringSystem = scoringSystem;
     this.audioManager = audioManager;
     this.cardContainers = GameConfig.cardContainers;
     this.subtraction = AnimationOperators.SUBTRACTION;
@@ -62,12 +70,15 @@ export class UndoSystem {
       const cardToLastMove = this.findCardToLastMove(cardData);
       // card.isUndo = true;
       cardToLastMove.isUndo = true;
-      console.log('openCardData: ', openCardData);
-      
+      console.log("openCardData: ", openCardData);
+
       if (openCardData) {
-        const openCardToLastMove = this.findCardToLastMove(openCardData);;
-        const score = GameConfig.rules.scoreForCardFlip;
-        await this.eventManager.emitAsync(GameEvents.BACK_CARD_FLIP, openCardToLastMove);
+        const openCardToLastMove = this.findCardToLastMove(openCardData);
+        const score = this.gameModesManager.getCurrentModeScoring().flipCard;
+        await this.eventManager.emitAsync(
+          GameEvents.BACK_CARD_FLIP,
+          openCardToLastMove
+        );
 
         //////////////////// RESET подписок на события /////////////////////////
         this.eventManager.emit(
@@ -86,14 +97,23 @@ export class UndoSystem {
 
         await new Promise((resolve) => {
           setTimeout(() => {
+            const calculatedScore =
+              this.scoringSystem.calculatePointsWithDealingCards(
+                score,
+                openCardToLastMove.value,
+                this.subtraction
+              );
             this.eventManager.emit(
               GameEvents.UI_ANIMATION_POINTS_EARNED,
               openCardToLastMove,
-              score,
+              calculatedScore,
               this.subtraction
             );
-            this.eventManager.emit(GameEvents.ADD_POINTS, -score);
-            this.eventManager.emit(GameEvents.UP_FACE_DOWN_CARD, openCardToLastMove);
+            this.scoringSystem.addPoints(calculatedScore);
+            this.eventManager.emit(
+              GameEvents.UP_FACE_DOWN_CARD,
+              openCardToLastMove
+            );
             cardToLastMove.openCard = null;
           }, UIConfig.animations.cardFlipDuration * 1000);
           resolve();
@@ -267,10 +287,7 @@ export class UndoSystem {
     const containerTo = stock;
 
     // тут уже включён звук
-    await this.eventManager.emitAsync(
-      GameEvents.BACK_CARD_FLIP,
-      card
-    );
+    await this.eventManager.emitAsync(GameEvents.BACK_CARD_FLIP, card);
 
     // тут тоже уже вклюён звук
     await this.eventManager.emitAsync(GameEvents.CARD_MOVE, {
@@ -298,8 +315,8 @@ export class UndoSystem {
   }
 
   updateLastMoves(lastMove) {
-    console.log('lastMove: ', lastMove);
-    
+    console.log("lastMove: ", lastMove);
+
     const cards = lastMove.map(({ card }) => card);
 
     const isUndoCards = cards.every((card) => {
@@ -317,8 +334,8 @@ export class UndoSystem {
       const openCardData = card.openCard
         ? { suit: card.openCard.suit, value: card.openCard.value }
         : null;
-        console.log('const openCardData: ', openCardData);
-        
+      console.log("const openCardData: ", openCardData);
+
       return { cardData, openCardData, from, to };
     });
     this.stateManager.updateLastMoves(convertedLastMove);
@@ -338,7 +355,8 @@ export class UndoSystem {
   }
 
   findCardToLastMove(cardData) {
-    const { stock, waste, foundations, tableaus } = this.stateManager.getCardsComponents();
+    const { stock, waste, foundations, tableaus } =
+      this.stateManager.getCardsComponents();
     const allCards = [
       ...stock.cards,
       ...waste.cards,

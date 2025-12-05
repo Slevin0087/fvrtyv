@@ -73,6 +73,8 @@ export class LogicSystemsInit {
     this.undoSystem = new UndoSystem(
       this.eventManager,
       this.stateManager,
+      this.gameModesManager,
+      this.scoringSystem,
       this.audioManager
     );
     this.wasteSystem = new WasteSystem(this.eventManager, this.stateManager);
