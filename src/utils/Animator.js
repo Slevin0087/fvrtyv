@@ -323,7 +323,8 @@ export class Animator {
 
     const pointsElement = document.createElement("div");
     pointsElement.className = "points-popup";
-    pointsElement.textContent = `${operator}${points}`;
+    const textContent = operator === "+" ? `${operator}${points}` : `${points}`
+    pointsElement.textContent = textContent;
 
     // 1. Позиционирование через transform + left/top (для iOS)
     const cardRect = isSourceFromFoundation
