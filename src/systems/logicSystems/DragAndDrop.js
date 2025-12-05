@@ -3,6 +3,7 @@ import { GameEvents, AnimationOperators } from "../../utils/Constants.js";
 import { Animator } from "../../utils/Animator.js";
 import { FoundationAnimation } from "../../utils/FoundationAnimation.js";
 import { AudioName } from "../../utils/Constants.js";
+import { achType, achCheckName } from "../../configs/AchievementsConfig.js";
 
 export class DragAndDrop {
   constructor(
@@ -37,6 +38,9 @@ export class DragAndDrop {
     this.isDragging = false;
     this.cards = null;
     this.card = null;
+
+    this.typeToFoundationCheckAchievements = achType.IN_GAME;
+    this.textToFoundationCheckAchievements = achCheckName.CARDS_TO_FOUNDATION;
 
     this.setupEventListeners();
   }
@@ -170,7 +174,6 @@ export class DragAndDrop {
       card.domElement.style.visibility = "visible";
       card.domElement.style.pointerEvents = "auto";
     });
-    // console.log("fromPoint:", fromPoint);
 
     const fAndT = this.isTAndF(fromPoint);
 
@@ -181,7 +184,6 @@ export class DragAndDrop {
       });
       return;
     } else if (target === null && fAndT) {
-      console.log("if");
       const source = fAndT.id;
       if (source.startsWith(this.cardContainers.tableau)) {
         const index = parseInt(source.split("-")[1]);
@@ -227,6 +229,10 @@ export class DragAndDrop {
             containerTo: this.gameComponents.foundations[index],
             containerToName,
           });
+          FoundationAnimation.playSuccessAnimation(
+            this.cards[0],
+            this.gameComponents.foundations[index]
+          );
           if (
             this.currentDraggingCardSource.startsWith(
               GameConfig.cardContainers.waste
@@ -239,8 +245,6 @@ export class DragAndDrop {
       }
     } else if (target) {
       const targetSource = target.dataset[this.dataCardParent];
-      console.log("targetSource:", targetSource);
-
       const [containerToName, containerToIndex] =
         this.parseTargetId(targetSource);
       const containerTo = this.getGameComponent(targetSource);
@@ -249,8 +253,6 @@ export class DragAndDrop {
         targetSource,
         containerTo
       );
-      console.log("canAccept:", canAccept);
-
       if (canAccept) {
         console.log("ПЕРЕД АПОМ");
 
@@ -290,25 +292,28 @@ export class DragAndDrop {
     };
   }
 
-  animateTo(card) {
-    const returnAnimation = card.domElement.animate(
-      [
-        {
-          transform: `translate(${card.positionData.offsetX}px, ${card.positionData.offsetY}px)`,
-        },
-        {
-          transform: `translate(${card.positionData.offsetX}px, ${card.positionData.offsetY}px)`,
-        },
-      ],
-      { duration: 500, easing: "ease-out" }
-    );
+  async animateTo(card) {
+    return new Promise((resolve) => {
+      const returnAnimation = card.domElement.animate(
+        [
+          {
+            transform: `translate(${card.positionData.offsetX}px, ${card.positionData.offsetY}px)`,
+          },
+          {
+            transform: `translate(${card.positionData.offsetX}px, ${card.positionData.offsetY}px)`,
+          },
+        ],
+        { duration: 100, easing: "ease-out" }
+      );
 
-    returnAnimation.onfinish = () => {
-      card.domElement.style.transform = `translate(${card.positionData.offsetX}px, ${card.positionData.offsetY}px)`;
-      card.domElement.style.zIndex = card.positionData.zIndex;
-      card.domElement.classList.remove("is-dragging");
-      this.resetDragState();
-    };
+      returnAnimation.onfinish = () => {
+        card.domElement.style.transform = `translate(${card.positionData.offsetX}px, ${card.positionData.offsetY}px)`;
+        card.domElement.style.zIndex = card.positionData.zIndex;
+        card.domElement.classList.remove("is-dragging");
+        this.resetDragState();
+        resolve();
+      };
+    });
   }
 
   getDropTarget(fromPoint) {
@@ -328,7 +333,6 @@ export class DragAndDrop {
     const isDraggable = fromPoint.closest(
       `[${GameConfig.dataAttributes.getFAndTContainers}]`
     );
-    console.log("isDraggable в isTAndF:", isDraggable);
     if (isDraggable === null) return null;
 
     return isDraggable;
@@ -360,10 +364,7 @@ export class DragAndDrop {
   }
 
   isCanAccept(card, source, containerTo) {
-    console.log("card:", card);
     if (source.startsWith(this.cardContainers.tableau)) {
-      console.log("в if tableau");
-
       return containerTo.canAccept(card);
     } else if (source.startsWith(this.cardContainers.foundation))
       return containerTo.canAccept(card, this.gameComponents);
@@ -419,24 +420,15 @@ export class DragAndDrop {
   }
 
   async moveFunction({ targetSource, containerTo, containerToName }) {
-    const lastMove = [
-      {
-        card: this.cards[0],
-        from: this.currentDraggingCardSource,
-        to: targetSource,
-      },
-    ];
-    this.eventManager.emit(GameEvents.UP_LAST_MOVE, lastMove);
-
     this.cards = this.movementSystem.removeCardFromSource(
       this.cards[0],
       this.currentDraggingCardSource,
       this.getGameComponent(this.currentDraggingCardSource)
     );
-    this.cards.forEach(async (card) => {
+    for (const card of this.cards) {
       containerTo.addCard(card);
       containerTo.element.append(card.domElement);
-      this.animateTo(card);
+      await this.animateTo(card);
       if (
         containerToName === GameConfig.cardContainers.foundation ||
         this.currentDraggingCardSource.startsWith(
@@ -449,6 +441,10 @@ export class DragAndDrop {
         let operator = "";
         if (containerToName === GameConfig.cardContainers.foundation) {
           operator = this.addition;
+          this.stateManager.incrementStat(
+            this.textToFoundationCheckAchievements,
+            this.typeToFoundationCheckAchievements
+          );
           this.audioManager.play(AudioName.UP_SCORE);
         } else if (
           this.currentDraggingCardSource.startsWith(
@@ -462,20 +458,9 @@ export class DragAndDrop {
           card.value,
           operator
         );
-        console.log("calculatedScore: ", calculatedScore);
-        
         this.scoringSystem.addPoints(calculatedScore);
         Animator.showPointsAnimation(card, calculatedScore, operator);
-
-        // if (containerToName === GameConfig.cardContainers.foundation)
-        // else if (
-        //   this.currentDraggingCardSource.startsWith(
-        //     GameConfig.cardContainers.foundation
-        //   )
-        // )
-        // this.scoringSystem.addPoints(-score);
       }
-
       if (
         this.stateManager
           .getCardsComponents()
@@ -490,7 +475,6 @@ export class DragAndDrop {
 
       card.openCard = openCard;
       if (openCard) {
-        // const score = GameConfig.rules.scoreForCardFlip;
         const score = this.gameModesManager.getCurrentModeScoring().flipCard;
 
         this.eventManager.emit(
@@ -507,7 +491,15 @@ export class DragAndDrop {
         openCard.setDataAttribute(GameConfig.dataAttributes.dataAttributeDND);
         this.eventManager.emit(GameEvents.IS_FACE_DOWN_CARD, openCard);
       }
-    });
+    }
+    const lastMove = [
+      {
+        card: this.cards[0],
+        from: this.currentDraggingCardSource,
+        to: targetSource,
+      },
+    ];
+    this.eventManager.emit(GameEvents.UP_LAST_MOVE, lastMove);
     this.stateManager.updateMoves(this.numberMoves);
     this.eventManager.emit(GameEvents.UP_MOVES);
     this.resetDragState();

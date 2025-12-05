@@ -161,10 +161,6 @@ export class LogicSystemsInit {
     if (source.startsWith(GameConfig.cardContainers.waste)) {
       await this.wasteSystem.upTopThreeCards();
     }
-    if (!source.startsWith(GameConfig.cardContainers.stock)) {
-      this.stateManager.updateMoves(this.numberMoves);
-      this.eventManager.emit(GameEvents.UP_MOVES);
-    }
     if (
       containerToName === GameConfig.cardContainers.foundation ||
       source.startsWith(GameConfig.cardContainers.foundation)
@@ -212,6 +208,8 @@ export class LogicSystemsInit {
         },
       ];
       this.undoSystem.updateLastMoves(lastMove);
+      this.stateManager.updateMoves(this.numberMoves);
+      this.eventManager.emit(GameEvents.UP_MOVES);
     }
 
     if (

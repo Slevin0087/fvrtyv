@@ -334,8 +334,6 @@ export class UndoSystem {
       const openCardData = card.openCard
         ? { suit: card.openCard.suit, value: card.openCard.value }
         : null;
-      console.log("const openCardData: ", openCardData);
-
       return { cardData, openCardData, from, to };
     });
     this.stateManager.updateLastMoves(convertedLastMove);
