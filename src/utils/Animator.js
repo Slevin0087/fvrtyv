@@ -77,7 +77,8 @@ export class Animator {
     movementSystem,
     duration = 3000
   ) {
-    console.log("animateCardMove source: ", source);
+    console.log('animateCardMove duration: ', duration);
+    
     const removedCards = movementSystem.removeCardFromSource(
       card,
       source,

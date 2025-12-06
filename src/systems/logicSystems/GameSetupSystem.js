@@ -97,14 +97,15 @@ export class GameSetupSystem {
         const audioCardMove = this.audioManager.getSound(AudioName.CARD_MOVE);
 
         const audioPlaySpeed =
-          this.startMoveSpeed / (audioCardMove.duration * 100);
+          this.startMoveSpeed / (audioCardMove.getDuration() * 100);
 
         audioCardMove.playbackRate = audioPlaySpeed;
 
-        const promiseAudio = audioCardMove.play().catch((error) => {
-          console.warn("Звук не воспроизведён:", error.name);
-          return Promise.resolve();
-        });
+        const promiseAudio = audioCardMove.play()
+        // .catch((error) => {
+        //   console.warn("Звук не воспроизведён:", error.name);
+        //   return Promise.resolve();
+        // });
 
         await Promise.all([promiseAudio, promiseAnimate]);
       } else {

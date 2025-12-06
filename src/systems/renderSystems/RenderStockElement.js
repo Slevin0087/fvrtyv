@@ -68,7 +68,7 @@ export class RenderStockElement {
     const isAnimate = this.stateManager.getIsAnimateCardFromStockToWaste();
     const isRunning = this.stateManager.getIsRunning();
     const isDelingAnimate = this.stateManager.getIsDealingCardsAnimation();
-    
+
     if (isAnimate || !isRunning || isDelingAnimate) {
       return; // Если клики запрещены или выполняется перемещение карты из waste, то ничего не делаем
     }
@@ -182,10 +182,11 @@ export class RenderStockElement {
             duration
           );
           if (this.stateManager.getSoundEnabled()) {
-            const promiseAudio = audioCardMove.play().catch((error) => {
-              console.warn("Звук не воспроизведён:", error.name);
-              return Promise.resolve();
-            });
+            const promiseAudio = audioCardMove.play()
+            // .catch((error) => {
+            //   console.warn("Звук не воспроизведён:", error.name);
+            //   return Promise.resolve();
+            // });
 
             await Promise.all([promiseAudio, promiseAnimate]);
           } else {

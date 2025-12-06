@@ -149,10 +149,11 @@ export class LogicSystemsInit {
     );
     if (this.stateManager.getSoundEnabled()) {
       const audioCardMove = this.audioManager.getSound(AudioName.CARD_MOVE);
-      const promiseAudio = audioCardMove.play().catch((error) => {
-        console.warn("Звук не воспроизведён:", error.name);
-        return Promise.resolve();
-      });
+      const promiseAudio = audioCardMove.play()
+      // .catch((error) => {
+      //   console.warn("Звук не воспроизведён:", error.name);
+      //   return Promise.resolve();
+      // });
 
       await Promise.all([promiseAudio, promiseAnimate]);
     } else {

@@ -318,10 +318,11 @@ export class AnimationSystem {
 
         // audioCardMove.playbackRate = audioPlaySpeed;
 
-        const promiseAudio = audioCardMove.play().catch((error) => {
-          console.warn("Звук не воспроизведён:", error.name);
-          return Promise.resolve();
-        });
+        const promiseAudio = audioCardMove.play()
+        // .catch((error) => {
+        //   console.warn("Звук не воспроизведён:", error.name);
+        //   return Promise.resolve();
+        // });
 
         await Promise.all([promiseAudio, promiseAnimate]);
       } else {
@@ -370,10 +371,11 @@ export class AnimationSystem {
 
         // audioCardMove.playbackRate = audioPlaySpeed;
 
-        const promiseAudio = audioCardMove.play().catch((error) => {
-          console.warn("Звук не воспроизведён:", error.name);
-          return Promise.resolve();
-        });
+        const promiseAudio = audioCardMove.play()
+        // .catch((error) => {
+        //   console.warn("Звук не воспроизведён:", error.name);
+        //   return Promise.resolve();
+        // });
 
         await Promise.all([promiseAudio, promiseAnimate]);
       } else {
@@ -439,10 +441,11 @@ export class AnimationSystem {
       );
       if (this.stateManager.getSoundEnabled()) {
         const audioCardMove = this.audioManager.getSound(AudioName.CARD_FLIP);
-        const promiseAudio = audioCardMove.play().catch((error) => {
-          console.warn("Звук не воспроизведён:", error.name);
-          return Promise.resolve();
-        });
+        const promiseAudio = audioCardMove.play()
+        // .catch((error) => {
+        //   console.warn("Звук не воспроизведён:", error.name);
+        //   return Promise.resolve();
+        // });
 
         await Promise.all([promiseAudio, promiseAnimate]);
       } else {
