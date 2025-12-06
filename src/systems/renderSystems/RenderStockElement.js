@@ -176,7 +176,7 @@ export class RenderStockElement {
           const audioCardMove = this.logicSystemsInit.audioManager.getSound(
             AudioName.CARD_MOVE
           );
-          const duration = audioCardMove.duration;
+          const duration = audioCardMove.duration();
           const promiseAnimate = Animator.animateCardFomStockToWaste(
             oldOffsetsTopThreeCards,
             duration

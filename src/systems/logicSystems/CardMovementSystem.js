@@ -31,7 +31,7 @@ export class CardMovementSystem {
     const usedAutoCollectCards = this.stateManager.getUsedAutoCollectCards();
     const audioCardMove = this.audioManager.getSound(AudioName.CARD_MOVE);
     console.log('Ready state:', audioCardMove.readyState);
-    this.cardMoveDuration = audioCardMove.getDuration() * 1000; // поменять 10000 на 100, для теста поменял 100 на 10000
+    this.cardMoveDuration = audioCardMove.duration() * 1000; // поменять 10000 на 100, для теста поменял 100 на 10000
     console.log('this.cardMoveDuration: ', this.cardMoveDuration);
     
     // Проверка foundation

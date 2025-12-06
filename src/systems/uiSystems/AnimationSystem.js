@@ -62,7 +62,7 @@ export class AnimationSystem {
     this.eventManager.onAsync(GameEvents.CARD_FLIP, async (card) => {
       this.cardFlipDuration = this.audioManager.getSound(
         AudioName.CARD_FLIP
-      ).duration;
+      ).duration();
       await this.animateCardFlip(
         card,
         this.degsCardFlip,
@@ -75,7 +75,7 @@ export class AnimationSystem {
 
       this.cardFlipDuration = this.audioManager.getSound(
         AudioName.CARD_FLIP
-      ).duration;
+      ).duration();
       await this.animateCardFlip(
         card,
         this.degsCardFlip,
@@ -86,7 +86,7 @@ export class AnimationSystem {
     this.eventManager.on(GameEvents.BACK_CARD_FLIP, async (card) => {
       this.cardFlipDuration = this.audioManager.getSound(
         AudioName.CARD_FLIP
-      ).duration;
+      ).duration();
       await this.animateBackCardFlip(
         card,
         this.degsBackCardFlip,
@@ -97,7 +97,7 @@ export class AnimationSystem {
     this.eventManager.onAsync(GameEvents.BACK_CARD_FLIP, async (card) => {
       this.cardFlipDuration = this.audioManager.getSound(
         AudioName.CARD_FLIP
-      ).duration;
+      ).duration();
       await this.animateBackCardFlip(
         card,
         this.degsBackCardFlip,
@@ -155,7 +155,7 @@ export class AnimationSystem {
     this.eventManager.onAsync(GameEvents.ANIMATE_JOKER_FLIP, async (jokerCard) => {
       this.cardFlipDuration = this.audioManager.getSound(
         AudioName.CARD_FLIP
-      ).duration;
+      ).duration();
       await this.animateJokerCardFlip(
         jokerCard,
         this.degsCardFlip,

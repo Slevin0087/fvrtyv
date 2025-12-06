@@ -97,7 +97,7 @@ export class GameSetupSystem {
         const audioCardMove = this.audioManager.getSound(AudioName.CARD_MOVE);
 
         const audioPlaySpeed =
-          this.startMoveSpeed / (audioCardMove.getDuration() * 100);
+          this.startMoveSpeed / (audioCardMove.duration() * 100);
 
         audioCardMove.playbackRate = audioPlaySpeed;
 
