@@ -149,4 +149,8 @@ export class GameModesManager {
   getCurrentModeMaxUndos() {
     return this.getCurrentModeRules().maxUndos;
   }
+
+  resetIsRedeals(boolean) {
+    this.isRedeals = boolean
+  }
 }

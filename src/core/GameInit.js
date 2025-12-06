@@ -153,6 +153,7 @@ export class GameInit {
 
   async gameRestart() {
     this.eventManager.emit(GameEvents.COLLECT_BTN_HIDDEN);
+    this.gameModesManager.resetIsRedeals(true)
     await this.setGame();
   }
 
