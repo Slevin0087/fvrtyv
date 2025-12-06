@@ -84,26 +84,28 @@ export class FoundationAnimation {
       ...options.card,
     };
 
+      // const currentTransform = cardElement.style.transform || "";
+
     // Создаем и запускаем анимацию
     const animation = cardElement.animate(config.keyframes, {
       duration: config.duration,
       easing: config.easing,
-      fill: "forwards",
+      // fill: "forwards",
     });
 
     // Автоматически восстанавливаем стили после анимации
     animation.onfinish = () => {
       // CSSOM не позволяет напрямую удалить инлайн-стили, установленные Web Animations API
       // Вместо этого сбрасываем через CSS класс или setTimeout
-      setTimeout(() => {
-        cardElement.style.transform = "";
+      setTimeout(() => {       
+        // cardElement.style.transform = currentTransform;
         cardElement.style.boxShadow = "";
       }, 0);
     };
 
     // Обработка отмены анимации
     animation.oncancel = () => {
-      cardElement.style.transform = "";
+      // cardElement.style.transform = currentTransform;
       cardElement.style.boxShadow = "";
     };
 
@@ -191,18 +193,18 @@ export class FoundationAnimation {
         duration: config.duration,
         easing: config.easing,
         delay: delay,
-        fill: "forwards",
+        // fill: "forwards",
       });
 
       // Восстанавливаем трансформацию после анимации
       animation.onfinish = () => {
-        setTimeout(() => {
-          cardElement.style.transform = currentTransform;
-        }, 0);
+        // setTimeout(() => {
+        //   cardElement.style.transform = currentTransform;
+        // }, 0);
       };
 
       animation.oncancel = () => {
-        cardElement.style.transform = currentTransform;
+        // cardElement.style.transform = currentTransform;
       };
 
       animations.push(animation);
@@ -297,7 +299,7 @@ export class FoundationAnimation {
     const animation = cardElement.animate(config.keyframes, {
       duration: config.duration,
       easing: config.easing,
-      fill: "forwards",
+      // fill: "forwards",
     });
 
     // Восстанавливаем стили после анимации
@@ -355,7 +357,7 @@ export class FoundationAnimation {
     const defaultOptions = {
       duration: 500,
       easing: "ease",
-      fill: "forwards",
+      // fill: "forwards",
       ...options,
     };
 

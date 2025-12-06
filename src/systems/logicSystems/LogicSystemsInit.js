@@ -181,6 +181,8 @@ export class LogicSystemsInit {
         this.scoringSystem.addScores(calculatedScore);
         this.eventManager.emit(GameEvents.AUDIO_UP_SCORE);
       } else if (isFoundation) {
+        console.log('isFoundation');
+        
         operator = this.subtraction;
         isSourceFromFoundation = !isSourceFromFoundation;
         this.scoringSystem.subtractScores(calculatedScore);
