@@ -1,9 +1,6 @@
 import { UIConfig } from "../../configs/UIConfig.js";
-import {
-  GameEvents,
-  CardValues,
-  CountValuesOfEachCard,
-} from "../../utils/Constants.js";
+import { CardValues } from "../../configs/CardsConfigs.js";
+import { GameEvents, CountValuesOfEachCard } from "../../utils/Constants.js";
 
 export class H2 {
   constructor(eventManager, stateManager) {
@@ -165,14 +162,13 @@ export class H2 {
       if (cardHints.length > 0) {
         break;
       } else {
-
         // if (allHintsToFoundations.length === 0) {
-          const hintsFromWasteToTableau = this.getHintsFromWasteToTableau(
-            card,
-            fromContainer,
-            nextCards
-          );
-          hints.push(...hintsFromWasteToTableau);
+        const hintsFromWasteToTableau = this.getHintsFromWasteToTableau(
+          card,
+          fromContainer,
+          nextCards
+        );
+        hints.push(...hintsFromWasteToTableau);
         // }
         if (nextCards.length === 0) {
           // const allHintsToFoundations = this.getAllHintsToFoundations(
@@ -181,7 +177,6 @@ export class H2 {
           //   nextCards
           // );
           // hints.push(...allHintsToFoundations);
-
           // const foundationToTableauHints = this.getFoundationToTableauHints(
           //   card,
           //   fromContainer

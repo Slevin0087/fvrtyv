@@ -1,5 +1,4 @@
 import { GameInit } from "./core/GameInit.js";
-// import { windowResize } from "./utils/windowResize.js";
 import { windowResize } from "./systems/uiSystems/WindowResizeHandler.js";
 
 // Запуск приложения после загрузки DOM

@@ -1,258 +1,367 @@
-// export class FoundationAnimation {
-//   // Основная анимация успешного добавления карты
-//   static playSuccessAnimation(card, foundation) {
-//     const cardElement = card.domElement;
-//     const foundationElement = foundation.element;
-//     // 1. Анимация самой карты
-//     cardElement.classList.add("card-landing");
-
-//     // 2. Свечение стопки
-//     foundationElement.classList.add("foundation-glow");
-
-//     // 3. Легкое подпрыгивание всей стопки
-//     // const allCards = foundationElement.querySelectorAll('.card');
-//     // allCards.forEach(card => {
-//     //   card.classList.add('stack-bounce');
-//     // });
-
-//     const allCards = foundation.cards.map((card) => {
-//       card.domElement.classList.add("stack-bounce");
-//       return card.domElement;
-//     });
-
-//     // Убираем классы анимации после завершения
-//     setTimeout(() => {
-//       cardElement.classList.remove("card-landing");
-//       foundationElement.classList.remove("foundation-glow");
-//       allCards.forEach((card) => {
-//         card.classList.remove("stack-bounce");
-//       });
-//     }, 600);
-//   }
-
-//   // Альтернативная анимация - более сдержанная
-//   static playSubtleAnimation(cardElement, foundationElement) {
-//     // Только анимация карты и легкое свечение
-//     cardElement.classList.add("card-landing");
-//     foundationElement.classList.add("foundation-glow");
-
-//     setTimeout(() => {
-//       cardElement.classList.remove("card-landing");
-//       foundationElement.classList.remove("foundation-glow");
-//     }, 500);
-//   }
-
-//   // Анимация для завершения стопки (когда собрана масть)
-//   static playCompleteAnimation(foundationElement) {
-//     foundationElement.classList.add("foundation-glow");
-
-//     // Усиленное свечение для завершенной стопки
-//     const style = document.createElement("style");
-//     style.textContent = `
-//       @keyframes completeGlow {
-//         0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.8); }
-//         50% { box-shadow: 0 0 0 20px rgba(255, 215, 0, 0.3); }
-//         100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
-//       }
-//       .foundation-complete {
-//         animation: completeGlow 1s ease-out;
-//       }
-//     `;
-//     document.head.appendChild(style);
-
-//     foundationElement.classList.add("foundation-complete");
-
-//     setTimeout(() => {
-//       foundationElement.classList.remove("foundation-complete");
-//       foundationElement.classList.remove("foundation-glow");
-//     }, 1000);
-//   }
-// }
-
-// // Использование
-// // После того как карта уже перемещена в стопку DOM:
-// function onCardAddedToFoundation(
-//   cardElement,
-//   foundationElement,
-//   isFoundationComplete = false
-// ) {
-//   if (isFoundationComplete) {
-//     FoundationAnimation.playCompleteAnimation(foundationElement);
-//   } else {
-//     FoundationAnimation.playSuccessAnimation(cardElement, foundationElement);
-//   }
-// }
-
-// // Пример вызова:
-// // onCardAddedToFoundation(newCard, foundation, false);
-
-// export class FoundationAnimation {
-//   static playSuccessAnimation(card, foundation) {
-//     const cardElement = card.domElement;
-//     const foundationElement = foundation.element;
-//     // Определяем iOS
-//     const isIOS =
-//       /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-
-//     // 1. Анимация карты (работает везде)
-//     cardElement.classList.add("card-landing");
-
-//     // 2. Анимация стопки - выбираем в зависимости от платформы
-//     if (isIOS) {
-//       foundationElement.classList.add("foundation-pulse");
-//     } else {
-//       foundationElement.classList.add("foundation-glow");
-//     }
-
-//     // 3. Анимация подпрыгивания
-//     const allCards = foundation.cards.map((card) => {
-//       card.domElement.classList.add("stack-bounce");
-//       return card.domElement;
-//     });
-
-//     // Очистка
-//     setTimeout(() => {
-//       cardElement.classList.remove("card-landing");
-//       foundationElement.classList.remove("foundation-glow", "foundation-pulse");
-//       allCards.forEach((card) => {
-//         card.classList.remove("stack-bounce");
-//       });
-//     }, 600);
-//   }
-
-//   // Упрощенная версия для максимальной совместимости
-//   static playSimpleAnimation(cardElement) {
-//     cardElement.classList.add("card-landing");
-
-//     setTimeout(() => {
-//       cardElement.classList.remove("card-landing");
-//     }, 500);
-//   }
-// }
-
-// // Функция для принудительного перезапуска анимации (иногда помогает в iOS)
-// function forceAnimationRestart(element) {
-//   element.style.animation = "none";
-//   element.offsetHeight; /* trigger reflow */
-//   element.style.animation = null;
-// }
-
 export class FoundationAnimation {
-  static playSuccessAnimation(card, foundation) {
+  // Конфигурация анимаций
+  static config = {
+    card: {
+      duration: 500,
+      easing: "cubic-bezier(0.34, 1.56, 0.64, 1)",
+      keyframes: [
+        { transform: "scale(1)", boxShadow: "0 0 0 rgba(255, 215, 0, 0)" },
+        {
+          transform: "scale(1.1)",
+          boxShadow: "0 4px 20px rgba(255, 215, 0, 0.6)",
+        },
+        { transform: "scale(1)", boxShadow: "0 0 0 rgba(255, 215, 0, 0)" },
+      ],
+    },
+
+    foundation: {
+      duration: 600,
+      easing: "ease-in-out",
+      keyframes: [
+        { boxShadow: "0 0 0 rgba(76, 175, 80, 0)", borderColor: "transparent" },
+        {
+          boxShadow: "0 0 12px rgba(76, 175, 80, 0.6)",
+          borderColor: "rgba(76, 175, 80, 0.3)",
+        },
+        { boxShadow: "0 0 0 rgba(76, 175, 80, 0)", borderColor: "transparent" },
+      ],
+    },
+
+    stackBounce: {
+      duration: 400,
+      easing: "cubic-bezier(0.68, -0.55, 0.27, 1.55)",
+      keyframes: [
+        { transform: "translateY(0)" },
+        { transform: "translateY(-3px)" },
+        { transform: "translateY(0)" },
+      ],
+    },
+  };
+
+  /**
+   * Запускает все анимации успешного перемещения карты в фундамент
+   * @param {Card} card - Объект карты
+   * @param {Foundation} foundation - Объект фундамента
+   * @param {Object} options - Опции анимации
+   * @returns {Function} Функция для отмены всех анимаций
+   */
+  static playSuccessAnimation(card, foundation, options = {}) {
     const cardElement = card.domElement;
     const foundationElement = foundation.element;
+    const allCards = foundation.cards.map((card) => card.domElement);
 
-    const allCards = foundation.cards.map((card) => {
-      return card.domElement;
-    });
-    // 1. Анимация карты - принудительно через JS
-    this.animateCardLanding(cardElement);
+    // Запускаем все анимации
+    const cardAnimation = this.animateCardLanding(cardElement, options);
+    const foundationAnimation = this.animateFoundationGlow(
+      foundationElement,
+      options
+    );
+    const stackAnimations = this.animateStackBounce(allCards, options);
 
-    // 2. Анимация стопки
-    this.animateFoundationGlow(foundationElement);
-
-    // 3. Анимация подпрыгивания других карт в стопке
-    this.animateStackBounce(allCards);
+    // Возвращаем функцию для отмены всех анимаций
+    return () => {
+      cardAnimation?.cancel();
+      foundationAnimation?.cancel();
+      stackAnimations?.forEach((anim) => anim.cancel());
+    };
   }
 
-  static animateCardLanding(cardElement) {
-    // Сохраняем начальные стили
-    const initialTransform = cardElement.style.transform;
-    const initialBoxShadow = cardElement.style.boxShadow;
-
-    // Принудительно сбрасываем любые существующие анимации
-    cardElement.style.animation = "none";
-    cardElement.offsetHeight; // trigger reflow
-
-    // Анимация масштаба и тени через JS
-    const startTime = Date.now();
-    const duration = 500;
-
-    function animate() {
-      const elapsed = Date.now() - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-
-      // easing function
-      const easeOut = 1 - Math.pow(1 - progress, 3);
-
-      if (progress < 1) {
-        // Анимация: scale от 1.1 до 1, shadow от большой к маленькой
-        const scale = 1 + 0.1 * (1 - easeOut);
-        const shadowBlur = 20 * (1 - easeOut);
-        const shadowSpread = 10 * (1 - easeOut);
-
-        cardElement.style.transform = `${initialTransform} scale(${scale})`;
-        // cardElement.style.boxShadow = `0 ${
-        //   shadowBlur / 4
-        // }px ${shadowBlur}px rgba(0, 0, 0, ${0.4 * (1 - easeOut)})`;
-
-      cardElement.style.boxShadow = `
-  0 ${shadowBlur/4}px ${shadowBlur}px rgba(255, 215, 0, ${0.6 * (1 - easeOut)})
-`; // золотая тень
-
-        requestAnimationFrame(animate);
-      } else {
-        // Завершение анимации
-        cardElement.style.transform = initialTransform;
-        cardElement.style.boxShadow = initialBoxShadow;
-      }
+  /**
+   * Анимация "приземления" карты с золотым свечением
+   * @param {HTMLElement} cardElement - DOM элемент карты
+   * @param {Object} options - Опции анимации
+   * @returns {Animation} Объект анимации для контроля
+   */
+  static animateCardLanding(cardElement, options = {}) {
+    if (!this.isValidElement(cardElement)) {
+      console.warn("Invalid card element for animation");
+      return null;
     }
 
-    requestAnimationFrame(animate);
+    // Объединяем конфигурацию с опциями
+    const config = {
+      ...this.config.card,
+      ...options.card,
+    };
+
+    // Создаем и запускаем анимацию
+    const animation = cardElement.animate(config.keyframes, {
+      duration: config.duration,
+      easing: config.easing,
+      fill: "forwards",
+    });
+
+    // Автоматически восстанавливаем стили после анимации
+    animation.onfinish = () => {
+      // CSSOM не позволяет напрямую удалить инлайн-стили, установленные Web Animations API
+      // Вместо этого сбрасываем через CSS класс или setTimeout
+      setTimeout(() => {
+        cardElement.style.transform = "";
+        cardElement.style.boxShadow = "";
+      }, 0);
+    };
+
+    // Обработка отмены анимации
+    animation.oncancel = () => {
+      cardElement.style.transform = "";
+      cardElement.style.boxShadow = "";
+    };
+
+    return animation;
   }
 
-  static animateFoundationGlow(foundationElement) {
-    const initialBoxShadow = foundationElement.style.boxShadow;
-    const initialBorder = foundationElement.style.border;
-
-    const startTime = Date.now();
-    const duration = 600;
-
-    function animate() {
-      const elapsed = Date.now() - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-
-      if (progress < 1) {
-        // Пульсирующий эффект glow
-        const glowSize = 12 * Math.sin(progress * Math.PI);
-        const opacity = 0.6 * Math.sin(progress * Math.PI);
-
-        foundationElement.style.boxShadow = `0 0 0 ${glowSize}px rgba(76, 175, 80, ${opacity})`;
-        requestAnimationFrame(animate);
-      } else {
-        // Возвращаем исходные стили
-        foundationElement.style.boxShadow = initialBoxShadow;
-        foundationElement.style.border = initialBorder;
-      }
+  /**
+   * Анимация пульсирующего свечения фундамента
+   * @param {HTMLElement} foundationElement - DOM элемент фундамента
+   * @param {Object} options - Опции анимации
+   * @returns {Animation} Объект анимации для контроля
+   */
+  static animateFoundationGlow(foundationElement, options = {}) {
+    if (!this.isValidElement(foundationElement)) {
+      console.warn("Invalid foundation element for animation");
+      return null;
     }
 
-    requestAnimationFrame(animate);
+    const config = {
+      ...this.config.foundation,
+      ...options.foundation,
+    };
+
+    const animation = foundationElement.animate(config.keyframes, {
+      duration: config.duration,
+      easing: config.easing,
+      iterations: 2, // Два цикла для эффекта пульсации
+      direction: "alternate", // Туда-обратно
+    });
+
+    // Восстанавливаем стили после анимации
+    animation.onfinish = () => {
+      setTimeout(() => {
+        foundationElement.style.boxShadow = "";
+        foundationElement.style.borderColor = "";
+      }, 0);
+    };
+
+    animation.oncancel = () => {
+      foundationElement.style.boxShadow = "";
+      foundationElement.style.borderColor = "";
+    };
+
+    return animation;
   }
 
-  static animateStackBounce(cards) {
-    const startTime = Date.now();
-    const duration = 400;
+  /**
+   * Анимация подпрыгивания карт в стопке (кроме последней)
+   * @param {HTMLElement[]} cards - Массив DOM элементов карт
+   * @param {Object} options - Опции анимации
+   * @returns {Animation[]} Массив объектов анимации
+   */
+  static animateStackBounce(cards, options = {}) {
+    if (!Array.isArray(cards) || cards.length === 0) {
+      return [];
+    }
 
-    cards.forEach((card) => {
-      if (card === cards[cards.length - 1]) return; // пропускаем новую карту
+    const config = {
+      ...this.config.stackBounce,
+      ...options.stackBounce,
+    };
 
-      const initialTransform = card.style.transform;
+    const animations = [];
 
-      function animate() {
-        const elapsed = Date.now() - startTime;
-        const progress = Math.min(elapsed / duration, 1);
+    // Анимируем все карты кроме последней (новой)
+    const cardsToAnimate = cards.slice(0, -1);
 
-        if (progress < 1) {
-          // bounce эффект
-          const bounce = -3 * Math.sin(progress * Math.PI * 2);
-          card.style.transform = `${initialTransform} translateY(${bounce}px)`;
-          requestAnimationFrame(animate);
-        } else {
-          card.style.transform = initialTransform;
-        }
-      }
+    cardsToAnimate.forEach((cardElement, index) => {
+      if (!this.isValidElement(cardElement)) return;
 
-      requestAnimationFrame(animate);
+      // Задержка для эффекта волны (каскадная анимация)
+      const delay = index * 50;
+
+      // Сохраняем текущее преобразование
+      const currentTransform = cardElement.style.transform || "";
+
+      // Создаем ключевые кадры с учетом текущей трансформации
+      const keyframes = config.keyframes.map((frame) => ({
+        transform: currentTransform
+          ? `${currentTransform} ${frame.transform}`
+          : frame.transform,
+      }));
+
+      const animation = cardElement.animate(keyframes, {
+        duration: config.duration,
+        easing: config.easing,
+        delay: delay,
+        fill: "forwards",
+      });
+
+      // Восстанавливаем трансформацию после анимации
+      animation.onfinish = () => {
+        setTimeout(() => {
+          cardElement.style.transform = currentTransform;
+        }, 0);
+      };
+
+      animation.oncancel = () => {
+        cardElement.style.transform = currentTransform;
+      };
+
+      animations.push(animation);
     });
+
+    return animations;
+  }
+
+  /**
+   * Анимация неудачного перемещения (красное свечение)
+   * @param {HTMLElement} element - DOM элемент для анимации
+   * @param {Object} options - Опции анимации
+   * @returns {Animation} Объект анимации
+   */
+  static playErrorAnimation(element, options = {}) {
+    if (!this.isValidElement(element)) {
+      return null;
+    }
+
+    const config = {
+      duration: 300,
+      easing: "ease-in-out",
+      keyframes: [
+        { boxShadow: "0 0 0 rgba(244, 67, 54, 0)" },
+        { boxShadow: "0 0 15px rgba(244, 67, 54, 0.8)" },
+        { boxShadow: "0 0 0 rgba(244, 67, 54, 0)" },
+      ],
+      ...options.error,
+    };
+
+    const animation = element.animate(config.keyframes, {
+      duration: config.duration,
+      easing: config.easing,
+      iterations: 2,
+      direction: "alternate",
+    });
+
+    animation.onfinish = () => {
+      setTimeout(() => {
+        element.style.boxShadow = "";
+      }, 0);
+    };
+
+    return animation;
+  }
+
+  /**
+   * Комплексная анимация для автоперемещения
+   * @param {HTMLElement} cardElement - Перемещаемая карта
+   * @param {HTMLElement} targetElement - Целевой элемент
+   * @param {Object} options - Опции анимации
+   * @returns {Animation} Объект анимации
+   */
+  static playAutoMoveAnimation(cardElement, targetElement, options = {}) {
+    if (
+      !this.isValidElement(cardElement) ||
+      !this.isValidElement(targetElement)
+    ) {
+      return null;
+    }
+
+    // Получаем позиции элементов
+    const cardRect = cardElement.getBoundingClientRect();
+    const targetRect = targetElement.getBoundingClientRect();
+
+    // Вычисляем смещение
+    const deltaX = targetRect.left - cardRect.left;
+    const deltaY = targetRect.top - cardRect.top;
+
+    const config = {
+      duration: 400,
+      easing: "cubic-bezier(0.68, -0.55, 0.27, 1.55)",
+      keyframes: [
+        {
+          transform: "translate(0, 0) scale(1)",
+          opacity: 1,
+          zIndex: 1000,
+        },
+        {
+          transform: `translate(${deltaX}px, ${deltaY}px) scale(0.9)`,
+          opacity: 0.8,
+          zIndex: 1000,
+        },
+      ],
+      ...options.autoMove,
+    };
+
+    // Устанавливаем высокий z-index для карты во время анимации
+    const originalZIndex = cardElement.style.zIndex;
+    cardElement.style.zIndex = "1000";
+
+    const animation = cardElement.animate(config.keyframes, {
+      duration: config.duration,
+      easing: config.easing,
+      fill: "forwards",
+    });
+
+    // Восстанавливаем стили после анимации
+    animation.onfinish = () => {
+      setTimeout(() => {
+        cardElement.style.transform = "";
+        cardElement.style.opacity = "";
+        cardElement.style.zIndex = originalZIndex;
+      }, 0);
+    };
+
+    animation.oncancel = () => {
+      cardElement.style.transform = "";
+      cardElement.style.opacity = "";
+      cardElement.style.zIndex = originalZIndex;
+    };
+
+    return animation;
+  }
+
+  /**
+   * Проверяет валидность DOM элемента
+   * @param {HTMLElement} element - Проверяемый элемент
+   * @returns {boolean} Валиден ли элемент
+   */
+  static isValidElement(element) {
+    return (
+      element && typeof element.animate === "function" && element.isConnected
+    );
+  }
+
+  /**
+   * Устанавливает конфигурацию анимаций
+   * @param {Object} newConfig - Новая конфигурация
+   */
+  static setConfig(newConfig) {
+    this.config = {
+      ...this.config,
+      ...newConfig,
+    };
+  }
+
+  /**
+   * Создает кастомную анимацию
+   * @param {HTMLElement} element - Элемент для анимации
+   * @param {Array} keyframes - Ключевые кадры
+   * @param {Object} options - Опции анимации
+   * @returns {Animation} Объект анимации
+   */
+  static createCustomAnimation(element, keyframes, options = {}) {
+    if (!this.isValidElement(element)) {
+      return null;
+    }
+
+    const defaultOptions = {
+      duration: 500,
+      easing: "ease",
+      fill: "forwards",
+      ...options,
+    };
+
+    return element.animate(keyframes, defaultOptions);
   }
 }
+
+// Экспорт конфигурации по умолчанию для внешнего использования
+export const foundationAnimationConfig = FoundationAnimation.config;

@@ -1,5 +1,4 @@
-import { CardSuits } from "../utils/Constants.js";
-import { CardValues } from "../utils/Constants.js";
+import { CardSuits, CardValues } from "../configs/CardsConfigs.js";
 
 export class Card {
   constructor(suit, value) {

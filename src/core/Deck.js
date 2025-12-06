@@ -1,5 +1,5 @@
 import { Card } from "./Card.js";
-import { CardSuits, CardValues } from "../utils/Constants.js";
+import { CardSuits, CardValues } from "../configs/CardsConfigs.js";
 import { Helpers } from "../utils/Helpers.js";
 
 export class Deck {

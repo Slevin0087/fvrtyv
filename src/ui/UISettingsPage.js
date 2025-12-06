@@ -95,7 +95,7 @@ export class UISettingsPage extends UIPage {
   }
 
   onChangeModes(e) {
-    this.eventManager.emit(GameEvents.SET_MODES_CHANGE, e.target.value);
+    this.gameModesManager.setAllDataCurrentMode(e.target.value);
   }
 
   onChangeDealingCards(e) {
@@ -156,56 +156,6 @@ export class UISettingsPage extends UIPage {
     this.setActiveDealingCardsBtns();
   }
 
-  // createDealingCardsModalBody() {
-
-  //   return `<div id="dealing-cards-modal" class="dealing-cards-modal hidden">
-  //     <div class="dealing-cards-modal-header">
-  //       <div class="dealing-cards-modal-close">
-  //         <span
-  //           class="dealing-cards-modal-close-span"
-  //           id="dealing-cards-modal-close"
-  //           >&times;</span
-  //         >
-  //       </div>
-  //       <div class="dealing-cards-modal-title">
-  //         <span data-i18n="dealing_cards_modal_title"
-  //           >Раздача карт по:</span
-  //         >
-  //       </div>
-  //     </div>
-  //     <div class="dealing-cards-modal-content">
-  //       <dl class="dealing-cards-modal-table table">
-  //         <div class="dealing-cards-modal-wrap-line">
-  //           <!-- <span class="dealing-cards-modal-body-span"></span> -->
-  //           <dt
-  //             class="dealing-cards-modal-left-td"
-  //             data-i18n="dealing_cards_modal_score"
-  //           >
-  //             Очки:
-  //           </dt>
-  //           <dd class="dealing-cards-modal-right-td">x</dd>
-  //         </div>
-  //       </dl>
-  //     </div>
-  //     <div class="dealing-cards-modal-btns">
-  //       <button
-  //         class="dealing-cards-modal-dont-show-again-btn"
-  //         id="dealing-cards-modal-dont-show-again-btn"
-  //         data-i18n="btn_dealing_cards_modal_dont_show_again"
-  //       >
-  //         Больше не показывать
-  //       </button>
-  //       <button
-  //         class="dealing-cards-modal-its_clear-btn"
-  //         id="dealing-cards-modal-its-clear-btn"
-  //         data-i18n="btn_dealing_cards_modal_its_clear"
-  //       >
-  //         Понятно
-  //       </button>
-  //     </div>
-  //   </div>`;
-  // }
-
   createDealingCardsModalBody(value) {
     const score = this.translator.t("dealing_cards_modal_score");
     return `<dl class="dealing-cards-modal-table table">
@@ -254,9 +204,8 @@ export class UISettingsPage extends UIPage {
     this.elements.assistanceInCardClick.checked =
       this.stateManager.getAssistanceInCardClick();
     this.elements.languageSelected.value = this.stateManager.getLanguage();
-    console.log('this.gameModesManager.getCurrentModeName(): ', this.gameModesManager.getCurrentModeName());
-    
-    this.elements.modesSelected.value = this.gameModesManager.getCurrentModeName();
+    this.elements.modesSelected.value =
+      this.gameModesManager.getCurrentModeName();
     this.elements.musicVolume.value = this.stateManager.getMusicVolume() * 100;
     this.setPropertyStyleVolume(this.elements.musicVolume);
     this.setActiveDealingCardsBtns();

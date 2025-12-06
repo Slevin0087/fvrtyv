@@ -623,15 +623,19 @@ export class StateManager {
   }
 
   getGreetingsPageUsed() {
-    return this.state.game.greetingsPageUsed
+    return this.state.game.greetingsPageUsed;
   }
 
   setGreetingsPageUsed(boolean) {
-    this.state.game.greetingsPageUsed = boolean
+    this.state.game.greetingsPageUsed = boolean;
   }
 
   setUsedAutoCollectCards(boolean) {
     this.state.usedAutoCollectCards = boolean;
+  }
+
+  getUsedAutoCollectCards() {
+    return this.state.usedAutoCollectCards;
   }
 
   setIsDealingCardsAnimation(boolean) {
@@ -743,6 +747,11 @@ export class StateManager {
       GameEvents.CHECK_GET_ACHIEVEMENTS,
       this.typeScoreCheckAchievements
     );
+  }
+
+  downdateScore(score) {
+    this.state.player.totalScores -= score;
+    this.state.stateForAchievements.score -= score;
   }
 
   incrementHintUsed(count) {

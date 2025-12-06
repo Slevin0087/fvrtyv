@@ -158,36 +158,38 @@ export class LogicSystemsInit {
     } else {
       await promiseAnimate;
     }
-    if (source.startsWith(GameConfig.cardContainers.waste)) {
+    const isWaste = this.getIsSource(source, GameConfig.cardContainers.waste);
+    if (isWaste) {
       await this.wasteSystem.upTopThreeCards();
     }
-    if (
-      containerToName === GameConfig.cardContainers.foundation ||
-      source.startsWith(GameConfig.cardContainers.foundation)
-    ) {
+    const isFoundationName =
+      containerToName === GameConfig.cardContainers.foundation;
+    const isFoundation = this.getIsSource(
+      source,
+      GameConfig.cardContainers.foundation
+    );
+    if (isFoundationName || isFoundation) {
       let isSourceFromFoundation = false;
       const score =
         this.gameModesManager.getCurrentModeScoring().moveToFoundation;
-      let calculatedScore = 0;
+      const calculatedScore =
+        this.scoringSystem.calculateScoresWithDealingCards(score, card.value);
       let operator = "";
-      if (containerToName === GameConfig.cardContainers.foundation) {
+      if (isFoundationName) {
         FoundationAnimation.playSuccessAnimation(card, containerTo);
         operator = this.addition;
         this.stateManager.incrementStat(
           this.textToFoundationCheckAchievements,
           this.typeToFoundationCheckAchievements
         );
+        this.scoringSystem.addScores(calculatedScore);
         this.eventManager.emit(GameEvents.AUDIO_UP_SCORE);
-      } else if (source.startsWith(GameConfig.cardContainers.foundation)) {
+      } else if (isFoundation) {
         operator = this.subtraction;
         isSourceFromFoundation = !isSourceFromFoundation;
+        this.scoringSystem.subtractScores(calculatedScore);
       }
-      calculatedScore = this.scoringSystem.calculatePointsWithDealingCards(
-        score,
-        card.value,
-        operator
-      );
-      this.scoringSystem.addPoints(calculatedScore);
+
       Animator.showPointsAnimation(
         card,
         calculatedScore,
@@ -199,7 +201,9 @@ export class LogicSystemsInit {
 
     await this.handleOpenCard(card, source);
 
-    if (!source.startsWith(GameConfig.cardContainers.stock)) {
+    const isStock = this.getIsSource(source, GameConfig.cardContainers.stock);
+    const isUpLastMoves = this.gameModesManager.getIsUpLastMoves();
+    if (!isStock && isUpLastMoves) {
       const lastMove = [
         {
           card,
@@ -212,10 +216,7 @@ export class LogicSystemsInit {
       this.eventManager.emit(GameEvents.UP_MOVES);
     }
 
-    if (
-      containerToName === GameConfig.cardContainers.foundation &&
-      this.state.settings.assistanceInCollection
-    ) {
+    if (isFoundationName && this.stateManager.getAssistanceInCollection()) {
       await this.autoCardMoveToFoundations();
     }
 
@@ -229,10 +230,9 @@ export class LogicSystemsInit {
 
     card.openCard = openCard;
     if (openCard) {
-      // const score = GameConfig.rules.scoreForCardFlip;
       const score = this.gameModesManager.getCurrentModeScoring().flipCard;
       const calculatedScore =
-        this.scoringSystem.calculatePointsWithDealingCards(
+        this.scoringSystem.calculateScoresWithDealingCards(
           score,
           openCard.value
         );
@@ -242,7 +242,7 @@ export class LogicSystemsInit {
         calculatedScore,
         this.addition
       );
-      this.scoringSystem.addPoints(calculatedScore);
+      this.scoringSystem.addScores(calculatedScore);
 
       openCard.setDataAttribute(
         GameConfig.dataAttributes.cardParent,
@@ -255,83 +255,82 @@ export class LogicSystemsInit {
   }
 
   async autoCardMoveToFoundations() {
-    const foundations = this.stateManager.getCardsComponents().foundations;
-    let foundationsNotIsEmpty = [];
-    for (let foundation of foundations) {
-      if (!foundation.isEmpty()) {
-        foundationsNotIsEmpty.push(foundation);
-      }
-    }
+    const { foundations, tableaus, waste } =
+      this.stateManager.getCardsComponents();
 
-    if (foundationsNotIsEmpty.length > 0) {
-      for (let foundation of foundationsNotIsEmpty) {
-        const waste = this.stateManager.getCardsComponents().waste;
-        const wasteTopCard = waste.getTopCard();
-        if (
-          wasteTopCard &&
-          foundation.canAccept(
-            wasteTopCard,
-            this.stateManager.getCardsComponents()
-          )
-        ) {
-          await this.handleCardMove({
-            card: wasteTopCard,
-            containerToIndex: foundation.index,
-            containerTo: foundation,
-            cardMoveDuration: this.cardMoveDuration,
-          });
-        } else {
-          console.log("!wasteTopCard");
-          const tableaus = this.stateManager.getCardsComponents().tableaus;
-          for (let tableau of tableaus) {
-            const tableauTopCard = tableau.getTopCard();
-            if (
-              tableauTopCard &&
-              foundation.canAccept(
-                tableauTopCard,
-                this.stateManager.getCardsComponents()
-              )
-            ) {
-              await this.handleCardMove({
-                card: tableauTopCard,
-                containerToIndex: foundation.index,
-                containerTo: foundation,
-                cardMoveDuration: this.cardMoveDuration,
-              });
-            }
-          }
-        }
+    // Фильтруем непустые foundations
+    const nonEmptyFoundations = foundations.filter((f) => !f.isEmpty());
+
+    if (nonEmptyFoundations.length === 0) return;
+
+    for (const foundation of nonEmptyFoundations) {
+      // Пытаемся переместить из waste
+      const movedFromWaste = await this.tryMoveToFoundation(
+        foundation,
+        waste.getTopCard()
+      );
+
+      if (movedFromWaste) continue;
+
+      // Пытаемся переместить из tableaus
+      for (const tableau of tableaus) {
+        const movedFromTableau = await this.tryMoveToFoundation(
+          foundation,
+          tableau.getTopCard()
+        );
+
+        if (movedFromTableau) break;
       }
     }
+  }
+
+  async tryMoveToFoundation(foundation, card) {
+    if (!card) return false;
+
+    const canAccept = foundation.canAccept(
+      card,
+      this.stateManager.getCardsComponents()
+    );
+
+    if (!canAccept) return false;
+
+    await this.handleCardMove({
+      card,
+      containerToIndex: foundation.index,
+      containerTo: foundation,
+      containerToName: GameConfig.cardContainers.foundation,
+      cardMoveDuration: this.cardMoveDuration,
+    });
+
+    return true;
   }
 
   async cardsCollect() {
     this.stateManager.setUsedAutoCollectCards(true);
-    const { tableaus, stock, waste } = this.stateManager.getCardsComponents();
-    await this.autoCollectCards(tableaus, stock, waste);
+    await this.autoCollectCards();
     this.stateManager.setUsedAutoCollectCards(false);
   }
 
-  async autoCollectCards(tableaus, stock, waste) {
+  async autoCollectCards() {
+
     // Проверяем условие выхода
     if (this.winSystem.check()) return;
     else {
       const gameComponents = this.stateManager.getCardsComponents();
+      const { foundations, tableaus, stock, waste } = gameComponents;
       for (const tableau of tableaus) {
         if (tableau.cards.length > 0) {
           const card = tableau.cards[tableau.cards.length - 1];
-          for (let i = 0; i < gameComponents.foundations.length; i++) {
-            if (gameComponents.foundations[i].canAccept(card, gameComponents)) {
-              const containerTo = gameComponents.foundations[i];
-              const containerToName = GameConfig.cardContainers.foundation;
+          for (let i = 0; i < foundations.length; i++) {
+            const canAccept = foundations[i].canAccept(card, gameComponents)
+            if (canAccept) {
               this.eventManager.emit(GameEvents.CARD_MOVE, {
                 card,
                 containerToIndex: i,
-                containerTo,
-                containerToName,
+                containerTo: foundations[i],
+                containerToName: GameConfig.cardContainers.foundation,
                 cardMoveDuration: this.cardMoveDuration,
               });
-              // return true;
               await this.delay(this.cardMoveDuration + 100);
               await this.autoCollectCards(tableaus, stock, waste);
             }
@@ -366,5 +365,9 @@ export class LogicSystemsInit {
   // Вспомогательная функция задержки
   delay(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  getIsSource(source, name) {
+    return source.startsWith(name);
   }
 }

@@ -18,6 +18,7 @@ export class GameModesManager {
     this.stockDrawCounts = 0;
     this.maxRedealsCounts = 0;
     this.isRedeals = true;
+    this.isUpLastMoves = false;
     this.initState();
     this.calculateScore("moveToTableau");
   }
@@ -26,10 +27,10 @@ export class GameModesManager {
     this.initCurrentModeName();
     this.initCurrentModeRules();
     this.initCurrentModeScoring();
+    this.initIsUpLastMoves();
   }
 
-  setupEventListeners() {
-  }
+  setupEventListeners() {}
 
   initCurrentModeName() {
     this.currentModeName =
@@ -124,9 +125,28 @@ export class GameModesManager {
   }
 
   setAllDataCurrentMode(modeName) {
-    this.setCurrentModeName(modeName)
-    this.initCurrentModeRules()
-    this.initCurrentModeScoring()
-    this.saveStorageCurrentModeName(modeName)
+    this.setCurrentModeName(modeName);
+    this.initCurrentModeRules();
+    this.initCurrentModeScoring();
+    this.initIsUpLastMoves();
+    this.saveStorageCurrentModeName(modeName);
+  }
+
+  initIsUpLastMoves() {
+    const maxUndos = this.getCurrentModeMaxUndos();
+    if (maxUndos === Infinity || maxUndos > 0) {
+      this.isUpLastMoves = true;
+      return;
+    } else {
+      this.isUpLastMoves = false;
+    }
+  }
+
+  getIsUpLastMoves() {
+    return this.isUpLastMoves;
+  }
+
+  getCurrentModeMaxUndos() {
+    return this.getCurrentModeRules().maxUndos;
   }
 }

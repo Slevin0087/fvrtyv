@@ -1,6 +1,7 @@
 import { UIPage } from "./UIPage.js";
 import { ShopConfig } from "../configs/ShopConfig.js";
-import { GameEvents, CardSuits, CardValues } from "../utils/Constants.js";
+import { CardSuits, CardValues } from "../configs/CardsConfigs.js";
+import { GameEvents } from "../utils/Constants.js";
 import { Helpers } from "../utils/Helpers.js";
 
 export class UIShopPage extends UIPage {

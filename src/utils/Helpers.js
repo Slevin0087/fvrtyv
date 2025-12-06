@@ -1,4 +1,4 @@
-import { CardSuits, CardValues } from "./Constants.js";
+import { CardSuits, CardValues } from "../configs/CardsConfigs.js";
 
 export class Helpers {
   static shuffleArray(array) {

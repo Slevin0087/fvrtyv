@@ -7,7 +7,6 @@ export class CardMovementSystem {
   constructor(eventManager, stateManager, audioManager) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
-    this.state = this.stateManager.state;
     this.audioManager = audioManager;
     this.cardContainers = GameConfig.cardContainers;
     this.textCardsFlipped = achCheckName.CARDS_FLIPPED;
@@ -25,19 +24,21 @@ export class CardMovementSystem {
   }
 
   async handleCardClick(card) {
-    console.log(this.stateManager.getIsPaused());
-
-    if (!card.faceUp || this.stateManager.getIsPaused()) return false;
-    console.log("после условий");
-
+    const isFaceUp = card.faceUp;
+    const isPaused = this.stateManager.getIsPaused();
+    if (!isFaceUp || isPaused) return false;
     const gameComponents = this.stateManager.getCardsComponents();
-    const usedAutoCollectCards = this.state.usedAutoCollectCards;
+    const usedAutoCollectCards = this.stateManager.getUsedAutoCollectCards();
     const audioCardMove = this.audioManager.getSound(AudioName.CARD_MOVE);
     this.cardMoveDuration = audioCardMove.duration * 10000; // поменять 10000 на 100, для теста поменял 100 на 10000
 
     // Проверка foundation
     for (let i = 0; i < gameComponents.foundations.length; i++) {
-      if (gameComponents.foundations[i].canAccept(card, gameComponents)) {
+      const isCanAccept = gameComponents.foundations[i].canAccept(
+        card,
+        gameComponents
+      );
+      if (isCanAccept) {
         // if (!usedAutoCollectCards) this.audioManager.play(AudioName.CLICK); // расскоментить, закомментил для теста
         const containerTo = gameComponents.foundations[i];
         const containerToName = this.cardContainers.foundation;
@@ -54,7 +55,8 @@ export class CardMovementSystem {
 
     // Проверка tableau
     for (let i = 0; i < gameComponents.tableaus.length; i++) {
-      if (gameComponents.tableaus[i].canAccept(card)) {
+      const isCanAccept = gameComponents.tableaus[i].canAccept(card);
+      if (isCanAccept) {
         // if (!usedAutoCollectCards) this.audioManager.play(AudioName.CLICK); // расскоментить, закомментил для теста
         const containerTo = gameComponents.tableaus[i];
         const containerToName = this.cardContainers.tableau;
@@ -75,18 +77,8 @@ export class CardMovementSystem {
 
   async handleJokerCard(jokerCard, tableaus) {
     for (let i = 0; i < tableaus.length; i++) {
-      console.log('handleJokerCard');
-      
-      // if (tableaus[i].isEmpty()) {
-      //   await this.eventManager.emitAsync(
-      //     GameEvents.JOKER_CARD_MOVE,
-      //     jokerCard,
-      //     tableaus[i]
-      //   );
-      // }
-      if (tableaus[i].canAccept(jokerCard)) {
-        console.log('вввввввввв');
-        
+      const isCanAccept = tableaus[i].canAccept(jokerCard);
+      if (isCanAccept) {
         const containerTo = tableaus[i];
         const containerToName = this.cardContainers.tableau;
         await this.eventManager.emitAsync(GameEvents.CARD_MOVE, {
@@ -103,7 +95,8 @@ export class CardMovementSystem {
 
   async isCardMoveToFoundations(card, gameComponents) {
     for (let i = 0; i < gameComponents.foundations.length; i++) {
-      if (gameComponents.foundations[i].canAccept(card, gameComponents)) {
+      const isCanAccept = gameComponents.foundations[i].canAccept(card, gameComponents)
+      if (isCanAccept) {
         this.audioManager.play(AudioName.CLICK);
         const containerTo = gameComponents.foundations[i];
         const containerToName = this.cardContainers.foundation;
@@ -147,8 +140,6 @@ export class CardMovementSystem {
   }
 
   removeCardFromSource(card, source, elementFrom) {
-    console.log("removeCardFromSource source: ", source);
-
     if (source.startsWith(this.cardContainers.tableau)) {
       return elementFrom.removeCardsFrom(card);
     } else if (source.startsWith(this.cardContainers.foundation)) {

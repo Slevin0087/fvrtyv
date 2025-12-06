@@ -1,61 +1,50 @@
 import { GameEvents } from "../../utils/Constants.js";
+import { CardValues } from "../../configs/CardsConfigs.js";
 
 export class ScoringSystem {
   constructor(eventManager, stateManager, gameModesManager) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
     this.gameModesManager = gameModesManager;
+    this.pointsMap = this.initPointsMap();
+    console.log("this.pointsMap: ", this.pointsMap);
 
     this.setupEventListeners();
   }
 
   setupEventListeners() {
-    this.eventManager.on(GameEvents.ADD_POINTS, (points) =>
-      this.addPoints(points)
+    this.eventManager.on(GameEvents.ADD_POINTS, (score) =>
+      this.addScores(score)
     );
   }
 
-  addPoints(score) {
-    // const calculated = this.calculatePointsWithDealingCards(score);
+  initPointsMap() {
+    const result = {};
+    CardValues.forEach((value, index) => {
+      result[value] = index + 1;
+    });
+    this.pointsMap = result;
+    return this.pointsMap;
+  }
+
+  addScores(score) {
     this.stateManager.updateScore(score);
     return score;
   }
 
-  calculatePoints(score) {
-    const { difficulty } = this.stateManager.state.game;
-    const multiplier = {
-      easy: 1.2,
-      normal: 1.0,
-      hard: 0.8,
-    }[difficulty];
-    return Math.round(score * multiplier);
+  subtractScores(score) {
+    this.stateManager.downdateScore(score);
+    return score;
   }
 
-  calculatePointsWithDealingCards(score, cardValue, operator = "+") {
+  calculateScoresWithDealingCards(score, cardValue) {
     const scoreUp = this.getPoints(cardValue) + score;
-    console.log('scoreUp: ', scoreUp);
-    
     const dealingCards = this.stateManager.getDealingCards();
-    const resultScore = Math.round(scoreUp * dealingCards)
-    return operator === "+" ? resultScore : -resultScore;
+    const resultScore = Math.round(scoreUp * dealingCards);
+    return resultScore;
   }
 
   getPoints(value) {
-    const pointsMap = {
-      "A": 1,
-      "2": 2,
-      "3": 3,
-      "4": 4,
-      "5": 5,
-      "6": 6,
-      "7": 7,
-      "8": 8,
-      "9": 9,
-      "10": 10,
-      "J": 10,
-      "Q": 10,
-      "K": 10,
-    };
-    return pointsMap[value] || 0;
+    return this.pointsMap[value] || 0;
   }
 }

@@ -9,7 +9,7 @@ import { Joker } from "../core/Joker.js";
 export class UIGamePage extends UIPage {
   constructor(eventManager, stateManager, gameModesManager, translator) {
     super(eventManager, stateManager, "game-interface");
-    this.gameModesManager = gameModesManager
+    this.gameModesManager = gameModesManager;
     this.state = stateManager.state;
     this.translator = translator;
     this.countHintUsedForIncrement = PlayerConfigs.hint.countUsedForIncrement;
@@ -146,6 +146,7 @@ export class UIGamePage extends UIPage {
 
     this.elements.undoBtn.onclick = async () => {
       if (this.stateManager.getIsUndoCardAnimation()) return;
+      if (this.stateManager.getIsRunning()) return;
       await this.eventManager.emitAsync(GameEvents.UNDO_MOVE);
       this.upUndoCounter(this.stateManager.getLastMovesLengths());
     };
@@ -379,7 +380,12 @@ export class UIGamePage extends UIPage {
   }
 
   upUndoCounter(n) {
-    this.elements.undoCounter.textContent = n;
+    // this.elements.undoCounter.textContent = n;
+    this.elements.undoCounter.innerHTML = n;
+  }
+
+  setInfinityUndoCounter() {
+    this.elements.undoCounter.innerHTML = "&#8734;";
   }
 
   upHintCounter(n) {
@@ -511,8 +517,8 @@ export class UIGamePage extends UIPage {
   }
 
   hintNotif(dataI18n) {
-    console.log('hintNotif');
-    
+    console.log("hintNotif");
+
     if (this.hintNotifyShowTimerId) clearTimeout(this.hintNotifyShowTimerId);
     this.elements.notifDivBottom.innerHTML = "";
     const p = document.createElement("p");

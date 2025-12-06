@@ -57,7 +57,7 @@ export class UndoSystem {
   }
 
   async handleUndo() {
-    if (!this.state.game.isRunning) return;
+    if (!this.stateManager.getIsRunning()) return;
     if (this.stateManager.getLastMovesLengths() === 0) {
       this.audioManager.play(AudioName.INFO);
       return;
@@ -315,8 +315,6 @@ export class UndoSystem {
   }
 
   updateLastMoves(lastMove) {
-    console.log("lastMove: ", lastMove);
-
     const cards = lastMove.map(({ card }) => card);
 
     const isUndoCards = cards.every((card) => {

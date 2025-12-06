@@ -387,9 +387,6 @@ export class DragAndDrop {
   }
 
   getCards(source, gameComponents) {
-    console.log("getCards source:", source);
-
-    // let cardElement = [];
     if (source.startsWith(this.cardContainers.tableau)) {
       const index = parseInt(source.split("-")[1]);
       gameComponents.tableaus[index].cards.forEach((card) => {
@@ -409,14 +406,11 @@ export class DragAndDrop {
     } else if (source.startsWith(this.cardContainers.waste)) {
       const card = gameComponents.waste.getTopCard();
 
-      //   gameComponents.waste.cards.forEach((card) => {
       if (card.domElement === this.currentDraggingCard) {
         this.cards = [card];
       }
-      //   });
       return this.cards;
     }
-    // return cardElement;
   }
 
   async moveFunction({ targetSource, containerTo, containerToName }) {
@@ -429,28 +423,24 @@ export class DragAndDrop {
       containerTo.addCard(card);
       containerTo.element.append(card.domElement);
       await this.animateTo(card);
-      if (
-        containerToName === GameConfig.cardContainers.foundation ||
-        this.currentDraggingCardSource.startsWith(
-          GameConfig.cardContainers.foundation
-        )
-      ) {
+      const isFoundationName =
+        containerToName === GameConfig.cardContainers.foundation;
+      const isSourceFoundation = this.currentDraggingCardSource.startsWith(
+        GameConfig.cardContainers.foundation
+      );
+      if (isFoundationName || isSourceFoundation) {
         const score =
           this.gameModesManager.getCurrentModeScoring().moveToFoundation;
         let calculatedScore = 0;
         let operator = "";
-        if (containerToName === GameConfig.cardContainers.foundation) {
+        if (isFoundationName) {
           operator = this.addition;
           this.stateManager.incrementStat(
             this.textToFoundationCheckAchievements,
             this.typeToFoundationCheckAchievements
           );
           this.audioManager.play(AudioName.UP_SCORE);
-        } else if (
-          this.currentDraggingCardSource.startsWith(
-            GameConfig.cardContainers.foundation
-          )
-        ) {
+        } else if (isSourceFoundation) {
           operator = this.subtraction;
         }
         calculatedScore = this.scoringSystem.calculatePointsWithDealingCards(
@@ -461,11 +451,10 @@ export class DragAndDrop {
         this.scoringSystem.addPoints(calculatedScore);
         Animator.showPointsAnimation(card, calculatedScore, operator);
       }
-      if (
-        this.stateManager
-          .getCardsComponents()
-          .foundations.every((f) => f.isComplete())
-      ) {
+      const isFoundationsComplete = this.stateManager
+        .getCardsComponents()
+        .foundations.every((f) => f.isComplete());
+      if (isFoundationsComplete) {
         this.eventManager.on(GameEvents.HANDLE_WIN);
       }
 
@@ -492,16 +481,19 @@ export class DragAndDrop {
         this.eventManager.emit(GameEvents.IS_FACE_DOWN_CARD, openCard);
       }
     }
-    const lastMove = [
-      {
-        card: this.cards[0],
-        from: this.currentDraggingCardSource,
-        to: targetSource,
-      },
-    ];
-    this.eventManager.emit(GameEvents.UP_LAST_MOVE, lastMove);
-    this.stateManager.updateMoves(this.numberMoves);
-    this.eventManager.emit(GameEvents.UP_MOVES);
+    const isUpLastMoves = this.gameModesManager.getIsUpLastMoves();
+    if (isUpLastMoves) {
+      const lastMove = [
+        {
+          card: this.cards[0],
+          from: this.currentDraggingCardSource,
+          to: targetSource,
+        },
+      ];
+      this.eventManager.emit(GameEvents.UP_LAST_MOVE, lastMove);
+      this.stateManager.updateMoves(this.numberMoves);
+      this.eventManager.emit(GameEvents.UP_MOVES);
+    }
     this.resetDragState();
     return;
   }

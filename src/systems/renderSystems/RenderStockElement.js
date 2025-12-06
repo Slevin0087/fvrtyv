@@ -64,20 +64,19 @@ export class RenderStockElement {
 
   //////////// handleStockElement Срабатывает при клике по stock эелементу
   async handleStockElement(stock, waste) {
-    if (
-      // !this.isClickAllowed ||
-      this.stateManager.getIsAnimateCardFromStockToWaste() ||
-      !this.stateManager.getIsRunning() ||
-      this.stateManager.getIsDealingCardsAnimation()
-    ) {
-      return; // Если клики запрещены или выполняется перемещение карты из waste,
-      //  то ничего не делаем
+
+    const isAnimate = this.stateManager.getIsAnimateCardFromStockToWaste();
+    const isRunning = this.stateManager.getIsRunning();
+    const isDelingAnimate = this.stateManager.getIsDealingCardsAnimation();
+    
+    if (isAnimate || !isRunning || isDelingAnimate) {
+      return; // Если клики запрещены или выполняется перемещение карты из waste, то ничего не делаем
     }
+    if (!this.gameModesManager.getIsRedeals()) return;
     if (!this.stateManager.getPlayerFirstCardClick()) {
       this.stateManager.setPlayerFirstCardClick(true);
       this.eventManager.emit(GameEvents.START_PLAY_TIME, Date.now());
-    }    
-    if (!this.gameModesManager.getIsRedeals()) return;
+    }
     if (stock.stockCardPosition === 0) {
       this.gameModesManager.upMaxRedealsCounts();
       this.gameModesManager.setIsRedeals();
@@ -90,11 +89,14 @@ export class RenderStockElement {
       return;
     } else if (stock.stockCardPosition < 0) {
       stock.spanElement.textContent = "↺";
-      this.eventManager.emit(GameEvents.RESET_LAST_MOVES);
-      this.eventManager.emit(
-        GameEvents.UP_UNDO_CONTAINER,
-        this.stateManager.getLastMovesLengths()
-      );
+      const isUpLastMoves = this.gameModesManager.getIsUpLastMoves();
+      if (isUpLastMoves) {
+        this.eventManager.emit(GameEvents.RESET_LAST_MOVES);
+        this.eventManager.emit(
+          GameEvents.UP_UNDO_CONTAINER,
+          this.stateManager.getLastMovesLengths()
+        );
+      }
       // this.isClickAllowed = false;
       stock.recycleWaste(waste);
       this.renderStockCards(stock);
@@ -107,12 +109,12 @@ export class RenderStockElement {
     // this.isClickAllowed = false;
     const nOfCards = this.stateManager.getDealingCards(); // СЕЙЧАС ЭТО РАВНО 3
     const nTopCards = stock.getNTopCards(nOfCards);
-    console.log("nTopCards: ", nTopCards);
     let topThreeCards = [];
     let oldOffsetsTopThreeCards = [];
     if (nTopCards) {
       this.stateManager.setIsAnimateCardFromStockToWaste(true);
       let lastMovesForStock = []; // Массив для дальнейшего использования в отменах хода, где карты были перемещены из stock в waste
+      let isUpLastMoves = this.gameModesManager.getIsUpLastMoves();
       this.eventManager.emit(GameEvents.AUDIO_CARD_CLICK);
       const nTopCardsReverse = nTopCards.toReversed();
 
@@ -152,12 +154,14 @@ export class RenderStockElement {
 
         // Добавление каждой карты в массив lastMovesForStock,
         // чтобы в дальнейшем использовать отдельно для UndoSystem(отмена хода)
-        lastMovesForStock.push({
-          card,
-          from: stock.type,
-          to: waste.type,
-        });
-
+        isUpLastMoves = this.gameModesManager.getIsUpLastMoves();
+        if (isUpLastMoves) {
+          lastMovesForStock.push({
+            card,
+            from: stock.type,
+            to: waste.type,
+          });
+        }
         await this.logicSystemsInit.handleCardMove({
           card,
           containerToIndex: 0,
@@ -190,11 +194,13 @@ export class RenderStockElement {
         }
       }
 
-      const lastMove = lastMovesForStock.toReversed();
-      this.logicSystemsInit.undoSystem.updateLastMoves(lastMove);
+      if (isUpLastMoves) {
+        const lastMove = lastMovesForStock.toReversed();
+        this.logicSystemsInit.undoSystem.updateLastMoves(lastMove);
 
-      this.stateManager.updateMoves(this.numberMoves);
-      this.eventManager.emit(GameEvents.UP_MOVES);
+        this.stateManager.updateMoves(this.numberMoves);
+        this.eventManager.emit(GameEvents.UP_MOVES);
+      }
       const wasteTopCard = waste.getTopCard();
 
       if (wasteTopCard) {
