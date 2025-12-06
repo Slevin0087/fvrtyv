@@ -77,7 +77,7 @@ export class LogicSystemsInit {
       this.scoringSystem,
       this.audioManager
     );
-    this.wasteSystem = new WasteSystem(this.eventManager, this.stateManager);
+    this.wasteSystem = new WasteSystem(this.eventManager, this.stateManager, this.audioManager);
     this.dragAndDrop = new DragAndDrop(
       this.eventManager,
       this.stateManager,

@@ -60,44 +60,18 @@ export class AnimationSystem {
     });
 
     this.eventManager.onAsync(GameEvents.CARD_FLIP, async (card) => {
-      this.cardFlipDuration = this.audioManager.getSound(
-        AudioName.CARD_FLIP
-      ).duration();
+      this.cardFlipDuration = this.getCardFlipDuration();
+      console.log("this.cardFlipDuration: ", this.cardFlipDuration);
+
       await this.animateCardFlip(
         card,
         this.degsCardFlip,
-        this.cardFlipDuration
-      );
-    });
-
-    this.eventManager.on(GameEvents.CARD_FLIP, async (card) => {
-      console.log("ddddddddddddddddd");
-
-      this.cardFlipDuration = this.audioManager.getSound(
-        AudioName.CARD_FLIP
-      ).duration();
-      await this.animateCardFlip(
-        card,
-        this.degsCardFlip,
-        this.cardFlipDuration
-      );
-    });
-
-    this.eventManager.on(GameEvents.BACK_CARD_FLIP, async (card) => {
-      this.cardFlipDuration = this.audioManager.getSound(
-        AudioName.CARD_FLIP
-      ).duration();
-      await this.animateBackCardFlip(
-        card,
-        this.degsBackCardFlip,
         this.cardFlipDuration
       );
     });
 
     this.eventManager.onAsync(GameEvents.BACK_CARD_FLIP, async (card) => {
-      this.cardFlipDuration = this.audioManager.getSound(
-        AudioName.CARD_FLIP
-      ).duration();
+      this.cardFlipDuration = this.getCardFlipDuration();
       await this.animateBackCardFlip(
         card,
         this.degsBackCardFlip,
@@ -105,74 +79,29 @@ export class AnimationSystem {
       );
     });
 
-    this.eventManager.on(
-      GameEvents.ANIMATE_CARD_MOVE,
-      (card, source, elementFrom, containerTo, movementSystem) => {
-        Animator.animateCardMove(
-          card,
-          source,
-          elementFrom,
-          containerTo,
-          movementSystem,
-          this.cardMoveDuration
-        );
-      }
-    );
-
-    this.eventManager.on(
-      GameEvents.ANIMATE_UNDO_TO_WASTE,
-      (card, toElement) => {
-        this.animateCardToWaste(card, toElement);
-      }
-    );
-
-    this.eventManager.on(
-      GameEvents.ANIMATE_CARD_TO_WASTE,
-      async (card, toElement) => {
-        await this.animateCardToWaste(card, toElement);
-
-        await new Promise((resolve) =>
-          setTimeout(resolve, this.wasteCardFlip * 1000)
-        );
-
-        await this.animateCardFlip(card, this.degsCardFlip, this.wasteCardFlip);
-      }
-    );
-
-    this.eventManager.on(
-      GameEvents.ANIMATE_CARD_WASTE_STOCK,
-      (card, toElement) => {
-        this.animateCardFromWaste(card, toElement);
-      }
-    );
-
-    // this.eventManager.on(GameEvents.UI_ANIMATE_DEAL_CARDS, () => this.dealCardsAnimation());
-
     this.eventManager.on(GameEvents.UI_ANIMATE_WIN, () =>
       this.playWinAnimation()
     );
 
-    this.eventManager.onAsync(GameEvents.ANIMATE_JOKER_FLIP, async (jokerCard) => {
-      this.cardFlipDuration = this.audioManager.getSound(
-        AudioName.CARD_FLIP
-      ).duration();
-      await this.animateJokerCardFlip(
-        jokerCard,
-        this.degsCardFlip,
-        this.cardFlipDuration
-      );
-    });
+    this.eventManager.onAsync(
+      GameEvents.ANIMATE_JOKER_FLIP,
+      async (jokerCard) => {
+        this.cardFlipDuration = this.getCardFlipDuration();
+        await this.animateJokerCardFlip(
+          jokerCard,
+          this.degsCardFlip,
+          this.cardFlipDuration
+        );
+      }
+    );
 
-    this.eventManager.on(GameEvents.SET_BG_FOR_JOKER_ELEMENT, (jokerElement, faceStyles) => {
-      this.setBgForJokerElement(jokerElement, faceStyles)
-    })
+    this.eventManager.on(
+      GameEvents.SET_BG_FOR_JOKER_ELEMENT,
+      (jokerElement, faceStyles) => {
+        this.setBgForJokerElement(jokerElement, faceStyles);
+      }
+    );
   }
-
-  // registerComponents() {
-  //   this.components = {
-  //     animator: Animator(),
-  //   }
-  // }
 
   dealCardsAnimation() {
     const tableauElements = [];
@@ -182,80 +111,6 @@ export class AnimationSystem {
     });
     Animator.dealCardsAnimation(stockElement, tableauElements);
   }
-
-  // animateCardMove(card, fromId, toId, callback) {
-  //   const animation = async () => {
-  //     this.isAnimating = true;
-
-  //     const fromElement = document.getElementById(fromId);
-  //     const toElement = document.getElementById(toId);
-  //     const cardElement = card.cardEl;
-
-  //     if (!fromElement || !toElement || !cardElement) {
-  //       console.error("Animation elements not found");
-  //       this.isAnimating = false;
-  //       return;
-  //     }
-
-  //     // Сохраняем исходное положение
-  //     const originalPosition = {
-  //       parent: cardElement.parentNode,
-  //       zIndex: cardElement.style.zIndex,
-  //       transform: cardElement.style.transform,
-  //     };
-
-  //     // Подготовка к анимации
-  //     cardElement.style.zIndex = "1000";
-  //     document.body.appendChild(cardElement);
-
-  //     // Анимация перемещения
-  //     await Animator.move({
-  //       element: cardElement,
-  //       from: fromElement,
-  //       to: toElement,
-  //       duration: 300,
-  //     });
-
-  //     // Возвращаем карту в DOM
-  //     if (callback) callback();
-
-  //     // Восстанавливаем исходные стили
-  //     cardElement.style.zIndex = originalPosition.zIndex;
-  //     cardElement.style.transform = originalPosition.transform;
-
-  //     this.isAnimating = false;
-  //     this.processQueue();
-  //   };
-
-  //   this.addToQueue(animation);
-  // }
-
-  // animateCardFlip(card, backClass, faceClass) {
-  //   // console.log("в аниматоре");
-
-  //   const animation = async () => {
-  //     this.isAnimating = true;
-
-  //     await Animator.flipCard(card, backClass, faceClass);
-
-  //     this.isAnimating = false;
-  //     this.processQueue();
-  //   };
-
-  //   this.addToQueue(animation);
-  // }
-
-  // async animateCardToWaste(card, stock, backClass, faceClass) {
-  //   Animator.animateCardToWaste(wasteCard, stock);
-  //   setTimeout(() => {
-  //     this.animateCardFlip(wasteCard, backClass, faceClass);
-  //     setTimeout(() => {
-  //       const wasteOverlap =
-  //         (stock.wasteElement.childNodes.length - 1) * stock.stockOverlap;
-  //       wasteCard.domElement.style.transform = `translateX(${wasteOverlap}px) translateY(${-wasteOverlap}px)`;
-  //     }, 300);
-  //   }, this.cardStockFlipDuration);
-  // }
 
   async animateCardToWaste(card, toElement) {
     await Animator.animateCardToWaste(card, toElement);
@@ -313,16 +168,7 @@ export class AnimationSystem {
       if (this.stateManager.getSoundEnabled()) {
         const audioCardMove = this.audioManager.getSound(AudioName.CARD_FLIP);
 
-        // const audioPlaySpeed =
-        //   this.startMoveSpeed / (audioCardMove.duration * 100);
-
-        // audioCardMove.playbackRate = audioPlaySpeed;
-
-        const promiseAudio = audioCardMove.play()
-        // .catch((error) => {
-        //   console.warn("Звук не воспроизведён:", error.name);
-        //   return Promise.resolve();
-        // });
+        const promiseAudio = audioCardMove.play();
 
         await Promise.all([promiseAudio, promiseAnimate]);
       } else {
@@ -356,7 +202,7 @@ export class AnimationSystem {
             this.eventManager.emit(GameEvents.RESET_CARD_BG_IMAGE, card);
           }
           cardDomElement.classList.add("joker-card");
-          this.setBgForJokerElement(cardDomElement, faceStyle)
+          this.setBgForJokerElement(cardDomElement, faceStyle);
         },
         deg,
         this.eventManager,
@@ -366,16 +212,7 @@ export class AnimationSystem {
       if (this.stateManager.getSoundEnabled()) {
         const audioCardMove = this.audioManager.getSound(AudioName.CARD_FLIP);
 
-        // const audioPlaySpeed =
-        //   this.startMoveSpeed / (audioCardMove.duration * 100);
-
-        // audioCardMove.playbackRate = audioPlaySpeed;
-
-        const promiseAudio = audioCardMove.play()
-        // .catch((error) => {
-        //   console.warn("Звук не воспроизведён:", error.name);
-        //   return Promise.resolve();
-        // });
+        const promiseAudio = audioCardMove.play();
 
         await Promise.all([promiseAudio, promiseAnimate]);
       } else {
@@ -390,8 +227,8 @@ export class AnimationSystem {
   }
 
   setBgForJokerElement(jokerElement, faceStyle) {
-    console.log('faceStyle: ', faceStyle);
-    
+    console.log("faceStyle: ", faceStyle);
+
     if (faceStyle.bgType === "images") {
       jokerElement.style.backgroundImage = `url(${faceStyle.previewImage.joker})`;
       const bgPositions = Helpers.calculateCardBackPosition(faceStyle);
@@ -441,11 +278,7 @@ export class AnimationSystem {
       );
       if (this.stateManager.getSoundEnabled()) {
         const audioCardMove = this.audioManager.getSound(AudioName.CARD_FLIP);
-        const promiseAudio = audioCardMove.play()
-        // .catch((error) => {
-        //   console.warn("Звук не воспроизведён:", error.name);
-        //   return Promise.resolve();
-        // });
+        const promiseAudio = audioCardMove.play();
 
         await Promise.all([promiseAudio, promiseAnimate]);
       } else {
@@ -542,5 +375,12 @@ export class AnimationSystem {
       const nextAnimation = this.animationsQueue.shift();
       nextAnimation();
     }
+  }
+
+  getCardFlipDuration() {
+    const audioDuration = this.audioManager
+      .getSound(AudioName.CARD_FLIP)
+      .duration();
+    return audioDuration ?? 136;
   }
 }

@@ -229,58 +229,7 @@ export class UndoSystem {
         fromType,
         this.cardMoveDuration
       );
-      // // this.eventManager.emit(GameEvents.BACK_CARD_FLIP, card);
-      // const asyncBackCardFlip = this.eventManager.emitAsync(
-      //   GameEvents.BACK_CARD_FLIP,
-      //   card
-      // );
-      // await asyncBackCardFlip;
-
-      // const moveToStock = this.eventManager.emitAsync(GameEvents.CARD_MOVE, {
-      //   card,
-      //   containerToIndex: 0,
-      //   containerTo,
-      //   containerToName: fromType,
-      // });
-
-      // await moveToStock;
-
-      // //////////////////// RESET подписок на события /////////////////////////
-      // this.eventManager.emit(
-      //   GameEvents.RESET_ONPOINTERDOWN_TO_CARD,
-      //   card.domElement
-      // );
-      // this.eventManager.emit(
-      //   GameEvents.RESET_ONPOINTERMOVE_TO_CARD,
-      //   card.domElement
-      // );
-      // this.eventManager.emit(
-      //   GameEvents.RESET_ONPOINTERUP_TO_CARD,
-      //   card.domElement
-      // );
-      ////////////////////////////////////
-
-      // setTimeout(() => {
-      //   this.eventManager.emit(GameEvents.CARD_MOVE, {
-      //     card,
-      //     containerToIndex: 0,
-      //     containerTo,
-      //     containerToName: fromType,
-      //   });
-      // }, UIConfig.animations.cardFlipDuration * 2000);
-
-      // this.eventManager.emit(
-      //   GameEvents.ANIMATE_UNDO_TO_WASTE,
-      //   card,
-      //   containerTo.element
-      // );
-      // this.eventManager.emit(
-      //   GameEvents.ANIMATE_CARD_WASTE_STOCK,
-      //   card,
-      //   toElement.element,
-      // );
     }
-    // card.isUndo = false;
   }
 
   async backMoveCardsToStock(stock, card, fromType, cardMoveDuration) {

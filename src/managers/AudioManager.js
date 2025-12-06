@@ -88,7 +88,7 @@ export class AudioManager {
   /**
    * Создание звука с настройками
    */
-  createSound(name, path, volume = 0.5, poolSize = 1) {
+  createSound(name, path, volume = 0.5, poolSize = 3) {
     const sound = new Howl({
       src: [path],
       volume: volume,
@@ -115,7 +115,8 @@ export class AudioManager {
       volume: this.stateManager.getMusicVolume() || 0.5,
       loop: true,
       preload: true,
-      html5: true, // Для музыки лучше использовать HTML5 Audio
+      // html5: true, // Для музыки лучше использовать HTML5 Audio
+      html5: false,
       onplayerror: () => {
         console.log("Background music blocked - needs user interaction");
       },
