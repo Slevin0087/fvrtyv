@@ -306,7 +306,7 @@ export class AudioManager {
    */
   getSound(name) {
     const sound = this.sounds.get(name);
-    console.log('sound: ', sound.duration());
+    console.log('sound: ', sound);
     
     if (!sound) return null;
 
@@ -315,7 +315,8 @@ export class AudioManager {
       play: (options) => this.play(name, options),
       howl: sound,
       isLoaded: () => sound.state() === "loaded",
-      duration: () => sound.duration()
+      duration: () => sound.duration(),
+      // rate: (speed, soundId) => sound.rate(speed, soundId)
     };
   }
 
