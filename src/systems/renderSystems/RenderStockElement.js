@@ -50,11 +50,15 @@ export class RenderStockElement {
     });
   }
 
-  render(stock, waste) {
+  async render(stock, waste) {
     this.gamePageElements.stockDivEl.innerHTML = "";
     this.gamePageElements.stockDivEl.append(stock.element, waste.element);
     this.renderStockCards(stock);
-
+    const isSoundEnabled = this.stateManager.getSoundEnabled();
+    const audioCardMove = isSoundEnabled
+      ? this.logicSystemsInit.audioManager.getSound(AudioName.CARD_MOVE)
+      : null;
+    await Animator.animateShuffleCardsToStock(stock.cards, audioCardMove);
     // Добавление элементу stock события onclick
     stock.element.onclick = async () => {
       await this.handleStockElement(stock, waste);

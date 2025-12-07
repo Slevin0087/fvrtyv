@@ -170,7 +170,7 @@ export class GameInit {
       cardsComponents.tableaus
     );
 
-    this.renderStockElement.render(
+    await this.renderStockElement.render(
       cardsComponents.stock,
       cardsComponents.waste
     );

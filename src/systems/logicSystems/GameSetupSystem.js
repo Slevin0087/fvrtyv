@@ -42,11 +42,6 @@ export class GameSetupSystem {
       stockCards.push(card);
     }
     stock.addCards(stockCards);
-    const isSoundEnabled = this.stateManager.getSoundEnabled();
-    const audioCardMove = isSoundEnabled
-      ? this.audioManager.getSound(AudioName.CARD_MOVE)
-      : null;
-    await Animator.animateShuffleCardsToStock(stock.cards, audioCardMove);
   }
 
   async dealTableauCards(stock, tableaus) {
