@@ -597,7 +597,7 @@ export class UIGamePage extends UIPage {
     jokerSpanVideo.className = "joker-card-for-no-hints-span-video";
     btnsContainer.className = "game-over-and-no-hints-modal-btns";
     resultButton.className = "game-over-and-no-hints-modal-result-btn";
-    spanClose.textContent = "x";
+    spanClose.innerHTML = "&times;";
     jokerSpanVideo.textContent = UIGameUnicodeIcons.VIDEO;
     resultButton.setAttribute(
       "data-i18n",
