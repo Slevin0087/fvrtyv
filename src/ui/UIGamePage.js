@@ -533,12 +533,8 @@ export class UIGamePage extends UIPage {
     }, 3000);
   }
 
-  updateTime(time) {
-    console.log('time: ', time);
-    
+  updateTime(time) {   
     const hours = Math.floor(time / 3600);
-    // console.log("hours: ", hours);
-
     const minutes = Math.floor((time % 3600) / 60);
     const seconds = Math.floor(time % 60);
 
@@ -547,7 +543,6 @@ export class UIGamePage extends UIPage {
     if (hours > 0) {
       const formattedHours = hours.toString().padStart(2, "0");
       this.elements.timeEl.textContent = `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
-      // time = time % 3600; // Остаток времени после вычитания часов
     } else {
       this.elements.timeEl.textContent = `${formattedMinutes}:${formattedSeconds}`;
     }

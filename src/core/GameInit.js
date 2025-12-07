@@ -154,7 +154,7 @@ export class GameInit {
   stopTimeInterval() {
     if (this.timeInterval) {
       clearInterval(this.timeInterval);
-      this.setTimeInterval(null);
+      this.setTimeInterval();
     }
   }
 
