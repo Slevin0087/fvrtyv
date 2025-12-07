@@ -205,9 +205,9 @@ export class StateManager {
       this.setIsNoHints(boolean);
     });
 
-    this.eventManager.on(GameEvents.TIME_UPDATE, (time) => {
-      this.setTime(time);
-    });
+    // this.eventManager.on(GameEvents.TIME_UPDATE, (time) => { // не нужно, можно удалять, установка времени перенёс в gameModesManager
+    //   this.setTime(time);
+    // });
 
     this.eventManager.on(GameEvents.UP_FACE_DOWN_CARD, (card) =>
       this.pushFaceDownCard(card)

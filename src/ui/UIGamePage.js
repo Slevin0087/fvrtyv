@@ -337,7 +337,8 @@ export class UIGamePage extends UIPage {
 
   updateUI() {
     this.updateScore(this.stateManager.getScore());
-    this.updateTime(this.stateManager.getTime());
+    // this.updateTime(this.stateManager.getTime());
+    this.updateTime(this.gameModesManager.getPlayTime());
     this.updateMoves(this.stateManager.getMoves());
     this.upUndoCounter(this.stateManager.getLastMovesLengths());
     if (this.stateManager.getNeedVideoForHints()) {
@@ -533,6 +534,8 @@ export class UIGamePage extends UIPage {
   }
 
   updateTime(time) {
+    console.log('time: ', time);
+    
     const hours = Math.floor(time / 3600);
     // console.log("hours: ", hours);
 

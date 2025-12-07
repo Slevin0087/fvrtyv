@@ -124,7 +124,7 @@ export class LogicSystemsInit {
       return;
     if (!this.stateManager.getPlayerFirstCardClick()) {
       this.eventManager.emit(GameEvents.FIRST_CARD_CLICK);
-      this.eventManager.emit(GameEvents.START_PLAY_TIME, Date.now());
+      this.eventManager.emit(GameEvents.START_PLAY_TIME);
     }
     this.movementSystem.handleCardClick(card);
   }

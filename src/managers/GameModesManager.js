@@ -7,8 +7,9 @@ import {
 import { GameEvents } from "../utils/Constants.js";
 
 export class GameModesManager {
-  constructor(eventManager, storage) {
+  constructor(eventManager, stateManager, storage) {
     this.eventManager = eventManager;
+    this.stateManager = stateManager
     this.storage = storage;
     this.nameKey = GameModesNamesKeys.CURRENT_MODE;
     this.currentModeName = GameModesIds.CLASSIC;
@@ -19,6 +20,7 @@ export class GameModesManager {
     this.maxRedealsCounts = 0;
     this.isRedeals = true;
     this.isUpLastMoves = false;
+    this.playTime = 0;
     this.initState();
     this.calculateScore("moveToTableau");
   }
@@ -28,6 +30,7 @@ export class GameModesManager {
     this.initCurrentModeRules();
     this.initCurrentModeScoring();
     this.initIsUpLastMoves();
+    this.initPlayTime()
   }
 
   setupEventListeners() {}
@@ -129,6 +132,7 @@ export class GameModesManager {
     this.initCurrentModeRules();
     this.initCurrentModeScoring();
     this.initIsUpLastMoves();
+    this.initPlayTime()
     this.saveStorageCurrentModeName(modeName);
   }
 
@@ -150,7 +154,25 @@ export class GameModesManager {
     return this.getCurrentModeRules().maxUndos;
   }
 
+  getCurrentModeTimeLimit() {
+    return this.getCurrentModeRules().timeLimit;
+  }
+
   resetIsRedeals(boolean) {
-    this.isRedeals = boolean
+    this.isRedeals = boolean;
+  }
+
+  setPlayTime(time) {
+    this.playTime = time
+  }
+
+  getPlayTime() {
+    return this.playTime
+  }
+
+  initPlayTime() {
+    const timeLimit = this.getCurrentModeTimeLimit()
+    const resultTime = timeLimit ? timeLimit : 0
+    this.setPlayTime(resultTime)
   }
 }

@@ -80,7 +80,7 @@ export class RenderStockElement {
     if (!this.gameModesManager.getIsRedeals()) return;
     if (!this.stateManager.getPlayerFirstCardClick()) {
       this.stateManager.setPlayerFirstCardClick(true);
-      this.eventManager.emit(GameEvents.START_PLAY_TIME, Date.now());
+      this.eventManager.emit(GameEvents.START_PLAY_TIME);
     }
     if (stock.stockCardPosition === 0) {
       this.gameModesManager.upMaxRedealsCounts();

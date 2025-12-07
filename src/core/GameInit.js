@@ -41,7 +41,7 @@ export class GameInit {
     this.eventManager = new EventManager();
     this.storage = new Storage(this.eventManager);
     this.stateManager = new StateManager(this.eventManager, this.storage);
-    this.gameModesManager = new GameModesManager(this.eventManager, this.storage)
+    this.gameModesManager = new GameModesManager(this.eventManager, this.stateManager, this.storage)
     this.translator = new Translator();
     this.audioManager = new AudioManager(this.eventManager, this.stateManager);
     this.translator.changeLanguage(this.stateManager.getLanguage());
@@ -134,13 +134,20 @@ export class GameInit {
     this.startTimeInterval(this.startTime);
   }
 
-  startTimeInterval(time) {
+  startTimeInterval() {
     if (this.timeInterval) return; // Уже запущен
+    const isTimeLimit = this.gameModesManager.getCurrentModeTimeLimit()
+    const time = isTimeLimit ? isTimeLimit * 1000 + Date.now() : Date.now()
     this.updateStartTime(time);
     this.timeInterval = setInterval(() => {
-      const elapsed = (Date.now() - this.startTime) / 1000;
-      this.stateManager.setTime(elapsed);
+      const elapsed = isTimeLimit ? (this.startTime - Date.now()) / 1000 : (Date.now() - this.startTime) / 1000;
+      // this.stateManager.setTime(elapsed);
+      this.gameModesManager.setPlayTime(elapsed)
       this.eventManager.emit(GameEvents.TIME_UPDATE, elapsed);
+      if (isTimeLimit && elapsed <= 0) {
+        alert('время вышло')
+        this.stopTimeInterval()
+      }
     }, 100); // Обновление каждые 100мс (10 FPS)
   }
 
