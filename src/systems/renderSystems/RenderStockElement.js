@@ -64,7 +64,7 @@ export class RenderStockElement {
 
   //////////// handleStockElement Срабатывает при клике по stock эелементу
   async handleStockElement(stock, waste) {
-
+    this.soundAndShuffleAnimateCards(20);
     const isAnimate = this.stateManager.getIsAnimateCardFromStockToWaste();
     const isRunning = this.stateManager.getIsRunning();
     const isDelingAnimate = this.stateManager.getIsDealingCardsAnimation();
@@ -176,16 +176,16 @@ export class RenderStockElement {
           const audioCardMove = this.logicSystemsInit.audioManager.getSound(
             AudioName.CARD_MOVE
           );
-          const audioDuration = audioCardMove.duration()
+          const audioDuration = audioCardMove.duration();
           const duration = audioDuration ? audioDuration * 1000 : 250;
-          console.log('durationduration: ', duration);
-          
+          console.log("durationduration: ", duration);
+
           const promiseAnimate = Animator.animateCardFomStockToWaste(
             oldOffsetsTopThreeCards,
             duration
           );
           if (this.stateManager.getSoundEnabled()) {
-            const promiseAudio = audioCardMove.play()
+            const promiseAudio = audioCardMove.play();
             // .catch((error) => {
             //   console.warn("Звук не воспроизведён:", error.name);
             //   return Promise.resolve();
@@ -280,8 +280,11 @@ export class RenderStockElement {
 
   async shuffleCardsToStock(stock, waste) {
     if (stock.isEmpty() && waste.isEmpty()) return;
-
     this.stateManager.setIsDealingCardsAnimation(true);
+    const isSoundEnabled = this.stateManager.getSoundEnabled();
+    const audioCardMove = isSoundEnabled
+      ? this.logicSystemsInit.audioManager.getSound(AudioName.CARD_MOVE)
+      : null;
     if (stock.isEmpty() && !waste.isEmpty()) {
       const cards = waste.cards.toReversed();
       for (const card of cards) {
@@ -297,12 +300,13 @@ export class RenderStockElement {
       const shCards = Helpers.shuffleArray(stock.cards);
       stock.cards = [];
       stock.addCards(shCards);
-      await Animator.animateShuffleCardsToStock(stock.cards);
+      await Animator.animateShuffleCardsToStock(stock.cards, audioCardMove);
     } else if (!stock.isEmpty() && waste.isEmpty()) {
       const shCards = Helpers.shuffleArray(stock.cards);
       stock.cards = [];
       stock.addCards(shCards);
-      await Animator.animateShuffleCardsToStock(stock.cards);
+
+      await Animator.animateShuffleCardsToStock(stock.cards, audioCardMove);
     } else if (!stock.isEmpty() && !waste.isEmpty()) {
       const cards = waste.cards.toReversed();
       for (const card of cards) {
@@ -318,7 +322,7 @@ export class RenderStockElement {
       const shCards = Helpers.shuffleArray(stock.cards);
       stock.cards = [];
       stock.addCards(shCards);
-      await Animator.animateShuffleCardsToStock(stock.cards);
+      await Animator.animateShuffleCardsToStock(stock.cards, audioCardMove);
     }
     this.stateManager.setIsDealingCardsAnimation(false);
     this.eventManager.on(GameEvents.AUDIO_UP_ACH);
@@ -329,5 +333,14 @@ export class RenderStockElement {
 
   delay(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+
+  soundAndShuffleAnimateCards(length) {
+    const audioDuration = audioCardMove.duration();
+    for (let i = 0; i <= length; i++) {
+      const resultDuration = 600 + Math.random() * 400;
+      const resultDelay = i * 80;
+      console.log("resultDuration, resultDelay: ", resultDuration, resultDelay);
+    }
   }
 }

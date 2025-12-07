@@ -550,11 +550,14 @@ export class Animator {
     }
   }
 
-  static async animateShuffleCardsToStock(cards) {
+  static async animateShuffleCardsToStock(cards, audio = null) {
     const animations = cards.map((card, index) => {
       return new Promise((resolve, reject) => {
         const cardElement = card.domElement;
-
+        // let resultDuration = 600 + Math.random() * 400
+        let resultDuration = 200 + Math.random() * 400
+        let resultDelay = index * 40
+        
         const animate = cardElement.animate(
           [
             { transform: "translate(0, 0) rotate(0deg)", offset: 0 },
@@ -566,13 +569,21 @@ export class Animator {
             },
             { transform: "translate(0, 0) rotate(0deg)", offset: 1 },
           ],
-
+          
           {
-            duration: 600 + Math.random() * 400,
-            delay: index * 80,
+            duration: resultDuration,
+            delay: resultDelay,
             easing: "cubic-bezier(0.4, 0, 0.2, 1)",
           }
         );
+        
+        if (audio) {
+          const audioDuration = audio.duration()
+          const audioRate = (audioDuration * 1000) / resultDuration;
+          setTimeout(() => {
+            audio.play({ rate: audioRate })
+          }, resultDelay)
+        }
 
         animate.onfinish = () => {
           cardElement.style.transform = `translate(${card.positionData.offsetX}px, ${card.positionData.offsetY}px)`;

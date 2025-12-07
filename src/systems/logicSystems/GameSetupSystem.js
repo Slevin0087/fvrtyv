@@ -34,7 +34,7 @@ export class GameSetupSystem {
     );
   }
 
-  setCards(deck, stock) {
+  async setCards(deck, stock) {
     deck.reset();
     const stockCards = [];
     while (!deck.isEmpty()) {
@@ -42,6 +42,11 @@ export class GameSetupSystem {
       stockCards.push(card);
     }
     stock.addCards(stockCards);
+    const isSoundEnabled = this.stateManager.getSoundEnabled();
+    const audioCardMove = isSoundEnabled
+      ? this.audioManager.getSound(AudioName.CARD_MOVE)
+      : null;
+    await Animator.animateShuffleCardsToStock(stock.cards, audioCardMove);
   }
 
   async dealTableauCards(stock, tableaus) {
@@ -97,12 +102,11 @@ export class GameSetupSystem {
         const audioCardMove = this.audioManager.getSound(AudioName.CARD_MOVE);
 
         const audioPlaySpeed =
-          this.startMoveSpeed / (audioCardMove.duration() * 100);        
-        const promiseAudio = audioCardMove.play({ rate: audioPlaySpeed })
-        // .catch((error) => {
-        //   console.warn("Звук не воспроизведён:", error.name);
-        //   return Promise.resolve();
-        // });
+          // this.startMoveSpeed / (audioCardMove.duration() * 100);
+          (audioCardMove.duration() * 1000) / this.startMoveSpeed;
+        console.log("audioPlaySpeed: ", audioPlaySpeed);
+
+        const promiseAudio = audioCardMove.play({ rate: audioPlaySpeed });
 
         await Promise.all([promiseAudio, promiseAnimate]);
       } else {

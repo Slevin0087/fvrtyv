@@ -116,7 +116,7 @@ export class AudioManager {
       loop: true,
       preload: true,
       // html5: true, // Для музыки лучше использовать HTML5 Audio
-      html5: false,
+      // html5: false,
       onplayerror: () => {
         console.log("Background music blocked - needs user interaction");
       },
