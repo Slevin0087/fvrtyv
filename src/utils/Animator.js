@@ -246,7 +246,7 @@ export class Animator {
     });
   }
 
-  static flipCard(card, onHalfFlip, deg, eventManager, duration = 1) {
+  static flipCard(card, onHalfFlip, deg, duration = 1) {
     return new Promise((resolve, reject) => {
       const tl = gsap.timeline({
         onComplete: () => {

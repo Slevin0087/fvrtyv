@@ -61,8 +61,6 @@ export class AnimationSystem {
 
     this.eventManager.onAsync(GameEvents.CARD_FLIP, async (card) => {
       this.cardFlipDuration = this.getCardFlipDuration();
-      console.log("this.cardFlipDuration: ", this.cardFlipDuration);
-
       await this.animateCardFlip(
         card,
         this.degsCardFlip,
@@ -83,9 +81,7 @@ export class AnimationSystem {
       this.playWinAnimation()
     );
 
-    this.eventManager.onAsync(
-      GameEvents.ANIMATE_JOKER_FLIP,
-      async (jokerCard) => {
+    this.eventManager.onAsync(GameEvents.ANIMATE_JOKER_FLIP, async (jokerCard) => {
         this.cardFlipDuration = this.getCardFlipDuration();
         await this.animateJokerCardFlip(
           jokerCard,
@@ -127,8 +123,6 @@ export class AnimationSystem {
   }
 
   async animateCardFlip(card, deg, duration) {
-    console.log("duration: ", duration);
-
     if (!card.domElement || card.isAnimating) return;
     try {
       const cardDomElement = card.domElement;
@@ -136,7 +130,12 @@ export class AnimationSystem {
 
       card.isAnimating = true;
 
-      const promiseAnimate = Animator.flipCard(
+      if (this.stateManager.getSoundEnabled()) {
+        const audioCardMove = this.audioManager.getSound(AudioName.CARD_FLIP);
+        audioCardMove.play();
+      }
+
+      await Animator.flipCard(
         card,
         () => {
           // Колбэк на середине анимации (90 градусов)
@@ -161,19 +160,8 @@ export class AnimationSystem {
           cardDomElement.classList.add("card-front", card.color);
         },
         deg,
-        this.eventManager,
         duration
       );
-
-      if (this.stateManager.getSoundEnabled()) {
-        const audioCardMove = this.audioManager.getSound(AudioName.CARD_FLIP);
-
-        const promiseAudio = audioCardMove.play();
-
-        await Promise.all([promiseAudio, promiseAnimate]);
-      } else {
-        await promiseAnimate;
-      }
     } catch (error) {
       console.error("Card flip failed:", error);
       throw error;
@@ -183,8 +171,6 @@ export class AnimationSystem {
   }
 
   async animateJokerCardFlip(card, deg, duration) {
-    console.log("duration: ", duration);
-
     if (!card.domElement || card.isAnimating) return;
     try {
       const cardDomElement = card.domElement;
@@ -192,7 +178,11 @@ export class AnimationSystem {
 
       card.isAnimating = true;
 
-      const promiseAnimate = Animator.flipCard(
+      if (this.stateManager.getSoundEnabled()) {
+        const audioCardMove = this.audioManager.getSound(AudioName.CARD_FLIP);
+        audioCardMove.play();
+      }
+      await Animator.flipCard(
         card,
         () => {
           // Колбэк на середине анимации (90 градусов)
@@ -205,19 +195,8 @@ export class AnimationSystem {
           this.setBgForJokerElement(cardDomElement, faceStyle);
         },
         deg,
-        this.eventManager,
         duration
       );
-
-      if (this.stateManager.getSoundEnabled()) {
-        const audioCardMove = this.audioManager.getSound(AudioName.CARD_FLIP);
-
-        const promiseAudio = audioCardMove.play();
-
-        await Promise.all([promiseAudio, promiseAnimate]);
-      } else {
-        await promiseAnimate;
-      }
     } catch (error) {
       console.error("Card flip failed:", error);
       throw error;
@@ -227,8 +206,6 @@ export class AnimationSystem {
   }
 
   setBgForJokerElement(jokerElement, faceStyle) {
-    console.log("faceStyle: ", faceStyle);
-
     if (faceStyle.bgType === "images") {
       jokerElement.style.backgroundImage = `url(${faceStyle.previewImage.joker})`;
       const bgPositions = Helpers.calculateCardBackPosition(faceStyle);
@@ -241,13 +218,17 @@ export class AnimationSystem {
 
   async animateBackCardFlip(card, deg, duration) {
     if (!card.domElement || card.isAnimating) return;
-
     try {
       const { backStyle, faceStyle } = this.cardsSystem.getCardStyles();
       card.isAnimating = true;
       card.flip(false);
 
-      const promiseAnimate = Animator.flipCard(
+      if (this.stateManager.getSoundEnabled()) {
+        const audioCardMove = this.audioManager.getSound(AudioName.CARD_FLIP);
+        audioCardMove.play();
+      }
+
+      await Animator.flipCard(
         card,
         () => {
           // Колбэк на середине анимации (90 градусов)
@@ -276,14 +257,6 @@ export class AnimationSystem {
         this.eventManager,
         duration
       );
-      if (this.stateManager.getSoundEnabled()) {
-        const audioCardMove = this.audioManager.getSound(AudioName.CARD_FLIP);
-        const promiseAudio = audioCardMove.play();
-
-        await Promise.all([promiseAudio, promiseAnimate]);
-      } else {
-        await promiseAnimate;
-      }
       card.isAnimating = false;
     } catch (error) {
       throw new Error(error);
@@ -381,6 +354,6 @@ export class AnimationSystem {
     const audioDuration = this.audioManager
       .getSound(AudioName.CARD_FLIP)
       .duration();
-    return audioDuration ?? 136;
+    return audioDuration ?? 0.136;
   }
 }

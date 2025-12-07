@@ -317,7 +317,7 @@ export class AudioManager {
       howl: sound,
       isLoaded: () => sound.state() === "loaded",
       duration: () => sound.duration(),
-      // rate: (speed, soundId) => sound.rate(speed, soundId)
+      getRate: (soundId = null) => sound.rate(soundId),
     };
   }
 

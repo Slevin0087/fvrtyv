@@ -58,8 +58,9 @@ export class RenderStockElement {
     const audioCardMove = isSoundEnabled
       ? this.logicSystemsInit.audioManager.getSound(AudioName.CARD_MOVE)
       : null;
+    await this.delay(500);
     await Animator.animateShuffleCardsToStock(stock.cards, audioCardMove);
-    await this.delay(150)
+    await this.delay(150);
     // Добавление элементу stock события onclick
     stock.element.onclick = async () => {
       await this.handleStockElement(stock, waste);
