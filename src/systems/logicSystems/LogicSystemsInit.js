@@ -67,6 +67,7 @@ export class LogicSystemsInit {
     this.hintSystem = new HintSystem(
       this.eventManager,
       this.stateManager,
+      this.gameModesManager,
       this.audioManager,
       this.translator
     );

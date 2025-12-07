@@ -342,11 +342,12 @@ export class UIGamePage extends UIPage {
     this.updateTime(this.gameModesManager.getPlayTime());
     this.updateMoves(this.stateManager.getMoves());
     this.upUndoCounter(this.stateManager.getLastMovesLengths());
-    if (this.stateManager.getNeedVideoForHints()) {
-      this.upHintCounter(UIGameUnicodeIcons.VIDEO);
-    } else {
-      this.upHintCounter(this.stateManager.getHintCounterState() || 0);
-    }
+    // if (this.stateManager.getNeedVideoForHints()) {
+
+    // this.upHintCounter(this.stateManager.getHintCounterState() || 0);
+
+    this.upHintCounter(this.gameModesManager.getCurrentModeMaxHints() || 0);
+
     this.upAchievementIcon(this.stateManager.getAchievements().active.icon);
 
     console.log(
@@ -382,7 +383,6 @@ export class UIGamePage extends UIPage {
   }
 
   upUndoCounter(n) {
-    // this.elements.undoCounter.textContent = n;
     if (this.gameModesManager.getCurrentModeMaxUndos() === Infinity) {
       this.setInfinityUndoCounter();
     } else {
@@ -394,8 +394,19 @@ export class UIGamePage extends UIPage {
     this.elements.undoCounter.innerHTML = "&#8734;";
   }
 
+  setInfinityHintCounter() {
+    this.elements.hintCounter.innerHTML = "&#8734;";
+  }
+
   upHintCounter(n) {
-    this.elements.hintCounter.textContent = n;
+    const maxHints = this.gameModesManager.getCurrentModeMaxHints();
+    if (maxHints === Infinity) {
+      this.setInfinityHintCounter();
+    } else if (maxHints < Infinity && maxHints > 0) {
+      this.elements.hintCounter.innerHTML = n;
+    } else {
+      this.elements.hintCounter.innerHTML = UIGameUnicodeIcons.VIDEO;
+    }
   }
 
   upAchievementIcon(icon) {

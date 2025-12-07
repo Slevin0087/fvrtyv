@@ -6,9 +6,10 @@ import { H2 } from "./H2.js";
 import { Helpers } from "../../utils/Helpers.js";
 
 export class HintSystem {
-  constructor(eventManager, stateManager, audioManager, translator) {
+  constructor(eventManager, stateManager, gameModesManager, audioManager, translator) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
+    this.gameModesManager = gameModesManager
     this.state = this.stateManager.state;
     this.audioManager = audioManager;
     this.translator = translator;
@@ -29,19 +30,14 @@ export class HintSystem {
 
   async provide() {
     ///////////////////////// Расскоментить, для теста закомментил
-    if (
-      // this.state.hintCounterState === 0 ||
-      // this.state.hintCounterState < 0 ||
-      // this.state.player.hintQuantity === 0
-
-      this.state.hintCounterState < 2 ||
-      this.state.player.hintQuantity < 2
-    ) {
+    const hintsCount = this.gameModesManager.getMaxHintsCounts()
+    if (hintsCount) {
       this.eventManager.emit(
         GameEvents.UP_HINT_CONTAINER,
         UIGameUnicodeIcons.VIDEO
       );
-      this.eventManager.emit(GameEvents.NEED_VIDEO_FOR_HINTS, true);
+      this.gameModesManager.setNeedVideoForHints(true)
+      // this.eventManager.emit(GameEvents.NEED_VIDEO_FOR_HINTS, true);
       // this.audioManager.play(AudioName.INFO);
       // this.eventManager.emit(
       //   GameEvents.HINT_NOTIF,

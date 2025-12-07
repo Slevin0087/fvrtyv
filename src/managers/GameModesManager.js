@@ -21,6 +21,10 @@ export class GameModesManager {
     this.isRedeals = true;
     this.isUpLastMoves = false;
     this.playTime = 0;
+    this.maxHints = 0;
+    this.maxHintsCounts = 0;
+    this.isMaxHintLimit = false;
+    this.needVideoForHints = false;
     this.initState();
     this.calculateScore("moveToTableau");
     this.setupEventListeners();
@@ -31,6 +35,7 @@ export class GameModesManager {
     this.initCurrentModeRules();
     this.initCurrentModeScoring();
     this.initIsUpLastMoves();
+    this.initMaxHintsLimit()
     this.initPlayTime();
   }
 
@@ -141,6 +146,7 @@ export class GameModesManager {
     this.initCurrentModeRules();
     this.initCurrentModeScoring();
     this.initIsUpLastMoves();
+    this.initMaxHintsLimit()
     this.initPlayTime();
   }
 
@@ -149,6 +155,7 @@ export class GameModesManager {
     this.initCurrentModeRules();
     this.initCurrentModeScoring();
     this.initIsUpLastMoves();
+    this.initMaxHintsLimit()
     this.initPlayTime();
     this.saveStorageCurrentModeName(modeName);
   }
@@ -163,12 +170,30 @@ export class GameModesManager {
     }
   }
 
+  initMaxHintsLimit() {
+    this.maxHints = this.getCurrentModeMaxHints();
+    if (this.maxHints === Infinity) {
+      this.isMaxHintLimit = false;
+      return;
+    } else {
+      this.isMaxHintLimit = true;
+    }
+  }
+
   getIsUpLastMoves() {
     return this.isUpLastMoves;
   }
 
   getCurrentModeMaxUndos() {
     return this.getCurrentModeRules().maxUndos;
+  }
+
+  getCurrentModeMaxHints() {
+    return this.getCurrentModeRules().maxHints;
+  }
+
+  getMaxHints() {
+    return this.maxHints;
   }
 
   getCurrentModeTimeLimit() {
@@ -185,6 +210,18 @@ export class GameModesManager {
 
   getPlayTime() {
     return this.playTime;
+  }
+
+  getMaxHintsCounts() {
+    return this.maxHintsCounts
+  }
+
+  getNeedVideoForHints() {
+    return this.needVideoForHints
+  }
+
+  setNeedVideoForHints(boolean) {
+    this.needVideoForHints = boolean
   }
 
   initPlayTime() {
