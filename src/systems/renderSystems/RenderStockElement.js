@@ -59,6 +59,7 @@ export class RenderStockElement {
       ? this.logicSystemsInit.audioManager.getSound(AudioName.CARD_MOVE)
       : null;
     await Animator.animateShuffleCardsToStock(stock.cards, audioCardMove);
+    await this.delay(250)
     // Добавление элементу stock события onclick
     stock.element.onclick = async () => {
       await this.handleStockElement(stock, waste);
@@ -68,7 +69,6 @@ export class RenderStockElement {
 
   //////////// handleStockElement Срабатывает при клике по stock эелементу
   async handleStockElement(stock, waste) {
-    this.soundAndShuffleAnimateCards(20);
     const isAnimate = this.stateManager.getIsAnimateCardFromStockToWaste();
     const isRunning = this.stateManager.getIsRunning();
     const isDelingAnimate = this.stateManager.getIsDealingCardsAnimation();
@@ -322,7 +322,6 @@ export class RenderStockElement {
           this.backMoveCardsToStockDuration
         );
       }
-
       const shCards = Helpers.shuffleArray(stock.cards);
       stock.cards = [];
       stock.addCards(shCards);

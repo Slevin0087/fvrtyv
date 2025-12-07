@@ -77,8 +77,8 @@ export class Animator {
     movementSystem,
     duration = 3000
   ) {
-    console.log('animateCardMove duration: ', duration);
-    
+    console.log("animateCardMove duration: ", duration);
+
     const removedCards = movementSystem.removeCardFromSource(
       card,
       source,
@@ -256,7 +256,7 @@ export class Animator {
           reject(new Error("Card flip animation failed"));
         },
       });
-      
+
       // Первая половина анимации - поворот на 90 градусов
       tl.to(card.domElement, {
         rotationY: deg,
@@ -324,7 +324,7 @@ export class Animator {
 
     const pointsElement = document.createElement("div");
     pointsElement.className = "points-popup";
-    const textContent = operator === "+" ? `${operator}${points}` : `${points}`
+    const textContent = operator === "+" ? `${operator}${points}` : `${points}`;
     pointsElement.textContent = textContent;
 
     // 1. Позиционирование через transform + left/top (для iOS)
@@ -432,7 +432,7 @@ export class Animator {
       const timeline = gsap.timeline({
         onComplete: () => {
           // textElement.remove(); // Расскоментировать, для теста скрыл
-          textElement.textContent = ''
+          textElement.textContent = "";
           resolve();
         },
       });
@@ -555,9 +555,11 @@ export class Animator {
       return new Promise((resolve, reject) => {
         const cardElement = card.domElement;
         // let resultDuration = 600 + Math.random() * 400
-        let resultDuration = 200 + Math.random() * 400
-        let resultDelay = index * 40
-        
+        let resultDuration = 50 + Math.random() * 300;
+        console.log("resultDuration: ", resultDuration);
+
+        let resultDelay = index * 30;
+
         const animate = cardElement.animate(
           [
             { transform: "translate(0, 0) rotate(0deg)", offset: 0 },
@@ -569,20 +571,24 @@ export class Animator {
             },
             { transform: "translate(0, 0) rotate(0deg)", offset: 1 },
           ],
-          
+
           {
             duration: resultDuration,
             delay: resultDelay,
-            easing: "cubic-bezier(0.4, 0, 0.2, 1)",
+            // easing: "cubic-bezier(0.4, 0, 0.2, 1)",
+            // easing: 'ease-in'
+            easing: "ease-out",
           }
         );
-        
+
         if (audio) {
-          const audioDuration = audio.duration()
+          const audioDuration = audio.duration();
           const audioRate = (audioDuration * 1000) / resultDuration;
+          console.log("audioRate: ", audioRate);
+
           setTimeout(() => {
-            audio.play({ rate: audioRate })
-          }, resultDelay)
+            audio.play({ rate: audioRate });
+          }, resultDelay);
         }
 
         animate.onfinish = () => {
