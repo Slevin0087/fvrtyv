@@ -145,7 +145,6 @@ export class GameInit {
       this.gameModesManager.setPlayTime(elapsed)
       this.eventManager.emit(GameEvents.TIME_UPDATE, elapsed);
       if (isTimeLimit && elapsed <= 0) {
-        alert('время вышло')
         this.stopTimeInterval()
       }
     }, 100); // Обновление каждые 100мс (10 FPS)

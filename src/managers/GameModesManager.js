@@ -9,7 +9,7 @@ import { GameEvents } from "../utils/Constants.js";
 export class GameModesManager {
   constructor(eventManager, stateManager, storage) {
     this.eventManager = eventManager;
-    this.stateManager = stateManager
+    this.stateManager = stateManager;
     this.storage = storage;
     this.nameKey = GameModesNamesKeys.CURRENT_MODE;
     this.currentModeName = GameModesIds.CLASSIC;
@@ -23,6 +23,7 @@ export class GameModesManager {
     this.playTime = 0;
     this.initState();
     this.calculateScore("moveToTableau");
+    this.setupEventListeners();
   }
 
   initState() {
@@ -30,10 +31,14 @@ export class GameModesManager {
     this.initCurrentModeRules();
     this.initCurrentModeScoring();
     this.initIsUpLastMoves();
-    this.initPlayTime()
+    this.initPlayTime();
   }
 
-  setupEventListeners() {}
+  setupEventListeners() {
+    this.eventManager.on(GameEvents.RESET_MODES_STATE_FOR_NEW_GAME, () => {
+      this.resetForGameRestart();
+    });
+  }
 
   initCurrentModeName() {
     this.currentModeName =
@@ -127,12 +132,24 @@ export class GameModesManager {
     const mode = GameModesConfigs[this.currentModeName];
   }
 
+  resetForGameRestart() {
+    this.initPlayTime();
+  }
+
+  resetStatsForGameRestart() {
+    this.setCurrentModeName(modeName);
+    this.initCurrentModeRules();
+    this.initCurrentModeScoring();
+    this.initIsUpLastMoves();
+    this.initPlayTime();
+  }
+
   setAllDataCurrentMode(modeName) {
     this.setCurrentModeName(modeName);
     this.initCurrentModeRules();
     this.initCurrentModeScoring();
     this.initIsUpLastMoves();
-    this.initPlayTime()
+    this.initPlayTime();
     this.saveStorageCurrentModeName(modeName);
   }
 
@@ -163,16 +180,16 @@ export class GameModesManager {
   }
 
   setPlayTime(time) {
-    this.playTime = time
+    this.playTime = time;
   }
 
   getPlayTime() {
-    return this.playTime
+    return this.playTime;
   }
 
   initPlayTime() {
-    const timeLimit = this.getCurrentModeTimeLimit()
-    const resultTime = timeLimit ? timeLimit : 0
-    this.setPlayTime(resultTime)
+    const timeLimit = this.getCurrentModeTimeLimit();
+    const resultTime = timeLimit ? timeLimit : 0;
+    this.setPlayTime(resultTime);
   }
 }

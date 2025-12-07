@@ -260,6 +260,7 @@ export class UIGamePage extends UIPage {
     this.isRestartGameModalShow = false;
     this.eventManager.emit(GameEvents.STOP_PLAY_TIME);
     this.eventManager.emit(GameEvents.RESET_STATE_FOR_NEW_GAME);
+    this.eventManager.emit(GameEvents.RESET_MODES_STATE_FOR_NEW_GAME);
     await this.eventManager.emitAsync(GameEvents.GAME_RESTART);
     this.stateManager.setIsRunning(true);
     this.stateManager.setIsPaused(false);
@@ -382,7 +383,11 @@ export class UIGamePage extends UIPage {
 
   upUndoCounter(n) {
     // this.elements.undoCounter.textContent = n;
-    this.elements.undoCounter.innerHTML = n;
+    if (this.gameModesManager.getCurrentModeMaxUndos() === Infinity) {
+      this.setInfinityUndoCounter();
+    } else {
+      this.elements.undoCounter.innerHTML = n;
+    }
   }
 
   setInfinityUndoCounter() {
@@ -533,7 +538,7 @@ export class UIGamePage extends UIPage {
     }, 3000);
   }
 
-  updateTime(time) {   
+  updateTime(time) {
     const hours = Math.floor(time / 3600);
     const minutes = Math.floor((time % 3600) / 60);
     const seconds = Math.floor(time % 60);

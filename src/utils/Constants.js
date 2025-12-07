@@ -35,6 +35,7 @@ export const GameEvents = {
   RESET_ONPOINTERMOVE_TO_CARD: "reset:onpointermove:to:card",
   RESET_ONPOINTERUP_TO_CARD: "reset:onpointerup:to:card",
   RESET_STATE_FOR_NEW_GAME: "reset:state:for:new:game",
+  RESET_MODES_STATE_FOR_NEW_GAME: "reset:modes:state:for:new:game",
   RESET_CARD_BG_IMAGE: "reset:card:bg:image",
   SET_NAME_IN_INPUT: "set:name:in:input",
   SET_ACTIV_PAGE: "set:activ:page",
