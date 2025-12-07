@@ -558,7 +558,7 @@ export class Animator {
         let resultDuration = 50 + Math.random() * 300;
         console.log("resultDuration: ", resultDuration);
 
-        let resultDelay = index * 30;
+        let resultDelay = index * 20;
 
         const animate = cardElement.animate(
           [
