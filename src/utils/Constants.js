@@ -86,6 +86,7 @@ export const GameEvents = {
   AUDIO_CARD_CLICK: "audio:card:click",
   AUDIO_UP_ACH: "audio:up:ach",
   AUDIO_UP_SCORE: "audio:up:score",
+  AUDIO_SHOCK: "audio:shock",
   UI_ANIMATION_POINTS_EARNED: "ui:animation:points:earned",
   UI_ANIMATE_WIN: "ui:animate:win",
   UI_ANIMATE_DEAL_CARDS: "ui:animate:deal:cards",

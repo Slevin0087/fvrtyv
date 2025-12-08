@@ -5,6 +5,8 @@ import {
   GameModesConfigs,
 } from "../configs/GameModesConfogs.js";
 import { GameEvents } from "../utils/Constants.js";
+import { TimedModeSystem } from "../systems/logicSystems/TimedModeSystem.js";
+import { VegasModeSystem } from "../systems/logicSystems/VegasModeSystem.js";
 
 export class GameModesManager {
   constructor(eventManager, stateManager, storage) {
@@ -28,6 +30,11 @@ export class GameModesManager {
     this.initState();
     this.calculateScore("moveToTableau");
     this.setupEventListeners();
+  }
+
+  initComponents() {
+    this.timed = new TimedModeSystem(this.eventManager, this.stateManager)
+    this.vegas = new VegasModeSystem(this.eventManager, this.stateManager)
   }
 
   initState() {

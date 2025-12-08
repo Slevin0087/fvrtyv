@@ -199,6 +199,10 @@ export class AudioManager {
     return this.play(AudioName.CLICK, { volume: 0.3 });
   }
 
+  playShock() {
+    return this.play(AudioName.SHOCK, { volume: 0.5 });
+  }
+
   playWin() {
     return this.play(AudioName.WIN, { volume: 0.8 });
   }
@@ -257,6 +261,8 @@ export class AudioManager {
     // Основные звуки игры
     this.eventManager.on(GameEvents.AUDIO_CARD_CLICK, () => this.playClick());
 
+    this.eventManager.on(GameEvents.AUDIO_SHOCK, () => this.playShock());
+
     this.eventManager.on(GameEvents.AUDIO_CARD_FLIP, () => this.playCardFlip());
 
     this.eventManager.on(GameEvents.AUDIO_CARD_MOVE, () => this.playCardMove());
@@ -305,7 +311,7 @@ export class AudioManager {
    * Получение звука для внешнего использования
    */
   getSound(name) {
-    const sound = this.sounds.get(name);    
+    const sound = this.sounds.get(name);
     if (!sound) return null;
 
     return {

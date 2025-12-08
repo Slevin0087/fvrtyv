@@ -17,7 +17,6 @@ import { Animator } from "../../utils/Animator.js";
 import { achType, achCheckName } from "../../configs/AchievementsConfig.js";
 import { FoundationAnimation } from "../../utils/FoundationAnimation.js";
 import { GameModesIds } from "../../configs/GameModesConfogs.js";
-import { TimedModeSystem } from "./TimedModeSystem.js";
 
 export class LogicSystemsInit {
   constructor(
@@ -46,11 +45,6 @@ export class LogicSystemsInit {
   }
 
   setupSystems() {
-    this.timedModeSystem = new TimedModeSystem(
-      this.eventManager,
-      this.stateManager,
-      this.audioManager,
-    );
     this.setupSystem = new GameSetupSystem(
       this.eventManager,
       this.stateManager
@@ -169,7 +163,7 @@ export class LogicSystemsInit {
       console.log("isStock: ", isStock);
 
       if (!isStock) {
-        this.timedModeSystem.getCombo();
+        this.gameModesManager.timed.getCombo();
       }
     }
     const isWaste = this.getIsSource(source, GameConfig.cardContainers.waste);
