@@ -147,9 +147,7 @@ export class GameInit {
     if (this.timeInterval) return; // Уже запущен
     this.updateStartTime(time);
     this.timeInterval = setInterval(() => {
-      const elapsed = this.getElapsedForTime();
-      // console.log('elapsed: ', elapsed);
-      
+      const elapsed = this.getElapsedForTime();      
       this.gameModesManager.setPlayTime(elapsed);
       this.eventManager.emit(GameEvents.TIME_UPDATE, elapsed);
       const isTimeLimit = this.gameModesManager.getCurrentModeTimeLimit();

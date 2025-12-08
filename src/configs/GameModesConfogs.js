@@ -23,7 +23,7 @@ export const GameModesConfigs = {
 
     rules: {
       drawCount: 3,
-      maxRedeals: 1,
+      maxRedeals: 2,
       maxUndos: 3, // ↓ с 5 до 3 (более сбалансированно)
       maxHints: 3,
       autoComplete: true,
@@ -102,12 +102,11 @@ export const GameModesConfigs = {
 
     rules: {
       drawCount: 3,
-      maxRedeals: 1,
+      maxRedeals: 2,
       maxUndos: 2,
       maxHints: 1,
       autoComplete: false,
-      // timeLimit: 180,
-      timeLimit: 20,
+      timeLimit: 180,
       moveLimit: null,
       moveTimeLimit: 10,
     },
@@ -143,7 +142,7 @@ export const GameModesConfigs = {
 
     rules: {
       drawCount: 3,
-      maxRedeals: 1,
+      maxRedeals: 2,
       maxUndos: 3,
       maxHints: 2,
       autoComplete: false,

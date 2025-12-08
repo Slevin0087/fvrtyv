@@ -11,6 +11,7 @@ export class TimedModeSystem {
     this.stateManager = stateManager;
     this.id = GameModesIds.TIMED;
     this.playTime = 0
+    this.needUpPlayTime = true
     this.fastMovesCount = 0;
     this.startTimeMove = 0;
     this.secondTimeMove = 0;
@@ -48,9 +49,12 @@ export class TimedModeSystem {
       const allTime = Math.floor(this.playTime) + comboTimeUp  
       if (allTime >= this.rules.timeLimit) {
         console.log('да, больше, выходим из getCombo');
-        
+        this.eventManager.emit(GameEvents.UP_START_TIME, comboTimeUp * 1000);
+        this.fastMovesCount = 0
+        this.startTimeMove = 0
         return
       }
+      this.needUpPlayTime = true
       // Показываем обновленное комбо
       this.eventManager.emit(GameEvents.AUDIO_SHOCK);
       this.ui.comboShow(this.fastMovesCount, this.maxComboTime);
@@ -74,7 +78,6 @@ export class TimedModeSystem {
       clearTimeout(this.comboTimeout);
       this.comboTimeout = null;
     }
-
     this.comboTimeout = setTimeout(() => {
       if (this.fastMovesCount > 0) {
         const comboTimeUp = this.calculateComboTimeUp(this.fastMovesCount);

@@ -116,6 +116,8 @@ export class GameModesManager {
   }
 
   upMaxRedealsCounts(count = 1) {
+    console.log('upMaxRedealsCounts');
+    
     this.maxRedealsCounts += count;
     this.storage.saveItem(this.maxRedealsKey, this.maxRedealsCounts);
   }
