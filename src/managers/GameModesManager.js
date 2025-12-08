@@ -216,6 +216,9 @@ export class GameModesManager {
 
   setPlayTime(time) {
     this.playTime = time;
+    if (this.currentModeName === GameModesIds.TIMED) {
+      this.timed.setPlayTime(time)
+    }
   }
 
   getPlayTime() {

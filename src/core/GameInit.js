@@ -128,7 +128,6 @@ export class GameInit {
     });
 
     this.eventManager.on(GameEvents.UP_START_TIME, (time) => {
-
       this.updateStartTime(time + this.startTime)}
     )
   }
@@ -149,11 +148,14 @@ export class GameInit {
     this.updateStartTime(time);
     this.timeInterval = setInterval(() => {
       const elapsed = this.getElapsedForTime();
+      // console.log('elapsed: ', elapsed);
+      
       this.gameModesManager.setPlayTime(elapsed);
       this.eventManager.emit(GameEvents.TIME_UPDATE, elapsed);
       const isTimeLimit = this.gameModesManager.getCurrentModeTimeLimit();
-      if (isTimeLimit && elapsed <= 1) {
+      if (isTimeLimit && Math.floor(elapsed) <= 0) {
         this.pauseTimeInterval();
+        this.stateManager.setIsRunning(false)
       }
     }, 100); // Обновление каждые 100мс (10 FPS)
   }

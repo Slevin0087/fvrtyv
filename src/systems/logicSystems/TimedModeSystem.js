@@ -10,6 +10,7 @@ export class TimedModeSystem {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
     this.id = GameModesIds.TIMED;
+    this.playTime = 0
     this.fastMovesCount = 0;
     this.startTimeMove = 0;
     this.secondTimeMove = 0;
@@ -43,6 +44,13 @@ export class TimedModeSystem {
       // Ход сделан вовремя - увеличиваем комбо
       this.fastMovesCount++;
       this.startTimeMove = currentTime;
+      const comboTimeUp = this.calculateComboTimeUp(this.fastMovesCount);
+      const allTime = Math.floor(this.playTime) + comboTimeUp  
+      if (allTime >= this.rules.timeLimit) {
+        console.log('да, больше, выходим из getCombo');
+        
+        return
+      }
       // Показываем обновленное комбо
       this.eventManager.emit(GameEvents.AUDIO_SHOCK);
       this.ui.comboShow(this.fastMovesCount, this.maxComboTime);
@@ -71,7 +79,7 @@ export class TimedModeSystem {
       if (this.fastMovesCount > 0) {
         const comboTimeUp = this.calculateComboTimeUp(this.fastMovesCount);
         console.log("comboTimeUp в this.fastMovesCount > 1: ", comboTimeUp);
-        this.eventManager.emit(GameEvents.UP_START_TIME, comboTimeUp * 1000)
+        this.eventManager.emit(GameEvents.UP_START_TIME, comboTimeUp * 1000);
       }
       this.startTimeMove = 0;
       this.fastMovesCount = 0;
@@ -101,5 +109,9 @@ export class TimedModeSystem {
     }
 
     return result;
+  }
+
+  setPlayTime(time) {
+    this.playTime  = time
   }
 }
