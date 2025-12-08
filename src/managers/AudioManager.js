@@ -67,6 +67,7 @@ export class AudioManager {
       3
     );
     this.createSound(AudioName.WIN, "./src/assets/sounds/win.mp3", 0.8, 1);
+    this.createSound(AudioName.SHOCK, "./src/assets/sounds/shock.mp3", 0.5, 8);
     this.createSound(AudioName.INFO, "./src/assets/sounds/info.mp3", 0.6, 1);
     this.createSound(
       AudioName.UP_SCORE,

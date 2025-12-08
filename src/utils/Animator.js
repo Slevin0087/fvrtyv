@@ -12,8 +12,6 @@ export class Animator {
     return new Promise((resolve, reject) => {
       try {
         const { card, tableau } = params;
-        console.log("card animateStockCardMove: ", card, card.faceUp);
-
         const cardElement = card.domElement;
         const oldOffsetX = card.positionData.offsetX;
         const oldOffsetY = card.positionData.offsetY;

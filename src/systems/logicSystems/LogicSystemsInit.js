@@ -48,7 +48,8 @@ export class LogicSystemsInit {
   setupSystems() {
     this.timedModeSystem = new TimedModeSystem(
       this.eventManager,
-      this.stateManager
+      this.stateManager,
+      this.audioManager,
     );
     this.setupSystem = new GameSetupSystem(
       this.eventManager,

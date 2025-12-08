@@ -1,14 +1,16 @@
 import { UITimedMode } from "../../ui/UIGameModes/UITimedMode.js";
+import { AudioName } from "../../utils/Constants.js";
 
 export class TimedModeSystem {
-  constructor(eventManager, stateManager) {
+  constructor(eventManager, stateManager, audioManager) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
+    this.audioManager = audioManager;
     this.fastMovesCount = 0;
     this.startTimeMove = 0;
     this.secondTimeMove = 0;
     this.maxComboTime = 4000;
-    this.comboTimeout = null
+    this.comboTimeout = null;
 
     this.initUIComponent();
   }
@@ -55,13 +57,14 @@ export class TimedModeSystem {
 
     // Проверяем время с последнего хода
     const timeSinceLastMove = currentTime - this.startTimeMove;
-
+    const audioShock = this.audioManager.getSound(AudioName.SHOCK);
     if (timeSinceLastMove < this.maxComboTime) {
       // Ход сделан вовремя - увеличиваем комбо
       this.fastMovesCount++;
       this.startTimeMove = currentTime;
 
       // Показываем обновленное комбо
+      audioShock.play();
       this.ui.comboShow(this.fastMovesCount, this.maxComboTime);
 
       // Сбрасываем таймер сброса комбо
@@ -70,6 +73,7 @@ export class TimedModeSystem {
       // Слишком медленно - сбрасываем комбо
       if (this.fastMovesCount > 1) {
         // Показываем финальное комбо только если было больше 1
+        audioShock.play();
         this.ui.comboShow(this.fastMovesCount, this.maxComboTime);
       }
 
@@ -83,7 +87,7 @@ export class TimedModeSystem {
   resetComboTimeout() {
     if (this.comboTimeout) {
       clearTimeout(this.comboTimeout);
-      this.comboTimeout = null
+      this.comboTimeout = null;
     }
 
     this.comboTimeout = setTimeout(() => {

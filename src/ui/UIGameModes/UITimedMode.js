@@ -1,6 +1,9 @@
 export class UITimedMode {
   constructor() {
     /////////// UI /////////////
+    this.comboContainer = null;
+    // this.comboElement = null;
+    // this.comboTimerElement = null;
     this.comboTimeout = null;
   }
 
@@ -30,7 +33,7 @@ export class UITimedMode {
     comboElement.textContent = `COMBO x${comboCount}`;
 
     // Цвета в зависимости от комбо
-    if (comboCount === 1) comboElement.style.color = "#4CAF50";
+    if (comboCount === 1) comboElement.style.color = "#4caf50ff";
     else if (comboCount === 2) comboElement.style.color = "#2196F3";
     else if (comboCount === 3) comboElement.style.color = "#9C27B0";
     else comboElement.style.color = "#FF9800";
@@ -40,7 +43,6 @@ export class UITimedMode {
     clearTimeout(this.comboTimeout);
 
     // Показываем прогресс-бар до сброса комбо
-    // let timeLeft = 1500; // 1.5 секунды
     const startTime = Date.now();
 
     const updateTimer = () => {
@@ -54,8 +56,6 @@ export class UITimedMode {
       if (progress > 0) {
         requestAnimationFrame(updateTimer);
       } else {
-        // Комбо сброшено по таймауту
-        // this.comboElement.style.display = "none";
         comboContainer.remove();
       }
     };
@@ -69,18 +69,19 @@ export class UITimedMode {
   }
 
   comboShow(fastMovesCount, maxComboTime) {
+    if (this.comboContainer) this.comboContainer.remove();
     const body = document.querySelector("body");
-    const comboContainer = this.createComboContainer();
+    this.comboContainer = this.createComboContainer();
     const comboElement = this.createComboElement();
     const comboTimerElement = this.createComboTimerElement();
-    comboContainer.append(comboElement);
-    comboContainer.append(comboTimerElement);
-    body.append(comboContainer);
+    this.comboContainer.append(comboElement);
+    this.comboContainer.append(comboTimerElement);
+    body.append(this.comboContainer);
 
     this.updateComboDisplay(comboElement, fastMovesCount);
 
     // Запускаем таймер до сброса комбо
-    this.startComboTimer(maxComboTime, comboContainer, comboTimerElement);
+    this.startComboTimer(maxComboTime, this.comboContainer, comboTimerElement);
   }
 
   applyComboEffects(comboCount) {

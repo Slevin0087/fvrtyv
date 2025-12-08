@@ -168,4 +168,5 @@ export const AudioName = {
   INFO: "info",
   WIN: "win",
   UP_SCORE: "up-score",
+  SHOCK: "shock"
 };
