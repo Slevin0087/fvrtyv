@@ -1,8 +1,6 @@
 export class UITimedMode {
   constructor() {
     /////////// UI /////////////
-    this.comboElement = document.getElementById("combo-counter");
-    this.comboTimerElement = document.getElementById("combo-timer");
     this.comboTimeout = null;
   }
 
