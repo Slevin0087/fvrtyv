@@ -1,17 +1,10 @@
 export class UITimedMode {
   constructor() {
     /////////// UI /////////////
-    this.comboContainer = null;
-    // this.comboElement = null;
+    this.comboContainer = document.getElementById("combo-container");
+    this.comboElement = null;
     // this.comboTimerElement = null;
     this.comboTimeout = null;
-  }
-
-  createComboContainer() {
-    const comboElement = document.createElement("div");
-    comboElement.id = "combo-container";
-    comboElement.className = "combo-container";
-    return comboElement;
   }
 
   createComboElement() {
@@ -55,29 +48,29 @@ export class UITimedMode {
 
       if (progress > 0) {
         requestAnimationFrame(updateTimer);
-      } else {
-        comboContainer.remove();
       }
+    //   else {
+    //     comboContainer.classList.add("hidden");
+    //     comboContainer.innerHTML = "";
+    //   }
     };
 
     updateTimer();
 
     // На всякий случай timeout
     this.comboTimeout = setTimeout(() => {
-      comboContainer.remove();
+      comboContainer.classList.add("hidden");
+      comboContainer.innerHTML = "";
     }, maxComboTime);
   }
 
   comboShow(fastMovesCount, maxComboTime) {
-    if (this.comboContainer) this.comboContainer.remove();
-    const body = document.querySelector("body");
-    this.comboContainer = this.createComboContainer();
+    if (this.comboContainer) this.comboContainer.innerHTML = '';
     const comboElement = this.createComboElement();
     const comboTimerElement = this.createComboTimerElement();
     this.comboContainer.append(comboElement);
     this.comboContainer.append(comboTimerElement);
-    body.append(this.comboContainer);
-
+    this.comboContainer.classList.remove("hidden");
     this.updateComboDisplay(comboElement, fastMovesCount);
 
     // Запускаем таймер до сброса комбо
