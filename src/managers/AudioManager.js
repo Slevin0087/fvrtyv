@@ -115,8 +115,6 @@ export class AudioManager {
       volume: this.stateManager.getMusicVolume() || 0.5,
       loop: true,
       preload: true,
-      // html5: true, // Для музыки лучше использовать HTML5 Audio
-      // html5: false,
       onplayerror: () => {
         console.log("Background music blocked - needs user interaction");
       },
@@ -306,9 +304,7 @@ export class AudioManager {
    * Получение звука для внешнего использования
    */
   getSound(name) {
-    const sound = this.sounds.get(name);
-    console.log('sound: ', sound);
-    
+    const sound = this.sounds.get(name);    
     if (!sound) return null;
 
     return {
@@ -337,7 +333,5 @@ export class AudioManager {
     }
 
     this.sounds.clear();
-
-    console.log("AudioManager destroyed");
   }
 }

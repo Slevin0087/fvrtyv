@@ -16,6 +16,8 @@ import { DragAndDrop } from "./DragAndDrop.js";
 import { Animator } from "../../utils/Animator.js";
 import { achType, achCheckName } from "../../configs/AchievementsConfig.js";
 import { FoundationAnimation } from "../../utils/FoundationAnimation.js";
+import { GameModesIds } from "../../configs/GameModesConfogs.js";
+import { TimedModeSystem } from "./TimedModeSystem.js";
 
 export class LogicSystemsInit {
   constructor(
@@ -44,6 +46,10 @@ export class LogicSystemsInit {
   }
 
   setupSystems() {
+    this.timedModeSystem = new TimedModeSystem(
+      this.eventManager,
+      this.stateManager
+    );
     this.setupSystem = new GameSetupSystem(
       this.eventManager,
       this.stateManager
@@ -78,7 +84,11 @@ export class LogicSystemsInit {
       this.scoringSystem,
       this.audioManager
     );
-    this.wasteSystem = new WasteSystem(this.eventManager, this.stateManager, this.audioManager);
+    this.wasteSystem = new WasteSystem(
+      this.eventManager,
+      this.stateManager,
+      this.audioManager
+    );
     this.dragAndDrop = new DragAndDrop(
       this.eventManager,
       this.stateManager,
@@ -140,7 +150,11 @@ export class LogicSystemsInit {
     const source = this.movementSystem.getCardSource(card);
     const elementFrom = this.movementSystem.getElementFrom(source);
     const cardParentFoundationElForUndo = card.parentElement;
-    const promiseAnimate = Animator.animateCardMove(
+    if (this.stateManager.getSoundEnabled()) {
+      const audioCardMove = this.audioManager.getSound(AudioName.CARD_MOVE);
+      await audioCardMove.play();
+    }
+    await Animator.animateCardMove(
       card,
       source,
       elementFrom,
@@ -148,12 +162,11 @@ export class LogicSystemsInit {
       this.movementSystem,
       cardMoveDuration
     );
-    if (this.stateManager.getSoundEnabled()) {
-      const audioCardMove = this.audioManager.getSound(AudioName.CARD_MOVE);
-      const promiseAudio = audioCardMove.play()
-      await Promise.all([promiseAudio, promiseAnimate]);
-    } else {
-      await promiseAnimate;
+    const currentModeName = this.gameModesManager.getCurrentModeName();
+    if (currentModeName === GameModesIds.TIMED) {
+      const isStock = this.getIsSource(source, GameConfig.cardContainers.stock);
+      if (isStock) return;
+      this.timedModeSystem.getCombo();
     }
     const isWaste = this.getIsSource(source, GameConfig.cardContainers.waste);
     if (isWaste) {
@@ -182,8 +195,8 @@ export class LogicSystemsInit {
         this.scoringSystem.addScores(calculatedScore);
         this.eventManager.emit(GameEvents.AUDIO_UP_SCORE);
       } else if (isFoundation) {
-        console.log('isFoundation');
-        
+        console.log("isFoundation");
+
         operator = this.subtraction;
         isSourceFromFoundation = !isSourceFromFoundation;
         this.scoringSystem.subtractScores(calculatedScore);
@@ -311,7 +324,6 @@ export class LogicSystemsInit {
   }
 
   async autoCollectCards() {
-
     // Проверяем условие выхода
     if (this.winSystem.check()) return;
     else {
@@ -321,7 +333,7 @@ export class LogicSystemsInit {
         if (tableau.cards.length > 0) {
           const card = tableau.cards[tableau.cards.length - 1];
           for (let i = 0; i < foundations.length; i++) {
-            const canAccept = foundations[i].canAccept(card, gameComponents)
+            const canAccept = foundations[i].canAccept(card, gameComponents);
             if (canAccept) {
               this.eventManager.emit(GameEvents.CARD_MOVE, {
                 card,

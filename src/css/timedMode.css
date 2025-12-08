@@ -1,0 +1,28 @@
+.combo-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  background-color: transparent;
+  /* background-color: yellow; */
+  position: absolute;
+  left: 50%;
+  top: 80%;
+  transform: translateX(-50%);
+  z-index: 1000;
+}
+
+.combo-counter {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  font-size: 2rem;
+}
+
+.combo-timer {
+  background-color: red;
+  height: 5px;
+}

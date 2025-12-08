@@ -35,7 +35,7 @@ export class GameModesManager {
     this.initCurrentModeRules();
     this.initCurrentModeScoring();
     this.initIsUpLastMoves();
-    this.initMaxHintsLimit()
+    this.initMaxHintsLimit();
     this.initPlayTime();
   }
 
@@ -146,7 +146,7 @@ export class GameModesManager {
     this.initCurrentModeRules();
     this.initCurrentModeScoring();
     this.initIsUpLastMoves();
-    this.initMaxHintsLimit()
+    this.initMaxHintsLimit();
     this.initPlayTime();
   }
 
@@ -155,7 +155,7 @@ export class GameModesManager {
     this.initCurrentModeRules();
     this.initCurrentModeScoring();
     this.initIsUpLastMoves();
-    this.initMaxHintsLimit()
+    this.initMaxHintsLimit();
     this.initPlayTime();
     this.saveStorageCurrentModeName(modeName);
   }
@@ -212,16 +212,22 @@ export class GameModesManager {
     return this.playTime;
   }
 
+  getInitPlayTime() {
+    const isTimeLimit = this.getCurrentModeTimeLimit();
+    const time = isTimeLimit ? isTimeLimit * 1000 + Date.now() : Date.now();
+    return time
+  }
+
   getMaxHintsCounts() {
-    return this.maxHintsCounts
+    return this.maxHintsCounts;
   }
 
   getNeedVideoForHints() {
-    return this.needVideoForHints
+    return this.needVideoForHints;
   }
 
   setNeedVideoForHints(boolean) {
-    this.needVideoForHints = boolean
+    this.needVideoForHints = boolean;
   }
 
   initPlayTime() {

@@ -554,10 +554,7 @@ export class Animator {
     const animations = cards.map((card, index) => {
       return new Promise((resolve, reject) => {
         const cardElement = card.domElement;
-        // let resultDuration = 600 + Math.random() * 400
         let resultDuration = 50 + Math.random() * 300;
-        console.log("resultDuration: ", resultDuration);
-
         let resultDelay = index * 20;
 
         const animate = cardElement.animate(
@@ -575,8 +572,6 @@ export class Animator {
           {
             duration: resultDuration,
             delay: resultDelay,
-            // easing: "cubic-bezier(0.4, 0, 0.2, 1)",
-            // easing: 'ease-in'
             easing: "ease-out",
           }
         );
@@ -584,8 +579,6 @@ export class Animator {
         if (audio) {
           const audioDuration = audio.duration();
           const audioRate = (audioDuration * 1000) / resultDuration;
-          console.log("audioRate: ", audioRate);
-
           setTimeout(() => {
             audio.play({ rate: audioRate });
           }, resultDelay);

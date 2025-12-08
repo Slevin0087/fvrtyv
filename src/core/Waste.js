@@ -36,20 +36,16 @@ export class Waste extends Pile {
     card.positionData.offsetX = 0;
     card.positionData.offsetY = 0;
     this.uppp();
-    console.log("card.positionData.offsetX: ", card);
   }
 
   uppp() {
     this.topThreeCards = [];
     this.cards.forEach((card, index) => {
-      console.log("uppp() card: ", card);
 
       // Рассчитываем позицию от конца массива
       const positionFromEnd = this.cards.length - 1 - index;
-      console.log("positionFromEnd: ", positionFromEnd);
 
       const getPropertyValueCardWidth = this.element.offsetWidth;
-      console.log("getPropertyValueCardWidth: ", getPropertyValueCardWidth);
 
       this.oneOverlapX = getPropertyValueCardWidth / 3;
       if (positionFromEnd < this.maxVisibleCards) {
@@ -98,8 +94,6 @@ export class Waste extends Pile {
 
     const config = breakpoints.find((bp) => width <= bp.max);
     this.oneOverlapX = UIConfig.layout.card[config.base] * config.multiplier;
-    console.log("this.oneOverlapX: ", this.oneOverlapX);
-
     return this.oneOverlapX;
   }
 }

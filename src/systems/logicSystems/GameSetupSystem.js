@@ -99,8 +99,6 @@ export class GameSetupSystem {
         const audioPlaySpeed =
           // this.startMoveSpeed / (audioCardMove.duration() * 100);
           (audioCardMove.duration() * 1000) / this.startMoveSpeed;
-        console.log("audioPlaySpeed: ", audioPlaySpeed);
-
         const promiseAudio = audioCardMove.play({ rate: audioPlaySpeed });
 
         await Promise.all([promiseAudio, promiseAnimate]);

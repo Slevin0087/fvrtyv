@@ -32,8 +32,6 @@ export class WasteSystem {
       );
       const audioDuration = audioCardMove.duration();
       const duration = audioDuration ? audioDuration * 1000 : 250;
-      console.log("durationduration: ", duration);
-
       const promiseAnimate = Animator.animateCardFomStockToWaste(
         oldOffsetsTopThreeCards,
         duration

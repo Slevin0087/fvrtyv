@@ -41,7 +41,11 @@ export class GameInit {
     this.eventManager = new EventManager();
     this.storage = new Storage(this.eventManager);
     this.stateManager = new StateManager(this.eventManager, this.storage);
-    this.gameModesManager = new GameModesManager(this.eventManager, this.stateManager, this.storage)
+    this.gameModesManager = new GameModesManager(
+      this.eventManager,
+      this.stateManager,
+      this.storage
+    );
     this.translator = new Translator();
     this.audioManager = new AudioManager(this.eventManager, this.stateManager);
     this.translator.changeLanguage(this.stateManager.getLanguage());
@@ -85,7 +89,7 @@ export class GameInit {
       this.eventManager,
       this.stateManager,
       this.logicSystemsInit,
-      this.gameModesManager,
+      this.gameModesManager
     );
     this.renderingSystem = new RenderingSystemsInit(
       this.eventManager,
@@ -109,7 +113,8 @@ export class GameInit {
     this.eventManager.onAsync(GameEvents.GAME_RESTART, async () => {
       await this.gameRestart();
     });
-    this.eventManager.on(GameEvents.START_PLAY_TIME, (time) => {
+    this.eventManager.on(GameEvents.START_PLAY_TIME, () => {
+      const time = this.gameModesManager.getInitPlayTime();
       this.startTimeInterval(time);
     });
     this.eventManager.on(GameEvents.STOP_PLAY_TIME, () => {
@@ -125,27 +130,25 @@ export class GameInit {
 
   pauseTimeInterval() {
     this.stopTimeInterval();
-    this.updatePauseAndStopTime(Date.now());
+    this.setTimeForPauseAndStopTime(Date.now());
   }
 
   continueTimeInterval() {
-    const pausedDuration = Date.now() - this.pauseAndStopTime;
+    const pausedDuration = Date.now() - this.getPauseAndStopTime();
     this.updateStartTime(this.startTime + pausedDuration);
     this.startTimeInterval(this.startTime);
   }
 
-  startTimeInterval() {
+  startTimeInterval(time) {
     if (this.timeInterval) return; // Уже запущен
-    const isTimeLimit = this.gameModesManager.getCurrentModeTimeLimit()
-    const time = isTimeLimit ? isTimeLimit * 1000 + Date.now() : Date.now()
     this.updateStartTime(time);
     this.timeInterval = setInterval(() => {
-      const elapsed = isTimeLimit ? (this.startTime - Date.now()) / 1000 : (Date.now() - this.startTime) / 1000;
-      // this.stateManager.setTime(elapsed);
-      this.gameModesManager.setPlayTime(elapsed)
+      const elapsed = this.getElapsedForTime();
+      this.gameModesManager.setPlayTime(elapsed);
       this.eventManager.emit(GameEvents.TIME_UPDATE, elapsed);
-      if (isTimeLimit && elapsed <= 0) {
-        this.stopTimeInterval()
+      const isTimeLimit = this.gameModesManager.getCurrentModeTimeLimit();
+      if (isTimeLimit && elapsed <= 60) {
+        this.pauseTimeInterval();
       }
     }, 100); // Обновление каждые 100мс (10 FPS)
   }
@@ -153,23 +156,28 @@ export class GameInit {
   stopTimeInterval() {
     if (this.timeInterval) {
       clearInterval(this.timeInterval);
-      this.setTimeInterval();
+      this.setTimeInterval(null);
     }
+  }
+
+  setTimeForPauseAndStopTime(time) {
+    this.pauseAndStopTime = time;
+  }
+
+  getPauseAndStopTime() {
+    return this.pauseAndStopTime;
   }
 
   async gameRestart() {
     this.eventManager.emit(GameEvents.COLLECT_BTN_HIDDEN);
-    this.gameModesManager.resetIsRedeals(true)
+    this.gameModesManager.resetIsRedeals(true);
     await this.setGame();
   }
 
   async setGame() {
     this.cardsSystem.setCardsContainers();
-    const cardsComponents = this.stateManager.getCardsComponents()
-    this.gameSetupSystem.setCards(
-      cardsComponents.deck,
-      cardsComponents.stock
-    );
+    const cardsComponents = this.stateManager.getCardsComponents();
+    this.gameSetupSystem.setCards(cardsComponents.deck, cardsComponents.stock);
 
     this.renderStaticElements.render(
       cardsComponents.foundations,
@@ -184,19 +192,24 @@ export class GameInit {
       cardsComponents.stock,
       cardsComponents.tableaus
     );
-    console.log('this.stateManager.getFaceDownCards(): ', this.stateManager.getFaceDownCards());
-    
+    console.log(
+      "this.stateManager.getFaceDownCards(): ",
+      this.stateManager.getFaceDownCards()
+    );
   }
 
   updateStartTime(time) {
     this.startTime = time;
   }
 
-  updatePauseAndStopTime(time) {
-    this.pauseAndStopTime = time;
-  }
-
   setTimeInterval(data) {
     this.timeInterval = data;
+  }
+
+  getElapsedForTime() {
+    const isTimeLimit = this.gameModesManager.getCurrentModeTimeLimit();
+    return isTimeLimit
+      ? (this.startTime - Date.now()) / 1000
+      : (Date.now() - this.startTime) / 1000;
   }
 }

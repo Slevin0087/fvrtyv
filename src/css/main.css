@@ -40,3 +40,8 @@
    ============================================ */
 @import "./foundationsAnimations.css";
 @import "./cardsContainers.css";
+
+/* ============================================
+   5. GameModes - UI
+   ============================================ */
+@import "./timedMode.css"

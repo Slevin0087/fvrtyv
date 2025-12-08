@@ -25,19 +25,14 @@ export class Tableau extends Pile {
   }
 
   canAccept(card) {
-    console.log("card: ", card);
-
     if (card.value === "A") return false;
     if (!card.faceUp) return false;
     if (this.isEmpty()) {
       if (card.value === "K") return true;
       if (card.value === "JOKER") return true;
     } else {
-      console.log('else');
-      
       if (card.value === "JOKER") return true;
       const topCard = this.getTopCard();
-      console.log('topCard: ', topCard);
       if (topCard.value === 'JOKER') return true
       return card.isOppositeColor(topCard) && card.isNextInSequence(topCard);
     }
@@ -83,8 +78,6 @@ export class Tableau extends Pile {
 
   setOverlapY() {
     const width = window.innerWidth;
-    console.log("width: ", width);
-
     if (width < 768)
       return (this.overlapY = UIConfig.layout.card.tableauOverlapY);
     if (width > 768)
