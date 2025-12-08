@@ -119,6 +119,7 @@ export const GameModesConfigs = {
       flipCard: 8,
       foundationComplete: 75,
       timeBonus: 0.5, // ↓ с 1 до 0.5 (анти-инфляция)
+      comboBonusTime: 0.5,
       timePenalty: -2,
       speedMultiplier: 1.5, // ↓ с 2 до 1.5
       undoPenalty: -15,

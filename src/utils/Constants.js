@@ -30,6 +30,7 @@ export const GameEvents = {
   UP_ACHIEVENT_DIV: "up:achievement:div",
   UP_ACHIEVENT_SCORE_DIV: "up:achievement:score:div",
   UP_HINT_CONTAINER: "up:hint:container",
+  UP_START_TIME: "up:start:time",
   RESET_LAST_MOVES: "reset:last:moves",
   RESET_ONPOINTERDOWN_TO_CARD: "reset:onpointerdown:to:card",
   RESET_ONPOINTERMOVE_TO_CARD: "reset:onpointermove:to:card",

@@ -1,17 +1,23 @@
 import { UITimedMode } from "../../ui/UIGameModes/UITimedMode.js";
-import { GameModesConfigs } from "../../configs/GameModesConfogs.js";
+import {
+  GameModesIds,
+  GameModesConfigs,
+} from "../../configs/GameModesConfogs.js";
+import { GameEvents } from "../../utils/Constants.js";
 
 export class TimedModeSystem {
   constructor(eventManager, stateManager) {
     this.eventManager = eventManager;
     this.stateManager = stateManager;
+    this.id = GameModesIds.TIMED;
     this.fastMovesCount = 0;
     this.startTimeMove = 0;
     this.secondTimeMove = 0;
-    this.maxComboTime = 4000;
+    this.maxComboTime = 2000;
     this.comboTimeout = null;
-    this.state = GameModesConfigs.TIMED;
-
+    this.state = GameModesConfigs[this.id];
+    this.rules = this.state.rules;
+    this.scoring = this.state.scoring;
     this.initComponents();
   }
 
@@ -31,18 +37,15 @@ export class TimedModeSystem {
       this.fastMovesCount = 1; // <-- Начинаем с 1
       return;
     }
-
     // Проверяем время с последнего хода
     const timeSinceLastMove = currentTime - this.startTimeMove;
     if (timeSinceLastMove < this.maxComboTime) {
       // Ход сделан вовремя - увеличиваем комбо
       this.fastMovesCount++;
       this.startTimeMove = currentTime;
-
       // Показываем обновленное комбо
       this.eventManager.emit(GameEvents.AUDIO_SHOCK);
       this.ui.comboShow(this.fastMovesCount, this.maxComboTime);
-
       // Сбрасываем таймер сброса комбо
       this.resetComboTimeout();
     } else {
@@ -52,7 +55,6 @@ export class TimedModeSystem {
         this.eventManager.emit(GameEvents.AUDIO_SHOCK);
         this.ui.comboShow(this.fastMovesCount, this.maxComboTime);
       }
-
       // Начинаем новое комбо с текущего хода
       this.startTimeMove = currentTime;
       this.fastMovesCount = 1;
@@ -66,6 +68,11 @@ export class TimedModeSystem {
     }
 
     this.comboTimeout = setTimeout(() => {
+      if (this.fastMovesCount > 0) {
+        const comboTimeUp = this.calculateComboTimeUp(this.fastMovesCount);
+        console.log("comboTimeUp в this.fastMovesCount > 1: ", comboTimeUp);
+        this.eventManager.emit(GameEvents.UP_START_TIME, comboTimeUp * 1000)
+      }
       this.startTimeMove = 0;
       this.fastMovesCount = 0;
       this.secondTimeMove = 0;
@@ -87,6 +94,12 @@ export class TimedModeSystem {
   }
 
   calculateComboTimeUp(fastMovesCount) {
-    for (let i = 0; i <= fastMovesCount; i++) {}
+    if (!fastMovesCount || fastMovesCount <= 0) return;
+    let result = 0;
+    for (let i = 1; i <= fastMovesCount; i++) {
+      result += i * this.scoring.comboBonusTime;
+    }
+
+    return result;
   }
 }

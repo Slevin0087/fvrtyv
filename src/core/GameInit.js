@@ -126,6 +126,11 @@ export class GameInit {
     this.eventManager.on(GameEvents.CONTINUE_PLAY_TIME, () => {
       this.continueTimeInterval();
     });
+
+    this.eventManager.on(GameEvents.UP_START_TIME, (time) => {
+
+      this.updateStartTime(time + this.startTime)}
+    )
   }
 
   pauseTimeInterval() {

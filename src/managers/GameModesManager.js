@@ -7,6 +7,7 @@ import {
 import { GameEvents } from "../utils/Constants.js";
 import { TimedModeSystem } from "../systems/logicSystems/TimedModeSystem.js";
 import { VegasModeSystem } from "../systems/logicSystems/VegasModeSystem.js";
+import { ExpertModeSystem } from "../systems/logicSystems/ExpertModeSystem.js";
 
 export class GameModesManager {
   constructor(eventManager, stateManager, storage) {
@@ -27,6 +28,7 @@ export class GameModesManager {
     this.maxHintsCounts = 0;
     this.isMaxHintLimit = false;
     this.needVideoForHints = false;
+    this.initComponents()
     this.initState();
     this.calculateScore("moveToTableau");
     this.setupEventListeners();
@@ -35,6 +37,7 @@ export class GameModesManager {
   initComponents() {
     this.timed = new TimedModeSystem(this.eventManager, this.stateManager)
     this.vegas = new VegasModeSystem(this.eventManager, this.stateManager)
+    this.expert = new ExpertModeSystem(this.eventManager, this.stateManager)
   }
 
   initState() {
