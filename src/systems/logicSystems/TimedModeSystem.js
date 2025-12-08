@@ -8,6 +8,7 @@ export class TimedModeSystem {
     this.startTimeMove = 0;
     this.secondTimeMove = 0;
     this.maxComboTime = 4000;
+    this.comboTimeout = null
 
     this.initUIComponent();
   }
@@ -42,10 +43,7 @@ export class TimedModeSystem {
   // }
 
   getCombo() {
-    console.log("getCombo called");
-
     const currentTime = Date.now();
-
     if (this.startTimeMove === 0) {
       // Первый ход в потенциальном комбо
       this.startTimeMove = currentTime;
@@ -78,20 +76,21 @@ export class TimedModeSystem {
       // Начинаем новое комбо с текущего хода
       this.startTimeMove = currentTime;
       this.fastMovesCount = 1;
-      this.ui.comboShow(this.fastMovesCount, this.maxComboTime);
+      // this.ui.comboShow(this.fastMovesCount, this.maxComboTime);
     }
   }
 
   resetComboTimeout() {
     if (this.comboTimeout) {
       clearTimeout(this.comboTimeout);
+      this.comboTimeout = null
     }
 
     this.comboTimeout = setTimeout(() => {
       // Автоматический сброс комбо через maxComboTime
-      if (this.fastMovesCount > 1) {
-        this.ui.comboShow(this.fastMovesCount, this.maxComboTime);
-      }
+      // if (this.fastMovesCount > 1) {
+      //   this.ui.comboShow(this.fastMovesCount, this.maxComboTime);
+      // }
       this.startTimeMove = 0;
       this.fastMovesCount = 0;
       this.secondTimeMove = 0;
