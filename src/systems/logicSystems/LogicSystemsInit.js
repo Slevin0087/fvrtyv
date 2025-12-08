@@ -165,8 +165,11 @@ export class LogicSystemsInit {
     const currentModeName = this.gameModesManager.getCurrentModeName();
     if (currentModeName === GameModesIds.TIMED) {
       const isStock = this.getIsSource(source, GameConfig.cardContainers.stock);
-      if (isStock) return;
-      this.timedModeSystem.getCombo();
+      console.log("isStock: ", isStock);
+
+      if (!isStock) {
+        this.timedModeSystem.getCombo();
+      }
     }
     const isWaste = this.getIsSource(source, GameConfig.cardContainers.waste);
     if (isWaste) {
