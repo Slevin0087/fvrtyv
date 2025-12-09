@@ -44,4 +44,5 @@
 /* ============================================
    5. GameModes - UI
    ============================================ */
-@import "./timedMode.css"
+@import "./timedMode.css";
+@import "./vegasMode.css";

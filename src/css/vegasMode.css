@@ -1,0 +1,159 @@
+.modal-modes-info {
+  position: fixed;
+  z-index: 1000;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.301);
+  left: 0;
+  top: 0;
+}
+
+.modal-modes-info-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  background: linear-gradient(135deg, #fff9e6 0%, #ffeaa7 100%);
+  border: 3px solid #ffd700;
+  border-radius: 20px;
+  box-shadow: 0 0 50px rgba(255, 215, 0, 0.4), 0 20px 60px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  z-index: 10001;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  min-width: max-content;
+  max-width: 90%;
+  font-family: "Arial", sans-serif;
+  overflow: hidden;
+}
+
+.vegas-mode-modal-header {
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+  padding: 1.5rem 2rem;
+  text-align: center;
+  position: relative;
+  border-bottom: 2px solid #ffb347;
+}
+
+.vegas-mode-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  z-index: 2;
+}
+
+.vegas-mode-modal-close-span {
+  font-size: 2rem;
+  color: #8b4513;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: block;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+@media (hover: hover) {
+  .vegas-mode-modal-close-span:hover {
+    background: #ff6b6b;
+    color: white;
+    transform: rotate(90deg);
+  }
+}
+
+@media (hover: none) {
+  .vegas-mode-modal-close-span:active {
+    background: #ff6b6b;
+    color: white;
+    transform: rotate(90deg);
+  }
+}
+
+.vegas-mode-modal-title {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #8b0000;
+  text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+  display: block;
+}
+
+.vegas-mode-modal-content {
+  background: radial-gradient(
+      circle at 10% 20%,
+      rgba(255, 215, 0, 0.1) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 90% 80%,
+      rgba(255, 107, 0, 0.1) 0%,
+      transparent 50%
+    );
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+  padding-top: 1rem;
+}
+
+.vegas-mode-modal-btns {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  gap: calc(var(--card-width) / 2);
+  width: 100%;
+}
+
+.vegas-mode-modal-btn {
+  background: linear-gradient(135deg, #ff6b00 0%, #ff0000 100%);
+  color: white;
+  box-shadow: 0 4px 15px rgba(255, 107, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+  min-width: 30%;
+}
+
+@media (hover: hover) {
+  .vegas-mode-modal-btn:hover {
+    background: linear-gradient(135deg, #ff0000 0%, #ff6b00 100%);
+    box-shadow: 0 6px 20px rgba(255, 0, 0, 0.6),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  }
+}
+
+@media (hover: none) {
+  .vegas-mode-modal-btn:active {
+    background: linear-gradient(135deg, #ff0000 0%, #ff6b00 100%);
+    box-shadow: 0 6px 20px rgba(255, 0, 0, 0.6),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  }
+}
+
+.vegas-mode-modal-btn:focus {
+  background: linear-gradient(135deg, #ff0000 0%, #ff6b00 100%);
+  box-shadow: 0 6px 20px rgba(255, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.vegas-mode-p-content {
+  align-items: center;
+  padding: 0.2rem;
+  color: #8b4513;
+}
+
+.p-required {
+  color: #ff0000;
+}
+
+.vegas-mode-entry-fee-info {
+  color: black;
+}
+
+.p-footer-vegas-mode-modal {
+  color: #8b0000;
+}

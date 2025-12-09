@@ -139,6 +139,7 @@ export const GameEvents = {
   CLEAR_NOTIF_HINT_CARDS: "clear:notif:hint:cards",
   CREAT_ELEMENT_FOR_NOTIF_HINT_STOCK: "creat:element:for:notif:hint:stock",
   NEED_VIDEO_FOR_HINTS: "need:video:for:hints",
+  CHOICE_VEGAS_MODE: "choice:vegas:mode",
 };
 
 export const AnimationDurations = {

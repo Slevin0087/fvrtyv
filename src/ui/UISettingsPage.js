@@ -1,6 +1,7 @@
 import { UIPage } from "./UIPage.js";
 import { GameEvents } from "../utils/Constants.js";
 import { GameConfig } from "../configs/GameConfig.js";
+import { GameModesIds } from "../configs/GameModesConfogs.js";
 
 export class UISettingsPage extends UIPage {
   constructor(eventManager, stateManager, gameModesManager, translator) {
@@ -95,6 +96,9 @@ export class UISettingsPage extends UIPage {
   }
 
   onChangeModes(e) {
+    if (e.target.value === GameModesIds.VEGAS) {
+      this.eventManager.emit(GameEvents.CHOICE_VEGAS_MODE)
+    }
     this.gameModesManager.setAllDataCurrentMode(e.target.value);
   }
 
