@@ -6,6 +6,9 @@ const cacheAddUrls = [
   "./index.html",
   "./manifest.json",
   "./src/css/main.css",
+  "./src/assets/cardsImages/classic_cards_mini.png",
+  "./src/assets/cardsImages/old_cards_2_mini.png",
+  "./src/assets/shop/fons/fon1.png"
 ];
 
 self.addEventListener("install", async (e) => {
