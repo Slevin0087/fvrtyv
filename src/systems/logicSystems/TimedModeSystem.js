@@ -49,7 +49,7 @@ export class TimedModeSystem {
       const allTime = Math.floor(this.playTime) + comboTimeUp  
       if (allTime >= this.rules.timeLimit) {
         console.log('да, больше, выходим из getCombo');
-        this.eventManager.emit(GameEvents.UP_START_TIME, comboTimeUp * 1000);
+        // this.eventManager.emit(GameEvents.UP_START_TIME, comboTimeUp * 1000);
         this.fastMovesCount = 0
         this.startTimeMove = 0
         return
