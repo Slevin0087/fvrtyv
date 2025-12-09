@@ -17,26 +17,20 @@ self.addEventListener("activate", async (e) => {
   const cahesNames = await caches.keys();
   await Promise.all(
     cahesNames
-      .filter((name) => {
-        name !== staticCacheName;
-      })
-      .filter((name) => {
-        name !== dynamicCacheName;
-      })
-      .map((name) => {
-        caches.delete(name);
-      })
+      .filter((name) => name !== staticCacheName)
+      .filter((name) => name !== dynamicCacheName)
+      .map((name) => caches.delete(name))
   );
 });
 
 self.addEventListener("fetch", async (e) => {
-  const { request } = e;
+  const request = e.request;
   const url = new URL(request.url);
 
   if (url.origin === location.origin) {
-    await e.respondWith(cacheFirst(request));
+    e.respondWith(cacheFirst(request));
   } else {
-    await e.respondWith(networkFirst(request));
+    e.respondWith(networkFirst(request));
   }
 });
 
