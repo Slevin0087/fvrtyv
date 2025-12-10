@@ -54,7 +54,7 @@ export class UIGreetingsPage extends UIPage {
     this.elements.gameRulesClearBtn.onclick = () => {
       this.onClickGameRulesClose();
     };
-    this.setHandlersForCurrentSelectedVersion();
+    // this.setHandlersForCurrentSelectedVersion();
   }
 
   async onClickPlayGameBtn() {
@@ -80,15 +80,7 @@ export class UIGreetingsPage extends UIPage {
   }
 
   onChangeModeSelected(e) {
-    // console.log('До ретюрна: ', e.target.checked);
-
-    // if (e.target.checked) return
-    // console.log('После ретюрна');
-
     if (e.target.value === GameModesIds.VEGAS) {
-      console.log("e.target.checked: ", e.target.checked);
-      console.log("e.target.value: ", e.target.value);
-
       e.preventDefault();
       this.eventManager.emit(GameEvents.CHOICE_VEGAS_MODE);
     }
@@ -114,27 +106,27 @@ export class UIGreetingsPage extends UIPage {
     }
   }
 
-  setHandlersForCurrentSelectedVersion() {
-    const desktopStyle = window.getComputedStyle(this.elements.desktopVersion);
-    const mobileStyle = window.getComputedStyle(this.elements.mobileVersion);
+  // setHandlersForCurrentSelectedVersion() {
+  //   const desktopStyle = window.getComputedStyle(this.elements.desktopVersion);
+  //   const mobileStyle = window.getComputedStyle(this.elements.mobileVersion);
 
-    if (desktopStyle.display !== "none" && mobileStyle.display === "none") {
-      this.elements.desktopVersionRadioInputs.forEach((radioInput) => {
-        console.log("radioInput.checked: ", radioInput.checked);
-
-        radioInput.onchange = (e) => {
-          this.onChangeModeSelected(e);
-        };
-      });
-    } else if (
-      desktopStyle.display === "none" &&
-      mobileStyle.display !== "none"
-    ) {
-      this.elements.mobileVersionSelected.onchange = (e) => {
-        this.onChangeModeSelected(e);
-      };
-    }
-  }
+  //   if (desktopStyle.display !== "none" && mobileStyle.display === "none") {
+  //     this.elements.desktopVersionRadioInputs.forEach((radioInput) => {
+        
+  //       console.log("e.target.checked: ", e.target.checked);
+  //       radioInput.onchange = (e) => {
+  //         this.onChangeModeSelected(e);
+  //       };
+  //     });
+  //   } else if (
+  //     desktopStyle.display === "none" &&
+  //     mobileStyle.display !== "none"
+  //   ) {
+  //     this.elements.mobileVersionSelected.onchange = (e) => {
+  //       this.onChangeModeSelected(e);
+  //     };
+  //   }
+  // }
 
   resizeGameModeSelected = (dimensions) => {
     console.log("в resizeGameModeSelected");
