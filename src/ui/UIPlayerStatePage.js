@@ -14,7 +14,6 @@ export class UIPlayerStatePage extends UIPage {
     const statePlayer = this.stateManager.getPlayerState();
     const stateForAchievements = this.stateManager.getStateForAchievements();
     const storagePlayer = this.stateManager.storage.getPlayerStats();
-    console.log("storagePlayer.fastestWin: ", storagePlayer.fastestWin);
     let fastestWin = "";
     if (storagePlayer.fastestWin === Infinity) {
       fastestWin = "00:00";
@@ -30,9 +29,7 @@ export class UIPlayerStatePage extends UIPage {
       } else {
         fastestWin = `${formattedMinutes}:${formattedSeconds}`;
       }
-    }
-    console.log('fastestWin: ', fastestWin);
-    
+    }    
     let playerName = "";
     if (statePlayer.name === "") {
       playerName = document.getElementById("player-name").placeholder;

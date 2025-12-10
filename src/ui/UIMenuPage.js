@@ -23,18 +23,6 @@ export class UIMenuPage extends UIPage {
       this.eventManager.emit(GameEvents.UI_UPDATE_GAME_PAGE);
     };
 
-    this.elements.continueBtn.onclick = () => {
-      this.eventManager.emit(GameEvents.GAME_CONTINUE);
-      if (
-        this.stateManager.getIsPaused() &&
-        this.stateManager.getIsRunning() &&
-        this.stateManager.getPlayerFirstCardClick()
-      ) {
-        this.stateManager.setIsPaused(false);
-        this.eventManager.emit(GameEvents.CONTINUE_PLAY_TIME);
-      }
-    };
-
     this.elements.settingsBtn.onclick = () => {
       this.eventManager.emit(GameEvents.UI_SETTINGS_SHOW);
     };
@@ -52,10 +40,32 @@ export class UIMenuPage extends UIPage {
     };
   }
 
+  setContinueBtnEvent() {
+    this.elements.continueBtn.onclick = () => {
+      this.eventManager.emit(GameEvents.GAME_CONTINUE);
+      if (
+        this.stateManager.getIsPaused() &&
+        this.stateManager.getIsRunning() &&
+        this.stateManager.getPlayerFirstCardClick()
+      ) {
+        this.stateManager.setIsPaused(false);
+        this.eventManager.emit(GameEvents.CONTINUE_PLAY_TIME);
+      }
+    };
+  }
+
+  resetContinueBtnEvent() {
+    this.elements.continueBtn.onclick = "";
+  }
+
   show() {
     super.show();
     if (this.stateManager.getIsRunning()) {
       this.elements.continueBtn.style.display = "block";
-    } else this.elements.continueBtn.style.display = "none";
+      this.setContinueBtnEvent();
+    } else {
+      this.elements.continueBtn.style.display = "none";
+      this.resetContinueBtnEvent();
+    }
   }
 }

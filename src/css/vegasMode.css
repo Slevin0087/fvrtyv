@@ -1,14 +1,4 @@
-.modal-modes-info {
-  position: fixed;
-  z-index: 1000;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.301);
-  left: 0;
-  top: 0;
-}
-
-.modal-modes-info-container {
+.vegas-mode-modal {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -157,4 +147,7 @@
 
 .p-footer-vegas-mode-modal {
   color: #8b0000;
+  padding: 1rem;
+  background-color: #fdb582;
+  /* border-radius: 20px; */
 }

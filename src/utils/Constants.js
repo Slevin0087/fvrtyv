@@ -104,6 +104,7 @@ export const GameEvents = {
   TIME_UPDATE: "game:time:update",
   RENDER_CARDS: "render:cards",
   RENDER_STOCK_CARD: "render:stock:card",
+  RENDER_ACTIVE_DEALING_CARDS_BTNS: "render:active:dealing:cards:btns",
   SHOP_BALANCE_UPDATE: "shop:balance:update",
   SHOW_ACH_DIV: "show:ach:div",
   INCREMENT_COINS: "increment:coins",
@@ -140,6 +141,8 @@ export const GameEvents = {
   CREAT_ELEMENT_FOR_NOTIF_HINT_STOCK: "creat:element:for:notif:hint:stock",
   NEED_VIDEO_FOR_HINTS: "need:video:for:hints",
   CHOICE_VEGAS_MODE: "choice:vegas:mode",
+  MODAL_SHOW: "modal:show",
+  MODAL_HIDE: "modal:hide",
 };
 
 export const AnimationDurations = {
@@ -171,5 +174,5 @@ export const AudioName = {
   INFO: "info",
   WIN: "win",
   UP_SCORE: "up-score",
-  SHOCK: "shock"
+  SHOCK: "shock",
 };

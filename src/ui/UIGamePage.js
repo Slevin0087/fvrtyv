@@ -1,10 +1,13 @@
 import { UIPage } from "./UIPage.js";
 import { GameEvents } from "../utils/Constants.js";
-import { UIConfig, UIGameUnicodeIcons } from "../configs/UIConfig.js";
+import {
+  UIConfig,
+  UIGameSymbols,
+  UIGameUnicodeIcons,
+} from "../configs/UIConfig.js";
 import { GameConfig, PlayerConfigs } from "../configs/GameConfig.js";
 import { Animator } from "../utils/Animator.js";
-import { Helpers } from "../utils/Helpers.js";
-import { Joker } from "../core/Joker.js";
+import { UIGamePageModals } from "./UIModals/UIGamePageModals.js";
 
 export class UIGamePage extends UIPage {
   constructor(eventManager, stateManager, gameModesManager, translator) {
@@ -12,6 +15,11 @@ export class UIGamePage extends UIPage {
     this.gameModesManager = gameModesManager;
     this.state = stateManager.state;
     this.translator = translator;
+    this.uiGamePageModals = new UIGamePageModals(
+      this.eventManager,
+      this.stateManager,
+      this.translator
+    );
     this.countHintUsedForIncrement = PlayerConfigs.hint.countUsedForIncrement;
     this.countHintUsedForDecrement = PlayerConfigs.hint.countUsedForDecrement;
     this.elements = {
@@ -25,48 +33,15 @@ export class UIGamePage extends UIPage {
       notifToasts: document.getElementById("notification-toasts"),
       achievementsIconEl: document.getElementById("achievements_span"),
       controlBtnsContainer: document.getElementById("controls-btns-container"),
-      modalsWindows: document.getElementById("modals-windows"),
       restartGameBtn: document.getElementById("new-game-ctr-btn"),
-      restartGameModal: document.getElementById("restart-game-modal"),
-      restartGameModalClose: document.getElementById(
-        "restart-game-modal-close"
-      ),
-      restartGameModalAgainBtn: document.getElementById(
-        "game-restart-modal-again-btn"
-      ),
-      restartGameModalCancelBtn: document.getElementById(
-        "game-restart-modal-cancel-btn"
-      ),
       hintBtn: document.getElementById("hint"),
       hintCounter: document.getElementById("hint-counter"),
       menuBtn: document.getElementById("menu-btn"),
       collectBtn: document.getElementById("collect-cards"),
       undoBtn: document.getElementById("undo-btn"),
       undoCounter: document.getElementById("undo-counter"),
-      // shuffleBtn: document.getElementById("shuffle-btn"),
-
-      // Модальное окно: результаты игры
-      gameResultsModal: document.getElementById("game-results-modal"),
-      gameResultsModalVictoryMainBadge: document.getElementById(
-        "game_results_modalvictory_main_badge"
-      ),
-      gameResultsModalTitle: document.getElementById(
-        "game_results_modal_title"
-      ),
-      gameResultsModalBody: document.getElementById(
-        "game-results-modal-content"
-      ),
-      gameResultsModalClose: document.getElementById(
-        "game-results-modal-close"
-      ),
-      gameResultsModalApply: document.getElementById(
-        "game-results-modal-its-apply-btn"
-      ),
-      ///////////////////
     };
 
-    this.isRestartGameModalShow = false;
-    this.isGameResultsModalShow = false;
     this.isHintNotifShow = false;
     this.hintNotifyShowTimerId = null;
   }
@@ -80,27 +55,15 @@ export class UIGamePage extends UIPage {
     this.eventManager.on(GameEvents.UI_UPDATE_GAME_PAGE, () => {
       this.updateUI();
     });
-    this.elements.restartGameBtn.onclick = () => this.onClickRestartGame();
-
-    this.elements.restartGameModalAgainBtn.onclick = async () =>
-      await this.onClickRestartGameModalAgain();
-
-    this.elements.restartGameModalCancelBtn.onclick = () =>
-      this.onClickRestartGameModalCancel();
-
-    this.elements.restartGameModalClose.onclick = () =>
-      this.onClickRestartGameModalClose();
+    this.elements.restartGameBtn.onclick = () => {
+      this.onClickRestartGame();
+    };
 
     this.elements.hintBtn.onclick = () => {
       this.onClickHintBtn();
     };
 
     this.elements.menuBtn.onclick = () => {
-      console.log(
-        "this.stateManager.getIsRunning(): ",
-        this.stateManager.getIsRunning()
-      );
-
       if (!this.stateManager.getIsRunning()) return;
       if (!this.stateManager.getIsPaused()) {
         this.stateManager.setIsPaused(true);
@@ -109,23 +72,17 @@ export class UIGamePage extends UIPage {
       this.eventManager.emit(GameEvents.UIMENUPAGE_SHOW);
     };
 
-    this.elements.collectBtn.onclick = () => {
-      this.elements.collectBtn.classList.add("hidden");
-      this.eventManager.emit(GameEvents.CARDS_COLLECT);
-    };
-
     this.eventManager.on(GameEvents.SCORE_UPDATE, (score) =>
       this.updateScore(score)
     );
-    this.eventManager.on(GameEvents.HINT_BTN_CLICK_AND_NO_HINTS, () => {
-      this.createJokerElementForNoHints();
-    });
     this.eventManager.on(GameEvents.COLLECT_BTN_SHOW, () => {
       this.elements.collectBtn.classList.remove("hidden");
+      this.setCollectBtnEvent();
     });
 
     this.eventManager.on(GameEvents.COLLECT_BTN_HIDDEN, () => {
       this.elements.collectBtn.classList.add("hidden");
+      this.resetCollectBtnEvent();
     });
 
     this.eventManager.on(GameEvents.TIME_UPDATE, (time) => {
@@ -199,43 +156,6 @@ export class UIGamePage extends UIPage {
       this.upHintCounter(n);
     });
 
-    this.elements.modalsWindows.onclick = (e) => {
-      if (e.target === this.elements.modalsWindows) {
-        console.log("клик по modalsWindows");
-        const { modal, handlerClose } = this.stateManager.getActiveModal();
-        if (modal && handlerClose) {
-          handlerClose();
-          this.stateManager.resetActiveModal();
-        }
-      }
-      return;
-    };
-    ///////////////////////// События модального окна: результаты игры
-    this.eventManager.on(
-      GameEvents.GAME_RESULTS_MODAL_SHOW,
-      (
-        textWinBonusScoreLeftPathForResultModal,
-        textWinBonusScoreRightPathForResultModal,
-        textEarnedWinLeftPathForResultModal,
-        textEarnedWinRightPathForResultModal
-      ) => {
-        this.gameResultsModalShow(
-          textWinBonusScoreLeftPathForResultModal,
-          textWinBonusScoreRightPathForResultModal,
-          textEarnedWinLeftPathForResultModal,
-          textEarnedWinRightPathForResultModal
-        );
-      }
-    );
-
-    this.elements.gameResultsModalClose.onclick = () =>
-      this.onClickGameResultsModalClose();
-
-    this.elements.gameResultsModalApply.onclick = async () => {
-      await this.onClickGameResultsModalApply();
-    };
-    //////////////////////////////////////////////////
-
     this.eventManager.on(GameEvents.SET_DEALING_CARDS, (value) => {
       if (value === GameConfig.rules.defaultDealingCardsThree) {
         this.createShufflyBtnElement();
@@ -246,85 +166,23 @@ export class UIGamePage extends UIPage {
   }
 
   onClickRestartGame() {
-    if (this.isRestartGameModalShow) return;
-    this.modalShow(this.elements.restartGameModal);
-    this.stateManager.setActiveModal(this.elements.restartGameModal, () =>
-      this.onClickRestartGameModalClose()
-    );
-    this.isRestartGameModalShow = true;
-    // setTimeout(() => this.eventManager.emit(GameEvents.UI_ANIMATE_DEAL_CARDS), 1000);
-  }
-
-  async onClickRestartGameModalAgain() {
-    this.modalHide(this.elements.restartGameModal);
-    this.isRestartGameModalShow = false;
-    this.eventManager.emit(GameEvents.STOP_PLAY_TIME);
-    this.eventManager.emit(GameEvents.RESET_STATE_FOR_NEW_GAME);
-    this.eventManager.emit(GameEvents.RESET_MODES_STATE_FOR_NEW_GAME);
-    await this.eventManager.emitAsync(GameEvents.GAME_RESTART);
-    this.stateManager.setIsRunning(true);
-    this.stateManager.setIsPaused(false);
-    this.updateUI();
-  }
-
-  onClickRestartGameModalCancel() {
-    this.modalHide(this.elements.restartGameModal);
-    this.isRestartGameModalShow = false;
-  }
-
-  onClickRestartGameModalClose() {
-    this.modalHide(this.elements.restartGameModal);
-    this.isRestartGameModalShow = false;
+    const isRestartGameModalShow =
+      this.uiGamePageModals.getIsRestartGameModalShow();
+    if (isRestartGameModalShow) return;
+    const restartModal = this.uiGamePageModals.restartModal.modal;
+    const handleModalClose = () => {
+      this.uiGamePageModals.onClickRestartGameModalClose();
+    };
+    this.eventManager.emit(GameEvents.MODAL_SHOW, restartModal);
+    this.stateManager.setActiveModal(restartModal, handleModalClose);
+    this.uiGamePageModals.setIsRestartGameModalShow(true);
+    this.uiGamePageModals.setRestartModalEvents()
   }
 
   onClickHintBtn() {
     if (!this.stateManager.getIsRunning()) return;
     this.eventManager.emit(GameEvents.HINT_BTN_CLICK);
   }
-
-  // Инициализация событий модального окна: результаты игры
-  gameResultsModalShow(
-    textWinBonusScoreLeftPathForResultModal,
-    textWinBonusScoreRightPathForResultModal,
-    textEarnedWinLeftPathForResultModal,
-    textEarnedWinRightPathForResultModal
-  ) {
-    const modalBody = this.createGameResultsModalBody(
-      textWinBonusScoreLeftPathForResultModal,
-      textWinBonusScoreRightPathForResultModal,
-      textEarnedWinLeftPathForResultModal,
-      textEarnedWinRightPathForResultModal
-    );
-    const title = this.translator.t("game_results_modal_title");
-    this.elements.gameResultsModalTitle.textContent = title;
-    const badgeText = this.translator.t("game_results_modalvictory_main_badge");
-    this.elements.gameResultsModalVictoryMainBadge.textContent = badgeText;
-    this.elements.gameResultsModalApply.textContent = this.translator.t(
-      "btn_game_results_modal_apply"
-    );
-    this.elements.gameResultsModalBody.innerHTML = modalBody;
-    this.modalShow(this.elements.gameResultsModal);
-    this.stateManager.setActiveModal(this.elements.gameResultsModal, () =>
-      this.onClickGameResultsModalClose()
-    );
-  }
-
-  onClickGameResultsModalClose() {
-    this.modalHide(this.elements.gameResultsModal);
-    this.handleBack();
-  }
-
-  async onClickGameResultsModalApply() {
-    this.modalHide(this.elements.gameResultsModal);
-    this.isGameResultsModalShow = false;
-    this.eventManager.emit(GameEvents.RESET_STATE_FOR_NEW_GAME);
-    await this.eventManager.emitAsync(GameEvents.GAME_RESTART);
-    this.stateManager.setIsRunning(true);
-    this.stateManager.setIsPaused(false);
-    this.updateUI();
-  }
-
-  //////////////////////////
 
   async onclickShuffleBtn() {
     if (!this.stateManager.getIsRunning()) return;
@@ -338,22 +196,12 @@ export class UIGamePage extends UIPage {
 
   updateUI() {
     this.updateScore(this.stateManager.getScore());
-    // this.updateTime(this.stateManager.getTime());
     this.updateTime(this.gameModesManager.getPlayTime());
     this.updateMoves(this.stateManager.getMoves());
     this.upUndoCounter(this.stateManager.getLastMovesLengths());
-    // if (this.stateManager.getNeedVideoForHints()) {
-
-    // this.upHintCounter(this.stateManager.getHintCounterState() || 0);
-
     this.upHintCounter(this.gameModesManager.getCurrentModeMaxHints() || 0);
 
     this.upAchievementIcon(this.stateManager.getAchievements().active.icon);
-
-    console.log(
-      "this.stateManager.getDealingCards(): ",
-      this.stateManager.getDealingCards()
-    );
 
     if (
       this.stateManager.getDealingCards() ===
@@ -391,11 +239,11 @@ export class UIGamePage extends UIPage {
   }
 
   setInfinityUndoCounter() {
-    this.elements.undoCounter.innerHTML = "&#8734;";
+    this.elements.undoCounter.innerHTML = UIGameSymbols.MODALS_X;
   }
 
   setInfinityHintCounter() {
-    this.elements.hintCounter.innerHTML = "&#8734;";
+    this.elements.hintCounter.innerHTML = UIGameSymbols.MODALS_X;
   }
 
   upHintCounter(n) {
@@ -469,43 +317,6 @@ export class UIGamePage extends UIPage {
     this.elements.notifToasts.append(div);
   }
 
-  createGameResultsModalBody(
-    textWinBonusScoreLeftPathForResultModal,
-    textWinBonusScoreRightPathForResultModal,
-    textEarnedWinLeftPathForResultModal,
-    textEarnedWinRightPathForResultModal
-  ) {
-    const score = this.translator.t("game_results_modal_score");
-    const scoreValue = this.stateManager.getScore();
-    return `<dl class="game-results-modal-table table">
-      <div class="game-results-modal-wrap-line">
-        <dt
-          class="game-results-modal-left-td"
-          data-i18n="game_results_modal_score"
-        >
-          ${score}
-        </dt>
-        <dd class="game-results-modal-right-td">+${scoreValue}</dd>
-      </div>
-      <div class="game-results-modal-wrap-line">
-        <dt
-          class="game-results-modal-left-td"
-        >
-          ${textWinBonusScoreLeftPathForResultModal}
-        </dt>
-        <dd class="game-results-modal-right-td">${textWinBonusScoreRightPathForResultModal}</dd>
-      </div>
-      <div class="game-results-modal-wrap-line">
-        <dt
-          class="game-results-modal-left-td"
-        >
-          ${textEarnedWinLeftPathForResultModal}
-        </dt>
-        <dd class="game-results-modal-right-td">${textEarnedWinRightPathForResultModal}</dd>
-      </div>
-    </dl>`;
-  }
-
   createShufflyBtnElement() {
     const btn = document.createElement("button");
     btn.id = "shuffle-btn";
@@ -564,152 +375,9 @@ export class UIGamePage extends UIPage {
     }
   }
 
-  createJokerElementForNoHints() {
-    const modalBody = document.createElement("div");
-    const header = document.createElement("div");
-    const headerClose = document.createElement("div");
-    const spanClose = document.createElement("span");
-    const title = document.createElement("div");
-    const spanTitle = document.createElement("span");
-    const modalContent = document.createElement("div");
-    const message = document.createElement("div");
-    const messageP = document.createElement("p");
-
-    // Создаем элемент карты JOKER
-    const jokerElement = document.createElement("div");
-    const jokerSpanVideo = document.createElement("span");
-    const btnsContainer = document.createElement("div");
-    const resultButton = document.createElement("button");
-    spanClose.id = "game-over-and-no-hints-modal-close";
-    jokerSpanVideo.id = "joker-card-for-no-hints-span-video-id";
-    resultButton.id = "game-over-and-no-hints-modal-result-btn";
-    modalBody.className = "game-over-and-no-hints";
-    header.className = "game-over-and-no-hints-modal-header";
-    headerClose.className = "game-over-and-no-hints-modal-close";
-    spanClose.className = "game-over-and-no-hints-modal-close-span";
-    title.className = "game-over-and-no-hints-modal-title";
-
-    spanTitle.className = "game-over-and-no-hints-modal-title-span";
-    modalContent.className = "game-over-and-no-hints-modal-content";
-    message.className = "game-over-and-no-hints-modal-message";
-    messageP.className = "game-over-and-no-hints-modal-message-p";
-    jokerElement.className = "joker-card-for-no-hints";
-    jokerSpanVideo.className = "joker-card-for-no-hints-span-video";
-    btnsContainer.className = "game-over-and-no-hints-modal-btns";
-    resultButton.className = "game-over-and-no-hints-modal-result-btn";
-    spanClose.innerHTML = "&times;";
-    jokerSpanVideo.textContent = UIGameUnicodeIcons.VIDEO;
-    resultButton.setAttribute(
-      "data-i18n",
-      "game_over_and_no_hints_modal_result_btn"
-    );
-    spanTitle.setAttribute(
-      "data-i18n",
-      "game_over_and_no_hints_modal_title_span"
-    );
-    messageP.setAttribute(
-      "data-i18n",
-      "game_over_and_no_hints_modal_message_p"
-    );
-
-    this.translator.updateLanOneUI(resultButton);
-    this.translator.updateLanOneUI(messageP);
-    this.translator.updateLanOneUI(spanTitle);
-    modalBody.append(header);
-    modalBody.append(modalContent);
-    header.append(headerClose);
-    header.append(title);
-    headerClose.append(spanClose);
-    title.append(spanTitle);
-    modalContent.append(message);
-    message.append(messageP);
-    modalContent.append(jokerElement);
-    modalContent.append(btnsContainer);
-    jokerElement.append(jokerSpanVideo);
-    btnsContainer.append(resultButton);
-
-    spanClose.onclick = () =>
-      this.onClickJokerElementForNoHintsModalClose(modalBody);
-
-    jokerElement.onclick = async () =>
-      await this.onClickJokerElementForNoHintsModalJoker(modalBody);
-
-    resultButton.onclick = () =>
-      this.onClickJokerElementForNoHintsModalResultButton(modalBody);
-
-    // устанавливаем backgroundImage для jokerElement
-    const faceStyles = this.stateManager.getSelectedItems().faces;
-    console.log("faceStyles: ", faceStyles);
-
-    this.eventManager.emit(
-      GameEvents.SET_BG_FOR_JOKER_ELEMENT,
-      jokerElement,
-      faceStyles
-    );
-    // this.setBgForJokerElement(jokerElement);
-
-    this.modalShow(modalBody);
-    this.stateManager.setActiveModal(modalBody, () =>
-      this.onClickJokerElementForNoHintsModalClose(modalBody)
-    );
-  }
-
-  onClickJokerElementForNoHintsModalResultButton(modal) {
-    this.modalHide(modal);
-  }
-
-  onClickJokerElementForNoHintsModalClose(modal) {
-    this.modalHide(modal);
-  }
-
-  async onClickJokerElementForNoHintsModalJoker(modalBody) {
-    this.stateManager.setJokerUsed(true);
-    const jokerCard = new Joker();
-
-    // добавляем joker карту в stock
-    const { tableaus, stock } = this.stateManager.getCardsComponents();
-    stock.addCard(jokerCard);
-
-    // перемещение joker карты в tableaus
-
-    // рендер joker карты в stock, как карту с faceDown
-    this.modalHide(modalBody);
-    this.renderCardToStock(jokerCard);
-    await this.eventManager.emitAsync(GameEvents.ANIMATE_JOKER_FLIP, jokerCard);
-    jokerCard.flip(true);
-    await this.eventManager.emitAsync(
-      GameEvents.JOKER_HANDLE,
-      jokerCard,
-      tableaus
-    );
-    this.jokerMoveToTableaus(jokerCard, tableaus);
-  }
-
-  createJokerDomElement(id, className) {
-    const jokerElement = document.createElement("div");
-    jokerElement.id = id;
-    jokerElement.className = className;
-    return jokerElement;
-  }
-
-  jokerMoveToTableaus(jokerCard, tableaus) {}
-
   renderCardToStock(card) {
     const stock = this.stateManager.getCardsComponents().stock;
     this.eventManager.emit(GameEvents.RENDER_STOCK_CARD, card, stock.element);
-  }
-
-  modalShow(modal) {
-    this.elements.modalsWindows.innerHTML = "";
-    this.elements.modalsWindows.append(modal);
-    this.elements.modalsWindows.classList.remove("hidden");
-    modal.classList.remove("hidden");
-  }
-
-  modalHide(modal) {
-    modal.classList.add("hidden");
-    this.elements.modalsWindows.classList.add("hidden");
-    this.elements.modalsWindows.innerHTML = "";
   }
 
   showMessage(message, type = "info") {
@@ -728,5 +396,16 @@ export class UIGamePage extends UIPage {
     this.page.classList.add("game-interface", styleClass);
     this.updateUI();
     this.creatElementForHighestScore();
+  }
+
+  setCollectBtnEvent() {
+    this.elements.collectBtn.onclick = () => {
+      this.elements.collectBtn.classList.add("hidden");
+      this.eventManager.emit(GameEvents.CARDS_COLLECT);
+    };
+  }
+
+  resetCollectBtnEvent() {
+    this.elements.collectBtn.onclick = "";
   }
 }

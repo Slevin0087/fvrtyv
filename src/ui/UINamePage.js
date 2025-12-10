@@ -40,24 +40,8 @@ export class UINamePage extends UIPage {
     this.eventManager.emit(GameEvents.UI_NAME_HIDE);
   }
 
-  showError(message) {
-    this.elements.errorMsg.textContent = message;
-    this.elements.errorMsg.classList.remove("hidden");
-    this.elements.submitBtn.disabled = true;
-  }
-
-  hideError() {
-    this.elements.errorMsg.classList.add("hidden");
-    this.elements.submitBtn.disabled = false;
-  }
-
   show() {
     super.show();
     this.elements.input.focus();
-  }
-
-  reset() {
-    this.otherElements.input.value = "";
-    this.hideError();
   }
 }

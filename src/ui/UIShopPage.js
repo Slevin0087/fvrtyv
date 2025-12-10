@@ -39,7 +39,6 @@ export class UIShopPage extends UIPage {
       };
     });
 
-    // this.eventManager.on("shop:render", (shopState) => this.render(shopState));
     this.eventManager.on(GameEvents.SHOP_RENDER, (shopState, config) =>
       this.render(shopState, config)
     );
@@ -67,31 +66,10 @@ export class UIShopPage extends UIPage {
       console.log("itemElement: ", itemElement);
 
       this.elements.itemsContainer.append(itemElement);
-      // if (itemElement && index === items.length - 1) {
-      //   const itemElementWidth = this.getElementWidth(itemElement);
-      //   const allItemsElementsWidths = this.getAllElementWidths(
-      //     items.length,
-      //     itemElementWidth
-      //   );
-      //   const isAllWidthsMoreNavigashion = this.isAllWidthsMoreNavigashion(
-      //     allItemsElementsWidths
-      //   );
-      //   if (!isAllWidthsMoreNavigashion) {
-      //     console.log('if (!isAllWidthsMoreNavigashion)');
-      //     this.shopNavigation.setNavigationWidth(allItemsElementsWidths / 10 + allItemsElementsWidths)
-      //     this.shopNavigation.setScrollBtnsHidden()
-      //   } else {
-      //     const width = document.documentElement.clientWidth / 1.1
-      //     this.shopNavigation.setNavigationWidth(width)
-
-      //   }
-      //   this.shopNavigation.setScrollStep(itemElementWidth)
-      // }
     });
 
     // Обновляем баланс
     this.updateBalance(this.stateManager.getCoins());
-    // Helpers.updateLanShopBalance(this.stateManager.getCoins());
   }
 
   createShopItemElement(item, index) {
@@ -220,32 +198,9 @@ export class UIShopPage extends UIPage {
       checkmark = this.createCheckMark();
       itemElement.append(checkmark);
     }
-    //   if (priceElement) {
-    //     priceElement.remove;
-    //   }
-    //   circle.classList.add("hidden");
-    //   btnOrCircle.classList.remove("hidden");
-    // }
-
-    // shopItemContainer.append(priceElement);
-
-    // const btnOrCircle = this.createBtn(item, index, isOwned, isItemBuy);
-
-    // itemElement.append(itemHead, shopItemContainer, btnOrCircle, circle);
 
     itemElement.onclick = () => this.handleBtnClick(item, isOwned, isItemBuy);
     containerElement.append(itemElement);
-    // if (isOwned) {
-    //   circle.classList.remove("hidden");
-    //   btnOrCircle.classList.add("hidden");
-    // } else if (!isOwned && !isItemBuy) {
-    //   btnOrCircle.classList.remove("hidden");
-    //   circle.classList.add("hidden");
-    // } else if (isItemBuy && !isOwned) {
-    //   circle.classList.add("hidden");
-    //   btnOrCircle.classList.remove("hidden");
-    // }
-
     return containerElement;
   }
 
@@ -271,7 +226,6 @@ export class UIShopPage extends UIPage {
     if (!isOwned && !isItemBuy) {
       btn.setAttribute("data-i18n", "shop_btn_buy");
       this.translator.updateLanOneUI(btn);
-      // btn.textContent = `${btn.textContent}(${item.price})`;
       btn.textContent = `${item.price}x`;
     } else if (isItemBuy) {
       btn.setAttribute("data-i18n", "shop_btn_apply");
@@ -283,14 +237,6 @@ export class UIShopPage extends UIPage {
   }
 
   handleItemElement(targetItem, priceElement, circle) {
-    console.log(
-      "targetItem, priceElement, circle: ",
-      targetItem,
-      priceElement,
-      circle
-    );
-
-    // targetItem.remove(priceElement)
     priceElement.remove();
     targetItem.append(circle);
   }
@@ -322,10 +268,6 @@ export class UIShopPage extends UIPage {
     this.elements.containers[category].style.display = "block";
   }
 
-  // updateBalance(balance) {
-  //   this.elements.balance.textContent = balance;
-  // }
-
   updateBalance(balance) {
     this.translator.updateLanShopBalance(balance);
   }
@@ -348,12 +290,6 @@ export class UIShopPage extends UIPage {
   }
 
   isAllWidthsMoreNavigashion(allWidths) {
-    console.log(
-      "allWidths, window.offsetWidth: ",
-      allWidths,
-      document.documentElement.clientWidth
-    );
-
     return allWidths > document.documentElement.clientWidth;
   }
 

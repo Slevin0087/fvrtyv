@@ -1,13 +1,14 @@
 import { UIPage } from "./UIPage.js";
 import { GameEvents } from "../utils/Constants.js";
-import { GameConfig } from "../configs/GameConfig.js";
 import { GameModesIds } from "../configs/GameModesConfogs.js";
+import { UISettingsModals } from "./UIModals/UISettingsModals.js";
 
 export class UISettingsPage extends UIPage {
   constructor(eventManager, stateManager, gameModesManager, translator) {
     super(eventManager, stateManager, "settings");
-    this.gameModesManager = gameModesManager;
     this.translator = translator;
+    this.uiDealingCardsModals = new UISettingsModals(this.eventManager, this.stateManager, this.translator)
+    this.gameModesManager = gameModesManager;
     this.elements = {
       backBtn: document.getElementById("back-to-menu"),
       musicToggle: document.getElementById("music-toggle"),
@@ -18,7 +19,6 @@ export class UISettingsPage extends UIPage {
       assistanceInCardClick: document.getElementById(
         "assistance-in-card-click"
       ),
-      // difficultySelect: document.getElementById("difficulty"),
       musicVolume: document.getElementById("music-volume"),
       languageSelected: document.getElementById("language-selected"),
       modesSelected: document.getElementById("modes-selected"),
@@ -26,23 +26,9 @@ export class UISettingsPage extends UIPage {
         dealingCardsOne: document.getElementById("dealing_cards-one"),
         dealingCardsThree: document.getElementById("dealing_cards-three"),
       },
-      dealingCardsModal: document.getElementById("dealing-cards-modal"),
-      dealingCardsModalTitle: document.getElementById(
-        "dealing_cards_modal_title"
-      ),
-      dealingCardsModalBody: document.getElementById(
-        "dealing-cards-modal-content"
-      ),
-      dealingCardsModalClose: document.getElementById(
-        "dealing-cards-modal-close"
-      ),
-      dealingCardsModalDontShowAgain: document.getElementById(
-        "dealing-cards-modal-dont-show-again-btn"
-      ),
-      dealingCardsModalItsClear: document.getElementById(
-        "dealing-cards-modal-its-clear-btn"
-      ),
     };
+
+    this.setupEventListeners()
   }
 
   setupEventListeners() {
@@ -82,12 +68,9 @@ export class UISettingsPage extends UIPage {
       this.onInputMusicVolume(e);
     };
 
-    this.setEventsDealingCardsBtns();
-    // this.elements.dealingCardsOne.onchange = (e) =>
-    //   this.onChangeDealingCards(e);
+    this.eventManager.on(GameEvents.RENDER_ACTIVE_DEALING_CARDS_BTNS, () => this.renderActiveDealingCardsBtns())
 
-    // this.elements.dealingCardsThree.onchange = (e) =>
-    //   this.onChangeDealingCards(e);
+    this.setEventsDealingCardsBtns();
   }
 
   onChangeLanguage(e) {
@@ -110,17 +93,19 @@ export class UISettingsPage extends UIPage {
       if (e.target) {
         console.log("Больше не показывать модуль dealingCardsModal IF");
         const value = Number(e.target.value);
-        const modalBody = this.createDealingCardsModalBody(value);
+        console.log('');
+        
+        const modalBody = this.uiDealingCardsModals.createBody(value);
         const titlePathFirst = this.translator.t("dealing_cards_modal_title");
-        this.elements.dealingCardsModalTitle.textContent = `${titlePathFirst} ${value}`;
-        this.elements.dealingCardsModalBody.innerHTML = modalBody;
-        this.elements.dealingCardsModal.classList.remove("hidden");
+        this.uiDealingCardsModals.elements.modalTitle.textContent = `${titlePathFirst} ${value}`;
+        this.uiDealingCardsModals.elements.modalBody.innerHTML = modalBody;
+        this.uiDealingCardsModals.elements.modal.classList.remove("hidden");
 
-        this.elements.dealingCardsModalDontShowAgain.onclick = () =>
+        this.uiDealingCardsModals.elements.modalDontShowAgain.onclick = () =>
           this.onClickDealingCardsModalDontShowAgain(true);
-        this.elements.dealingCardsModalClose.onclick = () =>
+        this.uiDealingCardsModals.elements.modalClose.onclick = () =>
           this.onClickDealingCardsModalClose();
-        this.elements.dealingCardsModalItsClear.onclick = () =>
+        this.uiDealingCardsModals.elements.modalItsClear.onclick = () =>
           this.onClickDealingCardsModalItsClear(value);
       }
       return;
@@ -130,7 +115,7 @@ export class UISettingsPage extends UIPage {
       if (e.target) {
         const value = Number(e.target.value);
         this.eventManager.emit(GameEvents.SET_DEALING_CARDS, value);
-        this.setActiveDealingCardsBtns();
+        this.renderActiveDealingCardsBtns();
       }
       return;
     }
@@ -140,64 +125,24 @@ export class UISettingsPage extends UIPage {
     const volume = Math.max(0, Math.min(1, e.target.value / 100));
     this.eventManager.emit(GameEvents.SET_MUSIC_VOLUME, parseFloat(volume));
     this.eventManager.emit(GameEvents.SETTINGS_MUSIC_VOLUME);
-    this.setPropertyStyleVolume(e.target);
+    this.renderPropertyStyleVolume(e.target);
   }
 
   onClickDealingCardsModalDontShowAgain(boolean) {
     this.stateManager.setIsDontShowAgainDealingCardsModal(boolean);
-    this.elements.dealingCardsModal.classList.add("hidden");
+    this.uiDealingCardsModals.elements.modal.classList.add("hidden");
   }
 
   onClickDealingCardsModalClose() {
-    this.elements.dealingCardsModal.classList.add("hidden");
+    this.uiDealingCardsModals.elements.modal.classList.add("hidden");
   }
 
   onClickDealingCardsModalItsClear(value) {
     console.log("value: ", value);
 
     this.eventManager.emit(GameEvents.SET_DEALING_CARDS, value);
-    this.elements.dealingCardsModal.classList.add("hidden");
-    this.setActiveDealingCardsBtns();
-  }
-
-  createDealingCardsModalBody(value) {
-    const score = this.translator.t("dealing_cards_modal_score");
-    return `<dl class="dealing-cards-modal-table table">
-      <div class="dealing-cards-modal-wrap-line">
-        <dt
-          class="dealing-cards-modal-left-td"
-          data-i18n="dealing_cards_modal_score"
-        >
-          ${score}
-        </dt>
-        <dd class="dealing-cards-modal-right-td">x${value}</dd>
-      </div>
-      ${this.createShufflingCardsElement(value)}
-    </dl>`;
-  }
-
-  createShufflingCardsElement(value) {
-    const shufflingCards = this.translator.t(
-      "dealing_cards_modal_shuffling_cards"
-    );
-    const forViewing = this.translator.t("dealing_cards_modal_right_td");
-    return value === GameConfig.rules.defaultDealingCardsThree
-      ? `
-        <div class="dealing-cards-modal-wrap-line">
-          <dt 
-            class="dealing-cards-modal-left-td"
-            data-i18n="dealing_cards_modal_shuffling_cards"
-          >
-            ${shufflingCards}
-          </dt>
-          <dd
-            class="dealing-cards-modal-right-td"
-            data-i18n="dealing_cards_modal_right_td"
-            >
-            ${forViewing}
-          </dd>
-        </div>`
-      : "";
+    this.uiDealingCardsModals.elements.modal.classList.add("hidden");
+    this.renderActiveDealingCardsBtns();
   }
 
   render() {
@@ -211,8 +156,8 @@ export class UISettingsPage extends UIPage {
     this.elements.modesSelected.value =
       this.gameModesManager.getCurrentModeName();
     this.elements.musicVolume.value = this.stateManager.getMusicVolume() * 100;
-    this.setPropertyStyleVolume(this.elements.musicVolume);
-    this.setActiveDealingCardsBtns();
+    this.renderPropertyStyleVolume(this.elements.musicVolume);
+    this.renderActiveDealingCardsBtns();
   }
 
   show() {
@@ -220,7 +165,7 @@ export class UISettingsPage extends UIPage {
     this.render();
   }
 
-  setActiveDealingCardsBtns() {
+  renderActiveDealingCardsBtns() {
     Object.values(this.elements.dealingCardsBtns).forEach((btn) => {
       if (btn.value === String(this.stateManager.getDealingCardsPlayer())) {
         btn.classList.add("active-dealing-cards-btn");
@@ -238,7 +183,7 @@ export class UISettingsPage extends UIPage {
     });
   }
 
-  setPropertyStyleVolume(element) {
+  renderPropertyStyleVolume(element) {
     element.style.setProperty("--fill-percent", `${element.value}%`);
   }
 }

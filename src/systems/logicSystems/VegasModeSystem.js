@@ -13,17 +13,14 @@ export class VegasModeSystem {
     this.state = GameModesConfigs.VEGAS;
     this.rules = this.state.rules;
     this.scoring = this.state.scoring;
-    this.initComponents();
+    this.ui = new UIVegasMode(this.eventManager, this.stateManager);
     this.setupEventListeners()
   }
 
   setupEventListeners() {
     this.eventManager.on(GameEvents.CHOICE_VEGAS_MODE, () => {
-      this.ui.showInfo()
+      this.ui.showModal()
     })
   }
 
-  initComponents() {
-    this.ui = new UIVegasMode();
-  }
 }

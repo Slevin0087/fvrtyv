@@ -1,6 +1,7 @@
 import { UIPage } from "./UIPage.js";
 import { GameEvents } from "../utils/Constants.js";
 import { windowResize } from "../systems/uiSystems/WindowResizeHandler.js";
+import { GameModesIds } from "../configs/GameModesConfogs.js";
 
 export class UIGreetingsPage extends UIPage {
   constructor(eventManager, stateManager, gameModesManager, translator) {
@@ -31,10 +32,8 @@ export class UIGreetingsPage extends UIPage {
       gameRulesClearBtn: document.getElementById("game-rules-clear-btn"),
       otherSettingsP: document.getElementById("greetings-game-mode-choice-p"),
     };
-    console.log(
-      "this.elements.desktopVersionRadioInputs: ",
-      this.elements.desktopVersionRadioInputs
-    );
+
+    this.previouslyChecked = null;
   }
 
   setupEventListeners() {
@@ -80,12 +79,19 @@ export class UIGreetingsPage extends UIPage {
     this.eventManager.emit(GameEvents.UI_SETTINGS_SHOW);
   }
 
-  onChangeMobileVersionSelected(e) {
-    this.gameModesManager.setAllDataCurrentMode(e.target.value);
-    this.renderCurrectSelectedVersion();
-  }
+  onChangeModeSelected(e) {
+    // console.log('До ретюрна: ', e.target.checked);
 
-  onChangeDesktopVersionSelected(e) {
+    // if (e.target.checked) return
+    // console.log('После ретюрна');
+
+    if (e.target.value === GameModesIds.VEGAS) {
+      console.log("e.target.checked: ", e.target.checked);
+      console.log("e.target.value: ", e.target.value);
+
+      e.preventDefault();
+      this.eventManager.emit(GameEvents.CHOICE_VEGAS_MODE);
+    }
     this.gameModesManager.setAllDataCurrentMode(e.target.value);
     this.renderCurrectSelectedVersion();
   }
@@ -105,21 +111,26 @@ export class UIGreetingsPage extends UIPage {
   }
 
   setHandlersForCurrentSelectedVersion() {
+    const desktopStyle = window.getComputedStyle(this.elements.desktopVersion);
+    const mobileStyle = window.getComputedStyle(this.elements.mobileVersion);
+    console.log('desktopStyle, mobileStyle: ', desktopStyle.display, mobileStyle.display);
     if (
-      this.elements.desktopVersion.style.display !== "none" &&
-      this.elements.mobileVersion.style.display === "none"
+      desktopStyle.display !== "none" &&
+      mobileStyle.display === "none"
     ) {
       this.elements.desktopVersionRadioInputs.forEach((radioInput) => {
+        console.log("radioInput.checked: ", radioInput.checked);
+
         radioInput.onchange = (e) => {
-          this.onChangeDesktopVersionSelected(e);
+          this.onChangeModeSelected(e);
         };
       });
     } else if (
-      this.elements.desktopVersion.style.display === "none" &&
-      this.elements.mobileVersion.style.display !== "none"
+      desktopStyle.display === "none" &&
+      mobileStyle.display !== "none"
     ) {
       this.elements.mobileVersionSelected.onchange = (e) => {
-        this.onChangeMobileVersionSelected(e);
+        this.onChangeModeSelected(e);
       };
     }
   }
@@ -161,7 +172,7 @@ export class UIGreetingsPage extends UIPage {
     const mobileVersionSelected = this.elements.mobileVersionSelected;
     mobileVersionSelected.value = this.gameModesManager.getCurrentModeName();
     mobileVersionSelected.onchange = (e) => {
-      this.onChangeMobileVersionSelected(e);
+      this.onChangeModeSelected(e);
     };
   }
 
@@ -170,7 +181,7 @@ export class UIGreetingsPage extends UIPage {
       radioInput.checked =
         radioInput.value === this.gameModesManager.getCurrentModeName();
       radioInput.onchange = (e) => {
-        this.onChangeDesktopVersionSelected(e);
+        this.onChangeModeSelected(e);
       };
     });
   }

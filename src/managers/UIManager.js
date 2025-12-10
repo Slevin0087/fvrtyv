@@ -6,8 +6,8 @@ import { UIGamePage } from "../ui/UIGamePage.js";
 import { UISettingsPage } from "../ui/UISettingsPage.js";
 import { UIPlayerStatePage } from "../ui/UIPlayerStatePage.js";
 import { UIShopPage } from "../ui/UIShopPage.js";
-import { UINotificationPage } from "../ui/UINotificationPage.js";
 import { UIConfig } from "../configs/UIConfig.js";
+import { UIModalsWindow } from "../ui/UIModals/UIModalsWindow.js";
 
 export class UIManager {
   constructor(
@@ -43,8 +43,6 @@ export class UIManager {
       );
 
       if (!this.stateManager.getGreetingsPageUsed()) {
-        console.log("ggggggggggg");
-
         this.pageShow(UIConfig.pages.UIGreetingsPage);
       } else {
         this.pageShow(UIConfig.pages.UIMenuPage);
@@ -60,6 +58,7 @@ export class UIManager {
     );
     this.registerPage(UIConfig.pages.UINamePage, UINamePage);
     this.registerPage(UIConfig.pages.UIMenuPage, UIMenuPage);
+    this.registerPageForTranslation(UIConfig.pages.UIModalsWindow, UIModalsWindow);
     this.registerPageForTranslation(UIConfig.pages.UIGamePage, UIGamePage);
     this.registerPageForTranslation(
       UIConfig.pages.UISettingsPage,
@@ -279,7 +278,9 @@ export class UIManager {
 
   hideAll() {
     this.pages.forEach((page) => {
-      page.hide();
+      if (page.hide) {
+        page.hide();
+      }
     });
   }
 

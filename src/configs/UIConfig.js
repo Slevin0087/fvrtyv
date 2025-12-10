@@ -19,6 +19,7 @@ const UIConfig = {
     UIPlayerStatePage: "UIPlayerStatePage",
     UINotificationPage: "UINotificationPage",
     BaseModal: "BaseModal",
+    UIModalsWindow: "UIModalsWindow",
   },
   dataI18nValue: {
     HINT_NOTIF_NOHINTS: "hint_notif_nohints",
@@ -213,6 +214,10 @@ const UIGameUnicodeIcons = {
   VIDEO: '🎬',
 }
 
+const UIGameSymbols = {
+  MODALS_X: "&#8734;"
+}
+
 export {
   UIConfig,
   UIGameRestartModalData,
@@ -220,4 +225,5 @@ export {
   UIModalFooterBtnsEventIds,
   UIGameRestartModalFooterData,
   UIGameUnicodeIcons,
+  UIGameSymbols,
 };
