@@ -97,14 +97,18 @@ export class UIGreetingsPage extends UIPage {
   }
 
   renderCurrectSelectedVersion() {
-    if (
-      this.elements.desktopVersion.style.display !== "none" &&
-      this.elements.mobileVersion.style.display === "none"
-    ) {
+    const desktopStyle = window.getComputedStyle(this.elements.desktopVersion);
+    const mobileStyle = window.getComputedStyle(this.elements.mobileVersion);
+        console.log(
+      "desktopStyle, mobileStyle: ",
+      desktopStyle.display,
+      mobileStyle.display
+    );
+    if (desktopStyle.display !== "none" && mobileStyle.display === "none") {
       this.reRenderDisctopVersionSelected();
     } else if (
-      this.elements.desktopVersion.style.display === "none" &&
-      this.elements.mobileVersion.style.display !== "none"
+      desktopStyle.display === "none" &&
+      mobileStyle.display !== "none"
     ) {
       this.reRenderMobileVersionSelected();
     }
@@ -113,11 +117,8 @@ export class UIGreetingsPage extends UIPage {
   setHandlersForCurrentSelectedVersion() {
     const desktopStyle = window.getComputedStyle(this.elements.desktopVersion);
     const mobileStyle = window.getComputedStyle(this.elements.mobileVersion);
-    console.log('desktopStyle, mobileStyle: ', desktopStyle.display, mobileStyle.display);
-    if (
-      desktopStyle.display !== "none" &&
-      mobileStyle.display === "none"
-    ) {
+
+    if (desktopStyle.display !== "none" && mobileStyle.display === "none") {
       this.elements.desktopVersionRadioInputs.forEach((radioInput) => {
         console.log("radioInput.checked: ", radioInput.checked);
 
@@ -162,6 +163,7 @@ export class UIGreetingsPage extends UIPage {
       this.elements.mobileVersion.classList.remove("hidden");
       this.reRenderMobileVersionSelected();
     } else {
+      console.log("availableHeight: ", availableHeight);
       this.elements.mobileVersion.classList.add("hidden");
       this.elements.desktopVersion.classList.remove("hidden");
       this.reRenderDisctopVersionSelected();
